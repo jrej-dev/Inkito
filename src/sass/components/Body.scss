@@ -1,0 +1,54 @@
+@import '../abstracts/variables';
+@import '../abstracts/mixins';
+
+.content-display {
+    padding: 0 1em;
+    
+    .title-line {
+        width: 50%;
+        margin: 0 0.5em;
+        @include flex(flex-start);
+        flex-direction: row;
+        > * {
+            margin: 0.5em 0;
+            padding: 0 0.5em;
+        }
+        .icon {
+            height: 1.5em;
+        }
+    }
+    .categories {
+        @include flex(space-evenly);
+        color: $dark-color;
+        padding: 0;
+        margin: 0.5em 0;
+        flex-direction: row;
+        flex-wrap: wrap;
+        list-style-type: none;
+        white-space: nowrap;
+        max-width: 100%;
+        > * {
+            padding: 0 0.5em;
+            cursor: pointer;
+        }
+    }
+    .isActive {
+        color: $darkest-color;
+        border: 2px solid $primary-color;
+    }
+}
+
+.panels {
+    margin: 1em 0.5em;
+    > * {
+        margin: 1em 1em;
+    }
+}
+
+@media screen and (max-width: 810px) {
+    .categories { 
+        >* {
+            flex-basis: 15%;
+        }
+    }
+}

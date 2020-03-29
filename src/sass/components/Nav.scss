@@ -1,0 +1,30 @@
+@import '../abstracts/variables';
+@import '../abstracts/mixins';
+
+.Nav {
+    @include flex(center);
+    flex-direction: row;
+    background-color: white;
+    color: $darkest-color;
+    height: 5em;
+    width: 100%;  
+    h1 {
+      margin-right: auto;
+      padding-left: 1em;
+    }
+    ul {
+      @include flex(flex-end);
+      padding-right: 1em;
+
+      li {
+        padding: 1em;
+        list-style-type: none;
+      }
+    }  
+  }
+
+@media screen and (max-width: 700px) {
+  .search {
+    display: none;
+  }
+}

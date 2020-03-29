@@ -1,0 +1,16 @@
+@import './abstracts/variables';
+@import './abstracts/mixins';
+
+.App {
+  font-family: $secondary-font;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  overflow-x: hidden;
+  text-align: center;
+  background-color: white;
+  font-size: calc(4px + 2vmin);
+    h1, h2 {
+      font-family: $primary-font;
+    }
+}
