@@ -6,7 +6,7 @@ function NewPanel({ title, creator, reward }) {
   return (
     <div className="new-panel">
         <div className="panel-image">
-          <img className="panel-main-image" src="https://picsum.photos/200/300" alt="panel-image"/>
+          <img className="panel-main-image" src="https://picsum.photos/200/300" alt="panel-main-thumbnail"/>
           <img className="panel-icon" src={NewIcon} alt="fire-icon"/>
         </div>
         <div className="panel-banner">

@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../sass/components/Promo.scss';
-import { WiredButton } from "wired-elements";
+import 'wired-elements';
 import InfoIcon from '../../Icons/info-icon.svg';
 
 const Promo = ({ promoArray }) => {

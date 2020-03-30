@@ -6,7 +6,7 @@ function TrendyPanel({ title, creator, reward }) {
   return (
     <div className="trendy-panel">
         <div className="panel-image">
-          <img className="panel-main-image" src="https://picsum.photos/600/600" alt="panel-image"/>
+          <img className="panel-main-image" src="https://picsum.photos/600/600" alt="panel-main-thumbnail"/>
           <img className="panel-icon" src={TrendyIcon} alt="fire-icon"/>
         </div>
         <div className="panel-banner">

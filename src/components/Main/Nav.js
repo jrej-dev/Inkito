@@ -1,5 +1,5 @@
 import React from 'react';
-import { WiredSearchInput } from "wired-elements";
+import 'wired-elements';
 import '../../sass/components/Nav.scss';
 
 function Nav() {
