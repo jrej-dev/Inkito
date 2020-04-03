@@ -1,59 +1,65 @@
-import React, {Component} from 'react';
-import '../../sass/App.scss';
+import React, { useEffect } from 'react';
+import StoreContext from '../../stores/AppStore';
+import { useObserver } from 'mobx-react';
+import { Link } from "react-router-dom";
 
-import Nav from '../../components/Main/Nav';
 import Hero from '../../components/Main/Hero';
 import Promo from '../../components/Main/Promo';
 import ContentDisplay from '../../components/Main/ContentDisplay';
-import Footer from '../../components/Main/Footer';
 
-class Home extends Component {
-  constructor() {
-    super()
-    this.state = {
-      promoArray: [
-        {
-            title: "Shades Of Men",
-            author: "Jrej",
-            thumbnail: "https://picsum.photos/300/500",
-            link: "http://localhost:3000/jrej/shadesofmen",
-        },
-        {
-            title: "IN/SYS",
-            author: "Jrej",
-            thumbnail: "https://picsum.photos/300/300",
-            link: "http://localhost:3000/jrej/shadesofmen",
-        }
-      ],
-      activeComicCategory : "All Categories",
-      activeNovelCategory : "All Categories"
-    }
+const Home = () => {
+  const store = React.useContext(StoreContext);
+
+  useEffect (() => {
+    store.fetchComics("trending");
+    store.fetchComics("created");
+    store.fetchNovels("trending");
+    store.fetchNovels("created");
+  }, [store])
+
+  const ComicContent = () => {    
+    return useObserver(() => {
+      return <ContentDisplay 
+        content={"Comics"}
+        newData={store.newComics}
+        trendyData={store.trendingComics}
+        activeTrend={store.activeComicTrend}
+        activeCategory={store.activeComicCategory}
+        panelBlockNumber={"4"}
+        componentName={"ComicContent"}
+      />
+    })
   }
 
-  comicCategoryClickHandle = (e) => {
-    if (!e.target.className.includes("isActive")) {
-      this.setState({ activeComicCategory : e.target.className });
-    }
+  const NovelContent = () => {
+    return useObserver(() => (
+      <ContentDisplay 
+        content={"Novels"}
+        newData={store.newNovels}
+        trendyData={store.trendingNovels}
+        activeTrend={store.activeNovelTrend}
+        activeCategory={store.activeNovelCategory}
+        panelBlockNumber={"4"}
+        componentName={"NovelContent"}
+      />
+    ))
   }
-
-  novelCategoryClickHandle = (e) => {
-    if (!e.target.className.includes("isActive")) {
-      this.setState({ activeNovelCategory : e.target.className });
-    }
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <Nav />
-        <Hero />
-        <Promo promoArray={this.state.promoArray} />
-        <ContentDisplay content={"Comics"} activeCategory={this.state.activeComicCategory} catClickHandle={this.comicCategoryClickHandle} />
-        <ContentDisplay content={"Novels"} activeCategory={this.state.activeNovelCategory} catClickHandle={this.novelCategoryClickHandle} />
-        <Footer />
-      </div>
-    );
-  }
+  
+  return (
+    <div className="home">
+      <Hero />
+      <Promo />
+      <ComicContent />
+      <Link to="/comics">
+        <h3 className="more">See more...</h3>
+      </Link>
+      <NovelContent />
+      <Link to="/novels">
+        <h3 className="more">See more...</h3>
+      </Link>
+    </div>
+  );
 }
+
 
 export default Home;

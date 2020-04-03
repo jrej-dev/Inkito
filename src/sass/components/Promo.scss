@@ -6,84 +6,68 @@
   position: absolute;
   background-color: $primary-color;
   width: 100vw;
-  height: 0.2em;
+  height: 0.8em;
 }
 
 .promo {
   position: relative;
-    z-index: 1;
-    color: $darkest-color;
-    height: 5em;
-    width: 100%;
-    margin: 0 0 1em 0;
-    .promoBanner {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      justify-content: space-evenly;
-      list-style-type: none;
-      height: 100%;
-      padding: 0;
-      margin: 0 0.5em;
-      .promoBox {
-        @include flex(center);
-        margin: 0 0.5em;
-        height: 100%;
-        width: 100%;
-        border: 2px solid $darkest-color;  
-        overflow: hidden;
-        > img {
-          min-width: 100%;
-          min-height: 100%;
-        }
-        h2 {
-          font-family: $primary-font;
-        }
-      }
+  color: $darkest-color;
+  height: auto;
+  width: 100%;
+  margin: 0 0 1em 0;
+}
+
+.promoBanner {
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  list-style-type: none;
+  height: 100%;
+  padding: 0;
+  margin: 0 0.5em;
+  .promoBox {
+    @include flex(center);
+    flex: 1;
+    margin: 0.5em 0.5em;
+    height: 6em;
+    min-width: 10em;
+    max-width: 15em;
+    border: 2px solid $darkest-color;  
+    overflow: hidden;
+    &:hover {
+      transition: all 0.1s;
+      -webkit-transition: all 0.1s;
+      -webkit-filter: brightness(80%);
     }
-    .promoLink {
-      @include flex(center);
-      flex-direction: column;
-      height: 100%;
-      .info-icon {
-        position: absolute;
-        top: 0.15em;
-        left: 0.15em;
-        height: 0.5em;
-      }
-      > * {
-        margin: 0;
-      }
+    img {
+      object-fit: cover;
+    }
+    h2 {
+      font-family: $primary-font;
     }
   }
-  
-@media screen and (min-width: 830px) {
   .promoLink {
-    .info {
-      display: none;
+    max-width: 100%;
+    flex-direction: column;
+    .here {
+      color: $darkest-color;
+    }
+    h2, p {
+      margin: 0;
     }
   }
 }
-
-@media screen and (max-width: 1050px) {
-  .promoLink {
-    p {
-      display: none;
-    }
-  }
-}
-
 
 @media screen and (max-width: 830px) {
-  .promoLink {
-    h2 {
-      font-size: 2.5vw;
+  .promoBanner {
+    .promoLink {
+      order: -1;
+      flex-basis: 100%;
     }
-    a {
+    .empty {          
       display: none;
     }
-    .info {
-      display: block;
-    }
-  } 
+  }
 }

@@ -1,41 +1,58 @@
 import React from 'react';
+import StoreContext from '../../stores/AppStore';
+import { useObserver } from 'mobx-react';
 import '../../sass/components/Promo.scss';
 import 'wired-elements';
-import InfoIcon from '../../Icons/info-icon.svg';
 
-const Promo = ({ promoArray }) => {
-  return (
-    <div className="promo">
-        <div className="heroCover" />
-        <ul className="promoBanner">
-            <li className="promoBox promo1">
-                {promoArray[0] ? <a href={promoArray[0].link}><img src={promoArray[0].thumbnail} alt={`thumbnail ${promoArray[0].title}`}></img></a> : null}
-            </li>
-            <li className="promoBox promo2">
-                {promoArray[1] ? <a href={promoArray[1].link}><img src={promoArray[1].thumbnail} alt={`thumbnail ${promoArray[0].title}`}></img></a> : null}   
-            </li>
-            <li className="promoBox promo3">
-                {promoArray[2] ? <a href={promoArray[2].link}><img src={promoArray[2].thumbnail} alt={`thumbnail ${promoArray[0].title}`}></img></a> : null} 
-            </li>
-            <li className="promoBox promo4">
-                {promoArray[3] ? <a href={promoArray[3].link}><img src={promoArray[3].thumbnail} alt={`thumbnail ${promoArray[0].title}`}></img></a> : null} 
-            </li>
-            <li className="promoBox promo5">
-                {promoArray[4] ? <a href={promoArray[4].link}><img src={promoArray[4].thumbnail} alt={`thumbnail ${promoArray[0].title}`}></img></a> : null} 
-            </li>
-            <li className="promoBox promoLink">
-                <h2>Promoted</h2>
-                <p>Get your story up here.</p>
-                <a href="/">Click to learn more...</a>
-                <div className="info">
-                    <wired-icon-button>
-                        <img className="info-icon" src={InfoIcon} alt="info"/>
-                    </wired-icon-button>
-                </div>
-            </li>
-        </ul>
-    </div>
-  );
+import { Link } from "react-router-dom";
+
+const Promo = () => {
+    const store = React.useContext(StoreContext);
+    
+    const PromoBoxes = () => {
+        return useObserver(() => {
+            var promoList = [];
+            var length = store.promoArray.length;
+            for (let i = 0; i< 6; i++) {
+                if (i<length) {
+                    promoList.push(
+                        <li className={`promoBox promo${i + 1}`} 
+                        key={store.promoArray[i].title}>
+                            <a href={store.promoArray[i].link}>
+                                <img
+                                    src={store.promoArray[i].thumbnail}
+                                    alt={`Thumbnail ${store.promoArray[i].title}`}
+                                />
+                            </a>
+                        </li>                   
+                    )
+                } else {
+                    promoList.push(
+                        <li 
+                            className={`promoBox promo${i + 1} empty`} 
+                            key={`promo${i + 1}`}>
+                        </li> 
+                    )
+                }
+            }
+            return promoList;
+        })
+    }
+
+    return (
+        <div className="promo">
+            <div className="heroCover" />
+            <ul className="promoBanner">
+                <PromoBoxes />
+                <li className="promoBox promoLink">
+                    <Link to="/">
+                    <h2 className="promoted">Promoted</h2>
+                    <p className="here">Get your story up here.</p>
+                    </Link>
+                </li>
+            </ul>
+        </div>
+    );
 }
 
 export default Promo;

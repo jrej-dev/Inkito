@@ -9,7 +9,14 @@
   overflow-x: hidden;
   text-align: center;
   background-color: white;
-    h1, h2 {
-      font-family: $primary-font;
+  h1, h2 {
+    font-family: $primary-font;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+    &:hover {
+      color: $dark-color
     }
+  }
 }

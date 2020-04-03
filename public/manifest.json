@@ -5,7 +5,7 @@
     {
       "src": "fireicon.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "50x45"
     }
   ],
   "start_url": ".",

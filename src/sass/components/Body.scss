@@ -3,7 +3,7 @@
 
 .content-display {
     padding: 0 1em;
-    
+
     .title-line {
         width: 50%;
         margin: 0 0.5em;
@@ -16,7 +16,22 @@
         .icon {
             height: 1.5em;
         }
+        .trend {
+            @include flex(center);
+            color: $dark-color;
+            > * {
+                cursor: pointer;
+                padding: 0 0.5em;
+            }
+        }
+        .isActiveUnderlined {
+            color: $darkest-color;
+            h3 {
+                border-bottom: 2px solid $primary-color;
+            }
+        }
     }
+    
     .categories {
         @include flex(space-evenly);
         color: $dark-color;
@@ -36,6 +51,27 @@
         color: $darkest-color;
         border: 2px solid $primary-color;
     }
+
+   
+}
+
+.only-trendy {
+    .new-panel {
+        display: none;
+    }
+}
+
+.only-new {
+    .trendy-panel {
+        display: none;
+    }
+    .new-panel {
+        max-width: 20em;
+        height: 20em;
+        .panel-profile-pic {
+            display: block;
+        }
+    }
 }
 
 .panels {
@@ -45,10 +81,18 @@
     }
 }
 
+.more {
+    margin-left: 75%;
+}
+
 @media screen and (max-width: 810px) {
     .categories { 
         >* {
             flex-basis: 15%;
         }
+    }
+    .more {
+        margin: 1em 0;
+        text-align: center;
     }
 }

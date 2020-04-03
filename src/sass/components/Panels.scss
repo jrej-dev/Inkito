@@ -7,33 +7,45 @@
     flex-wrap: wrap;
     margin: 0;
    .panel-block{
-       height: 32em;
+       height: fit-content;
        @include flex(space-between);
        flex-direction: column;
+       > * {
+           margin: 1em 0;
+       }
    }   
 }
 
 .trendy-panel {
-    width: auto;
+    max-width: 20em;
     height: 20em;
     border: 2px solid $dark-color;
     padding: 0;
 }
 
 .new-panel {
-    width: 100%;
+    width: 20em;
     height: 10em;
     border: 2px solid $dark-color;
     padding: 0;
+    .panel-profile-pic {
+        display: none;
+    }
 }
 
 .panel-image { 
     position: relative;
     width: 100%;
-    height: 75%;   
+    height: 75%;  
+    &:hover {
+        transition: all 0.1s;
+        -webkit-transition: all 0.1s;
+        -webkit-filter: brightness(80%);
+    }
     .panel-main-image {
         width: inherit;
         height: 100%;
+        width: 100%;
         object-fit: cover;
     }
     .panel-icon {
@@ -67,7 +79,7 @@
     }
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 635px) {
     .panels {
         .panel-block:nth-child(2n) { 
             flex-direction: column-reverse;

@@ -7,15 +7,26 @@
     background-color: white;
     color: $darkest-color;
     height: 5em;
-    width: 100%;  
-    h1 {
+    width: 100%;
+    .title {
+      @include flex(space-evenly)
       margin-right: auto;
       padding-left: 1em;
+      > * {
+        padding-left: 1em;
+      }
+    }
+    h1 {
+      font-family: $primary-font;
+      text-decoration: none;
+      color: inherit;
+    }
+    h3 {
+      display: none;
     }
     ul {
       @include flex(flex-end);
       padding-right: 1em;
-
       li {
         padding: 1em;
         list-style-type: none;
