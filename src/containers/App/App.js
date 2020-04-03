@@ -1,5 +1,5 @@
-import React from 'react';
-import { StoreProvider } from '../../stores/AppStore';
+import React, { useEffect } from 'react';
+import StoreContext from '../../stores/AppStore';
 import {
   BrowserRouter as Router,
   Switch, 
@@ -12,27 +12,31 @@ import Footer from '../../components/Main/Footer';
 import FullDisplay from '../../components/FullDisplay/FullDisplay';
 
 const App = () => {
-  
+  const store = React.useContext(StoreContext);
+
+  useEffect (() => {
+      store.fetchComics();
+      store.fetchNovels();
+  })
+
   return (
-    <StoreProvider>
-      <Router>
-        <div className="App">
-          <Nav />
-          <Switch>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route exact path="/comics">
-              <FullDisplay display={"comics"} />
-            </Route>
-            <Route exact path="/novels">
-              <FullDisplay display={"novels"} />
-            </Route>
-          </Switch>
-          <Footer />
-        </div>
+    <Router>
+      <div className="App">
+        <Nav />
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route exact path="/comics">
+            <FullDisplay display={"comics"} />
+          </Route>
+          <Route exact path="/novels">
+            <FullDisplay display={"novels"} />
+          </Route>
+        </Switch>
+        <Footer />
+      </div>
       </Router>
-    </StoreProvider>
   );
 }
 

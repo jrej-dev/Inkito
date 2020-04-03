@@ -11,11 +11,11 @@ const Home = () => {
   const store = React.useContext(StoreContext);
 
   useEffect (() => {
-    store.fetchComics("trending");
-    store.fetchComics("created");
-    store.fetchNovels("trending");
-    store.fetchNovels("created");
-  }, [store])
+    store.updateActiveComicCategory("All Categories");
+    store.updateActiveNovelCategory("All Categories");
+    store.updateActiveComicTrend("all");
+    store.updateActiveNovelTrend("all");
+  })
 
   const ComicContent = () => {    
     return useObserver(() => {

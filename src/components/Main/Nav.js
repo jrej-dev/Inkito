@@ -9,7 +9,7 @@ function Nav() {
     <div className="Nav">
       <div className="title">
         <h1>
-          <a href="http://localhost:3000/">Inkito</a>
+          <Link to="/">Inkito</Link>
         </h1>
         <h3 className="nav-comics">
           <Link to="/comics">Comics</Link>

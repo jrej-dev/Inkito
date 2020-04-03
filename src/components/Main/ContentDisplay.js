@@ -2,6 +2,7 @@ import React from 'react';
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
+import 'wired-elements';
 import '../../sass/components/Body.scss';
 import '../../sass/components/Panels.scss';
 
@@ -58,52 +59,80 @@ function ContentDisplay({ content, newData, trendyData, activeCategory, activeTr
 
   const PanelBlocks = () => {
     return useObserver(() => {
-      let fresh = toJS(newData);
       let trendy = toJS(trendyData);
+      let fresh = toJS(newData);
       if(fresh.length > 0 && trendy.length > 0) {
         var blocks = []; 
         for (let j = 0 ; j < panelBlockNumber; j++) {
-            if (j % 2 === 0) {
-              blocks.push(
-                <div key={trendy[j].title} className="panel-block">
-                  <TrendyPanel 
-                    title={trendy[j].title} 
-                    creator={trendy[j].author} 
-                    reward={trendy[j].total_payout_value} 
-                    image={JSON.parse(trendy[j].json_metadata).image[0]}
-                  />
-                  <NewPanel 
-                    title={fresh[j].title} 
-                    creator={fresh[j].author} 
-                    reward={fresh[j].total_payout_value} 
-                    image={JSON.parse(fresh[j].json_metadata).image[0]}
-                  />
-                </div>
-              )
-            } else {
-              let newJson = JSON.parse(fresh[j].json_metadata);
-              let trendyJson = JSON.parse(trendy[j].json_metadata);
-              blocks.push(
-                <div key={fresh[j].title} className="panel-block">
-                  <NewPanel 
-                    title={fresh[j].title} 
-                    creator={fresh[j].author} 
-                    reward={fresh[j].total_payout_value} 
-                    image={newJson.image ? newJson.image[0] : "https://i.picsum.photos/id/356/300/300.jpg"}
-                  />
-                  <TrendyPanel 
-                    title={trendy[j].title} 
-                    creator={trendy[j].author} 
-                    reward={trendy[j].total_payout_value} 
-                    image={trendyJson.image ? trendyJson.image[0] : "https://i.picsum.photos/id/356/300/300.jpg"}
-                  />
-                </div>
-              )
-            }
+          if (fresh[j] !== undefined && trendy[j] !== undefined){
+            let newJson = JSON.parse(fresh[j].json_metadata);
+            let trendyJson = JSON.parse(trendy[j].json_metadata);
+              if (j % 2 === 0) {
+                blocks.push(
+                  <div key={trendy[j].title} className="panel-block">
+                    <TrendyPanel 
+                      title={trendy[j].title} 
+                      creator={trendy[j].author} 
+                      reward={trendy[j].pending_payout_value} 
+                      image={trendyJson.image ? trendyJson.image[0] : "https://i.picsum.photos/id/356/300/300.jpg"}
+                    />
+                    <NewPanel 
+                      title={fresh[j].title} 
+                      creator={fresh[j].author} 
+                      reward={fresh[j].pending_payout_value} 
+                      image={newJson.image ? newJson.image[0] : "https://i.picsum.photos/id/356/300/300.jpg"}
+                    />
+                  </div>
+                )
+              } else {
+                blocks.push(
+                  <div key={fresh[j].title} className="panel-block">
+                    <NewPanel 
+                      title={fresh[j].title} 
+                      creator={fresh[j].author} 
+                      reward={fresh[j].pending_payout_value} 
+                      image={newJson.image ? newJson.image[0] : "https://i.picsum.photos/id/356/300/300.jpg"}
+                    />
+                    <TrendyPanel 
+                      title={trendy[j].title} 
+                      creator={trendy[j].author} 
+                      reward={trendy[j].pending_payout_value} 
+                      image={trendyJson.image ? trendyJson.image[0] : "https://i.picsum.photos/id/356/300/300.jpg"}
+                    />
+                  </div>
+                )
+              }
+          } else if (fresh[j] === undefined) {
+            let trendyJson = JSON.parse(trendy[j].json_metadata);
+            blocks.push(
+              <div key={trendy[j].title} className="panel-block">
+                <TrendyPanel 
+                  title={trendy[j].title} 
+                  creator={trendy[j].author} 
+                  reward={trendy[j].pending_payout_value} 
+                  image={trendyJson.image ? trendyJson.image[0] : "https://i.picsum.photos/id/356/300/300.jpg"}
+                />
+              </div>
+            )
+          } else if (trendy[j] === undefined) {
+            let newJson = JSON.parse(fresh[j].json_metadata);
+            blocks.push(
+              <div key={fresh[j].title} className="panel-block">
+                <NewPanel 
+                  title={fresh[j].title} 
+                  creator={fresh[j].author} 
+                  reward={fresh[j].pending_payout_value} 
+                  image={newJson.image ? newJson.image[0] : "https://i.picsum.photos/id/356/300/300.jpg"}
+                />
+              </div>
+            )
+          } else {
+            return blocks;
+          }
         }
         return blocks;
       } else {
-        return "loading"
+        return <wired-spinner class="custom" spinning duration="1000"></wired-spinner>
       }
     })
   }

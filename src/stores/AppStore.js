@@ -61,26 +61,52 @@ export function StoreProvider({children}) {
         },
         comicsQuery : {
             tag: "comics",
-            limit: 16,
+            limit: 32,
         },
         novelsQuery : {
             tag: "fiction",
-            limit: 16,
+            limit: 32,
         },
         trendyComicState : "",
         newComicState : "",
-        //Fetching Trendy Comics
-        async fetchComics(filter) {
-            this.trendingComics = []
-            this.newComics = []
-            if (filter === "trending") {
-                this.trendyComicState = "pending"
-            } else if (filter === "created") {
-                this.newComicState = "pending"
+        removeDuplicateComics : newContent => {
+            var duplicateIndexComics = [];
+            store.trendingComics.forEach((element) => {
+                newContent.forEach((data, index) => {
+                if (element.post_id === data.post_id){
+                    duplicateIndexComics.push(index)
+                }
+                })
+            });
+        
+            if (duplicateIndexComics.length > 0){
+                return newContent.filter((data,index) => !duplicateIndexComics.includes(index));
+            } else {
+                return newContent;
             }
+        },
+        removeDuplicateNovels : newContent => {
+            var duplicateIndexNovels = [];    
+            store.trendingNovels.forEach((element) => {
+                newContent.forEach((data, index) => {
+                if (element.title === data.title){
+                    duplicateIndexNovels.push(index)
+                }
+                })
+            });
+            if (duplicateIndexNovels.length > 0){
+                return newContent.filter((data,index) => !duplicateIndexNovels.includes(index));
+            } else {
+                return newContent;
+            }
+        },
+        //Fetching Comics
+        async fetchComics() {
+            this.trendingComics = []
+            this.trendyComicState = "pending"
             try {
-                const comics = await client.database
-                .getDiscussions(filter, this.comicsQuery)
+                const trendyComics = await client.database
+                .getDiscussions("trending", this.comicsQuery)
                 .then(result => {
                     if (result) {
                         return result; 
@@ -88,38 +114,42 @@ export function StoreProvider({children}) {
                         console.log("No result.");
                    };
                    
-                 })   
-                //const filteredComics = comics.filter(comic => comics.json_metadata.includes(store.activeComicCategory))
+                })
+                    
                 // after await, modifying state again, needs an actions:
-                if (filter === "trending") {
-                    this.trendyComicState = "done"
-                    this.trendingComics = comics
-                } else if (filter === "created") {
-                    this.newComicState = "done"
-                    this.newComics = comics
-                }
+                this.trendyComicState = "done"
+                this.trendingComics = trendyComics
+                
+                this.newComics = []
+                this.newComicState = "pending"
+
+                const newComics = await client.database
+                .getDiscussions("created", this.comicsQuery)
+                .then(result => {
+                    if (result) {
+                        return result; 
+                   } else {
+                        console.log("No result.");
+                   };
+                   
+                })
+
+                const filteredComics = this.removeDuplicateComics(newComics);
+                this.newComicState = "done"
+                this.newComics = filteredComics
+
             } catch (error) {
                 console.log(error);
-                if (filter === "trending") {
-                    this.trendyComicState = "error";
-                } else if (filter === "created") {
-                    this.newComicState = "error";
-                }
             }
         },
         trendyNovelState : "",
         newNovelState : "",
-        async fetchNovels(filter) {
+        async fetchNovels() {
             this.trendingNovels = []
-            this.newNovels = []
-            if (filter === "trending") {
-                this.trendyNovelState = "pending"
-            } else if (filter === "created") {
-                this.newNovelState = "pending"
-            }
+            this.trendyNovelState = "pending"
             try {
-                const novels = await client.database
-                .getDiscussions(filter, this.novelsQuery)
+                const trendyNovels = await client.database
+                .getDiscussions("trending", this.novelsQuery)
                 .then(result => {
                     if (result) {
                         return result; 
@@ -127,26 +157,36 @@ export function StoreProvider({children}) {
                         console.log("No result.");
                    };
                    
-                 })   
-                //const filteredComics = comics.filter(comic => comics.json_metadata.includes(store.activeComicCategory))
+                })
+                    
                 // after await, modifying state again, needs an actions:
-                if (filter === "trending") {
-                    this.trendyNovelState = "done"
-                    this.trendingNovels = novels
-                } else if (filter === "created") {
-                    this.newNovelState = "done"
-                    this.newNovels = novels
-                }
+                this.trendyNovelState = "done"
+                this.trendingNovels = trendyNovels
+                
+                this.newNovels = []
+                this.newNovelState = "pending"
+
+                const newNovels = await client.database
+                .getDiscussions("created", this.novelsQuery)
+                .then(result => {
+                    if (result) {
+                        return result; 
+                   } else {
+                        console.log("No result.");
+                   };
+                   
+                })
+                const filteredNovels = this.removeDuplicateNovels(newNovels);
+                this.newNovelState = "done"
+                this.newNovels = filteredNovels
+    
             } catch (error) {
                 console.log(error);
-                if (filter === "trending") {
-                    this.trendyNovelState = "error";
-                } else if (filter === "created") {
-                    this.newNovelState = "error";
-                }
             }
         }
     }));
+
+    
   
     return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
   };
