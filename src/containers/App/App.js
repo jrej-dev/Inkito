@@ -6,10 +6,11 @@ import {
   Route,
 } from "react-router-dom";
 import '../../sass/App.scss';
-import Nav from '../../components/Main/Nav';
 import Home from '../../components/Main/Home';
 import Footer from '../../components/Main/Footer';
 import FullDisplay from '../../components/FullDisplay/FullDisplay';
+import ComicReader from '../../components/Reader/ComicReader';
+import NovelReader from '../../components/Reader/NovelReader';
 
 const App = () => {
   const store = React.useContext(StoreContext);
@@ -22,7 +23,6 @@ const App = () => {
   return (
     <Router>
       <div className="App">
-        <Nav />
         <Switch>
           <Route exact path="/">
             <Home />
@@ -32,6 +32,12 @@ const App = () => {
           </Route>
           <Route exact path="/novels">
             <FullDisplay display={"novels"} />
+          </Route>
+          <Route exact path="/comicreader">
+            <ComicReader />
+          </Route>
+          <Route exact path="/novelreader">
+            <NovelReader />
           </Route>
         </Switch>
         <Footer />

@@ -19,14 +19,12 @@
 .trendy-panel {
     max-width: 20em;
     height: 20em;
-    border: 2px solid $dark-color;
     padding: 0;
 }
 
 .new-panel {
     width: 20em;
     height: 10em;
-    border: 2px solid $dark-color;
     padding: 0;
     .panel-profile-pic {
         display: none;
@@ -64,8 +62,9 @@
         padding: 0 0.5em;
     }
     .panel-profile-pic {
+        object-fit: cover;
         height: 80%;
-        width: auto;
+        width: 20%;
         border-radius: 50%;
     }
     

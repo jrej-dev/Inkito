@@ -34,7 +34,7 @@
     height: 6em;
     min-width: 10em;
     max-width: 15em;
-    border: 2px solid $darkest-color;  
+    border: 2px double $darkest-color;  
     overflow: hidden;
     &:hover {
       transition: all 0.1s;

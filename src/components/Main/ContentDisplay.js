@@ -9,11 +9,11 @@ import '../../sass/components/Panels.scss';
 import TrendyPanel from '../Panels/TrendyPanel';
 import NewPanel from '../Panels/NewPanel';
 
-import TrendyIcon from '../../Icons/trendyicon.png';
-import NewIcon from '../../Icons/newicon.png';
+import TrendyIcon from '../../icons/trendyicon.png';
+import NewIcon from '../../icons/newicon.png';
 import { Link } from "react-router-dom";
 
-function ContentDisplay({ content, newData, trendyData, activeCategory, activeTrend, panelBlockNumber, componentName }) {
+function ContentDisplay({ content, newData, trendyData, activeCategory, activeTrend, panelBlockNumber }) {
 
   const store = React.useContext(StoreContext);
 
@@ -64,7 +64,7 @@ function ContentDisplay({ content, newData, trendyData, activeCategory, activeTr
       if(fresh.length > 0 && trendy.length > 0) {
         var blocks = []; 
         for (let j = 0 ; j < panelBlockNumber; j++) {
-          if (fresh[j] !== undefined && trendy[j] !== undefined){
+          if (fresh[j] !== undefined && trendy[j] !== undefined){            
             let newJson = JSON.parse(fresh[j].json_metadata);
             let trendyJson = JSON.parse(trendy[j].json_metadata);
               if (j % 2 === 0) {
@@ -98,7 +98,7 @@ function ContentDisplay({ content, newData, trendyData, activeCategory, activeTr
                       creator={trendy[j].author} 
                       reward={trendy[j].pending_payout_value} 
                       image={trendyJson.image ? trendyJson.image[0] : "https://i.picsum.photos/id/356/300/300.jpg"}
-                    />
+                   />
                   </div>
                 )
               }

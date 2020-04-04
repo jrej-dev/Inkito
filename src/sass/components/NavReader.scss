@@ -1,0 +1,32 @@
+@import '../abstracts/variables';
+@import '../abstracts/mixins';
+
+.nav-reader-list {
+    margin: 0;
+    padding: 0 2em 0 2em;
+    @include flex(space-evenly);
+    flex-direction: row;
+    background-color: $primary-color;
+    color: $darkest-color;
+    height: auto;
+    min-height: 5em;
+    list-style-type: none;
+    p {
+        margin: 0.5em 0;
+        white-space: nowrap;
+    }
+}
+
+.icon {
+    padding: 0 0.5em;
+    height: 1.5em;
+}
+
+@media screen and (max-width: 700px) {
+    .nav-reader-list {
+        flex-wrap: wrap;
+    }
+    .icons {
+        display: none;
+    }
+}

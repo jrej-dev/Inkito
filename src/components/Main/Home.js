@@ -3,6 +3,7 @@ import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import { Link } from "react-router-dom";
 
+import Nav from '../../components/Main/Nav';
 import Hero from '../../components/Main/Hero';
 import Promo from '../../components/Main/Promo';
 import ContentDisplay from '../../components/Main/ContentDisplay';
@@ -26,7 +27,6 @@ const Home = () => {
         activeTrend={store.activeComicTrend}
         activeCategory={store.activeComicCategory}
         panelBlockNumber={"4"}
-        componentName={"ComicContent"}
       />
     })
   }
@@ -40,13 +40,13 @@ const Home = () => {
         activeTrend={store.activeNovelTrend}
         activeCategory={store.activeNovelCategory}
         panelBlockNumber={"4"}
-        componentName={"NovelContent"}
       />
     ))
   }
   
   return (
     <div className="home">
+      <Nav />
       <Hero />
       <Promo />
       <ComicContent />

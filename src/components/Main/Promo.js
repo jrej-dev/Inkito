@@ -15,7 +15,7 @@ const Promo = () => {
             var length = store.promoArray.length;
             for (let i = 0; i< 6; i++) {
                 if (i<length) {
-                    promoList.push(
+                    promoList.push(    
                         <li className={`promoBox promo${i + 1}`} 
                         key={store.promoArray[i].title}>
                             <a href={store.promoArray[i].link}>
@@ -24,7 +24,7 @@ const Promo = () => {
                                     alt={`Thumbnail ${store.promoArray[i].title}`}
                                 />
                             </a>
-                        </li>                   
+                        </li>  
                     )
                 } else {
                     promoList.push(

@@ -27,7 +27,7 @@
         .isActiveUnderlined {
             color: $darkest-color;
             h3 {
-                border-bottom: 2px solid $primary-color;
+                border-bottom: 2px double $primary-color;
             }
         }
     }
@@ -50,6 +50,7 @@
     .isActive {
         color: $darkest-color;
         border: 2px solid $primary-color;
+        border-style: double;
     }
 
    

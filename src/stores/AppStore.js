@@ -2,7 +2,12 @@
 import React from 'react';
 import { useLocalStore } from 'mobx-react';
 const { Client } = require('dsteem');
-
+let opts = {};
+//connect to production server
+opts.addressPrefix = 'STM';
+opts.chainId =
+    '0000000000000000000000000000000000000000000000000000000000000000';
+//connect to server which is connected to the network/production
 const client = new Client('https://api.steemit.com');
 const StoreContext = React.createContext();
 
@@ -119,7 +124,7 @@ export function StoreProvider({children}) {
                 // after await, modifying state again, needs an actions:
                 this.trendyComicState = "done"
                 this.trendingComics = trendyComics
-                
+
                 this.newComics = []
                 this.newComicState = "pending"
 
@@ -135,6 +140,7 @@ export function StoreProvider({children}) {
                 })
 
                 const filteredComics = this.removeDuplicateComics(newComics);
+
                 this.newComicState = "done"
                 this.newComics = filteredComics
 
@@ -158,7 +164,7 @@ export function StoreProvider({children}) {
                    };
                    
                 })
-                    
+
                 // after await, modifying state again, needs an actions:
                 this.trendyNovelState = "done"
                 this.trendingNovels = trendyNovels
@@ -177,13 +183,50 @@ export function StoreProvider({children}) {
                    
                 })
                 const filteredNovels = this.removeDuplicateNovels(newNovels);
+                
                 this.newNovelState = "done"
                 this.newNovels = filteredNovels
+
+                /*this.newNovels.forEach((element,index) => {
+                    this.getProfilePic(element.author, "newNovels", index);
+                })*/
     
             } catch (error) {
                 console.log(error);
             }
-        }
+        },
+        /*async getProfilePic(author,content,index) {
+            try {
+                const profilePic = await client.database
+                .getAccounts([author])
+                .then(result => {
+                    if (result) {
+                        console.log(result);
+                        let json = JSON.parse(result[0].json_metadata);
+                        if (json.profile){
+                            let image = json.profile.profile_image;
+                            return image;
+                        } else {
+                            console.log("No result.");
+                        }
+                    } else {
+                        console.log("No result.");
+                    };
+                })
+                if (content === "trendyComics") {
+                    this.trendingComics[index].profile_pic = profilePic;
+                } else if (content === "newComics") {
+                    this.newComics[index].profile_pic = profilePic;
+                } else if (content === "trendyNovels") {
+                    this.trendingNovels[index].profile_pic = profilePic;
+                } else if (content === "newNovels") {
+                    this.newNovels[index].profile_pic = profilePic;
+                }
+
+            } catch (error) {
+                console.log(error);
+            }
+        }*/  
     }));
 
     

@@ -2,6 +2,7 @@ import React from 'react';
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 
+import Nav from '../../components/Main/Nav';
 import ComicHero from './ComicHero';
 import NovelHero from './NovelHero';
 import ContentDisplay from '../Main/ContentDisplay';
@@ -39,6 +40,7 @@ const FullDisplay = ({ display }) => {
 
   return (
     <div className="fullDisplay">
+      <Nav />
       {display === "novels"?
       <NovelHero /> :
       <ComicHero />

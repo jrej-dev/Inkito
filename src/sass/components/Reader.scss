@@ -1,0 +1,21 @@
+@import '../abstracts/variables';
+@import '../abstracts/mixins';
+
+.comic-reader {
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+}
+
+.image {
+    padding: 1em 15em 1em 15em;
+    img {
+        min-width: 100%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .image {
+        padding: 1em;
+    }
+}
