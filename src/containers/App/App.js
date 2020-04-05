@@ -33,10 +33,10 @@ const App = () => {
           <Route exact path="/novels">
             <FullDisplay display={"novels"} />
           </Route>
-          <Route exact path="/comicreader">
+          <Route path="/comicreader">
             <ComicReader />
           </Route>
-          <Route exact path="/novelreader">
+          <Route path="/novelreader">
             <NovelReader />
           </Route>
         </Switch>

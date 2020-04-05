@@ -1,6 +1,9 @@
 
 import React from 'react';
 import { useLocalStore } from 'mobx-react';
+const StoreContext = React.createContext();
+
+//Steem API
 const { Client } = require('dsteem');
 let opts = {};
 //connect to production server
@@ -9,11 +12,12 @@ opts.chainId =
     '0000000000000000000000000000000000000000000000000000000000000000';
 //connect to server which is connected to the network/production
 const client = new Client('https://api.steemit.com');
-const StoreContext = React.createContext();
 
 export function StoreProvider({children}) {
     const store = useLocalStore(() => ({
-        // State Variables
+
+    // State Variables
+        //Categories array and active
         categories : [
             "All Categories",
             "Action",
@@ -26,6 +30,14 @@ export function StoreProvider({children}) {
             "Sci-Fi",
             "Slice Of Life"
         ],
+        activeComicCategory : "All Categories",
+        activeNovelCategory : "All Categories",
+
+        //Trend active (trending or new)
+        activeComicTrend : "all",
+        activeNovelTrend : "all",
+
+        //Array for promoted content
         promoArray : [
             {
                 title: "Shades Of Men",
@@ -40,30 +52,16 @@ export function StoreProvider({children}) {
                 link: "http://localhost:3000/jrej/shadesofmen"
             }
         ],
+
+        //Content Display Data
         trendingComics : [],
         newComics : [],
         trendingNovels : [],
         newNovels : [],
+        postDetail : "",
+        postTitle : "",
 
-        //Actions 
-        // categories
-        activeComicCategory : "All Categories",
-        updateActiveComicCategory : className => {
-            store.activeComicCategory = className;
-        },
-        activeNovelCategory : "All Categories",
-        updateActiveNovelCategory : className => {
-            store.activeNovelCategory = className
-        },
-        // Trendy or New
-        activeComicTrend : "all",
-        updateActiveComicTrend : trend => {
-            store.activeComicTrend = trend;
-        },
-        activeNovelTrend : "all",
-        updateActiveNovelTrend : trend => {
-            store.activeNovelTrend = trend;
-        },
+        //Data queries for displayed content
         comicsQuery : {
             tag: "comics",
             limit: 32,
@@ -72,8 +70,31 @@ export function StoreProvider({children}) {
             tag: "fiction",
             limit: 32,
         },
+
+        //Data states
         trendyComicState : "",
         newComicState : "",
+        trendyNovelState : "",
+        newNovelState : "",
+        postDetailState : "",
+
+    //Actions 
+
+        // categories
+        updateActiveComicCategory : className => {
+            store.activeComicCategory = className;
+        },
+        updateActiveNovelCategory : className => {
+            store.activeNovelCategory = className
+        },
+        // Trends
+        updateActiveComicTrend : trend => {
+            store.activeComicTrend = trend;
+        },
+        updateActiveNovelTrend : trend => {
+            store.activeNovelTrend = trend;
+        },
+        // Removing duplicates from new content data
         removeDuplicateComics : newContent => {
             var duplicateIndexComics = [];
             store.trendingComics.forEach((element) => {
@@ -119,9 +140,7 @@ export function StoreProvider({children}) {
                         console.log("No result.");
                    };
                    
-                })
-                    
-                // after await, modifying state again, needs an actions:
+                }) 
                 this.trendyComicState = "done"
                 this.trendingComics = trendyComics
 
@@ -138,9 +157,7 @@ export function StoreProvider({children}) {
                    };
                    
                 })
-
                 const filteredComics = this.removeDuplicateComics(newComics);
-
                 this.newComicState = "done"
                 this.newComics = filteredComics
 
@@ -148,8 +165,6 @@ export function StoreProvider({children}) {
                 console.log(error);
             }
         },
-        trendyNovelState : "",
-        newNovelState : "",
         async fetchNovels() {
             this.trendingNovels = []
             this.trendyNovelState = "pending"
@@ -164,8 +179,6 @@ export function StoreProvider({children}) {
                    };
                    
                 })
-
-                // after await, modifying state again, needs an actions:
                 this.trendyNovelState = "done"
                 this.trendingNovels = trendyNovels
                 
@@ -186,51 +199,30 @@ export function StoreProvider({children}) {
                 
                 this.newNovelState = "done"
                 this.newNovels = filteredNovels
-
-                /*this.newNovels.forEach((element,index) => {
-                    this.getProfilePic(element.author, "newNovels", index);
-                })*/
     
             } catch (error) {
                 console.log(error);
             }
         },
-        /*async getProfilePic(author,content,index) {
+        async fetchPostDetail(author, permlink) {
+            this.postDetail = ""
+            this.postTitle = ""
+            this.postDetailState = "pending"
             try {
-                const profilePic = await client.database
-                .getAccounts([author])
+                const content = await client.database
+                .call('get_content', [author, permlink])
                 .then(result => {
-                    if (result) {
-                        console.log(result);
-                        let json = JSON.parse(result[0].json_metadata);
-                        if (json.profile){
-                            let image = json.profile.profile_image;
-                            return image;
-                        } else {
-                            console.log("No result.");
-                        }
-                    } else {
-                        console.log("No result.");
-                    };
+                    return result;
                 })
-                if (content === "trendyComics") {
-                    this.trendingComics[index].profile_pic = profilePic;
-                } else if (content === "newComics") {
-                    this.newComics[index].profile_pic = profilePic;
-                } else if (content === "trendyNovels") {
-                    this.trendingNovels[index].profile_pic = profilePic;
-                } else if (content === "newNovels") {
-                    this.newNovels[index].profile_pic = profilePic;
-                }
-
+                this.postDetailState = "done"
+                this.postDetail = content.body;
+                this.postTitle = content.title;
             } catch (error) {
-                console.log(error);
+                this.postDetailState = "error"
+                console.log(error)
             }
-        }*/  
+        }
     }));
-
-    
-  
     return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
   };
 

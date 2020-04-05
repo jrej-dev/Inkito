@@ -53,18 +53,18 @@
         border-style: double;
     }
 
-   
 }
 
 .only-trendy {
-    .new-panel {
+    .new-card {
         display: none;
+        
     }
 }
 
 .only-new {
-    .trendy-panel {
-        display: none;
+    .trendy-card {        
+            display: none;
     }
     .new-panel {
         max-width: 20em;

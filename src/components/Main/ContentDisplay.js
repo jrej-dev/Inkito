@@ -11,11 +11,11 @@ import NewPanel from '../Panels/NewPanel';
 
 import TrendyIcon from '../../icons/trendyicon.png';
 import NewIcon from '../../icons/newicon.png';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 function ContentDisplay({ content, newData, trendyData, activeCategory, activeTrend, panelBlockNumber }) {
-
   const store = React.useContext(StoreContext);
+  const history = useHistory();
 
   const categoryClickHandle = (e) => {
     if (!e.target.className.includes("isActive")) {
@@ -24,6 +24,14 @@ function ContentDisplay({ content, newData, trendyData, activeCategory, activeTr
       } else if (content === "Novels") {
         store.updateActiveNovelCategory(e.target.className);
       }
+    }
+  }
+  
+  const contentClickHandle = (props) => {
+    if (content === "Comics") {
+      history.push(`/comicreader/?author=${props.creator}&permlink=${props.permlink}`);
+    } else if ( content === "Novels") {
+      history.push(`/novelreader/?author=${props.creator}&permlink=${props.permlink}`);
     }
   }
 
@@ -61,6 +69,7 @@ function ContentDisplay({ content, newData, trendyData, activeCategory, activeTr
     return useObserver(() => {
       let trendy = toJS(trendyData);
       let fresh = toJS(newData);
+      
       if(fresh.length > 0 && trendy.length > 0) {
         var blocks = []; 
         for (let j = 0 ; j < panelBlockNumber; j++) {
@@ -73,14 +82,18 @@ function ContentDisplay({ content, newData, trendyData, activeCategory, activeTr
                     <TrendyPanel 
                       title={trendy[j].title} 
                       creator={trendy[j].author} 
+                      permlink={trendy[j].permlink}
                       reward={trendy[j].pending_payout_value} 
                       image={trendyJson.image ? trendyJson.image[0] : "https://i.picsum.photos/id/356/300/300.jpg"}
+                      onClick={contentClickHandle}
                     />
                     <NewPanel 
                       title={fresh[j].title} 
-                      creator={fresh[j].author} 
+                      creator={fresh[j].author}
+                      permlink={fresh[j].permlink} 
                       reward={fresh[j].pending_payout_value} 
                       image={newJson.image ? newJson.image[0] : "https://i.picsum.photos/id/356/300/300.jpg"}
+                      onClick={contentClickHandle}
                     />
                   </div>
                 )
@@ -89,15 +102,19 @@ function ContentDisplay({ content, newData, trendyData, activeCategory, activeTr
                   <div key={fresh[j].title} className="panel-block">
                     <NewPanel 
                       title={fresh[j].title} 
-                      creator={fresh[j].author} 
+                      creator={fresh[j].author}
+                      permlink={fresh[j].permlink}  
                       reward={fresh[j].pending_payout_value} 
                       image={newJson.image ? newJson.image[0] : "https://i.picsum.photos/id/356/300/300.jpg"}
+                      onClick={contentClickHandle}
                     />
                     <TrendyPanel 
                       title={trendy[j].title} 
                       creator={trendy[j].author} 
+                      permlink={trendy[j].permlink}
                       reward={trendy[j].pending_payout_value} 
                       image={trendyJson.image ? trendyJson.image[0] : "https://i.picsum.photos/id/356/300/300.jpg"}
+                      onClick={contentClickHandle}
                    />
                   </div>
                 )
@@ -108,9 +125,11 @@ function ContentDisplay({ content, newData, trendyData, activeCategory, activeTr
               <div key={trendy[j].title} className="panel-block">
                 <TrendyPanel 
                   title={trendy[j].title} 
-                  creator={trendy[j].author} 
+                  creator={trendy[j].author}
+                  permlink={trendy[j].permlink} 
                   reward={trendy[j].pending_payout_value} 
                   image={trendyJson.image ? trendyJson.image[0] : "https://i.picsum.photos/id/356/300/300.jpg"}
+                  onClick={contentClickHandle}
                 />
               </div>
             )
@@ -120,9 +139,11 @@ function ContentDisplay({ content, newData, trendyData, activeCategory, activeTr
               <div key={fresh[j].title} className="panel-block">
                 <NewPanel 
                   title={fresh[j].title} 
-                  creator={fresh[j].author} 
+                  creator={fresh[j].author}
+                  permlink={fresh[j].permlink}  
                   reward={fresh[j].pending_payout_value} 
                   image={newJson.image ? newJson.image[0] : "https://i.picsum.photos/id/356/300/300.jpg"}
+                  onClick={contentClickHandle}
                 />
               </div>
             )

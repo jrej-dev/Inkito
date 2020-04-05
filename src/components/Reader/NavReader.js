@@ -1,4 +1,6 @@
 import React from 'react';
+import StoreContext from '../../stores/AppStore';
+import { useObserver } from 'mobx-react';
 import 'wired-elements';
 import '../../sass/components/NavReader.scss';
 
@@ -12,6 +14,17 @@ import DownArrow from '../../icons/down-arrow.png';
 import { Link } from "react-router-dom";
 
 function NavReader() {
+  const store = React.useContext(StoreContext);
+
+  const PostTitle = () => {
+    return useObserver(() => {
+      if (typeof store.postTitle === "string"){
+        return store.postTitle;
+      } else {
+        return ""
+      }
+    })
+  }
   return (
     <div className="nav-reader">
       <ul className="nav-reader-list">
@@ -32,7 +45,7 @@ function NavReader() {
         </li>
         <li>
           <p>
-            Series Name - Episode Number
+            <PostTitle />
           </p>
         </li>
         <li className="flex icons">

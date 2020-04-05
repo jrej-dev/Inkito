@@ -1,6 +1,12 @@
 @import '../abstracts/variables';
 @import '../abstracts/mixins';
 
+
+.flex {
+    width: 100%;
+    @include flex(space-evenly);
+}
+
 .nav-reader-list {
     margin: 0;
     padding: 0 2em 0 2em;
