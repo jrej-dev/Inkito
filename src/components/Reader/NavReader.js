@@ -9,7 +9,6 @@ import RightArrow from '../../icons/right-arrow.png';
 import Heart from '../../icons/heart.png';
 import Bubble from '../../icons/bubble.png';
 import Bell from '../../icons/bell.png';
-import DownArrow from '../../icons/down-arrow.png';
 
 import { Link } from "react-router-dom";
 
@@ -28,12 +27,12 @@ function NavReader() {
   return (
     <div className="nav-reader">
       <ul className="nav-reader-list">
-        <li>
+        <li className="title">
           <h1>
             <Link to="/">Inkito</Link>
           </h1>
         </li>
-        <li className="flex arrows">
+        <li className="flex arrows ">
           <div className="flex previous">
             <img className="icon left-arrow" src={LeftArrow} alt="left-arrow"/>
             <p>Previous</p>
@@ -43,7 +42,7 @@ function NavReader() {
             <img className="icon right-arrow" src={RightArrow} alt="right-arrow"/>
           </div>
         </li>
-        <li>
+        <li className="post-title">
           <p>
             <PostTitle />
           </p>
@@ -53,7 +52,7 @@ function NavReader() {
           <img className="icon comment" src={Bubble} alt="comment bubble"/>
           <img className="icon follow" src={Bell} alt="follow bell"/>
         </li>
-        <li>Login/Register</li>
+        <li className="login">Login/Register</li>
       </ul>
     </div>
   );

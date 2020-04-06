@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import StoreContext from '../../stores/AppStore';
-import { useObserver } from 'mobx-react';
-import ReactMarkdown from 'react-markdown/with-html';
 import '../../sass/components/Reader.scss';
 import 'wired-elements';
 
+import ContentBody from './ContentBody';
 import NavReader from './NavReader';
 
 const NovelReader = () => {
@@ -24,27 +23,14 @@ const NovelReader = () => {
     return props;
   }
 
-  const ContentBody = () => {
-    return useObserver(() => {
-      if (typeof store.postDetail === "string"){
-        return (
-          <ReactMarkdown
-          source={store.postDetail}
-          escapeHtml={false}
-          /> 
-        )
-      } else {
-        return <wired-spinner class="custom" spinning duration="1000"></wired-spinner>
-      }
-    })
-  }
-
   return (
     <div className="reader novel-reader">
         <NavReader title={store.postTitle}/>
-        <div className="content-body">
-          <ContentBody />
-        </div>
+        <wired-card elevation="2">
+          <div className="content-body">
+              <ContentBody />
+          </div>
+        </wired-card>
     </div>
   );
   

@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import StoreContext from '../../stores/AppStore';
-import { useObserver } from 'mobx-react';
-import ReactMarkdown from 'react-markdown/with-html';
 import '../../sass/components/Reader.scss';
 import 'wired-elements';
 
 import NavReader from './NavReader';
+import ContentBody from './ContentBody';
+import InfoTab from './InfoTab';
+import DownArrow from '../../icons/down-arrow.png';
+
 
 const ComicReader = () => {
   const store = React.useContext(StoreContext);
@@ -24,28 +26,16 @@ const ComicReader = () => {
     return props;
   }
 
-  const ContentBody = () => {
-    return useObserver(() => {
-      if (typeof store.postDetail === "string"){
-        return (
-          <ReactMarkdown
-          source={store.postDetail}
-          escapeHtml={false}
-          /> 
-        )
-      } else {
-        return <wired-spinner class="custom" spinning duration="1000"></wired-spinner>
-      }
-    })
-  }
-
   return (
     <div className="reader comic-reader">
         <NavReader title={store.postTitle}/>
-        <div className="content-body">
-          <ContentBody />
-        </div>
-    </div>
+          <div className="content-body">
+            <ContentBody />
+          </div>
+        {/*if more content exists show down arrow
+        <img src={DownArrow} alt="down-arrow"/>*/}
+        <InfoTab author={props.author}/>
+    </div>     
   );
   
 }

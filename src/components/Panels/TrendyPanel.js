@@ -5,16 +5,16 @@ import 'wired-elements';
 
 function TrendyPanel({ title, creator, permlink, reward, image, onClick }) {
   return (
-    <div className="trendy-card" onClick={() => onClick({creator, permlink})}>
+    <div className="trendy-card">
       <wired-card elevation="3" className="trendy-card">
         <div className="trendy-panel">
-            <div className="panel-image">
+            <div className="panel-image" onClick={() => onClick({creator, permlink})}>
               <img className="panel-main-image" src={image} alt="panel-main-thumbnail"/>
               <img className="panel-icon" src={TrendyIcon} alt="fire-icon"/>
             </div>
             <div className="panel-banner">
               <img className="panel-profile-pic"src={`https://steemitimages.com/u/${creator}/avatar`} alt=" "/>
-              <span className="panel-info">
+              <span className="panel-info" onClick={() => onClick({creator, permlink})}>
                 <span className="panel-title">{title.length > 60 ? `${title.slice(0,60)}...` : title}</span> 
                 <span>{" / "}</span>
                 <span className="panel-creator">{creator}</span>

@@ -5,10 +5,14 @@
     width: 100vw;
     margin: 0;
     padding: 0;
+    wired-card {
+        width: 95%;
+        padding: 1em 0;
+    }
     .content-body {
         > * {
-            width: 80%;
-            padding: 0 10%;
+            width: 70%;
+            padding: 0 15%;
         }
         img {
             max-width: 100%;
@@ -16,8 +20,20 @@
         }
     }
 }
-@media screen and (max-width: 800px) {
-    .image {
-        padding: 1em;
+
+.comic-reader {
+    .content-body{ 
+        font-size: 0;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .reader {
+        .content-body {
+            > * {
+                width: 90%;
+                padding: 0 5%;
+            }
+        }
     }
 }
