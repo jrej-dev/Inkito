@@ -8,6 +8,7 @@
 }
 
 .nav-reader {
+    width: 100%;
     margin-bottom: 1em;
 }
 
@@ -19,7 +20,7 @@
     background-color: $primary-color;
     color: $darkest-color;
     height: auto;
-    min-height: 5em;
+    min-height: 2em;
     list-style-type: none;
     .title {
         padding-left: 2em;
@@ -36,9 +37,20 @@
     }
 }
 
+.arrows > * {
+    cursor: pointer;
+}
+
 .icon {
+    cursor: pointer;
     padding: 0 0.5em;
     height: 1.5em;
+}
+
+.disabled {
+    > * {
+        color: $dark-color;
+    }
 }
 
 @media screen and (max-width: 850px) {

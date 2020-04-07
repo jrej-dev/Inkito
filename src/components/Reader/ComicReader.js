@@ -18,7 +18,8 @@ const ComicReader = () => {
   useEffect (() => {
     getUrlVars();
     //store.fetchPostDetail(props.author, props.permlink);
-    store.fetchSeries(props.author, props.series)
+    store.fetchSeries(props.series)
+    store.updateCurrentPage(1);
   })
 
   const getUrlVars = () => {
@@ -28,18 +29,22 @@ const ComicReader = () => {
     return props;
   }
 
+  const navClickHandle = (e) => {
+    console.log(e);
+  }
+
   const ListedBlogs = () => {
     return useObserver(() => {
-      var seriesData = toJS(store.seriesDetail)
-      if (seriesData.length > 0) {
-        var blogs = []; 
-        seriesData.forEach(blog => {
+      var seriesData = toJS(store.seriesDetail);
+      var blogs = [];
+      if (store.currentPage <= seriesData.length) {
+        for (let i = 0; i < store.currentPage; i++) {
           blogs.push(
-            <li className="blog">
-              <ComicBlog content={blog}/>
+            <li key={seriesData[i].title} className="blog">
+              <ComicBlog content={seriesData[i]}/>
             </li>
           )
-        })
+        }
       } else {
         return <wired-spinner class="custom" spinning duration="1000"></wired-spinner>
       }
@@ -47,9 +52,26 @@ const ComicReader = () => {
     })
   }
 
+  const Nav = () => {
+    return useObserver(() => {
+      if (store.seriesDetail[store.currentPage-1]) {
+        return (
+          <NavReader 
+            page={store.currentPage}
+            title={store.seriesDetail[store.currentPage-1].title}
+            length={store.seriesDetail.length}
+            onClick={navClickHandle}
+          />
+        )
+      } else {
+        return ""
+      }
+    })
+  }
+
   return (
     <div className="reader comic-reader">
-        <NavReader title={store.postTitle}/>
+      <Nav/>
         <ul>
           <ListedBlogs />
         </ul>

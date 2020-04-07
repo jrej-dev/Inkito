@@ -61,6 +61,7 @@ export function StoreProvider({children}) {
         postDetail : "",
         postTitle : "",
         seriesDetail : [],
+        currentPage : 1,
 
         //Data states
         trendyComicState : "",
@@ -94,6 +95,9 @@ export function StoreProvider({children}) {
         },
         updateActiveNovelTrend : trend => {
             store.activeNovelTrend = trend;
+        },
+        updateCurrentPage : page => {
+            store.currentPage = page;
         },
         // Removing duplicates from new content data
         removeDuplicateComics : newContent => {
@@ -223,33 +227,22 @@ export function StoreProvider({children}) {
                 console.log(error)
             }
         },
-        async fetchSeries(author, seriesTitle) {
+        async fetchSeries(seriesTitle) {
             this.seriesDetail = []
+            this.seriesLength = 1
             this.seriesDetailState = "pending"
             try {
                 const content = await  client.database
-                .getDiscussions('blog', {tag: author, limit: 100})
+                .getDiscussions('created', {tag: `${seriesTitle}-series`, limit: 100})
                 .then(result => {
                     return result;
                 })
-                const filteredContent = this.seriesFilter(content, seriesTitle);
-
                 this.seriesDetailState = "done"
-                this.seriesDetail = filteredContent;
+                this.seriesDetail = content.reverse();
             } catch (error) {
                 this.seriesDetailState = "error"
                 console.log(error)
             }
-        },
-        seriesFilter : (content ,seriesTitle) => {
-            var blogs = [];
-            content.forEach(blog => {
-                
-                if (JSON.parse(blog.json_metadata).tags.includes(seriesTitle)) {
-                    blogs.push(blog)
-                }
-                })
-            return blogs;
         }
     }));
     return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>

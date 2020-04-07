@@ -1,6 +1,4 @@
 import React from 'react';
-import StoreContext from '../../stores/AppStore';
-import { useObserver } from 'mobx-react';
 import 'wired-elements';
 import '../../sass/components/NavReader.scss';
 
@@ -12,18 +10,8 @@ import Bell from '../../icons/bell.png';
 
 import { Link } from "react-router-dom";
 
-function NavReader() {
-  const store = React.useContext(StoreContext);
+const NavReader = ({ page, title, length, onClick }) => {
 
-  const PostTitle = () => {
-    return useObserver(() => {
-      if (typeof store.postTitle === "string"){
-        return store.postTitle;
-      } else {
-        return ""
-      }
-    })
-  }
   return (
     <div className="nav-reader">
       <ul className="nav-reader-list">
@@ -33,26 +21,24 @@ function NavReader() {
           </h1>
         </li>
         <li className="flex arrows ">
-          <div className="flex previous">
+          <div className={page === 1 ? "disabled flex previous" : "flex previous"} onClick={onClick}>
             <img className="icon left-arrow" src={LeftArrow} alt="left-arrow"/>
             <p>Previous</p>
           </div>
-          <div className="flex next">
+          <div className={page === length ? "disabled flex next" : "flex next"} onClick={onClick}>
             <p>Next</p>
             <img className="icon right-arrow" src={RightArrow} alt="right-arrow"/>
           </div>
         </li>
         <li className="post-title">
-          <p>
-            <PostTitle />
-          </p>
+          {title}
         </li>
         <li className="flex icons">
-          <img className="icon heart" src={Heart} alt="heart"/>
-          <img className="icon comment" src={Bubble} alt="comment bubble"/>
-          <img className="icon follow" src={Bell} alt="follow bell"/>
+          <img className="icon heart" src={Heart} alt="heart" onClick={onClick}/>
+          <img className="icon comment" src={Bubble} alt="comment bubble" onClick={onClick}/>
+          <img className="icon follow" src={Bell} alt="follow bell" onClick={onClick}/>
         </li>
-        <li className="login">Login/Register</li>
+        <li className="login" onClick={onClick}>Login/Register</li>
       </ul>
     </div>
   );

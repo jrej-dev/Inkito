@@ -27,6 +27,9 @@
 .comic-reader {
     .content-body{ 
         font-size: 0;
+        hr{
+            display: none;
+        }
     }
 }
 
