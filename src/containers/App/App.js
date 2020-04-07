@@ -16,8 +16,8 @@ const App = () => {
   const store = React.useContext(StoreContext);
 
   useEffect (() => {
-      store.fetchComics();
-      store.fetchNovels();
+    store.fetchComics(store.comicsQuery);
+    store.fetchNovels(store.novelsQuery);
   })
 
   return (

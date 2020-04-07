@@ -1,23 +1,23 @@
 import React from 'react';
-import StoreContext from '../../stores/AppStore';
+/*import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
-import ReactMarkdown from 'react-markdown/with-html';
+import ReactMarkdown from 'react-markdown/with-html';*/
 import 'wired-elements';
 import '../../sass/components/InfoTab.scss';
 
-import LeftArrow from '../../icons/left-arrow.png';
-import RightArrow from '../../icons/right-arrow.png';
+/*import LeftArrow from '../../icons/left-arrow.png';
+import RightArrow from '../../icons/right-arrow.png';*/
 import Heart from '../../icons/heart.png';
-import Bubble from '../../icons/bubble.png';
-import Bell from '../../icons/bell.png';
 import DownArrow from '../../icons/down-arrow.png';
 import UpArrow from '../../icons/up-arrow.png';
 import Clock from '../../icons/clock.png';
-import Flag from '../../icons/flag.png';
+/*import Flag from '../../icons/flag.png';
+import Bubble from '../../icons/bubble.png';
+import Bell from '../../icons/bell.png';
+import { Link } from "react-router-dom";*/
 
 import CommentBlock from './CommentBlock';
 import ContentBody from './ContentBody';
-import { Link } from "react-router-dom";
 
 const InfoTab = ({ author }) => {
 

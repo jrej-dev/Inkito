@@ -60,16 +60,7 @@ export function StoreProvider({children}) {
         newNovels : [],
         postDetail : "",
         postTitle : "",
-
-        //Data queries for displayed content
-        comicsQuery : {
-            tag: "comics",
-            limit: 32,
-        },
-        novelsQuery : {
-            tag: "fiction",
-            limit: 32,
-        },
+        seriesDetail : [],
 
         //Data states
         trendyComicState : "",
@@ -77,7 +68,17 @@ export function StoreProvider({children}) {
         trendyNovelState : "",
         newNovelState : "",
         postDetailState : "",
+        seriesDetailState : "",
 
+        //Queries
+        comicsQuery:  {
+            tag: "inkito-comics",
+            limit: 32,
+          },
+        novelsQuery: {
+            tag: "fiction",
+            limit: 32,
+        },
     //Actions 
 
         // categories
@@ -127,12 +128,12 @@ export function StoreProvider({children}) {
             }
         },
         //Fetching Comics
-        async fetchComics() {
+        async fetchComics(query) {
             this.trendingComics = []
             this.trendyComicState = "pending"
             try {
                 const trendyComics = await client.database
-                .getDiscussions("trending", this.comicsQuery)
+                .getDiscussions("trending", query)
                 .then(result => {
                     if (result) {
                         return result; 
@@ -148,7 +149,7 @@ export function StoreProvider({children}) {
                 this.newComicState = "pending"
 
                 const newComics = await client.database
-                .getDiscussions("created", this.comicsQuery)
+                .getDiscussions("created", query)
                 .then(result => {
                     if (result) {
                         return result; 
@@ -165,12 +166,12 @@ export function StoreProvider({children}) {
                 console.log(error);
             }
         },
-        async fetchNovels() {
+        async fetchNovels(query) {
             this.trendingNovels = []
             this.trendyNovelState = "pending"
             try {
                 const trendyNovels = await client.database
-                .getDiscussions("trending", this.novelsQuery)
+                .getDiscussions("trending", query)
                 .then(result => {
                     if (result) {
                         return result; 
@@ -186,7 +187,7 @@ export function StoreProvider({children}) {
                 this.newNovelState = "pending"
 
                 const newNovels = await client.database
-                .getDiscussions("created", this.novelsQuery)
+                .getDiscussions("created", query)
                 .then(result => {
                     if (result) {
                         return result; 
@@ -221,6 +222,34 @@ export function StoreProvider({children}) {
                 this.postDetailState = "error"
                 console.log(error)
             }
+        },
+        async fetchSeries(author, seriesTitle) {
+            this.seriesDetail = []
+            this.seriesDetailState = "pending"
+            try {
+                const content = await  client.database
+                .getDiscussions('blog', {tag: author, limit: 100})
+                .then(result => {
+                    return result;
+                })
+                const filteredContent = this.seriesFilter(content, seriesTitle);
+
+                this.seriesDetailState = "done"
+                this.seriesDetail = filteredContent;
+            } catch (error) {
+                this.seriesDetailState = "error"
+                console.log(error)
+            }
+        },
+        seriesFilter : (content ,seriesTitle) => {
+            var blogs = [];
+            content.forEach(blog => {
+                
+                if (JSON.parse(blog.json_metadata).tags.includes(seriesTitle)) {
+                    blogs.push(blog)
+                }
+                })
+            return blogs;
         }
     }));
     return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>

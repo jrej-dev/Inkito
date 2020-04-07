@@ -1,6 +1,6 @@
 import React from 'react';
-import StoreContext from '../../stores/AppStore';
-import { useObserver } from 'mobx-react';
+//import StoreContext from '../../stores/AppStore';
+//import { useObserver } from 'mobx-react';
 import 'wired-elements';
 
 import Heart from '../../icons/heart.png';
@@ -8,7 +8,7 @@ import DownArrow from '../../icons/down-arrow.png';
 import Flag from '../../icons/flag.png';
 
 const CommentBlock = ({ author }) => {
-    const store = React.useContext(StoreContext);
+    //const store = React.useContext(StoreContext);
 
     return (
         <div className="active comment-banner">

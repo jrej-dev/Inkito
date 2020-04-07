@@ -29,9 +29,9 @@ function ContentDisplay({ content, newData, trendyData, activeCategory, activeTr
   
   const contentClickHandle = (props) => {
     if (content === "Comics") {
-      history.push(`/comicreader/?author=${props.creator}&permlink=${props.permlink}`);
+      history.push(`/comicreader/?author=${props.author}&permlink=${props.permlink}&series=${props.seriesTitle}`);
     } else if ( content === "Novels") {
-      history.push(`/novelreader/?author=${props.creator}&permlink=${props.permlink}`);
+      history.push(`/novelreader/?author=${props.author}&permlink=${props.permlink}&series=${props.seriesTitle}`);
     }
   }
 
@@ -67,32 +67,35 @@ function ContentDisplay({ content, newData, trendyData, activeCategory, activeTr
 
   const PanelBlocks = () => {
     return useObserver(() => {
-      let trendy = toJS(trendyData);
-      let fresh = toJS(newData);
-      
-      if(fresh.length > 0 && trendy.length > 0) {
+      if(toJS(newData) && toJS(trendyData)) {
+        let fresh = [];
+        let trendy = [];
+        let category = "";
+        if (content === "Comics") {
+          category = store.activeComicCategory.replace(" ","-").toLowerCase();
+        } else if (content === "Novels") {
+          category = store.activeNovelCategory.replace(" ","-").toLowerCase();
+        }
+        if (category !== "all-categories") {
+          fresh = toJS(newData).filter(object => JSON.parse(object.json_metadata).tags.includes(category));
+          trendy =  toJS(trendyData).filter(object => JSON.parse(object.json_metadata).tags.includes(category));
+        } else {
+          fresh = toJS(newData);
+          trendy =  toJS(trendyData);
+        }
+
         var blocks = []; 
         for (let j = 0 ; j < panelBlockNumber; j++) {
           if (fresh[j] !== undefined && trendy[j] !== undefined){            
-            let newJson = JSON.parse(fresh[j].json_metadata);
-            let trendyJson = JSON.parse(trendy[j].json_metadata);
               if (j % 2 === 0) {
                 blocks.push(
                   <div key={trendy[j].title} className="panel-block">
                     <TrendyPanel 
-                      title={trendy[j].title} 
-                      creator={trendy[j].author} 
-                      permlink={trendy[j].permlink}
-                      reward={trendy[j].pending_payout_value} 
-                      image={trendyJson.image ? trendyJson.image[0] : "https://i.picsum.photos/id/356/300/300.jpg"}
+                      content={trendy[j]}
                       onClick={contentClickHandle}
                     />
                     <NewPanel 
-                      title={fresh[j].title} 
-                      creator={fresh[j].author}
-                      permlink={fresh[j].permlink} 
-                      reward={fresh[j].pending_payout_value} 
-                      image={newJson.image ? newJson.image[0] : "https://i.picsum.photos/id/356/300/300.jpg"}
+                      content={fresh[j]}
                       onClick={contentClickHandle}
                     />
                   </div>
@@ -101,48 +104,30 @@ function ContentDisplay({ content, newData, trendyData, activeCategory, activeTr
                 blocks.push(
                   <div key={fresh[j].title} className="panel-block">
                     <NewPanel 
-                      title={fresh[j].title} 
-                      creator={fresh[j].author}
-                      permlink={fresh[j].permlink}  
-                      reward={fresh[j].pending_payout_value} 
-                      image={newJson.image ? newJson.image[0] : "https://i.picsum.photos/id/356/300/300.jpg"}
+                      content={fresh[j]}
                       onClick={contentClickHandle}
                     />
                     <TrendyPanel 
-                      title={trendy[j].title} 
-                      creator={trendy[j].author} 
-                      permlink={trendy[j].permlink}
-                      reward={trendy[j].pending_payout_value} 
-                      image={trendyJson.image ? trendyJson.image[0] : "https://i.picsum.photos/id/356/300/300.jpg"}
+                      content={trendy[j]}
                       onClick={contentClickHandle}
                    />
                   </div>
                 )
               }
-          } else if (fresh[j] === undefined) {
-            let trendyJson = JSON.parse(trendy[j].json_metadata);
+          } else if (trendy[j] && fresh[j] === undefined) {
             blocks.push(
               <div key={trendy[j].title} className="panel-block">
                 <TrendyPanel 
-                  title={trendy[j].title} 
-                  creator={trendy[j].author}
-                  permlink={trendy[j].permlink} 
-                  reward={trendy[j].pending_payout_value} 
-                  image={trendyJson.image ? trendyJson.image[0] : "https://i.picsum.photos/id/356/300/300.jpg"}
+                  content={trendy[j]}
                   onClick={contentClickHandle}
                 />
               </div>
             )
-          } else if (trendy[j] === undefined) {
-            let newJson = JSON.parse(fresh[j].json_metadata);
+          } else if (fresh[j] && trendy[j] === undefined) {
             blocks.push(
               <div key={fresh[j].title} className="panel-block">
                 <NewPanel 
-                  title={fresh[j].title} 
-                  creator={fresh[j].author}
-                  permlink={fresh[j].permlink}  
-                  reward={fresh[j].pending_payout_value} 
-                  image={newJson.image ? newJson.image[0] : "https://i.picsum.photos/id/356/300/300.jpg"}
+                  content={fresh[j]}
                   onClick={contentClickHandle}
                 />
               </div>
