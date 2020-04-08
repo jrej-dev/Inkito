@@ -61,6 +61,10 @@ export function StoreProvider({children}) {
         postDetail : "",
         postTitle : "",
         seriesDetail : [],
+        clickedSeriesAuthor : "",
+        clickedSeriesTitle : "",
+        clickedSeriesContent : "",
+        startPage : 1,
         currentPage : 1,
 
         //Data states
@@ -98,6 +102,7 @@ export function StoreProvider({children}) {
         },
         updateCurrentPage : page => {
             store.currentPage = page;
+            store.startPage = page;
         },
         // Removing duplicates from new content data
         removeDuplicateComics : newContent => {
@@ -185,8 +190,7 @@ export function StoreProvider({children}) {
                    
                 })
                 this.trendyNovelState = "done"
-                this.trendingNovels = trendyNovels
-                
+                this.trendingNovels = trendyNovels                
                 this.newNovels = []
                 this.newNovelState = "pending"
 
@@ -227,13 +231,14 @@ export function StoreProvider({children}) {
                 console.log(error)
             }
         },
-        async fetchSeries(seriesTitle) {
+        async fetchSeries(author, seriesTitle) {
+            let seriesId = `${author}-${seriesTitle}`
             this.seriesDetail = []
             this.seriesLength = 1
             this.seriesDetailState = "pending"
             try {
                 const content = await  client.database
-                .getDiscussions('created', {tag: `${seriesTitle}-series`, limit: 100})
+                .getDiscussions('created', {tag: seriesId, limit: 100})
                 .then(result => {
                     return result;
                 })

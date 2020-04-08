@@ -5,12 +5,12 @@ import { toJS } from 'mobx';
 import '../../sass/components/Reader.scss';
 import 'wired-elements';
 
-import ComicBlog from './ComicBlog';
+import Blog from './Blog';
 import NavReader from './NavReader';
 //import DownArrow from '../../icons/down-arrow.png';
 
 
-const ComicReader = () => {
+const Reader = ({ type }) => {
   const store = React.useContext(StoreContext);
 
   var props = {};
@@ -18,19 +18,32 @@ const ComicReader = () => {
   useEffect (() => {
     getUrlVars();
     //store.fetchPostDetail(props.author, props.permlink);
-    store.fetchSeries(props.series)
+    store.fetchSeries(props.author, props.seriesTitle);
     store.updateCurrentPage(1);
   })
 
   const getUrlVars = () => {
-    window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-        props[key] = value;
-    });
+    var address = window.location.href; 
+    props.seriesTitle = address.substr(address.lastIndexOf('/') + 1);
+    address = address.replace("/"+props.seriesTitle,"");
+    props.author = address.substr(address.lastIndexOf('/') + 1);
     return props;
   }
 
   const navClickHandle = (e) => {
-    console.log(e);
+    if (e.target.className.includes("right-arrow")) {
+      store.updateCurrentPage(store.currentPage + 1);
+    } else if (e.target.className.includes("left-arrow")) {
+      store.updateCurrentPage(store.currentPage - 1);
+      
+      //Left to do below
+    } else if (e.target.className.includes("heart")) {
+      console.log("like")
+    } else if (e.target.className.includes("comment")) {
+      console.log("comment")
+    } else if (e.target.className.includes("follow")) {
+      console.log("follow")
+    }
   }
 
   const ListedBlogs = () => {
@@ -38,12 +51,12 @@ const ComicReader = () => {
       var seriesData = toJS(store.seriesDetail);
       var blogs = [];
       if (store.currentPage <= seriesData.length) {
-        for (let i = 0; i < store.currentPage; i++) {
-          blogs.push(
-            <li key={seriesData[i].title} className="blog">
-              <ComicBlog content={seriesData[i]}/>
-            </li>
-          )
+        for (let i = store.startPage-1; i < store.currentPage; i++) {
+            blogs.push(
+              <li key={seriesData[i].title} className="blog">
+                <Blog type={type} content={seriesData[i]}/>
+              </li>
+            )
         }
       } else {
         return <wired-spinner class="custom" spinning duration="1000"></wired-spinner>
@@ -80,4 +93,4 @@ const ComicReader = () => {
   
 }
 
-export default ComicReader;
+export default Reader;

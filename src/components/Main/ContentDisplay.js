@@ -13,30 +13,30 @@ import TrendyIcon from '../../icons/trendyicon.png';
 import NewIcon from '../../icons/newicon.png';
 import { Link, useHistory } from "react-router-dom";
 
-function ContentDisplay({ content, newData, trendyData, activeCategory, activeTrend, panelBlockNumber }) {
+function ContentDisplay({ type, newData, trendyData, activeCategory, activeTrend, panelBlockNumber }) {
   const store = React.useContext(StoreContext);
   const history = useHistory();
 
   const categoryClickHandle = (e) => {
     if (!e.target.className.includes("isActive")) {
-      if (content === "Comics") {
+      if (type === "Comics") {
         store.updateActiveComicCategory(e.target.className);
-      } else if (content === "Novels") {
+      } else if (type === "Novels") {
         store.updateActiveNovelCategory(e.target.className);
       }
     }
   }
   
   const contentClickHandle = (props) => {
-    if (content === "Comics") {
-      history.push(`/comicreader/?author=${props.author}&permlink=${props.permlink}&series=${props.seriesTitle}`);
-    } else if ( content === "Novels") {
-      history.push(`/novelreader/?author=${props.author}&permlink=${props.permlink}&series=${props.seriesTitle}`);
+    if (type === "Comics") {
+      history.push(`/comicReader/${props.author}/${props.seriesTitle}`);
+    } else if (type === "Novels") {
+      history.push(`/novelReader/${props.author}/${props.seriesTitle}`);
     }
   }
 
   const trendClickHandle = (e) => {
-    if (content === "Comics") {
+    if (type === "Comics") {
       if (e.target.className.includes("trendy")) {
         store.updateActiveComicTrend("trendy");
       } else if (e.target.className.includes("new")) {
@@ -44,7 +44,7 @@ function ContentDisplay({ content, newData, trendyData, activeCategory, activeTr
       } else if (e.target.className.includes("all")) {
         store.updateActiveComicTrend("all");
       }
-    } else if (content === "Novels") {
+    } else if (type === "Novels") {
       if (e.target.className.includes("trendy")) {
         store.updateActiveNovelTrend("trendy");
       } else if (e.target.className.includes("new")) {
@@ -67,13 +67,13 @@ function ContentDisplay({ content, newData, trendyData, activeCategory, activeTr
 
   const PanelBlocks = () => {
     return useObserver(() => {
-      if(toJS(newData) && toJS(trendyData)) {
+      if(toJS(newData).length > 0 || toJS(trendyData).length > 0) {
         let fresh = [];
         let trendy = [];
         let category = "";
-        if (content === "Comics") {
+        if (type === "Comics") {
           category = store.activeComicCategory.replace(" ","-").toLowerCase();
-        } else if (content === "Novels") {
+        } else if (type === "Novels") {
           category = store.activeNovelCategory.replace(" ","-").toLowerCase();
         }
         if (category !== "all-categories") {
@@ -147,8 +147,8 @@ function ContentDisplay({ content, newData, trendyData, activeCategory, activeTr
     <div className={activeTrend === "all" ? "content-display" : activeTrend === "trendy" ? "content-display only-trendy" : "content-display only-new"}>
       <div className="title-line">
         <h2>
-          <Link to={`/${content}`}>
-            {content}
+          <Link to={`/${type}`}>
+            {type}
           </Link>
         </h2>
         <div className={activeTrend === "all" ? "trend isActiveUnderlined" : "trend"} onClick={trendClickHandle}>

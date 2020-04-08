@@ -6,15 +6,16 @@ import 'wired-elements';
 function NewPanel({ content, onClick }) {
   //for tags and images
   let newJson = JSON.parse(content.json_metadata);
+  
+  let author = content.author;
+  let permlink = content.permlink;
 
   const reward = content.pending_payout_value !== "0.000 SBD" ? content.pending_payout_value : content.total_payout_value;
   const rewardNumber = reward.replace("SBD"," ")
   
-  let filter = newJson.tags.filter(tag => tag.includes("-series"));
-  let seriesTitle = filter[0] ? filter[0].replace("-series","") : "noseries";
+  let filter = newJson.tags.filter(tag => tag.includes(`${author}-`));
+  let seriesTitle = filter[0] ? filter[0].replace(`${author}-`,"") : "noseries";
 
-  let author = content.author;
-  let permlink = content.permlink;
 
   return (
     <div className="new-card">

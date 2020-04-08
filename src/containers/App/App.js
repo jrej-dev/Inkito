@@ -9,8 +9,7 @@ import '../../sass/App.scss';
 import Home from '../../components/Main/Home';
 import Footer from '../../components/Main/Footer';
 import FullDisplay from '../../components/FullDisplay/FullDisplay';
-import ComicReader from '../../components/Reader/ComicReader';
-import NovelReader from '../../components/Reader/NovelReader';
+import Reader from '../../components/Reader/Reader';
 
 const App = () => {
   const store = React.useContext(StoreContext);
@@ -33,11 +32,11 @@ const App = () => {
           <Route exact path="/novels">
             <FullDisplay display={"novels"} />
           </Route>
-          <Route path="/comicreader">
-            <ComicReader />
+          <Route path="/comicReader">
+            <Reader type={"Comics"}/>
           </Route>
-          <Route path="/novelreader">
-            <NovelReader />
+          <Route path="/novelReader">
+            <Reader type={"Novels"}/>
           </Route>
         </Switch>
         <Footer />

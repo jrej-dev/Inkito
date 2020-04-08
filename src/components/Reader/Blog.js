@@ -3,7 +3,7 @@ import '../../sass/components/Reader.scss';
 import ContentBody from './ContentBody';
 import InfoTab from './InfoTab';
 
-const ComicBlog = ({ content }) => {
+const Blog = ({ type, content }) => {
 
   return (
     <div>
@@ -17,4 +17,4 @@ const ComicBlog = ({ content }) => {
   );
 }
 
-export default ComicBlog;
+export default Blog;
