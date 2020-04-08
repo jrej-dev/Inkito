@@ -1,21 +1,17 @@
 import React from 'react';
 import StoreContext from '../../stores/AppStore';
-import { useObserver } from 'mobx-react';
-import { toJS } from 'mobx';
 import 'wired-elements';
+
 import '../../sass/components/Body.scss';
 import '../../sass/components/Panels.scss';
 
-import TrendyPanel from '../Panels/TrendyPanel';
-import NewPanel from '../Panels/NewPanel';
-
+import PanelBlocks from './PanelBlock';
 import TrendyIcon from '../../icons/trendyicon.png';
 import NewIcon from '../../icons/newicon.png';
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function ContentDisplay({ type, newData, trendyData, activeCategory, activeTrend, panelBlockNumber }) {
   const store = React.useContext(StoreContext);
-  const history = useHistory();
 
   const categoryClickHandle = (e) => {
     if (!e.target.className.includes("isActive")) {
@@ -24,14 +20,6 @@ function ContentDisplay({ type, newData, trendyData, activeCategory, activeTrend
       } else if (type === "Novels") {
         store.updateActiveNovelCategory(e.target.className);
       }
-    }
-  }
-  
-  const contentClickHandle = (props) => {
-    if (type === "Comics") {
-      history.push(`/comicReader/${props.author}/${props.seriesTitle}`);
-    } else if (type === "Novels") {
-      history.push(`/novelReader/${props.author}/${props.seriesTitle}`);
     }
   }
 
@@ -65,84 +53,6 @@ function ContentDisplay({ type, newData, trendyData, activeCategory, activeTrend
     )
   })
 
-  const PanelBlocks = () => {
-    return useObserver(() => {
-      if(toJS(newData).length > 0 || toJS(trendyData).length > 0) {
-        let fresh = [];
-        let trendy = [];
-        let category = "";
-        if (type === "Comics") {
-          category = store.activeComicCategory.replace(" ","-").toLowerCase();
-        } else if (type === "Novels") {
-          category = store.activeNovelCategory.replace(" ","-").toLowerCase();
-        }
-        if (category !== "all-categories") {
-          fresh = toJS(newData).filter(object => JSON.parse(object.json_metadata).tags.includes(category));
-          trendy =  toJS(trendyData).filter(object => JSON.parse(object.json_metadata).tags.includes(category));
-        } else {
-          fresh = toJS(newData);
-          trendy =  toJS(trendyData);
-        }
-
-        var blocks = []; 
-        for (let j = 0 ; j < panelBlockNumber; j++) {
-          if (fresh[j] !== undefined && trendy[j] !== undefined){            
-              if (j % 2 === 0) {
-                blocks.push(
-                  <div key={trendy[j].title} className="panel-block">
-                    <TrendyPanel 
-                      content={trendy[j]}
-                      onClick={contentClickHandle}
-                    />
-                    <NewPanel 
-                      content={fresh[j]}
-                      onClick={contentClickHandle}
-                    />
-                  </div>
-                )
-              } else {
-                blocks.push(
-                  <div key={fresh[j].title} className="panel-block">
-                    <NewPanel 
-                      content={fresh[j]}
-                      onClick={contentClickHandle}
-                    />
-                    <TrendyPanel 
-                      content={trendy[j]}
-                      onClick={contentClickHandle}
-                   />
-                  </div>
-                )
-              }
-          } else if (trendy[j] && fresh[j] === undefined) {
-            blocks.push(
-              <div key={trendy[j].title} className="panel-block">
-                <TrendyPanel 
-                  content={trendy[j]}
-                  onClick={contentClickHandle}
-                />
-              </div>
-            )
-          } else if (fresh[j] && trendy[j] === undefined) {
-            blocks.push(
-              <div key={fresh[j].title} className="panel-block">
-                <NewPanel 
-                  content={fresh[j]}
-                  onClick={contentClickHandle}
-                />
-              </div>
-            )
-          } else {
-            return blocks;
-          }
-        }
-        return blocks;
-      } else {
-        return <wired-spinner class="custom" spinning duration="1000"></wired-spinner>
-      }
-    })
-  }
-
   return (
     <div className={activeTrend === "all" ? "content-display" : activeTrend === "trendy" ? "content-display only-trendy" : "content-display only-new"}>
       <div className="title-line">
@@ -167,7 +77,7 @@ function ContentDisplay({ type, newData, trendyData, activeCategory, activeTrend
         {listedCategories}
       </ul>
       <div className="panels">
-        <PanelBlocks />
+        <PanelBlocks type={type} newData={newData} trendyData={trendyData} panelBlockNumber={panelBlockNumber}/>
       </div>
     </div>
   );

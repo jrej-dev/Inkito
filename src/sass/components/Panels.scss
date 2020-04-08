@@ -71,8 +71,14 @@
         width: 20%;
         border-radius: 50%;
     }
-    .reward {
-        white-space: nowrap;
+    .reward-block {
+        @include flex(center);
+        flex-wrap: wrap;
+        > * {
+            margin: 0;
+            padding: 0;
+            white-space: nowrap;
+        }
     }
 }
 

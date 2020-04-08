@@ -19,17 +19,22 @@ const Reader = ({ type }) => {
     getUrlVars();
     //store.fetchPostDetail(props.author, props.permlink);
     store.fetchSeries(props.author, props.seriesTitle);
-    store.updateCurrentPage(1);
+    props.currentPage ? store.updateCurrentPage(props.currentPage) : store.updateCurrentPage(1);
   })
 
   const getUrlVars = () => {
     var address = window.location.href; 
-    if (address.slice(-1) === "/"){
-      address = address.slice(0,-1);
+
+    var indexOfReader = address.indexOf("Reader");
+    address = address.slice(indexOfReader+7,address.length);
+  
+    var params = address.split("/");
+    props.author = params[0];
+    props.seriesTitle = params[1]
+
+    if (params[2]) {
+      props.currentPage = params[2];
     }
-    props.seriesTitle = address.substr(address.lastIndexOf('/') + 1);
-    address = address.replace("/"+props.seriesTitle,"");
-    props.author = address.substr(address.lastIndexOf('/') + 1);
     return props;
   }
 
@@ -56,8 +61,8 @@ const Reader = ({ type }) => {
       if (store.currentPage <= seriesData.length) {
         for (let i = store.startPage-1; i < store.currentPage; i++) {
             blogs.push(
-              <li key={seriesData[i].title} className="blog">
-                <Blog type={type} content={seriesData[i]}/>
+              <li key={seriesData[i]} className="blog">
+                <Blog type={type} page={store.currentPage} author={props.author} currentPage={seriesData[i]} nextPage={seriesData[i+1]}/>
               </li>
             )
         }
