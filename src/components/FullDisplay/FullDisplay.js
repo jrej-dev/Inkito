@@ -13,7 +13,7 @@ const FullDisplay = ({ display }) => {
   const ComicContent = () => {
     return useObserver(() => (
       <ContentDisplay 
-        content={"Comics"} 
+        type={"Comics"} 
         newData={store.newComics}
         trendyData={store.trendingComics}
         activeTrend={store.activeComicTrend}
@@ -27,7 +27,7 @@ const FullDisplay = ({ display }) => {
   const NovelContent = () => {
     return useObserver(() => (
       <ContentDisplay 
-        content={"Novels"}
+        type={"Novels"}
         newData={store.newNovels}
         trendyData={store.trendingNovels}
         activeTrend={store.activeNovelTrend}

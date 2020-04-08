@@ -24,6 +24,9 @@ const Reader = ({ type }) => {
 
   const getUrlVars = () => {
     var address = window.location.href; 
+    if (address.slice(-1) === "/"){
+      address = address.slice(0,-1);
+    }
     props.seriesTitle = address.substr(address.lastIndexOf('/') + 1);
     address = address.replace("/"+props.seriesTitle,"");
     props.author = address.substr(address.lastIndexOf('/') + 1);
