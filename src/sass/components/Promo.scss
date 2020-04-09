@@ -42,7 +42,8 @@
       -webkit-filter: brightness(80%);
     }
     img {
-      object-fit: cover;
+      width: 100%;
+      height: auto;
     }
     h2 {
       font-family: $primary-font;

@@ -12,14 +12,32 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
     store.fetchSeriesDetail(author, nextPermlink, page+1);
   })
 
-  return (
-    <div>
-        <div className="content-body">
-        <ContentBody page={page}/>
+  const Content = () => {
+    if ( type === "Comics"){
+      return ( 
+        <div className="comic-body content-body">
+            <ContentBody page={page} />
         </div>
-        {/*if more content exists show down arrow
-        <img src={DownArrow} alt="down-arrow"/>*/}
-        <InfoTab />
+      )
+    } else if ( type === "Novels" ) {
+      return (
+        <div className="novel-body">
+          <wired-card elevation="2">
+          <div className="content-body">
+              <ContentBody page={page}/>
+          </div>
+        </wired-card>
+        </div>
+      )
+    }
+  }
+
+  return (
+    <div className="blog">
+      <Content />
+          {/*if more content exists show down arrow
+          <img src={DownArrow} alt="down-arrow"/>*/}
+      <InfoTab author={author} type={type}/>        
     </div>     
   );
 }

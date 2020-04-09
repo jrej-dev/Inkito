@@ -65,13 +65,13 @@ const Reader = ({ type }) => {
       if (store.currentPage <= seriesData.length) {
         for (let i = store.startPage; i <= store.currentPage; i++) {
           blogs.push(
-            <li key={seriesData[i]} className="blog">
+            <li key={seriesData[i]+store.currentPage} className="blog">
               <Blog type={type} page={store.currentPage} author={props.author} permlink={seriesData[i]} nextPermlink={seriesData[i + 1]} />
             </li>
           )
         }
       } else {
-        return <wired-spinner class="custom" spinning duration="1000"></wired-spinner>
+        return <wired-spinner class="custom" spinning duration="1000"/>
       }
       return blogs;
     })
@@ -95,7 +95,7 @@ const Reader = ({ type }) => {
   }
 
   return (
-    <div className="reader comic-reader">
+    <div className="reader">
       <Nav />
       <ul>
         <ListedBlogs />

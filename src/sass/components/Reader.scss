@@ -1,5 +1,5 @@
-@import '../abstracts/variables';
-@import '../abstracts/mixins';
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
 
 .reader {
     width: 100vw;
@@ -24,14 +24,13 @@
     }
 }
 
-.comic-reader {
-    .content-body{ 
-        font-size: 0;
-        hr{
-            display: none;
-        }
+.comic-body {
+    font-size: 0;
+    hr {
+        display: none;
     }
 }
+
 
 @media screen and (max-width: 850px) {
     .reader {

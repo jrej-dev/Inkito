@@ -39,6 +39,7 @@
         }
         .author-name {
             > * {
+                text-transform: capitalize;
                 margin: 0;
                 padding: 0;
             }

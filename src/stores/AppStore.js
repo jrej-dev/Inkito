@@ -43,13 +43,13 @@ export function StoreProvider({ children }) {
                 title: "Shades Of Men",
                 author: "Jrej",
                 thumbnail: "https://picsum.photos/500/300",
-                link: "http://localhost:3000/jrej/shadesofmen"
+                link: "http://localhost:3000/comicReader/jrej/ghoulredone"
             },
             {
                 title: "IN/SYS",
                 author: "Jrej",
                 thumbnail: "https://picsum.photos/400/300",
-                link: "http://localhost:3000/jrej/shadesofmen"
+                link: "http://localhost:3000/comicReader/jrej/shadesofmen"
             }
         ],
 

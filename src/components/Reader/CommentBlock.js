@@ -12,7 +12,7 @@ const CommentBlock = ({ author }) => {
 
     return (
         <div className="active comment-banner">
-            <img className="panel-profile-pic"src={`https://steemitimages.com/u/${author}/avatar`} alt=" "/>
+            {/*<img className="panel-profile-pic"src={`https://steemitimages.com/u/${author}/avatar`} alt=" "/>*/}
             <div className="comment-block">
                 <div className="comment-upper-banner">
                     <p className="name">Name</p>

@@ -5,15 +5,15 @@ import { toJS } from 'mobx';
 import ReactMarkdown from 'react-markdown/with-html';
 import 'wired-elements';
 
-const ContentBody = ({ page }) => {
+const ContentBody = () => {
   const store = React.useContext(StoreContext);
 
   
   return useObserver(() => {
-    if(toJS(store.seriesDetail)[page] !== undefined) {  
+    if(toJS(store.seriesDetail)[store.currentPage] !== undefined) {  
       return (
         <ReactMarkdown
-        source={toJS(store.seriesDetail[page].body)}
+        source={toJS(store.seriesDetail[store.currentPage].body)}
         escapeHtml={false}
         /> 
       )
