@@ -16,7 +16,7 @@ const App = () => {
 
   useEffect (() => {
     store.fetchComics(store.comicsQuery);
-    //store.fetchNovels(store.novelsQuery);
+    store.fetchNovels(store.novelsQuery);
   })
 
   return (

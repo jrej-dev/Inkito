@@ -1,21 +1,24 @@
 import React from 'react';
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
+import { toJS } from 'mobx';
 import ReactMarkdown from 'react-markdown/with-html';
 import 'wired-elements';
 
-const ContentBody = () => {
+const ContentBody = ({ page }) => {
   const store = React.useContext(StoreContext);
+
+  
   return useObserver(() => {
-    if (store.postDetail.length > 0){
+    if(toJS(store.seriesDetail)[page] !== undefined) {  
       return (
         <ReactMarkdown
-        source={store.postDetail[store.currentPage-1]}
+        source={toJS(store.seriesDetail[page].body)}
         escapeHtml={false}
         /> 
       )
     } else {
-      return <wired-spinner class="custom" spinning duration="1000"></wired-spinner>
+      return <wired-spinner class="custom" spinning duration="1000"/>
     }
   })
 }

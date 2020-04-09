@@ -4,18 +4,18 @@ import '../../sass/components/Reader.scss';
 import ContentBody from './ContentBody';
 import InfoTab from './InfoTab';
 
-const Blog = ({ type, page, currentPage, nextPage, author }) => {
+const Blog = ({ type, page, permlink, nextPermlink, author }) => {
   const store = React.useContext(StoreContext);
 
   useEffect (() => {
-    store.fetchPostDetail(author, currentPage, page);
-    store.fetchPostDetail(author, nextPage, page+1);
+    store.fetchSeriesDetail(author, permlink, page);
+    store.fetchSeriesDetail(author, nextPermlink, page+1);
   })
 
   return (
     <div>
         <div className="content-body">
-        <ContentBody />
+        <ContentBody page={page}/>
         </div>
         {/*if more content exists show down arrow
         <img src={DownArrow} alt="down-arrow"/>*/}

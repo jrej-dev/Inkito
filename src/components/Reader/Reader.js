@@ -15,25 +15,29 @@ const Reader = ({ type }) => {
 
   var props = {};
 
-  useEffect (() => {
+  useEffect(() => {
     getUrlVars();
-    //store.fetchPostDetail(props.author, props.permlink);
-    store.fetchSeries(props.author, props.seriesTitle);
-    props.currentPage ? store.updateCurrentPage(props.currentPage) : store.updateCurrentPage(1);
+    store.resetSeriesDetail();
+    store.fetchPermlinks(props.author, props.seriesTitle);
+    
+    if (store.seriesDetail[0] === undefined){
+      store.fetchSeriesDetail(props.author, store.seriesLinks[0], 0);
+    } 
+    props.currentPage ? store.updateCurrentPage(props.currentPage) : store.updateCurrentPage(0);
   })
 
   const getUrlVars = () => {
-    var address = window.location.href; 
+    var address = window.location.href;
 
     var indexOfReader = address.indexOf("Reader");
-    address = address.slice(indexOfReader+7,address.length);
-  
+    address = address.slice(indexOfReader + 7, address.length);
+
     var params = address.split("/");
     props.author = params[0];
     props.seriesTitle = params[1]
 
     if (params[2]) {
-      props.currentPage = params[2];
+      props.currentPage = parseInt(params[2]);
     }
     return props;
   }
@@ -43,7 +47,7 @@ const Reader = ({ type }) => {
       store.updateCurrentPage(store.currentPage + 1);
     } else if (e.target.className.includes("left-arrow")) {
       store.updateCurrentPage(store.currentPage - 1);
-      
+
       //Left to do below
     } else if (e.target.className.includes("heart")) {
       console.log("like")
@@ -56,15 +60,15 @@ const Reader = ({ type }) => {
 
   const ListedBlogs = () => {
     return useObserver(() => {
-      var seriesData = toJS(store.seriesDetail);
+      var seriesData = toJS(store.seriesLinks);
       var blogs = [];
       if (store.currentPage <= seriesData.length) {
-        for (let i = store.startPage-1; i < store.currentPage; i++) {
-            blogs.push(
-              <li key={seriesData[i]} className="blog">
-                <Blog type={type} page={store.currentPage} author={props.author} currentPage={seriesData[i]} nextPage={seriesData[i+1]}/>
-              </li>
-            )
+        for (let i = store.startPage; i <= store.currentPage; i++) {
+          blogs.push(
+            <li key={seriesData[i]} className="blog">
+              <Blog type={type} page={store.currentPage} author={props.author} permlink={seriesData[i]} nextPermlink={seriesData[i + 1]} />
+            </li>
+          )
         }
       } else {
         return <wired-spinner class="custom" spinning duration="1000"></wired-spinner>
@@ -75,13 +79,13 @@ const Reader = ({ type }) => {
 
   const Nav = () => {
     return useObserver(() => {
-      if (store.seriesDetail[store.currentPage-1]) {
+      if (store.seriesLinks) {
         return (
-          <NavReader 
+          <NavReader
             page={store.currentPage}
-            title={store.seriesDetail[store.currentPage-1].title}
-            length={store.seriesDetail.length}
+            length={store.seriesLinks.length}
             onClick={navClickHandle}
+            content={toJS(store.seriesDetail)}
           />
         )
       } else {
@@ -92,13 +96,13 @@ const Reader = ({ type }) => {
 
   return (
     <div className="reader comic-reader">
-      <Nav/>
-        <ul>
-          <ListedBlogs />
-        </ul>
-    </div>     
+      <Nav />
+      <ul>
+        <ListedBlogs />
+      </ul>
+    </div>
   );
-  
+
 }
 
 export default Reader;

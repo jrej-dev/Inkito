@@ -58,14 +58,13 @@ export function StoreProvider({ children }) {
         newComics: [],
         trendingNovels: [],
         newNovels: [],
-        postDetail: [],
-        postTitle: [],
+        seriesLinks: [],
         seriesDetail: [],
         clickedSeriesAuthor: "",
         clickedSeriesTitle: "",
         clickedSeriesContent: "",
-        startPage: 1,
-        currentPage: 1,
+        startPage: 0,
+        currentPage: 0,
 
         //Data states
         trendyComicState: "",
@@ -78,11 +77,11 @@ export function StoreProvider({ children }) {
         //Queries
         comicsQuery: {
             tag: "inkito-comics",
-            limit: 32,
+            limit: 100,
         },
         novelsQuery: {
             tag: "inkito-novels",
-            limit: 32,
+            limit: 100,
         },
         //Actions 
 
@@ -109,6 +108,10 @@ export function StoreProvider({ children }) {
             return newIds.filter(id =>
                 !trendyIds.includes(id)
             )
+        },
+        resetSeriesDetail: () => {
+            store.seriesTitle = [];
+            store.seriesDetail = [];
         },
         async fetchSeriesInfo(seriesId, type) {
             try {
@@ -203,37 +206,40 @@ export function StoreProvider({ children }) {
                 console.log(error);
             }
         },
-        async fetchSeries(author, seriesTitle) {
+        async fetchPermlinks(author, seriesTitle) {
             let seriesId = `${author}-${seriesTitle}`
-            this.seriesDetail = []
+            this.seriesLinks = []
             this.seriesLength = 1
-            this.seriesDetailState = "pending"
+            this.seriesLinkState = "pending"
             try {
                 const content = await client.database
                 .getDiscussions('created', { tag: seriesId, limit: 100 })
                 .then(result => {
-                        return result.map(object => object.permlink );
+                        return result.map(object => object.permlink).reverse();
                     })
-                    this.seriesDetailState = "done"
-                this.seriesDetail = content.reverse();
+                    this.seriesLinkState = "done"
+                this.seriesLinks = content;
+
+                this.seriesDetail.length = content.length;
+
             } catch (error) {
-                this.seriesDetailState = "error"
+                this.seriesLinkState = "error"
                 console.log(error)
             }
         },
-        async fetchPostDetail(author, permlink, page) {
-            this.postDetailState = "pending"
+        async fetchSeriesDetail(author, permlink, page) {
+            this.seriesDetailState = "pending"
             try {
                 const content = await client.database
                     .call('get_content', [author, permlink])
                     .then(result => {
                         return result;
                     })
-                this.postDetailState = "done"
-                this.postDetail[page-1] = content.body;
-                this.postTitle[page-1] = content.title;
+                this.seriesDetailState = "done"
+                this.seriesDetail[page] = content;
+
             } catch (error) {
-                this.postDetailState = "error"
+                store.seriesDetailState = "error"
                 console.log(error)
             }
         }
