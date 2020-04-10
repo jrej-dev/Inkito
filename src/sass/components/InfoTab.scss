@@ -1,6 +1,13 @@
 @import '../abstracts/variables';
 @import '../abstracts/mixins';
 
+.reset {
+    > * {
+        margin: 0;
+        padding: 0;
+    }
+}
+
 .flex {
     @include flex(space-evenly);
 }
@@ -12,28 +19,43 @@
         margin: 1em 0;
     }
     .icon {
-        height: 1.5em;
+        height: 1.5em;       
     }
-    .info-card {
-        .heart {
-            margin-left: auto;
-        }
+    .sm-icon {
+        padding: 0 0.2em;
+        height: 0.5em; 
     }
+    .md-icon {
+        padding: 0 0.2em;
+        height: 1em; 
+    }
+
+    .heart {
+        margin-left: auto;
+    }
+    
     .default-banner  {
-        width: 95%;
+        white-space: nowrap;
+        width: 90%;
         margin: 0 1em;
     }   
 }
+
 .info-banner {
     display: flex;
     justify-content: space-evenly;
     align-items: flex-start;
-    width: 100%;
-    margin: 0 1em;
+    width: 95%;
+    margin: 0 2.5%;
     > * {
-        padding: 0.5em 1em;
+        padding: 1em 1em;
     }
     .author-info {
+        flex-direction: column;
+        width: 10%;
+        .panel-profile-pic {
+            height: 5em;
+        }
         .author-name {
             > * {
                 margin: 0;
@@ -43,7 +65,7 @@
     }
     .content-info {
         wired-card {
-            width: 100%;
+            width: auto;
             > * {
                 width: 80%;
                 padding: 0 10%;
@@ -56,14 +78,60 @@
     }
 }
 
-.panel-profile-pic {
-    height: 5em;
-}
-
 .none {
     display: none;
 }
 
 .active{
     display: flex;
+}
+
+.comment-banner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: flex-start;
+    margin-right: 2.5%;
+    margin-left: auto;
+    .panel-profile-pic {
+        height: 5em;
+        margin-top: 3em;
+    }
+    .comment-block {
+        width: 80%;
+        margin: 1em 0;
+    }
+    .comment-body {
+        text-align: left;
+        padding: 0 2em;
+        margin: 0.5em;
+    }
+    .comment-upper-banner {
+        @include flex(space-between);
+        width: 90%;
+        margin: 0 5%;
+        > * {
+            margin: 0;
+            padding: 0;
+        }
+    }
+    .comment-bottom-banner {
+        @include flex(space-between);
+        width: 90%;
+        margin: 0.5em 5%;
+    }
+}
+
+
+@media screen and (max-width: 400px) {
+    
+    .default-banner  {
+        .time-block {
+            display: none;
+        }
+    }
+
+    .info-banner {
+        flex-wrap: wrap;
+    }
 }

@@ -11,7 +11,6 @@ import Bell from '../../icons/bell.png';
 import { Link } from "react-router-dom";
 
 const NavReader = ({ page, content, length, onClick }) => {
-
   return (
     <div className="nav-reader">
       <ul className="nav-reader-list">

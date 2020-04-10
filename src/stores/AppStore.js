@@ -241,6 +241,7 @@ export function StoreProvider({ children }) {
                     })
                 this.seriesDetailState = "done"
                 this.seriesDetail[page] = content;
+                
                 store.fetchComments(author, permlink, page);
 
             } catch (error) {
@@ -253,13 +254,14 @@ export function StoreProvider({ children }) {
             try {
                 const comments = await client.database
                     .call('get_content_replies', [author, permlink]).then(result => {
-                        if (result) {
-                            return result
+                        if (result.length === 0 || result[0].permlink.includes(author)) {
+                            return result;
                         }
                     })
 
                     this.commentState = "done"
                     this.seriesComments[page] = comments;
+
             } catch (error) {
                 store.seriesDetailState = "error"
                 console.log(error)

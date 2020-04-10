@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown/with-html';
 import 'wired-elements';
+
+import Clock from '../../icons/clock.png';
 import Heart from '../../icons/heart.png';
 import DownArrow from '../../icons/down-arrow.png';
 import Flag from '../../icons/flag.png';
@@ -9,29 +11,59 @@ const CommentBlock = ({ content }) => {
     let payout = content.pending_payout_value === "0.000 HBD" ? content.total_payout_value : content.pending_payout_value;
     let reward = payout.replace("HBD", "");
     
+    const compareDate = (contentDate) => {
+    var g1 = new Date().toISOString().substring(0, 10);
+    var g2 = contentDate;
+    if (g1 >= g2) {
+        g1 = g1.split("-");
+        g2 = g2.split("-");
+        var g3 = [g1[0] - g2[0], g1[1] - g2[1], g1[2] - g2[2]]
+        if (g3[0] > 0) {
+        return g3[0] === 1 ? `${g3[0]} year ago` : `${g3[0]} years ago`;
+        } else if (g3[1] > 0) {
+        return g3[1] === 1 ? `${g3[1]} month ago` : `${g3[1]} months ago`;
+        } else if (g3[2] > 0) {
+        return g3[2] === 1 ? `${g3[2]} day ago` : `${g3[2]} days ago`;
+        }
+    }
+    }
+
     return (
         <div className="active comment-banner">
             <img className="panel-profile-pic" src={`https://steemitimages.com/u/${content.author}/avatar`} alt=" " />
             <div className="comment-block">
-                <div className="comment-upper-banner">
+                <div className="comment-upper-banner flex">       
                     <p className="name">{content.author}</p>
-                    <img className="icon flag" src={Flag} alt="flag" />
+                    <img className="md-icon flag" src={Flag} alt="flag" />
                 </div>
 
-                <ReactMarkdown
-                    source={content.body}
-                    escapeHtml={false}
-                    transformImageUri={uri =>
-                        uri.startsWith("http") ? uri : `${process.env.IMAGE_BASE_URL}${uri}`
-                    }
-                />
+                <wired-card>
+                    <div className="comment-body">
+                        <ReactMarkdown
+                            source={content.body}
+                            escapeHtml={false}
+                        />
+                    </div>
+                </wired-card>
 
-                <div className="comment-bottom-banner">
+                <div className="comment-bottom-banner reset">
                     <img className="icon heart" src={Heart} alt="heart" />
-                    <p>{reward}</p>
-                    <img className="icon down-arrow" src={DownArrow} alt="down-arrow" />
-                    <p>vote number</p>
-                    <img className="icon down-arrow" src={DownArrow} alt="down-arrow" />
+                    
+                    <div className="time-block flex reset">
+                        <img className="md-icon clock" src={Clock} alt="clock" />
+                        <p>{compareDate(content.created.slice(0, 10))}</p>
+                     </div>
+
+                    <div className="reward-block flex reset">
+                        <p>$ {reward}</p>
+                        <img className="sm-icon down-arrow" src={DownArrow} alt="down-arrow" />
+                    </div>
+
+                    <div className="vote-block flex reset">
+                        <p>{content.active_votes.length}</p>
+                        <img className="sm-icon down-arrow" src={DownArrow} alt="down-arrow" />
+                    </div>
+
                     <p>Reply</p>
                 </div>
             </div>

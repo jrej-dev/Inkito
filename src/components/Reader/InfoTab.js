@@ -39,7 +39,7 @@ const InfoTab = ({ author, type }) => {
              )
            }
         } else {
-          return <wired-spinner class="custom" spinning duration="1000" />
+          return ""
         }
         return comments;
       } 
@@ -64,43 +64,53 @@ const InfoTab = ({ author, type }) => {
         }
       }
 
-      compareDate()
       return (
         <div className="info-tab">
           <wired-card>
             <div className="info-card">
               <div className="default-banner flex">
-                <img className="none active icon up-arrow" src={UpArrow} alt="up-arrow" />
-                <img className="none icon down-arrow" src={DownArrow} alt="down-arrow" />
-                <p>$ {reward}</p>
-                <img className="icon down-arrow" src={DownArrow} alt="down-arrow" />
-                <p>{store.seriesDetail[store.currentPage].active_votes.length}</p>
-                <img className="icon down-arrow" src={DownArrow} alt="down-arrow" />
-                <img className="icon clock" src={Clock} alt="clock" />
-                <p>{compareDate(store.seriesDetail[store.currentPage].created.slice(0, 10))}</p>
+                
+                  <img className="none active icon up-arrow" src={UpArrow} alt="up-arrow" />
+                  <img className="none icon down-arrow" src={DownArrow} alt="down-arrow" />
+                  
+                  <div className="time-block flex">
+                    <img className="icon clock" src={Clock} alt="clock" />
+                    <p>{compareDate(store.seriesDetail[store.currentPage].created.slice(0, 10))}</p>
+                  </div>
+                  
+                  <div className="reward-block flex">
+                    <p>$ {reward}</p>
+                    <img className="sm-icon down-arrow" src={DownArrow} alt="down-arrow" />
+                  </div>
+                  
+                  <div className="vote-block flex">
+                    <p>{store.seriesDetail[store.currentPage].active_votes.length}</p>
+                    <img className="sm-icon down-arrow" src={DownArrow} alt="down-arrow" />
+                  </div>
+                
+
                 <img className="icon heart" src={Heart} alt="heart" />
               </div>
-              <div className="none active">
-                <div className="info-banner">
+              
+              <div className="info-banner">
 
-                  <div className={type === "Comics" ? "author-info" : "author-info none"}>
-                    <img className="panel-profile-pic" src={`https://steemitimages.com/u/${author}/avatar`} alt=" " />
-                    <div className="author-name">
-                      <p className="capital">{author}</p>
-                      <p>Creator</p>
-                    </div>
+                <div className={type === "Comics" ? "author-info flex" : "author-info flex none"}>
+                  <img className="panel-profile-pic" src={`https://steemitimages.com/u/${author}/avatar`} alt=" " />
+                  <div className="author-name">
+                    <p className="capital">{author}</p>
+                    <p>Creator</p>
                   </div>
-
-                  <div className={type === "Comics" ? "content-info" : "content-info none"}>
-                    <wired-card>
-                      <ContentBody />
-                    </wired-card>
-                  </div>
-
                 </div>
+
+                <div className={type === "Comics" ? "content-info" : "content-info none"}>
+                  <wired-card>
+                    <ContentBody />
+                  </wired-card>
+                </div>
+
               </div>
 
-              <ul>
+              <ul className="comments">
                 <CommentList commentData={store.seriesComments[store.currentPage]}/>
               </ul>
               
@@ -109,7 +119,7 @@ const InfoTab = ({ author, type }) => {
         </div>
       );
     } else {
-      return <wired-spinner class="custom" spinning duration="1000" />
+      return ""
     }
   })
 }

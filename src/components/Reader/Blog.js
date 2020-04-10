@@ -9,7 +9,9 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
 
   useEffect (() => {
     store.fetchSeriesDetail(author, permlink, page);
-    store.fetchSeriesDetail(author, nextPermlink, page+1);
+    if (page + 1 < store.seriesLinks.length) {
+      store.fetchSeriesDetail(author, nextPermlink, page+1);
+    }
   })
 
   const Content = () => {
