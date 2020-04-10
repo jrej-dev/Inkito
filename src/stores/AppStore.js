@@ -11,7 +11,7 @@ opts.addressPrefix = 'STM';
 opts.chainId =
     '0000000000000000000000000000000000000000000000000000000000000000';
 //connect to server which is connected to the network/production
-const client = new Client('https://api.steemit.com');
+const client = new Client('https://api.pharesim.me');
 
 export function StoreProvider({ children }) {
     const store = useLocalStore(() => ({
@@ -60,6 +60,7 @@ export function StoreProvider({ children }) {
         newNovels: [],
         seriesLinks: [],
         seriesDetail: [],
+        seriesComments: [],
         clickedSeriesAuthor: "",
         clickedSeriesTitle: "",
         clickedSeriesContent: "",
@@ -73,6 +74,7 @@ export function StoreProvider({ children }) {
         newNovelState: "",
         postDetailState: "",
         seriesDetailState: "",
+        commentState: "",
 
         //Queries
         comicsQuery: {
@@ -112,6 +114,7 @@ export function StoreProvider({ children }) {
         resetSeriesDetail: () => {
             store.seriesTitle = [];
             store.seriesDetail = [];
+            store.seriesComments = [];
         },
         async fetchSeriesInfo(seriesId, type) {
             try {
@@ -120,7 +123,7 @@ export function StoreProvider({ children }) {
                     .then(result => result.reverse())
                     .then(result => {
                         if (result[0]) {
-                            let reward = result[result.length-1].pending_payout_value !== "0.000 SBD" ? result[result.length-1].pending_payout_value : result[result.length-1].total_payout_value;
+                            let reward = result[result.length-1].pending_payout_value !== "0.000 HBD" ? result[result.length-1].pending_payout_value : result[result.length-1].total_payout_value;
                             return {
                                 title: result[0].title, 
                                 author: result[0].author,
@@ -173,7 +176,7 @@ export function StoreProvider({ children }) {
 
                 const newComicIds = this.removeDuplicateContent(createdComicIds, trendyComicIds);
                 newComicIds.map(id => store.fetchSeriesInfo(id,"newComics"));
-            
+                
             } catch (error) {
                 console.log(error);
             }
@@ -221,6 +224,7 @@ export function StoreProvider({ children }) {
                 this.seriesLinks = content;
 
                 this.seriesDetail.length = content.length;
+                this.seriesComments.length = content.length;
 
             } catch (error) {
                 this.seriesLinkState = "error"
@@ -237,7 +241,25 @@ export function StoreProvider({ children }) {
                     })
                 this.seriesDetailState = "done"
                 this.seriesDetail[page] = content;
+                store.fetchComments(author, permlink, page);
 
+            } catch (error) {
+                store.seriesDetailState = "error"
+                console.log(error)
+            }
+        },
+        async fetchComments(author, permlink, page) {
+            this.commentState = "pending"
+            try {
+                const comments = await client.database
+                    .call('get_content_replies', [author, permlink]).then(result => {
+                        if (result) {
+                            return result
+                        }
+                    })
+
+                    this.commentState = "done"
+                    this.seriesComments[page] = comments;
             } catch (error) {
                 store.seriesDetailState = "error"
                 console.log(error)

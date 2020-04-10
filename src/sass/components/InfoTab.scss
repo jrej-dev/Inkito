@@ -31,17 +31,13 @@
     width: 100%;
     margin: 0 1em;
     > * {
-        padding: 0 1em;
+        padding: 0.5em 1em;
     }
     .author-info {
-        .panel-profile-pic {
-            height: 3em;
-        }
         .author-name {
             > * {
-                text-transform: capitalize;
                 margin: 0;
-                padding: 0;
+                padding: 0 1em;
             }
         }
     }
@@ -60,7 +56,9 @@
     }
 }
 
-
+.panel-profile-pic {
+    height: 5em;
+}
 
 .none {
     display: none;

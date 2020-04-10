@@ -27,11 +27,11 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
         let trendy = [];
         let category = "";
         if (type === "Comics") {
-          category = store.activeComicCategory.replace(" ","-").toLowerCase();
+          category = store.activeComicCategory.replace(" ","").toLowerCase();
         } else if (type === "Novels") {
-          category = store.activeNovelCategory.replace(" ","-").toLowerCase();
+          category = store.activeNovelCategory.replace(" ","").toLowerCase();
         }
-        if (category !== "all-categories") {
+        if (category !== "allcategories") {
           fresh = toJS(newData).filter(object => object.tags.includes(category));
           trendy =  toJS(trendyData).filter(object => object.tags.includes(category));
         } else {
@@ -93,7 +93,7 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
         }
         return blocks;
       } else {
-        return <wired-spinner class="custom" spinning duration="1000"></wired-spinner>
+        return <wired-spinner class="custom" spinning duration="1000"/>
       }
     })
   }

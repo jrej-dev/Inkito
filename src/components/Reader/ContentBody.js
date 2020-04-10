@@ -7,10 +7,9 @@ import 'wired-elements';
 
 const ContentBody = () => {
   const store = React.useContext(StoreContext);
-
-  
   return useObserver(() => {
-    if(toJS(store.seriesDetail)[store.currentPage] !== undefined) {  
+
+    if (toJS(store.seriesDetail[store.currentPage])) {
       return (
         <ReactMarkdown
         source={toJS(store.seriesDetail[store.currentPage].body)}

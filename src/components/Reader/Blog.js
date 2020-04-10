@@ -16,7 +16,7 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
     if ( type === "Comics"){
       return ( 
         <div className="comic-body content-body">
-            <ContentBody page={page} />
+            <ContentBody />
         </div>
       )
     } else if ( type === "Novels" ) {

@@ -6,7 +6,7 @@ import 'wired-elements';
 function TrendyPanel({ content, onClick }) {
 
   let author = content.author;
-  const reward = content.last_payout.replace("SBD"," ")
+  const reward = content.last_payout.replace("HBD"," ")
   
   let seriesTitle = content.seriesId ? content.seriesId.replace(`${author}-`,"") : "noseries";
 
@@ -23,7 +23,7 @@ function TrendyPanel({ content, onClick }) {
               <span className="panel-info" onClick={() => onClick({author, seriesTitle})}>
                 <span className="panel-title">{content.title.length > 60 ? `${content.title.slice(0,60)}...` : content.title}</span> 
                 <span>{" / "}</span>
-                <span className="panel-creator">{author}</span>
+                <span className="panel-creator capital">{author}</span>
               </span>
               <div className="reward-block">
                 <p>Last Payout:</p>
