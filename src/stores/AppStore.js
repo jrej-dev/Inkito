@@ -79,11 +79,11 @@ export function StoreProvider({ children }) {
         //Queries
         comicsQuery: {
             tag: "inkito-comics",
-            limit: 100,
+            limit: 32,
         },
         novelsQuery: {
             tag: "inkito-novels",
-            limit: 100,
+            limit: 32,
         },
         //Actions 
 
@@ -112,7 +112,6 @@ export function StoreProvider({ children }) {
             )
         },
         resetSeriesDetail: () => {
-            store.seriesTitle = [];
             store.seriesDetail = [];
             store.seriesComments = [];
         },
@@ -220,7 +219,7 @@ export function StoreProvider({ children }) {
                 .then(result => {
                         return result.map(object => object.permlink).reverse();
                     })
-                    this.seriesLinkState = "done"
+                this.seriesLinkState = "done";
                 this.seriesLinks = content;
 
                 this.seriesDetail.length = content.length;
@@ -243,6 +242,10 @@ export function StoreProvider({ children }) {
                 this.seriesDetail[page] = content;
                 
                 store.fetchComments(author, permlink, page);
+                
+                if (this.seriesDetail[0] === undefined){
+                    store.fetchSeriesDetail(author, store.seriesLinks[0], 0);
+                } 
 
             } catch (error) {
                 store.seriesDetailState = "error"

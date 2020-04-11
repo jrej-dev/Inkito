@@ -1,7 +1,6 @@
 import React from 'react';
-import ReactMarkdown from 'react-markdown/with-html';
 import 'wired-elements';
-
+import ContentBody from './ContentBody';
 import Clock from '../../icons/clock.png';
 import Heart from '../../icons/heart.png';
 import DownArrow from '../../icons/down-arrow.png';
@@ -27,41 +26,39 @@ const CommentBlock = ({ content }) => {
         }
     }
     }
-
+    
     return (
         <div className="active comment-banner">
             <img className="panel-profile-pic" src={`https://steemitimages.com/u/${content.author}/avatar`} alt=" " />
             <div className="comment-block">
                 <div className="comment-upper-banner flex">       
-                    <p className="name">{content.author}</p>
+                    <div className="left-block reset">
+                        <p className="name capital">{content.author}</p>
+                        <img className="md-icon clock" src={Clock} alt="clock" />
+                        <p>{compareDate(content.created.slice(0, 10))}</p>
+                     </div>
                     <img className="md-icon flag" src={Flag} alt="flag" />
                 </div>
 
                 <wired-card>
                     <div className="comment-body">
-                        <ReactMarkdown
-                            source={content.body}
-                            escapeHtml={false}
-                        />
+                        <ContentBody content={content}/>
                     </div>
                 </wired-card>
 
                 <div className="comment-bottom-banner reset">
-                    <img className="icon heart" src={Heart} alt="heart" />
-                    
-                    <div className="time-block flex reset">
-                        <img className="md-icon clock" src={Clock} alt="clock" />
-                        <p>{compareDate(content.created.slice(0, 10))}</p>
-                     </div>
+                    <div className="left-block">
+                        <img className="icon heart" src={Heart} alt="heart" />
 
-                    <div className="reward-block flex reset">
-                        <p>$ {reward}</p>
-                        <img className="sm-icon down-arrow" src={DownArrow} alt="down-arrow" />
-                    </div>
+                        <div className="reward-block flex reset">
+                            <p>$ {reward}</p>
+                            <img className="sm-icon down-arrow" src={DownArrow} alt="down-arrow" />
+                        </div>
 
-                    <div className="vote-block flex reset">
-                        <p>{content.active_votes.length}</p>
-                        <img className="sm-icon down-arrow" src={DownArrow} alt="down-arrow" />
+                        <div className="vote-block flex reset">
+                            <p>{content.active_votes.length}</p>
+                            <img className="sm-icon down-arrow" src={DownArrow} alt="down-arrow" />
+                        </div>
                     </div>
 
                     <p>Reply</p>

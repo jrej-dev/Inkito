@@ -15,9 +15,13 @@ const App = () => {
   const store = React.useContext(StoreContext);
 
   useEffect (() => {
+    fetchContent();
+  })
+
+  const fetchContent = () => {
     store.fetchComics(store.comicsQuery);
     store.fetchNovels(store.novelsQuery);
-  })
+  }
 
   return (
     <Router>

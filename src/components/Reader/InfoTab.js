@@ -22,15 +22,15 @@ import { Link } from "react-router-dom";*/
 import CommentBlock from './CommentBlock';
 import ContentBody from './ContentBody';
 
-const InfoTab = ({ author, type }) => {
+const InfoTab = ({ content, type }) => {
   const store = React.useContext(StoreContext);
-
+  
   return useObserver(() => {
-    if (store.seriesDetail[store.currentPage] && store.seriesComments[store.currentPage]) {
+    if (content && store.seriesComments[store.currentPage]) {
 
       const CommentList = ({ commentData }) => {
-        if (commentData) {
-          var comments = []
+        if (commentData.length > 0) {
+          var comments = [<h3 className="comment-title" key="comment-title">Comments</h3>]
            for (let i = 0; i< commentData.length; i++){
              comments.push(
                <li key={commentData[i].permlink}>
@@ -39,7 +39,11 @@ const InfoTab = ({ author, type }) => {
              )
            }
         } else {
-          return ""
+          return (
+            <li>
+              <h3 className="comment-title">No Comments</h3>
+            </li>
+          )
         }
         return comments;
       } 
@@ -95,16 +99,16 @@ const InfoTab = ({ author, type }) => {
               <div className="info-banner">
 
                 <div className={type === "Comics" ? "author-info flex" : "author-info flex none"}>
-                  <img className="panel-profile-pic" src={`https://steemitimages.com/u/${author}/avatar`} alt=" " />
+                  <img className="panel-profile-pic" src={`https://steemitimages.com/u/${content.author}/avatar`} alt=" " />
                   <div className="author-name">
-                    <p className="capital">{author}</p>
+                    <p className="capital">{content.author}</p>
                     <p>Creator</p>
                   </div>
                 </div>
 
                 <div className={type === "Comics" ? "content-info" : "content-info none"}>
                   <wired-card>
-                    <ContentBody />
+                    <ContentBody content={content}/>
                   </wired-card>
                 </div>
 

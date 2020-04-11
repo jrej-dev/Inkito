@@ -19,10 +19,7 @@ const Reader = ({ type }) => {
     getUrlVars();
     store.resetSeriesDetail();
     store.fetchPermlinks(props.author, props.seriesTitle);
-    
-    if (store.seriesDetail[0] === undefined){
-      store.fetchSeriesDetail(props.author, store.seriesLinks[0], 0);
-    } 
+
     props.currentPage ? store.updateCurrentPage(props.currentPage) : store.updateCurrentPage(0);
   })
 

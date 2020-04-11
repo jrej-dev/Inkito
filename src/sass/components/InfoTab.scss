@@ -93,6 +93,7 @@
     align-items: flex-start;
     margin-right: 2.5%;
     margin-left: auto;
+    width: 90%;
     .panel-profile-pic {
         height: 5em;
         margin-top: 3em;
@@ -120,10 +121,22 @@
         width: 90%;
         margin: 0.5em 5%;
     }
+
+    .left-block {
+        @include flex(flex-start);
+        > * {
+            white-space: nowrap;
+            padding: 0 0.5em;
+        }
+    }
+}
+
+.comment-title {
+    color: $darkest-color;
 }
 
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 600px) {
     
     .default-banner  {
         .time-block {
@@ -133,5 +146,8 @@
 
     .info-banner {
         flex-wrap: wrap;
+    }
+    .comment-banner {
+        justify-content: center;
     }
 }

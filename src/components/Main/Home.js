@@ -11,7 +11,7 @@ import ContentDisplay from '../../components/Main/ContentDisplay';
 const Home = () => {
   const store = React.useContext(StoreContext);
 
-  useEffect (() => {
+  useEffect (() => {  
     store.updateActiveComicCategory("All Categories");
     store.updateActiveNovelCategory("All Categories");
     store.updateActiveComicTrend("all");

@@ -9,7 +9,7 @@ import ContentDisplay from '../Main/ContentDisplay';
 
 const FullDisplay = ({ display }) => {
   const store = React.useContext(StoreContext);
- 
+
   const ComicContent = () => {
     return useObserver(() => (
       <ContentDisplay 
