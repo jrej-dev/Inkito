@@ -59,7 +59,6 @@ const Reader = ({ type }) => {
   const timeout = (delay) => {
     setTimeout(() => {
       store.setSpinnerTimeout(true);
-      console.log(store.spinnerTimeout);
     },delay)
   }
 

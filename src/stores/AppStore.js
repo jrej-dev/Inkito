@@ -107,7 +107,7 @@ export function StoreProvider({ children }) {
             store.startPage = page;
         },
         sortByLatestUpdate: content => {
-            content = content.sort(function(a,b){
+            content = content.slice().sort(function(a,b){
                 return new Date(b.last_update) - new Date(a.last_update)
             })
             return content;
@@ -282,11 +282,12 @@ export function StoreProvider({ children }) {
                 runInAction(async () => {
                     const result = await store.fetchComments(content);
                     this.seriesDetailState = "done";
+                    //timeout to be fixed
                     setTimeout(() => {
                         this.seriesDetail[page] = result;
                     }, 500)
 
-                    if (this.seriesDetail[0] === undefined) {
+                    if (page > 0) {
                         store.fetchSeriesDetail(author, store.seriesLinks[0], 0);
                     }
                 });
@@ -301,7 +302,7 @@ export function StoreProvider({ children }) {
                 .call('get_content_replies', [content.author, content.permlink])
                 .then(result => {
                     if (result.length === 0 || result[0].parent_author.length > 0) {
-                        runInAction(async () => {
+                        runInAction(() => {
                             if (result.length > 0) {
                                 result.forEach(object => {
                                     store.fetchComments(object)
@@ -314,7 +315,6 @@ export function StoreProvider({ children }) {
 
                     }
                 })
-
             return content
         }
     }));
