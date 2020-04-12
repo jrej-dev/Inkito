@@ -20,6 +20,7 @@ const Reader = ({ type }) => {
     store.resetSeriesDetail();
     store.fetchPermlinks(props.author, props.seriesTitle);
 
+    timeout(4000);
     props.currentPage ? store.updateCurrentPage(props.currentPage) : store.updateCurrentPage(0);
   })
 
@@ -55,6 +56,13 @@ const Reader = ({ type }) => {
     }
   }
 
+  const timeout = (delay) => {
+    setTimeout(() => {
+      store.setSpinnerTimeout(true);
+      console.log(store.spinnerTimeout);
+    },delay)
+  }
+
   const ListedBlogs = () => {
     return useObserver(() => {
       var seriesData = toJS(store.seriesLinks);
@@ -68,7 +76,9 @@ const Reader = ({ type }) => {
           )
         }
       } else {
-        return <wired-spinner class="custom" spinning duration="1000"/>
+        return (
+            store.spinnerTimeout ? <h3>No content Found</h3> : <wired-spinner class="custom" spinning duration="1000"/>
+        )
       }
       return blogs;
     })
@@ -76,7 +86,7 @@ const Reader = ({ type }) => {
 
   const Nav = () => {
     return useObserver(() => {
-      if (store.seriesLinks) {
+      if (toJS(store.seriesDetail)[store.currentPage]) {
         return (
           <NavReader
             page={store.currentPage}
@@ -86,7 +96,9 @@ const Reader = ({ type }) => {
           />
         )
       } else {
-        return ""
+        return (
+          <NavReader onClick={navClickHandle}/>
+        )
       }
     })
   }

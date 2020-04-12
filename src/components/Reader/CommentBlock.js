@@ -1,12 +1,16 @@
 import React from 'react';
 import 'wired-elements';
+
 import ContentBody from './ContentBody';
+import CommentList from './CommentList';
+
 import Clock from '../../icons/clock.png';
 import Heart from '../../icons/heart.png';
 import DownArrow from '../../icons/down-arrow.png';
 import Flag from '../../icons/flag.png';
 
 const CommentBlock = ({ content }) => {
+    
     let payout = content.pending_payout_value === "0.000 HBD" ? content.total_payout_value : content.pending_payout_value;
     let reward = payout.replace("HBD", "");
     
@@ -29,8 +33,10 @@ const CommentBlock = ({ content }) => {
     
     return (
         <div className="active comment-banner">
+                        
             <img className="panel-profile-pic" src={`https://steemitimages.com/u/${content.author}/avatar`} alt=" " />
             <div className="comment-block">
+
                 <div className="comment-upper-banner flex">       
                     <div className="left-block reset">
                         <p className="name capital">{content.author}</p>
@@ -39,12 +45,12 @@ const CommentBlock = ({ content }) => {
                      </div>
                     <img className="md-icon flag" src={Flag} alt="flag" />
                 </div>
-
-                <wired-card>
-                    <div className="comment-body">
-                        <ContentBody content={content}/>
-                    </div>
-                </wired-card>
+                
+                    <wired-card>
+                        <div className="comment-body">
+                            <ContentBody content={content}/>
+                        </div>
+                    </wired-card>   
 
                 <div className="comment-bottom-banner reset">
                     <div className="left-block">
@@ -64,6 +70,9 @@ const CommentBlock = ({ content }) => {
                     <p>Reply</p>
                 </div>
             </div>
+            <ul className="replies">
+                <CommentList commentData={content}/>
+            </ul>
         </div>
     )
 }

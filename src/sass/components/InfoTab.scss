@@ -55,6 +55,9 @@
         width: 10%;
         .panel-profile-pic {
             height: 5em;
+            border-radius: 50%;
+            object-fit: cover;
+            border-radius: 50%;
         }
         .author-name {
             > * {
@@ -86,26 +89,37 @@
     display: flex;
 }
 
+.comments {
+    width: 90%;
+    margin-right: 5%;
+    margin-left: auto;
+}
+
 .comment-banner {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: flex-start;
-    margin-right: 2.5%;
-    margin-left: auto;
-    width: 90%;
     .panel-profile-pic {
-        height: 5em;
-        margin-top: 3em;
+        margin-top: 2em;
+        height: 4em;
+        border-radius: 50%;
+        object-fit: cover;
+        border-radius: 50%;
+        width: 4em;
     }
     .comment-block {
-        width: 80%;
-        margin: 1em 0;
+        width: 70%;
+        flex-basis: 90%;
+        margin-bottom: 1em;
     }
     .comment-body {
         text-align: left;
         padding: 0 2em;
         margin: 0.5em;
+        a {
+            display: none;
+        }
     }
     .comment-upper-banner {
         @include flex(space-between);
@@ -114,6 +128,14 @@
         > * {
             margin: 0;
             padding: 0;
+        }
+    }
+    .comment-mid-banner {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        > img {
+            padding: 1em;
         }
     }
     .comment-bottom-banner {
@@ -129,14 +151,31 @@
             padding: 0 0.5em;
         }
     }
+    .replies {
+        margin-left: 5em;
+        width: 100%
+    }
 }
 
 .comment-title {
+    flex-wrap: wrap;
+    white-space: nowrap;
     color: $darkest-color;
+    width: 60%;
+    > h3 {
+        flex-basis: 20%;
+
+    }
+    > .line {
+        height: 0.1em;
+        flex-basis: 60%;
+        background-color: $darkest-color;
+        margin: 0 1em;
+    }
 }
 
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 850px) {
     
     .default-banner  {
         .time-block {
@@ -149,5 +188,13 @@
     }
     .comment-banner {
         justify-content: center;
+        .panel-profile-pic {
+            margin: 0;
+        }
+        .comment-body {
+            center {
+                display: none;
+            }
+        }
     }
 }

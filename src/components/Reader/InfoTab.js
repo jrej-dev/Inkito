@@ -19,37 +19,16 @@ import Bubble from '../../icons/bubble.png';
 import Bell from '../../icons/bell.png';
 import { Link } from "react-router-dom";*/
 
-import CommentBlock from './CommentBlock';
+import CommentList from './CommentList';
 import ContentBody from './ContentBody';
 
 const InfoTab = ({ content, type }) => {
   const store = React.useContext(StoreContext);
   
   return useObserver(() => {
-    if (content && store.seriesComments[store.currentPage]) {
+    if (content.pending_payout_value) {
 
-      const CommentList = ({ commentData }) => {
-        if (commentData.length > 0) {
-          var comments = [<h3 className="comment-title" key="comment-title">Comments</h3>]
-           for (let i = 0; i< commentData.length; i++){
-             comments.push(
-               <li key={commentData[i].permlink}>
-                 <CommentBlock content={commentData[i]}/>
-               </li>
-             )
-           }
-        } else {
-          return (
-            <li>
-              <h3 className="comment-title">No Comments</h3>
-            </li>
-          )
-        }
-        return comments;
-      } 
-
-      let payout = store.seriesDetail[store.currentPage].pending_payout_value === "0.000 HBD" ? store.seriesDetail[store.currentPage].total_payout_value : store.seriesDetail[store.currentPage].pending_payout_value;
-      let reward = payout.replace("HBD", "")
+      let reward = content.pending_payout_value === "0.000 HBD" ? content.total_payout_value.replace("HBD", "") : content.pending_payout_value.replace("HBD", "");
 
       const compareDate = (contentDate) => {
         var g1 = new Date().toISOString().substring(0, 10);
@@ -115,9 +94,14 @@ const InfoTab = ({ content, type }) => {
               </div>
 
               <ul className="comments">
-                <CommentList commentData={store.seriesComments[store.currentPage]}/>
+                <div className="comment-title flex" key="comment-title">
+                  <h3>{content.replies.length > 0 ? `Comments (${content.replies.length})` : "No Comments"} </h3>
+                  <div className="line"/>
+                </div>
+                <CommentList commentData={content}/>
               </ul>
               
+            
             </div>
           </wired-card>
         </div>

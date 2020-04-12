@@ -11,45 +11,75 @@ import Bell from '../../icons/bell.png';
 import { Link } from "react-router-dom";
 
 const NavReader = ({ page, content, length, onClick }) => {
-  return (
-    <div className="nav-reader">
-      <ul className="nav-reader-list">
-        <li className="title">
-          <h1>
-            <Link to="/">Inkito</Link>
-          </h1>
-        </li>
-        <li className="flex arrows ">
-          <div className={page === 0 ? "disabled flex previous" : "flex previous"} onClick={page === 0 ? null : onClick}>
-            <img className="icon left-arrow" src={LeftArrow} alt="left-arrow"/>
-            <p className="left-arrow">Previous</p>
-          </div>
-          <div className="flex episode-number">
-            <p className="episode">{page === 0 ? "" : "Episode"}</p>
-            <p>{page === 0 ? "Cover" : page }</p>
-          </div>
-          <div className={page === length - 1 ? "disabled flex next" : "flex next"} onClick={page === length - 1 ? null : onClick}>
-            <p className="right-arrow">Next</p>
-            <img className="icon right-arrow" src={RightArrow} alt="right-arrow"/>
-          </div>
-        </li>
-        <li className="flex post-title">
-          <p>
-            {content[page] ? content[page].title.includes(content[0].title) ? "" : `${content[0].title} /` : ""}
-          </p>
-          <p>
-            {content[page] ? content[page].title : ""}
-          </p>
-        </li>
-        <li className="flex icons">
-          <img className="icon heart" src={Heart} alt="heart" onClick={onClick}/>
-          <img className="icon comment" src={Bubble} alt="comment bubble" onClick={onClick}/>
-          <img className="icon follow" src={Bell} alt="follow bell" onClick={onClick}/>
-        </li>
-        <li className="login" onClick={onClick}>Login/Register</li>
-      </ul>
-    </div>
-  );
+  if (content) {
+    return (
+      <div className="nav-reader">
+        <ul className="nav-reader-list">
+          <li className="title">
+            <h1>
+              <Link to="/">Inkito</Link>
+            </h1>
+          </li>
+          <li className="flex arrows ">
+            <div className={page === 0 ? "disabled flex previous" : "flex previous"} onClick={page === 0 ? null : onClick}>
+              <img className="icon left-arrow" src={LeftArrow} alt="left-arrow"/>
+              <p className="left-arrow">Previous</p>
+            </div>
+            <div className="flex episode-number">
+              <p className="episode">{page === 0 ? "" : "Episode"}</p>
+              <p>{page === 0 ? "Cover" : page }</p>
+            </div>
+            <div className={page === length - 1 ? "disabled flex next" : "flex next"} onClick={page === length - 1 ? null : onClick}>
+              <p className="right-arrow">Next</p>
+              <img className="icon right-arrow" src={RightArrow} alt="right-arrow"/>
+            </div>
+          </li>
+          <li className="flex post-title">
+            <p>
+              {content[page] ? content[page].title.includes(content[0].title) ? "" : `${content[0].title} /` : ""}
+            </p>
+            <p>
+              {content[page] ? content[page].title : ""}
+            </p>
+          </li>
+          <li className="flex icons">
+            <img className="icon heart" src={Heart} alt="heart" onClick={onClick}/>
+            <img className="icon comment" src={Bubble} alt="comment bubble" onClick={onClick}/>
+            <img className="icon follow" src={Bell} alt="follow bell" onClick={onClick}/>
+          </li>
+          <li className="login" onClick={onClick}>Login/Register</li>
+        </ul>
+      </div>
+    )
+  } else { 
+    return (
+      <div className="nav-reader">
+        <ul className="nav-reader-list">
+          <li className="title">
+            <h1>
+              <Link to="/">Inkito</Link>
+            </h1>
+          </li>
+          <li className="flex arrows ">
+            <div className="disabled flex previous" >
+              <img className="icon left-arrow" src={LeftArrow} alt="left-arrow"/>
+              <p className="left-arrow">Previous</p>
+            </div>
+            <div className="disabled flex next">
+              <p className="right-arrow">Next</p>
+              <img className="icon right-arrow" src={RightArrow} alt="right-arrow"/>
+            </div>
+          </li>
+          <li className="flex icons">
+            <img className="icon heart" src={Heart} alt="heart" onClick={onClick}/>
+            <img className="icon comment" src={Bubble} alt="comment bubble" onClick={onClick}/>
+            <img className="icon follow" src={Bell} alt="follow bell" onClick={onClick}/>
+          </li>
+          <li className="login" onClick={onClick}>Login/Register</li>
+        </ul>
+      </div>
+    );
+  }
 }
 
 export default NavReader;
