@@ -16,6 +16,7 @@ const Home = () => {
     store.updateActiveNovelCategory("All Categories");
     store.updateActiveComicTrend("all");
     store.updateActiveNovelTrend("all");
+    store.updateCurrentPage(0);
   })
 
   const ComicContent = () => {    

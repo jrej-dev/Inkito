@@ -149,9 +149,10 @@
         }
     }
     .replies {
-        margin-left: 5em;
+        margin-left: 2em;
         width: 100%
     }
+    
 }
 
 .comment-title {
@@ -188,10 +189,8 @@
         .panel-profile-pic {
             margin: 0;
         }
-        .comment-body {
-            center {
-                display: none;
-            }
+        .replies {
+            margin-left: 0;
         }
     }
 }

@@ -8,6 +8,7 @@ const ContentBody = ({ content }) => {
       <ReactMarkdown
       source={content.body}
       escapeHtml={false}
+      disallowedTypes={['link']}
       /> 
     )
   } else {

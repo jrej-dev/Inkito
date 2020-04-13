@@ -123,6 +123,7 @@ export function StoreProvider({ children }) {
         },
         resetSeriesDetail: () => {
             store.seriesDetail = [];
+            store.seriesLinks = [];
             store.spinnerTimeout = false;
         },
         async fetchSeriesInfo(seriesId, type) {
@@ -243,10 +244,11 @@ export function StoreProvider({ children }) {
             }
         },
         async fetchPermlinks(author, seriesTitle) {
-            let seriesId = `${author}-${seriesTitle}`
-            this.seriesLinks = []
-            this.seriesLength = 1
-            this.seriesLinkState = "pending"
+            let seriesId = `${author}-${seriesTitle}`;
+            this.seriesLinks = [];
+            this.seriesDetail = [];
+            this.seriesLength = 1;
+            this.seriesLinkState = "pending";
             try {
                 const content = await client.database
                     .getDiscussions('created', { tag: seriesId, limit: 100 })
@@ -279,8 +281,10 @@ export function StoreProvider({ children }) {
 
                 runInAction(async () => {
                     const result = await store.fetchComments(content);
-                    this.seriesDetail[page].replies = result;
-                    this.seriesDetailState = "done";
+                    if (this.seriesDetail[page]){
+                        this.seriesDetail[page].replies = result;
+                        this.seriesDetailState = "done";
+                    }
 
                     if (page > 1) {
                         store.fetchSeriesDetail(author, store.seriesLinks[0], 0);

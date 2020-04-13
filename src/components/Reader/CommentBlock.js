@@ -6,14 +6,24 @@ import CommentList from './CommentList';
 
 import Clock from '../../icons/clock.png';
 import Heart from '../../icons/heart.png';
+import UpArrow from '../../icons/up-arrow.png';
 import DownArrow from '../../icons/down-arrow.png';
 import Flag from '../../icons/flag.png';
 
-const CommentBlock = ({ content }) => {
+const CommentBlock = ({ content, reply }) => {
     
     let payout = content.pending_payout_value === "0.000 HBD" ? content.total_payout_value : content.pending_payout_value;
     let reward = payout.replace("HBD", "");
     
+    const Response = () => {
+        return (
+            <div className="flex reset">
+                <img className="sm-icon down-arrow" src={UpArrow} alt="down-arrow" />
+                <p>Response:</p>
+            </div>
+        )
+    }
+
     const compareDate = (contentDate) => {
     var g1 = new Date().toISOString().substring(0, 10);
     var g2 = contentDate;
@@ -39,6 +49,7 @@ const CommentBlock = ({ content }) => {
 
                 <div className="comment-upper-banner flex">       
                     <div className="left-block reset">
+                        {reply ? <Response /> : null}
                         <p className="name capital">{content.author}</p>
                         <img className="md-icon clock" src={Clock} alt="clock" />
                         <p>{compareDate(content.created.slice(0, 10))}</p>
@@ -71,7 +82,7 @@ const CommentBlock = ({ content }) => {
                 </div>
             </div>
             <ul className="replies">
-                <CommentList commentData={content}/>
+                <CommentList commentData={content} reply={true}/>
             </ul>
         </div>
     )
