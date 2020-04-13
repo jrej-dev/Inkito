@@ -20,7 +20,7 @@ const Reader = ({ type }) => {
     store.resetSeriesDetail();
     store.fetchPermlinks(props.author, props.seriesTitle);
 
-    timeout(4000);
+    timeout(5000);
     props.currentPage ? store.updateCurrentPage(props.currentPage) : store.updateCurrentPage(0);
   })
 
@@ -45,6 +45,11 @@ const Reader = ({ type }) => {
       store.updateCurrentPage(store.currentPage + 1);
     } else if (e.target.className.includes("left-arrow")) {
       store.updateCurrentPage(store.currentPage - 1);
+    } else if (e.target.className.includes("first")) {
+      store.updateCurrentPage(0);
+    } else if (e.target.className.includes("last")) {
+      store.updateCurrentPage(store.seriesLinks.length - 1);
+    
 
       //Left to do below
     } else if (e.target.className.includes("heart")) {

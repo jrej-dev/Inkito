@@ -106,12 +106,12 @@ export function StoreProvider({ children }) {
             store.currentPage = page;
             store.startPage = page;
         },
-        sortByLatestUpdate: content => {
-            content = content.slice().sort(function(a,b){
+        /*sortByLatestUpdate: content => {
+            content = content.slice().sort(function (a, b) {
                 return new Date(b.last_update) - new Date(a.last_update)
             })
             return content;
-        },
+        },*/
         // Removing duplicates from new content data
         removeDuplicateContent: (newIds, trendyIds) => {
             return newIds.filter(id =>
@@ -146,22 +146,7 @@ export function StoreProvider({ children }) {
                         }
                     })
 
-                runInAction(() => {
-                    if (type === "trendingComics") {
-                        this.trendyComicState = "done";
-                        this.trendingComics.push(seriesInfo);
-                    } else if (type === "newComics") {
-                        this.newComicState = "done"
-                        this.newComics.push(seriesInfo);
-                    } else if (type === "trendingNovels") {
-                        this.trendyNovelState = "done";
-                        this.trendingNovels.push(seriesInfo);
-                    } else if (type === "newNovels") {
-                        this.newNovelState = "done"
-                        this.newNovels.push(seriesInfo);
-                    }
-                    return seriesInfo;
-                })
+                return seriesInfo;
 
             } catch (error) {
                 console.log(error)
@@ -178,13 +163,15 @@ export function StoreProvider({ children }) {
                         JSON.parse(object.json_metadata).tags
                             .filter(tag => tag.includes(object.author))
                     ))).then(result => [...new Set(result.flat())])
+                //const trendy = [];
 
-                trendyComicIds.forEach(id => store.fetchSeriesInfo(id, "trendingComics"));
-
-                runInAction(async () => {
-                    const trendy = await this.trendingComics
-                    this.trendingComics = store.sortByLatestUpdate(trendy); 
-                })
+                for (let id of trendyComicIds) {
+                    const comic = await store.fetchSeriesInfo(id);
+                    this.trendingComics.push(comic);
+                    //trendy.push(comic)
+                }
+                this.trendyComicState = "done";
+                //this.trendingComics = trendy;
 
                 this.newComics = []
                 this.newComicState = "pending"
@@ -196,13 +183,17 @@ export function StoreProvider({ children }) {
                     ))).then(result => [...new Set(result.flat())])
 
                 const newComicIds = this.removeDuplicateContent(createdComicIds, trendyComicIds);
-                newComicIds.forEach(id => store.fetchSeriesInfo(id, "newComics"));
-                
-                runInAction(async () => {
-                    const fresh = await this.newComics
-                    this.newComics = store.sortByLatestUpdate(fresh); 
-                })
-                
+                //const fresh = [];
+
+                for (let id of newComicIds) {
+                    const comic = await store.fetchSeriesInfo(id);
+                    this.newComics.push(comic);
+                    //fresh.push(comic);
+                }
+
+                this.newComicState = "done";
+                //this.newComics = fresh;
+
             } catch (error) {
                 console.log(error);
             }
@@ -217,16 +208,18 @@ export function StoreProvider({ children }) {
                         JSON.parse(object.json_metadata).tags
                             .filter(tag => tag.includes(object.author))
                     ))).then(result => [...new Set(result.flat())])
+                //const trendy = [];
 
-                trendyNovelIds.forEach(id => store.fetchSeriesInfo(id, "trendingNovels"));
-                
-                runInAction(async () => {
-                    const trendy = await this.trendingNovels
-                    this.trendingNovels = store.sortByLatestUpdate(trendy); 
-                })
+                for (let id of trendyNovelIds) {
+                    const novel = await store.fetchSeriesInfo(id);
+                    this.trendingNovels.push(novel);
+                    //trendy.push(novel);
+                }
+                this.trendyNovelState = "done";
+                //this.trendingNovels = trendy;
 
-                this.newNovels = []
-                this.newNovelState = "pending"
+                this.newNovels = [];
+                this.newNovelState = "pending";
                 const createdNovelIds = await client.database
                     .getDiscussions("created", query)
                     .then(result => result.map(object => (
@@ -235,12 +228,15 @@ export function StoreProvider({ children }) {
                     ))).then(result => [...new Set(result.flat())])
 
                 const newNovelIds = this.removeDuplicateContent(createdNovelIds, trendyNovelIds);
-                newNovelIds.forEach(id => store.fetchSeriesInfo(id, "newNovels"));
-                
-                runInAction(async () => {
-                    const fresh = await this.newNovels
-                    this.newNovels = store.sortByLatestUpdate(fresh); 
-                })
+                //const fresh = [];
+
+                for (let id of newNovelIds) {
+                    const novel = await store.fetchSeriesInfo(id);
+                    //fresh.push(novel);
+                    this.newNovels.push(novel);
+                }
+                this.newNovelState = "done"
+                //this.newNovels = fresh;
 
             } catch (error) {
                 console.log(error);
@@ -279,15 +275,14 @@ export function StoreProvider({ children }) {
                         return result;
                     })
 
+                this.seriesDetail[page] = content;
+
                 runInAction(async () => {
                     const result = await store.fetchComments(content);
+                    this.seriesDetail[page].replies = result;
                     this.seriesDetailState = "done";
-                    //timeout to be fixed
-                    setTimeout(() => {
-                        this.seriesDetail[page] = result;
-                    }, 500)
 
-                    if (page > 0) {
+                    if (page > 1) {
                         store.fetchSeriesDetail(author, store.seriesLinks[0], 0);
                     }
                 });
@@ -297,25 +292,20 @@ export function StoreProvider({ children }) {
                 console.log(error)
             }
         },
-        fetchComments: (content) => {
-            client.database
+        async fetchComments(content) {
+            const results = await client.database
                 .call('get_content_replies', [content.author, content.permlink])
-                .then(result => {
-                    if (result.length === 0 || result[0].parent_author.length > 0) {
-                        runInAction(() => {
-                            if (result.length > 0) {
-                                result.forEach(object => {
-                                    store.fetchComments(object)
-                                });
-                                content.replies = result;
-                            } else {
-                                return result
-                            }
-                        })
 
-                    }
-                })
-            return content
+            if (results.length === 0 || results[0].parent_author.length > 0) {
+                for (let result of results) {
+                    const replies = await store.fetchComments(result);
+                    result.replies = replies
+                }
+            }
+
+            if (results.length === 0 || results[0].parent_author.length > 0) {
+                return results;
+            }
         }
     }));
     return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>

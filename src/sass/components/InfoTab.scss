@@ -116,10 +116,7 @@
     .comment-body {
         text-align: left;
         padding: 0 2em;
-        margin: 0.5em;
-        a {
-            display: none;
-        }
+        margin: 0.5em;     
     }
     .comment-upper-banner {
         @include flex(space-between);

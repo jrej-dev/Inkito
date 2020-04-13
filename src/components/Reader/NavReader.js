@@ -21,6 +21,7 @@ const NavReader = ({ page, content, length, onClick }) => {
             </h1>
           </li>
           <li className="flex arrows ">
+            <img className="icon first-arrow" src={LeftArrow} alt="first-arrow" onClick={onClick}/>
             <div className={page === 0 ? "disabled flex previous" : "flex previous"} onClick={page === 0 ? null : onClick}>
               <img className="icon left-arrow" src={LeftArrow} alt="left-arrow"/>
               <p className="left-arrow">Previous</p>
@@ -33,6 +34,7 @@ const NavReader = ({ page, content, length, onClick }) => {
               <p className="right-arrow">Next</p>
               <img className="icon right-arrow" src={RightArrow} alt="right-arrow"/>
             </div>
+            <img className="icon last-arrow" src={RightArrow} alt="last-arrow" onClick={onClick}/>
           </li>
           <li className="flex post-title">
             <p>

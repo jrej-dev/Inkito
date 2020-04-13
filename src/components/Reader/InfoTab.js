@@ -95,7 +95,7 @@ const InfoTab = ({ content, type }) => {
 
               <ul className="comments">
                 <div className="comment-title flex" key="comment-title">
-                  <h3>{content.replies.length > 0 ? `Comments (${content.replies.length})` : "No Comments"} </h3>
+                  <h3>{content.replies ? `Comments (${content.replies.length})` : "No Comments"} </h3>
                   <div className="line"/>
                 </div>
                 <CommentList commentData={content}/>
