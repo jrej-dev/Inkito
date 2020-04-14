@@ -15,11 +15,13 @@ const NavReader = ({ page, content, length, onClick }) => {
     return (
       <div className="nav-reader">
         <ul className="nav-reader-list">
-          <li className="title">
+
+          <li className="title flex">
             <h1>
               <Link to="/">Inkito</Link>
             </h1>
           </li>
+
           <li className="flex arrows ">
             <img className="icon first-arrow" src={LeftArrow} alt="first-arrow" onClick={onClick}/>
             <div className={page === 0 ? "disabled flex previous" : "flex previous"} onClick={page === 0 ? null : onClick}>
@@ -36,6 +38,7 @@ const NavReader = ({ page, content, length, onClick }) => {
             </div>
             <img className="icon last-arrow" src={RightArrow} alt="last-arrow" onClick={onClick}/>
           </li>
+
           <li className="flex post-title">
             <p>
               {content[page] ? content[page].title.includes(content[0].title) ? "" : `${content[0].title} /` : ""}
@@ -44,12 +47,15 @@ const NavReader = ({ page, content, length, onClick }) => {
               {content[page] ? content[page].title : ""}
             </p>
           </li>
+
           <li className="flex icons">
             <img className="icon heart" src={Heart} alt="heart" onClick={onClick}/>
             <img className="icon comment" src={Bubble} alt="comment bubble" onClick={onClick}/>
             <img className="icon follow" src={Bell} alt="follow bell" onClick={onClick}/>
           </li>
+
           <li className="login" onClick={onClick}>Login/Register</li>
+
         </ul>
       </div>
     )

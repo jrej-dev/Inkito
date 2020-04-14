@@ -17,16 +17,24 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
     }
   })
 
+  const infoClickHandle = (e) => {
+    if (e.target.className.includes("toggle")) {
+      store.toggleInfoTab(page);
+    } else if (e.target.className.includes("comments")) {
+      store.toggleComments(page);
+    }
+  }
+
   const Content = () => {
     return useObserver(() => {
-      if (toJS(store.seriesDetail)[store.currentPage]) {
+      if (toJS(store.seriesDetail)[page]) {
         if ( type === "Comics"){
           return ( 
             <div>
               <div className="comic-body content-body">
-                  <ContentBody content={toJS(store.seriesDetail[store.currentPage])}/>
+                  <ContentBody content={toJS(store.seriesDetail[page])}/>
               </div>
-              <InfoTab type={type} content={toJS(store.seriesDetail[store.currentPage])}/>        
+              <InfoTab page={page} commentIsActive={store.activeComments[page]} infoIsActive={store.activeInfoTab[page]} type={type} content={toJS(store.seriesDetail[page])} onClick={infoClickHandle}/>        
             </div>
           )
         } else if ( type === "Novels" ) {
@@ -35,11 +43,11 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
               <div className="novel-body">
                 <wired-card elevation="2">
                 <div className="content-body">
-                    <ContentBody content={toJS(store.seriesDetail[store.currentPage])}/>
+                    <ContentBody content={toJS(store.seriesDetail[page])}/>
                 </div>
               </wired-card>
               </div>
-              <InfoTab type={type} content={toJS(store.seriesDetail[store.currentPage])}/>        
+              <InfoTab page={page} commentIsActive={store.activeComments[page]} infoIsActive={store.activeInfoTab[page]} type={type} content={toJS(store.seriesDetail[page])} onClick={infoClickHandle}/>        
             </div>
           )
         }

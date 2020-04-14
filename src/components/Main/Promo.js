@@ -44,7 +44,7 @@ const Promo = () => {
             <div className="heroCover" />
             <ul className="promoBanner">
                 <PromoBoxes />
-                <li className="promoBox promoLink">
+                <li className="promoBox promoLink flex">
                     <Link to="/">
                     <h2 className="promoted">Promoted</h2>
                     <p className="here">Get your story up here.</p>

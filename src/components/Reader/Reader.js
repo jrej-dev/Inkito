@@ -15,6 +15,7 @@ const Reader = ({ type }) => {
 
   var props = {};
 
+  
   useEffect(() => {
     getUrlVars();
     store.resetSeriesDetail();
@@ -22,24 +23,36 @@ const Reader = ({ type }) => {
 
     timeout(5000);
     props.currentPage ? store.updateCurrentPage(props.currentPage) : store.updateCurrentPage(0);
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   })
-
+  
   const getUrlVars = () => {
     var address = window.location.href;
-
+    
     var indexOfReader = address.indexOf("Reader");
     address = address.slice(indexOfReader + 7, address.length);
-
+    
     var params = address.split("/");
     props.author = params[0];
     props.seriesTitle = params[1]
-
+    
     if (params[2]) {
       props.currentPage = parseInt(params[2]);
     }
     return props;
   }
-
+  
+  const handleScroll = () => {
+    if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) {} else {
+      console.log('Fetch more pages!');
+      if (store.currentPage + 1 < store.seriesLinks.length) {
+        store.scrollCurrentPage(store.currentPage + 1)
+      }
+    }   
+  }
+  
   const navClickHandle = (e) => {
     if (e.target.className.includes("right-arrow")) {
       store.updateCurrentPage(store.currentPage + 1);
@@ -73,15 +86,16 @@ const Reader = ({ type }) => {
       var blogs = [];
       if (store.currentPage <= seriesData.length) {
         for (let i = store.startPage; i <= store.currentPage; i++) {
-          blogs.push(
-            <li key={seriesData[i]+store.currentPage} className="blog">
-              <Blog type={type} page={store.currentPage} author={props.author} permlink={seriesData[i]} nextPermlink={seriesData[i + 1]} />
-            </li>
-          )
+            blogs.push(   
+              <li key={seriesData[i]+store.currentPage} className="blog">
+                <Blog type={type} page={i} author={props.author} permlink={seriesData[i]} nextPermlink={seriesData[i + 1]} />
+                <p className="none scroll">Scroll to read more</p> 
+              </li>      
+            )
         }
       } else {
         return (
-            store.spinnerTimeout ? <h3>No content Found</h3> : <wired-spinner class="custom" spinning duration="1000"/>
+          store.spinnerTimeout ? <h3>No content Found</h3> : <wired-spinner class="custom" spinning duration="1000"/>
         )
       }
       return blogs;

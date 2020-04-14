@@ -61,13 +61,15 @@ export function StoreProvider({ children }) {
         newNovels: [],
         seriesLinks: [],
         seriesDetail: [],
+        activeInfoTab:[],
+        activeComments:[],
         clickedSeriesAuthor: "",
         clickedSeriesTitle: "",
         clickedSeriesContent: "",
         startPage: 0,
         currentPage: 0,
         spinnerTimeout: false,
-
+        
         //Data states
         trendyComicState: "",
         newComicState: "",
@@ -103,8 +105,11 @@ export function StoreProvider({ children }) {
             store.activeNovelTrend = trend;
         },
         updateCurrentPage: page => {
-            store.currentPage = page;
             store.startPage = page;
+            store.currentPage = page;
+        },
+        scrollCurrentPage: page => {
+            store.currentPage = page;
         },
         /*sortByLatestUpdate: content => {
             content = content.slice().sort(function (a, b) {
@@ -124,7 +129,17 @@ export function StoreProvider({ children }) {
         resetSeriesDetail: () => {
             store.seriesDetail = [];
             store.seriesLinks = [];
-            store.spinnerTimeout = false;
+            store.activeInfoTab = [];
+            store.spinnerTimeout = [];
+        },
+        toggleInfoTab: (page) => {
+            store.activeInfoTab[page] = !store.activeInfoTab[page];
+            if(store.activeInfoTab[page] === false){
+                store.activeComments[page] = false;
+            } 
+        },
+        toggleComments: (page) => {
+            store.activeComments[page] = !store.activeComments[page];
         },
         async fetchSeriesInfo(seriesId, type) {
             try {
@@ -261,6 +276,8 @@ export function StoreProvider({ children }) {
                     this.seriesLinks = content;
 
                     this.seriesDetail.length = content.length;
+                    this.activeInfoTab = content.map(object => object = false);
+                    this.activeComments = content.map(object => object = false);
                 })
 
             } catch (error) {

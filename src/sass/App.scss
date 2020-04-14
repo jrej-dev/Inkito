@@ -24,3 +24,53 @@
 .capital {
   text-transform: capitalize;
 }
+
+.reset {
+  > * {
+      margin: 0;
+      padding: 0;
+  }
+}
+
+.flex {
+  @include flex(center);
+  > * {
+    margin: 0;
+    padding: 0 0.5em;
+  }
+}
+
+.flex-even {
+  @include flex(space-evenly);
+}
+
+.flex-start {
+  @include flex(flex-start);
+}
+
+.flex-around {
+  @include flex(space-around);
+}
+
+.pa{
+  > * {
+    margin: 0;
+    padding: 0 0.5em;
+  }
+}
+
+.icon {
+  height: 1.5em;       
+}
+.sm-icon {
+  padding: 0 0.2em;
+  height: 0.5em; 
+}
+.md-icon {
+  padding: 0 0.2em;
+  height: 1em; 
+}
+
+.pointer {
+  cursor: pointer;
+}

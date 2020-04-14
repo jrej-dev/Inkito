@@ -22,9 +22,9 @@ import { Link } from "react-router-dom";*/
 import CommentList from './CommentList';
 import ContentBody from './ContentBody';
 
-const InfoTab = ({ content, type }) => {
+const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, page, type }) => {
   const store = React.useContext(StoreContext);
-  
+
   return useObserver(() => {
     if (content.pending_payout_value) {
 
@@ -47,36 +47,38 @@ const InfoTab = ({ content, type }) => {
         }
       }
 
-      return (
-        <div className="info-tab">
-          <wired-card>
-            <div className="info-card">
-              <div className="default-banner flex">
-                
-                  <img className="none active icon up-arrow" src={UpArrow} alt="up-arrow" />
-                  <img className="none icon down-arrow" src={DownArrow} alt="down-arrow" />
-                  
-                  <div className="time-block flex">
-                    <img className="icon clock" src={Clock} alt="clock" />
-                    <p>{compareDate(store.seriesDetail[store.currentPage].created.slice(0, 10))}</p>
-                  </div>
-                  
-                  <div className="reward-block flex">
-                    <p>$ {reward}</p>
-                    <img className="sm-icon down-arrow" src={DownArrow} alt="down-arrow" />
-                  </div>
-                  
-                  <div className="vote-block flex">
-                    <p>{store.seriesDetail[store.currentPage].active_votes.length}</p>
-                    <img className="sm-icon down-arrow" src={DownArrow} alt="down-arrow" />
-                  </div>
-                
+      const ActiveInfoTab = () => {
+        if (infoIsActive) {
+          return (
+            <div className="flex">
+              <img className="icon toggle" src={UpArrow} alt="up-arrow" onClick={onClick} />
 
-                <img className="icon heart" src={Heart} alt="heart" />
+              <div className="time-block flex">
+                <img className="icon clock" src={Clock} alt="clock" />
+                <p>{compareDate(store.seriesDetail[page].created.slice(0, 10))}</p>
               </div>
-              
-              <div className="info-banner">
 
+              <div className="reward-block flex">
+                <p>$ {reward}</p>
+                <img className="sm-icon down-arrow" src={DownArrow} alt="down-arrow" />
+              </div>
+
+              <div className="vote-block flex">
+                <p>{store.seriesDetail[store.currentPage].active_votes.length}</p>
+                <img className="sm-icon down-arrow" src={DownArrow} alt="down-arrow" />
+              </div>
+            </div>
+          )
+        } else {
+          return <img className="icon toggle" src={DownArrow} alt="down-arrow" onClick={onClick} />
+        }
+      }
+
+      const ActiveContent = () => {
+        if (infoIsActive) {
+          return (
+            <div>
+              <div className="info-banner">
                 <div className={type === "Comics" ? "author-info flex" : "author-info flex none"}>
                   <img className="panel-profile-pic" src={`https://steemitimages.com/u/${content.author}/avatar`} alt=" " />
                   <div className="author-name">
@@ -87,21 +89,36 @@ const InfoTab = ({ content, type }) => {
 
                 <div className={type === "Comics" ? "content-info" : "content-info none"}>
                   <wired-card>
-                    <ContentBody content={content}/>
+                    <ContentBody content={content} />
                   </wired-card>
                 </div>
 
               </div>
 
               <ul className="comments">
-                <div className="comment-title flex" key="comment-title">
-                  <h3>{content.replies ? `Comments (${content.replies.length})` : "No Comments"} </h3>
-                  <div className="line"/>
+                <div className="comment-title flex reset" key="comment-title">
+                  {content.replies.length > 0 ? commentIsActive ? <img className="icon comments" src={UpArrow} alt="up-arrow" onClick={onClick} /> : <img className="icon comments" src={DownArrow} alt="down-arrow" onClick={onClick} /> : ""}
+                  <h3>{content.replies.length > 0 ? `Comments (${content.replies.length})` : "No Comments"} </h3>
+                  <div className="line" />
                 </div>
-                <CommentList commentData={content}/>
+                {commentIsActive ? <CommentList commentData={content} /> : ""}
               </ul>
-              
-            
+            </div>
+          )
+        } else {
+          return ""
+        }
+      }
+
+      return (
+        <div className="info-tab">
+          <wired-card>
+            <div className="info-card">
+              <div className="default-banner flex">
+                <ActiveInfoTab />
+                <img className="icon heart" src={Heart} alt="heart" />
+              </div>
+              <ActiveContent />
             </div>
           </wired-card>
         </div>

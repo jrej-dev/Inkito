@@ -1,12 +1,6 @@
 @import '../abstracts/variables';
 @import '../abstracts/mixins';
 
-
-.flex {
-    width: 100%;
-    @include flex(center);
-}
-
 .nav-reader {
     width: 100%;
     margin-bottom: 1em;
@@ -15,21 +9,18 @@
 .nav-reader-list {
     margin: 0;
     padding: 0;
+    width: 100%;  
     @include flex(space-evenly);
     flex-direction: row;
     background-color: $primary-color;
     color: $darkest-color;
     height: auto;
-    min-height: 2em;
+    min-height: 5em;
     list-style-type: none;
     .title {
-        padding-left: 2em;
-    }
-    h1 {
-        margin-top: 0.5em;
-    }
-    .login {
-        padding-right: 2em;
+        h1 {
+            margin: 0;
+        }
     }
     p {
         margin: 0.5em 0;
@@ -40,6 +31,9 @@
     }
     .post-title > * {
         padding: 0 0.1em;
+    }
+    .icons {
+        padding: 0.5em 0;
     }
 }
 
@@ -62,13 +56,14 @@
 @media screen and (max-width: 850px) {
     .nav-reader-list {
         width: 100%;
+        padding: 0.5em 0 0 0;  
         flex-wrap: wrap;
         p {
             white-space: normal;
         }
         .title {
             order: 1;
-            flex-basis: 40%;
+            flex-basis: 45%;
         }
         .icons {
             order: 4;
@@ -76,7 +71,7 @@
         }
         .login {
             order: 2;
-            flex-basis: 40%;
+            flex-basis: 45%;
             padding: 0;
         }
         .arrows {

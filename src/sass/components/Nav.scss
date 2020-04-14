@@ -2,14 +2,12 @@
 @import '../abstracts/mixins';
 
 .Nav {
-    @include flex(center);
     flex-direction: row;
     background-color: white;
     color: $darkest-color;
     height: 5em;
     width: 100%;
     .title {
-      @include flex(space-evenly)
       margin-right: auto;
       padding-left: 1em;
       > * {
