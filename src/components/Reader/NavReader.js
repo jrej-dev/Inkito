@@ -10,10 +10,10 @@ import Bell from '../../icons/bell.png';
 
 import { Link } from "react-router-dom";
 
-const NavReader = ({ page, content, length, onClick }) => {
+const NavReader = ({ page, content, length, onClick, isHidden }) => {
   if (content) {
     return (
-      <div className="nav-reader">
+      <div className={isHidden ? "nav-reader hidden" : "nav-reader"}>
         <ul className="nav-reader-list">
 
           <li className="title flex">

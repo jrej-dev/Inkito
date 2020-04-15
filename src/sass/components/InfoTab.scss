@@ -29,14 +29,7 @@
         padding: 1em 1em;
     }
     .author-info {
-        flex-direction: column;
         width: 10%;
-        .panel-profile-pic {
-            height: 5em;
-            border-radius: 50%;
-            object-fit: cover;
-            border-radius: 50%;
-        }
         .author-name {
             > * {
                 margin: 0;
@@ -79,7 +72,6 @@
         height: 4em;
         border-radius: 50%;
         object-fit: cover;
-        border-radius: 50%;
         width: 4em;
     }
     .comment-block {

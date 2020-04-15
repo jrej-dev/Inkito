@@ -79,7 +79,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, page, type }
           return (
             <div>
               <div className="info-banner">
-                <div className={type === "Comics" ? "author-info flex" : "author-info flex none"}>
+                <div className={type === "Comics" ? "author-info flex-col" : "author-info flex-row"}>
                   <img className="panel-profile-pic" src={`https://steemitimages.com/u/${content.author}/avatar`} alt=" " />
                   <div className="author-name">
                     <p className="capital">{content.author}</p>

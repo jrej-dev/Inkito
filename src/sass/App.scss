@@ -40,6 +40,24 @@
   }
 }
 
+.flex-row {
+  @include flex(center);
+  flex-direction: row;
+  > * {
+    margin: 0;
+    padding: 0 0.5em;
+  }
+}
+
+.flex-col {
+  @include flex(center);
+  flex-direction: column;
+  > * {
+    margin: 0;
+    padding: 0 0.5em;
+  }
+}
+
 .flex-even {
   @include flex(space-evenly);
 }

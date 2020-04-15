@@ -3,10 +3,13 @@
 
 .reader {
     width: 100vw;
-    margin: 0;
+    margin-top: 10em;
     padding: 0;
+    ul {
+        padding: 0;
+    }
     wired-card {
-        width: 95%;
+        width: 70%;
         padding: 1em 0;
     }
     .content-body {
@@ -23,6 +26,9 @@
     li {
         list-style: none;
     }
+    .scroll-text {
+        margin-bottom: 5em;
+    }
 }
 
 .comic-body {
@@ -32,14 +38,45 @@
     }
 }
 
+.author-banner {
+    > wired-card {
+        height: inherit;
+        width: 70%;
+        > * { 
+            flex-wrap: wrap;
+            width: 100%;
+            min-height: 5em;
+            .post-title {
+                flex-basis: 30%;
+                white-space: nowrap;
+            }
+        }
+    }
+}
+
+.panel-profile-pic {
+    height: 5em;
+    border-radius: 50%;
+    object-fit: cover;
+    border-radius: 50%;
+}
 
 @media screen and (max-width: 850px) {
     .reader {
+        wired-card {
+            width: 90%;
+        }
         .content-body {
             > * {
                 width: 90%;
                 padding: 0 5%;
             }
+        }
+    }
+    .author-banner {
+        .post-title {
+            flex-basis: 50%;
+            padding: 0.5em;
         }
     }
 }

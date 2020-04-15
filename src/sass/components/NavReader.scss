@@ -2,8 +2,16 @@
 @import '../abstracts/mixins';
 
 .nav-reader {
+    position: fixed;
+    transition: top 0.3s;
+    z-index: 1;
+    top: 0;
     width: 100%;
     margin-bottom: 1em;
+}
+
+.hidden {
+    top: -150px;
 }
 
 .nav-reader-list {

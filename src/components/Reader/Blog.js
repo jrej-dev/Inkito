@@ -11,7 +11,9 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
   const store = React.useContext(StoreContext);
 
   useEffect (() => {
-    store.fetchSeriesDetail(author, permlink, page);
+    if (page === 0 || store.seriesDetail[page] === undefined) {
+      store.fetchSeriesDetail(author, permlink, page);
+    }
     if (page + 1 < store.seriesLinks.length) {
       store.fetchSeriesDetail(author, nextPermlink, page+1);
     }
