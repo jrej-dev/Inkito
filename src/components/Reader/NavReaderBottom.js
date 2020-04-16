@@ -9,7 +9,7 @@ const NavReaderBottom = ({ page, content, length, onClick, isHidden }) => {
   if (content) {
     return (
       <div className={isHidden ? "nav-reader-bottom hidden-bottom" : "nav-reader-bottom"}>
-        <ul className="nav-reader-list">
+        <ul className="nav-reader-list-bottom">
           <li className="flex-even arrows ">
             <img className="icon first-arrow" src={LeftArrow} alt="first-arrow" onClick={onClick}/>
             <div className={page === 0 ? "disabled flex previous" : "flex previous"} onClick={page === 0 ? null : onClick}>

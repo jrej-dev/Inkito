@@ -1,6 +1,28 @@
 @import '../abstracts/variables';
 @import '../abstracts/mixins';
 
+.nav-reader-bottom {
+    display: none;
+    position: fixed;
+    transition: bottom 0.3s;
+    z-index: 1;
+    bottom: 0;
+    height: 3em;
+    width: 100%;
+}
+
+.nav-reader-list-bottom {
+    margin: 0;
+    padding: 0 0.5em;
+    height: inherit;
+    width: 100%;  
+    @include flex(space-evenly);
+    flex-direction: row;
+    background-color: $primary-color;
+    color: $darkest-color;
+    list-style-type: none;
+}
+
 .nav-reader {
     position: fixed;
     transition: top 0.3s;
@@ -9,16 +31,6 @@
     width: 100%;
     min-height: 5em;
     margin-bottom: 1em;
-}
-
-.nav-reader-bottom {
-    display: none;
-    position: fixed;
-    transition: bottom 0.3s;
-    z-index: 1;
-    bottom: 0;
-    height: 2.5em;
-    width: 100%;
 }
 
 .hidden-top {
@@ -32,8 +44,8 @@
 
 .nav-reader-list {
     margin: 0;
-    padding: 0;
-    height: 100%;
+    padding: 0 0.5em;
+    min-height: inherit;
     width: 100%;  
     @include flex(space-evenly);
     flex-direction: row;
@@ -53,7 +65,7 @@
         padding: 0 0.5em;
     }
     .post-title > * {
-        padding: 0 0.1em;
+        padding: 0 0.5em;
     }
     .icons {
         padding: 0.5em 0;
@@ -87,12 +99,12 @@
     }
     .nav-reader-list {
         width: 100%;
-        padding: 0.5em 0 0 0;  
         flex-wrap: wrap;
         p {
             white-space: normal;
         }
         .title {
+            padding: 0.5em 0;
             order: 1;
             flex-basis: 45%;
         }
