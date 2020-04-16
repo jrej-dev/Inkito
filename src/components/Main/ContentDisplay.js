@@ -7,8 +7,8 @@ import '../../sass/components/Panels.scss';
 
 import PanelBlocks from './PanelBlock';
 
-import TrendyIcon from '../../icons/trendyicon.png';
 import NewIcon from '../../icons/newicon.png';
+import TrendyIcon from '../../icons/newicon.png';
 import { Link } from "react-router-dom";
 
 function ContentDisplay({ type, newData, trendyData, activeCategory, activeTrend, panelBlockNumber }) {
