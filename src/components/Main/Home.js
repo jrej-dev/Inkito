@@ -11,7 +11,9 @@ import ContentDisplay from '../../components/Main/ContentDisplay';
 const Home = () => {
   const store = React.useContext(StoreContext);
 
-  useEffect (() => {  
+  useEffect (() => { 
+    document.documentElement.scrollTop = 0;
+
     store.updateActiveComicCategory("All Categories");
     store.updateActiveNovelCategory("All Categories");
     store.updateActiveComicTrend("all");
