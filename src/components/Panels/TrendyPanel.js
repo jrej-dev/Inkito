@@ -1,5 +1,5 @@
 import React from 'react';
-import TrendyIcon from '../../icons/trendy-icon.png';
+import TrendyIcon from '../../icons/trendyicon.png';
 import '../../sass/components/Panels.scss';
 import 'wired-elements';
 
