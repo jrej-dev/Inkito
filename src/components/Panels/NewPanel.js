@@ -1,5 +1,5 @@
 import React from 'react';
-import NewIcon from '../../icons/newicon.png';
+import NewIcon from '../Icons/newicon.png';
 import '../../sass/components/Panels.scss';
 import 'wired-elements';
 

@@ -8,7 +8,7 @@ import 'wired-elements';
 import Blog from './Blog';
 import NavReader from './NavReader';
 import AuthorBanner from './AuthorBanner';
-//import DownArrow from '../../icons/down-arrow.png';
+//import DownArrow from '../Icons/down-arrow.png';
 
 const Reader = ({ type }) => {
   const store = React.useContext(StoreContext);

@@ -4,11 +4,11 @@ import 'wired-elements';
 import ContentBody from './ContentBody';
 import CommentList from './CommentList';
 
-import Clock from '../../icons/clock.png';
-import Heart from '../../icons/heart.png';
-import UpArrow from '../../icons/up-arrow.png';
-import DownArrow from '../../icons/down-arrow.png';
-import Flag from '../../icons/flag.png';
+import Clock from '../Icons/clock.png';
+import Heart from '../Icons/heart.png';
+import UpArrow from '../Icons/up-arrow.png';
+import DownArrow from '../Icons/down-arrow.png';
+import Flag from '../Icons/flag.png';
 
 const CommentBlock = ({ content, reply }) => {
     

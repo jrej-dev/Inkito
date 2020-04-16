@@ -5,8 +5,8 @@ import { toJS } from 'mobx';
 import 'wired-elements';
 import '../../sass/components/Reader.scss';
 
-import Bell from '../../icons/bell.png';
-import Share from '../../icons/share.png';
+import Bell from '../Icons/bell.png';
+import Share from '../Icons/share.png';
 
 //import { Link } from "react-router-dom";
 

@@ -2,11 +2,11 @@ import React from 'react';
 import 'wired-elements';
 import '../../sass/components/NavReader.scss';
 
-import LeftArrow from '../../icons/left-arrow.png';
-import RightArrow from '../../icons/right-arrow.png';
-import Heart from '../../icons/heart.png';
-import Bubble from '../../icons/bubble.png';
-import Bell from '../../icons/bell.png';
+import LeftArrow from '../Icons/left-arrow.png';
+import RightArrow from '../Icons/right-arrow.png';
+import Heart from '../Icons/heart.png';
+import Bubble from '../Icons/bubble.png';
+import Bell from '../Icons/bell.png';
 
 import { Link } from "react-router-dom";
 
