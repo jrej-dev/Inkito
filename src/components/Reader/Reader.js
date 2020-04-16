@@ -7,6 +7,7 @@ import 'wired-elements';
 
 import Blog from './Blog';
 import NavReader from './NavReader';
+import NavReaderBottom from './NavReaderBottom';
 import AuthorBanner from './AuthorBanner';
 //import DownArrow from '../Icons/down-arrow.png';
 
@@ -137,6 +138,26 @@ const Reader = ({ type }) => {
     })
   }
 
+  const BottomNav = () => {
+    return useObserver(() => {
+      if (toJS(store.seriesDetail)[store.currentPage]) {
+        return (
+          <NavReaderBottom
+            page={store.currentPage}
+            length={store.seriesLinks.length}
+            onClick={navClickHandle}
+            content={toJS(store.seriesDetail)}
+            isHidden={store.navIsHidden}
+          />
+        )
+      } else {
+        return (
+          <NavReaderBottom onClick={navClickHandle} />
+        )
+      }
+    })
+  }
+
   const ScrollText = () => {
     return useObserver(() => {
       if (store.currentPage < store.seriesDetail.length - 1) {
@@ -161,6 +182,7 @@ const Reader = ({ type }) => {
       </ul>
       <ScrollText />
       <AuthorBanner />
+      <BottomNav />  
     </div>
   );
 }

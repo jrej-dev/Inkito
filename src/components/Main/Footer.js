@@ -5,10 +5,10 @@ import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <div className="footer">
+    <div className="footer flex-even">
       <div className="circle" />
       <div className="footer-links">
-        <ul className="footer-list">
+        <ul className="footer-list flex-even">
           <li className="blog">
             <a
               href="https://hive.blog/@inkito"

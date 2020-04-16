@@ -60,6 +60,10 @@
 
 .flex-even {
   @include flex(space-evenly);
+  > * {
+    margin: 0;
+    padding: 0 0.5em;
+  }
 }
 
 .flex-start {

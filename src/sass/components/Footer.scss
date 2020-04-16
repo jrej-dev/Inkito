@@ -4,14 +4,15 @@
 
 .footer {
   position: relative;
-  @include flex(space-evenly);
   flex-direction: column;
-  height: 10em;
+  min-height: 10em;
   width: 100%;
   margin: 2em 0 0 0;
+  padding: 1em 0;
   color: $darkest-color;
   background-color: $primary-color;
   .circle {
+    margin: 0.5em 0;
     height: 5em;
     width: 5em;
     background-color: $secondary-color;
@@ -22,7 +23,6 @@
     width: 70vw;
     margin: 0;
     padding: 0;
-    @include flex(space-evenly);
     flex-direction: row;
     flex-wrap: wrap;
     list-style-type: none;

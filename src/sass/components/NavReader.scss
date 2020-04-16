@@ -7,23 +7,38 @@
     z-index: 1;
     top: 0;
     width: 100%;
+    min-height: 5em;
     margin-bottom: 1em;
 }
 
-.hidden {
-    top: -150px;
+.nav-reader-bottom {
+    display: none;
+    position: fixed;
+    transition: bottom 0.3s;
+    z-index: 1;
+    bottom: 0;
+    height: 2.5em;
+    width: 100%;
 }
+
+.hidden-top {
+    top: -200px;
+}
+
+.hidden-bottom {
+    bottom: -200px;
+}
+
 
 .nav-reader-list {
     margin: 0;
     padding: 0;
+    height: 100%;
     width: 100%;  
     @include flex(space-evenly);
     flex-direction: row;
     background-color: $primary-color;
     color: $darkest-color;
-    height: auto;
-    min-height: 5em;
     list-style-type: none;
     .title {
         h1 {
@@ -62,6 +77,14 @@
 }
 
 @media screen and (max-width: 850px) {
+    .nav-reader-bottom {
+        display: block;
+    }
+    .nav-reader {
+        .arrows {
+            display: none;
+        }
+    }
     .nav-reader-list {
         width: 100%;
         padding: 0.5em 0 0 0;  
@@ -74,8 +97,7 @@
             flex-basis: 45%;
         }
         .icons {
-            order: 4;
-            flex-basis: 40%;
+            display: none;
         }
         .login {
             order: 2;
@@ -83,8 +105,11 @@
             padding: 0;
         }
         .arrows {
-            order: 3;
-            flex-basis: 40%;
+            margin: 0 10%;
+            width: 100%;
+            > * {
+                padding: 0;
+            }
             .episode {
                 display: none;
             }
@@ -92,7 +117,7 @@
         .post-title {
             width: 100%;
             background-color: $secondary-color;
-            order: 5;
+            order: 4;
             flex-basis: 100%;
         }
     }

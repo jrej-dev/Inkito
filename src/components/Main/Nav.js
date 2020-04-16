@@ -22,7 +22,7 @@ function Nav() {
         <li className="nav-novels">
           <Link to="/novels">Novels</Link>
         </li>
-        <li>
+        <li className="nav-blog">
           <a href="https://hive.blog/@inkito" target ="_blank" rel="noopener noreferrer">Blog</a>
         </li>
         <li>Login/Register</li>
