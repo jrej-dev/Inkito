@@ -25,7 +25,7 @@ const AuthorBanner = () => {
                                     <p className="capital">{toJS(store.seriesDetail)[0].author}</p>
                                     <p>Creator</p>
                                 </div>
-                                <p className="followers">1500 followers</p>
+                                {/*<p className="followers">1500 followers</p>*/}
                             </div>
                             <div className="flex-col post-title">
                                 <p>
