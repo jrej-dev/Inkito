@@ -8,7 +8,7 @@ import '../../sass/components/Reader.scss';
 import Bell from '../../icons/bell.png';
 import Share from '../../icons/share.png';
 
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 
 const AuthorBanner = () => {
     const store = React.useContext(StoreContext);

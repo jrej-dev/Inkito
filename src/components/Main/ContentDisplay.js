@@ -6,7 +6,8 @@ import '../../sass/components/Body.scss';
 import '../../sass/components/Panels.scss';
 
 import PanelBlocks from './PanelBlock';
-import TrendyIcon from '../../icons/trendyicon.png';
+
+import TrendyIcon from '../../icons/trendy-icon.png';
 import NewIcon from '../../icons/newicon.png';
 import { Link } from "react-router-dom";
 
