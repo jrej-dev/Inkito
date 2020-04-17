@@ -27,12 +27,40 @@ function Footer() {
               Novels
             </Link>
           </li>
-          <li className="faq">F.A.Q.</li>
-          <li className="tos">Terms of services</li>
-          <li className="privacy">Privacy policy</li>
+          <li className="faq">
+            <a
+              href="https://hive.blog/faq.html"
+              target="_blank"
+              rel="noopener noreferrer">
+              F.A.Q.
+            </a>
+          </li>
+          <li className="tos">
+            <a
+              href="https://wallet.hive.blog/tos.html"
+              target="_blank"
+              rel="noopener noreferrer">
+              Terms of services
+            </a>
+          </li>
+          <li className="privacy">
+            <a
+              href="https://hive.blog/privacy.html"
+              target="_blank"
+              rel="noopener noreferrer">
+              Privacy policy
+            </a>
+          </li>
         </ul>
       </div>
-      <div className="social">App Social Media</div>
+      <div className="social">
+        <a
+          href="https://hive.blog/@inkito"
+          target="_blank"
+          rel="noopener noreferrer">
+          App Social Media
+          </a>
+      </div>
     </div>
   );
 }
