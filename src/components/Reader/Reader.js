@@ -38,7 +38,7 @@ const Reader = ({ type }) => {
 
     var params = address.split("/");
     props.author = params[0];
-    props.seriesTitle = params[1]
+    props.seriesTitle = params[1];
 
     if (params[2]) {
       props.currentPage = parseInt(params[2]);

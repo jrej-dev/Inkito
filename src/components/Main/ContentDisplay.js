@@ -16,16 +16,16 @@ function ContentDisplay({ type, newData, trendyData, activeCategory, activeTrend
 
   const categoryClickHandle = (e) => {
     if (!e.target.className.includes("isActive")) {
-      if (type === "Comics") {
+      if (type === "comics") {
         store.updateActiveComicCategory(e.target.className);
-      } else if (type === "Novels") {
+      } else if (type === "novels") {
         store.updateActiveNovelCategory(e.target.className);
       }
     }
   }
 
   const trendClickHandle = (e) => {
-    if (type === "Comics") {
+    if (type === "comics") {
       if (e.target.className.includes("trendy")) {
         store.updateActiveComicTrend("trendy");
       } else if (e.target.className.includes("new")) {
@@ -33,7 +33,7 @@ function ContentDisplay({ type, newData, trendyData, activeCategory, activeTrend
       } else if (e.target.className.includes("all")) {
         store.updateActiveComicTrend("all");
       }
-    } else if (type === "Novels") {
+    } else if (type === "novels") {
       if (e.target.className.includes("trendy")) {
         store.updateActiveNovelTrend("trendy");
       } else if (e.target.className.includes("new")) {
@@ -57,7 +57,7 @@ function ContentDisplay({ type, newData, trendyData, activeCategory, activeTrend
   return (
     <div className={activeTrend === "all" ? "content-display" : activeTrend === "trendy" ? "content-display only-trendy" : "content-display only-new"}>
       <div className="title-line">
-        <h2>
+        <h2 className="capital">
           <Link to={`/${type}`}>
             {type}
           </Link>

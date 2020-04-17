@@ -14,9 +14,9 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
     const history = useHistory();
 
     const contentClickHandle = (props) => {
-        if (type === "Comics") {
+        if (type === "comics") {
           history.push(`/comicReader/${props.author}/${props.seriesTitle}`);
-        } else if (type === "Novels") {
+        } else if (type === "novels") {
           history.push(`/novelReader/${props.author}/${props.seriesTitle}`);
         }
     }
@@ -26,9 +26,9 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
         let fresh = [];
         let trendy = [];
         let category = "";
-        if (type === "Comics") {
+        if (type === "comics") {
           category = store.activeComicCategory.replace(" ","").toLowerCase();
-        } else if (type === "Novels") {
+        } else if (type === "novels") {
           category = store.activeNovelCategory.replace(" ","").toLowerCase();
         }
         if (category !== "allcategories") {

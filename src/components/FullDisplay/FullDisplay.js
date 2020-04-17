@@ -13,13 +13,12 @@ const FullDisplay = ({ display }) => {
   const ComicContent = () => {
     return useObserver(() => (
       <ContentDisplay 
-        type={"Comics"} 
+        type={"comics"} 
         newData={store.newComics}
         trendyData={store.trendingComics}
         activeTrend={store.activeComicTrend}
         activeCategory={store.activeComicCategory} 
         panelBlockNumber={12}
-        componentName={"ComicContent"}
       />
     ))
   }
@@ -27,13 +26,12 @@ const FullDisplay = ({ display }) => {
   const NovelContent = () => {
     return useObserver(() => (
       <ContentDisplay 
-        type={"Novels"}
+        type={"novels"}
         newData={store.newNovels}
         trendyData={store.trendingNovels}
         activeTrend={store.activeNovelTrend}
         activeCategory={store.activeNovelCategory}
         panelBlockNumber={12}
-        componentName={"NovelContent"}
       />
     ))
   }

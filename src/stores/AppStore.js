@@ -61,8 +61,8 @@ export function StoreProvider({ children }) {
         newNovels: [],
         seriesLinks: [],
         seriesDetail: [],
-        activeInfoTab:[],
-        activeComments:[],
+        activeInfoTab: [],
+        activeComments: [],
         clickedSeriesAuthor: "",
         clickedSeriesTitle: "",
         clickedSeriesContent: "",
@@ -70,7 +70,7 @@ export function StoreProvider({ children }) {
         currentPage: 0,
         spinnerTimeout: false,
         navIsHidden: false,
-        
+
         //Data states
         trendyComicState: "",
         newComicState: "",
@@ -135,10 +135,10 @@ export function StoreProvider({ children }) {
         },
         toggleInfoTab: (page) => {
             store.activeInfoTab[page] = !store.activeInfoTab[page];
-            if(store.activeInfoTab[page] === false){
+            if (store.activeInfoTab[page] === false) {
                 store.activeInfoTab = store.activeInfoTab.map(info => info = false);
                 store.activeComments[page] = false;
-            } 
+            }
         },
         closeInfoTab: () => {
             store.activeInfoTab = store.activeInfoTab.map(info => info = false);
@@ -298,11 +298,11 @@ export function StoreProvider({ children }) {
                     .then(result => {
                         return result;
                     })
-                    this.seriesDetail[page] = content;
-                    
-                    runInAction(async () => {
-                        const result = await store.fetchComments(content);
-                        if (this.seriesDetail[page]){
+                this.seriesDetail[page] = content;
+
+                runInAction(async () => {
+                    const result = await store.fetchComments(content);
+                    if (this.seriesDetail[page]) {
                         this.seriesDetail[page].replies = result;
                         this.seriesDetailState = "done";
                     }

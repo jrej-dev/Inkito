@@ -37,10 +37,10 @@ const App = () => {
             <FullDisplay display={"novels"} />
           </Route>
           <Route path="/comicReader">
-            <Reader type={"Comics"}/>
+            <Reader type={"comics"}/>
           </Route>
           <Route path="/novelReader">
-            <Reader type={"Novels"}/>
+            <Reader type={"novels"}/>
           </Route>
         </Switch>
         <Footer />

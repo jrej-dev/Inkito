@@ -79,15 +79,15 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, page, type }
           return (
             <div>
               <div className="info-banner">
-                <div className={type === "Comics" ? "author-info flex-col" : "author-info flex-row"}>
-                  <img className="panel-profile-pic" src={`https://steemitimages.com/u/${content.author}/avatar`} alt=" " />
+                <div className={type === "comics" ? "author-info flex-col" : "author-info flex-row"}>
+                  <img className="panel-profile-pic" src={content.author ? `https://steemitimages.com/u/${content.author}/avatar` : ""} alt=" " />
                   <div className="author-name">
                     <p className="capital">{content.author}</p>
                     <p>Creator</p>
                   </div>
                 </div>
 
-                <div className={type === "Comics" ? "content-info" : "content-info none"}>
+                <div className={type === "comics" ? "content-info" : "content-info none"}>
                   <wired-card>
                     <ContentBody content={content} />
                   </wired-card>
