@@ -13,7 +13,6 @@ const Home = () => {
 
   useEffect (() => { 
     document.documentElement.scrollTop = 0;
-
     store.updateActiveComicCategory("All Categories");
     store.updateActiveNovelCategory("All Categories");
     store.updateActiveComicTrend("all");

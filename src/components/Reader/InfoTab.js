@@ -1,6 +1,4 @@
 import React from 'react';
-import StoreContext from '../../stores/AppStore';
-import { useObserver } from 'mobx-react';
 
 /*import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
@@ -22,12 +20,9 @@ import { Link } from "react-router-dom";*/
 import CommentList from './CommentList';
 import ContentBody from './ContentBody';
 
-const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, page, type }) => {
-  const store = React.useContext(StoreContext);
+const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type }) => {
 
-  return useObserver(() => {
-    if (content.pending_payout_value) {
-
+    if (content) {
       let reward = content.pending_payout_value === "0.000 HBD" ? content.total_payout_value.replace("HBD", "") : content.pending_payout_value.replace("HBD", "");
 
       const compareDate = (contentDate) => {
@@ -55,7 +50,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, page, type }
 
               <div className="time-block flex">
                 <img className="icon clock" src={Clock} alt="clock" />
-                <p>{compareDate(store.seriesDetail[page].created.slice(0, 10))}</p>
+                <p>{compareDate(content.created.slice(0, 10))}</p>
               </div>
 
               <div className="reward-block flex">
@@ -64,7 +59,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, page, type }
               </div>
 
               <div className="vote-block flex">
-                <p>{store.seriesDetail[store.currentPage].active_votes.length}</p>
+                <p>{content.active_votes.length}</p>
                 <img className="sm-icon down-arrow" src={DownArrow} alt="down-arrow" />
               </div>
             </div>
@@ -89,7 +84,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, page, type }
 
                 <div className={type === "comics" ? "content-info" : "content-info none"}>
                   <wired-card>
-                    <ContentBody content={content} />
+                    <ContentBody content={content}/>
                   </wired-card>
                 </div>
 
@@ -126,7 +121,6 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, page, type }
     } else {
       return ""
     }
-  })
 }
 
 export default InfoTab;

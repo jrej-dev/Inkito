@@ -25,7 +25,9 @@ function Nav() {
         <li className="nav-blog">
           <a href="https://hive.blog/@inkito" target ="_blank" rel="noopener noreferrer">Blog</a>
         </li>
-        <li>Login/Register</li>
+        <li>
+          <a href="https://hive.blog/login.html" target ="_blank" rel="noopener noreferrer">Login/Register</a>
+        </li>
       </ul>
     </div>
   );

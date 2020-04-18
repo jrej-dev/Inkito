@@ -18,10 +18,10 @@ const Reader = ({ type }) => {
   var lastScrollTop = 0;
 
   useEffect(() => {
-    getUrlVars();
     store.resetSeriesDetail();
+    
+    getUrlVars();
     store.fetchPermlinks(props.author, props.seriesTitle);
-
     timeout(5000);
     props.currentPage ? store.updateCurrentPage(props.currentPage) : store.updateCurrentPage(0);
 

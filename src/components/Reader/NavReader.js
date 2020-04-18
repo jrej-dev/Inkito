@@ -23,20 +23,20 @@ const NavReader = ({ page, content, length, onClick, isHidden }) => {
           </li>
 
           <li className="flex arrows ">
-            <img className="icon first-arrow" src={LeftArrow} alt="first-arrow" onClick={onClick}/>
+            <img className="icon first-arrow" src={LeftArrow} alt="first-arrow" onClick={onClick} />
             <div className={page === 0 ? "disabled flex previous" : "flex previous"} onClick={page === 0 ? null : onClick}>
-              <img className="icon left-arrow" src={LeftArrow} alt="left-arrow"/>
+              <img className="icon left-arrow" src={LeftArrow} alt="left-arrow" />
               <p className="left-arrow">Previous</p>
             </div>
             <div className="flex episode-number">
               <p className="episode">{page === 0 ? "" : "Episode"}</p>
-              <p>{page === 0 ? "Cover" : page }</p>
+              <p>{page === 0 ? "Cover" : page}</p>
             </div>
             <div className={page === length - 1 ? "disabled flex next" : "flex next"} onClick={page === length - 1 ? null : onClick}>
               <p className="right-arrow">Next</p>
-              <img className="icon right-arrow" src={RightArrow} alt="right-arrow"/>
+              <img className="icon right-arrow" src={RightArrow} alt="right-arrow" />
             </div>
-            <img className="icon last-arrow" src={RightArrow} alt="last-arrow" onClick={onClick}/>
+            <img className="icon last-arrow" src={RightArrow} alt="last-arrow" onClick={onClick} />
           </li>
 
           <li className="flex post-title">
@@ -49,17 +49,18 @@ const NavReader = ({ page, content, length, onClick, isHidden }) => {
           </li>
 
           <li className="flex icons">
-            <img className="icon heart" src={Heart} alt="heart" onClick={onClick}/>
-            <img className="icon comment" src={Bubble} alt="comment bubble" onClick={onClick}/>
-            <img className="icon follow" src={Bell} alt="follow bell" onClick={onClick}/>
+            <img className="icon heart" src={Heart} alt="heart" onClick={onClick} />
+            <img className="icon comment" src={Bubble} alt="comment bubble" onClick={onClick} />
+            <img className="icon follow" src={Bell} alt="follow bell" onClick={onClick} />
           </li>
 
-          <li className="login" onClick={onClick}>Login/Register</li>
-
+          <li className="login" onClick={onClick}>
+            <a href="https://hive.blog/login.html" target="_blank" rel="noopener noreferrer">Login/Register</a>
+          </li>
         </ul>
       </div>
     )
-  } else { 
+  } else {
     return (
       <div className="nav-reader">
         <ul className="nav-reader-list">
@@ -70,18 +71,18 @@ const NavReader = ({ page, content, length, onClick, isHidden }) => {
           </li>
           <li className="flex arrows ">
             <div className="disabled flex previous" >
-              <img className="icon left-arrow" src={LeftArrow} alt="left-arrow"/>
+              <img className="icon left-arrow" src={LeftArrow} alt="left-arrow" />
               <p className="left-arrow">Previous</p>
             </div>
             <div className="disabled flex next">
               <p className="right-arrow">Next</p>
-              <img className="icon right-arrow" src={RightArrow} alt="right-arrow"/>
+              <img className="icon right-arrow" src={RightArrow} alt="right-arrow" />
             </div>
           </li>
           <li className="flex icons">
-            <img className="icon heart" src={Heart} alt="heart" onClick={onClick}/>
-            <img className="icon comment" src={Bubble} alt="comment bubble" onClick={onClick}/>
-            <img className="icon follow" src={Bell} alt="follow bell" onClick={onClick}/>
+            <img className="icon heart" src={Heart} alt="heart" onClick={onClick} />
+            <img className="icon comment" src={Bubble} alt="comment bubble" onClick={onClick} />
+            <img className="icon follow" src={Bell} alt="follow bell" onClick={onClick} />
           </li>
           <li className="login" onClick={onClick}>Login/Register</li>
         </ul>
