@@ -34,36 +34,18 @@
 
 .flex {
   @include flex(center);
-  > * {
-    margin: 0;
-    padding: 0 0.5em;
-  }
 }
 
-.flex-row {
-  @include flex(center);
+.row {
   flex-direction: row;
-  > * {
-    margin: 0;
-    padding: 0 0.5em;
-  }
 }
 
-.flex-col {
-  @include flex(center);
+.col {
   flex-direction: column;
-  > * {
-    margin: 0;
-    padding: 0 0.5em;
-  }
 }
 
 .flex-even {
   @include flex(space-evenly);
-  > * {
-    margin: 0;
-    padding: 0 0.5em;
-  }
 }
 
 .flex-start {

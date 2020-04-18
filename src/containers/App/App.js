@@ -10,6 +10,8 @@ import Home from '../../components/Main/Home';
 import Footer from '../../components/Main/Footer';
 import FullDisplay from '../../components/FullDisplay/FullDisplay';
 import Reader from '../../components/Reader/Reader';
+import ProfilePage from '../../components/Profile/ProfilePage';
+
 
 const App = () => {
   const store = React.useContext(StoreContext);
@@ -41,6 +43,9 @@ const App = () => {
           </Route>
           <Route path="/novelReader">
             <Reader type={"novels"}/>
+          </Route>
+          <Route path="/@*">
+            <ProfilePage />
           </Route>
         </Switch>
         <Footer />
