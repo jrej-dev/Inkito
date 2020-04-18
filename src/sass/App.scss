@@ -59,7 +59,7 @@
 .pa{
   > * {
     margin: 0;
-    padding: 0 0.5em;
+    padding: 0.5em 0.5em;
   }
 }
 
@@ -73,6 +73,10 @@
 .md-icon {
   padding: 0 0.2em;
   height: 1em; 
+}
+.lg-icon {
+  padding: 0 0.2em;
+  height: 7em; 
 }
 
 .pointer {
