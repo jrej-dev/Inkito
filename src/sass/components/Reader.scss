@@ -13,9 +13,10 @@
         padding: 1em 0;
     }
     .content-body {
+        @include flex(center);
+        min-height: 65vh;
         > * {
-            width: 70%;
-            padding: 0 15%;
+            width: $zoom;
         }
         img {
             min-width: 100%;

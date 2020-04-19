@@ -158,7 +158,7 @@ const Reader = ({ type }) => {
     })
   }
 
-  const ScrollText = () => {
+  const BottomBanner = () => {
     return useObserver(() => {
       if (store.currentPage < store.seriesDetail.length - 1) {
         return (
@@ -169,7 +169,8 @@ const Reader = ({ type }) => {
           </div>
         )
       } else {
-        return ""
+        return <AuthorBanner />
+
       }
     })
   }
@@ -180,8 +181,7 @@ const Reader = ({ type }) => {
       <ul>
         <ListedBlogs />
       </ul>
-      <ScrollText />
-      {/*<AuthorBanner />*/}
+      <BottomBanner />
       <BottomNav />  
     </div>
   );

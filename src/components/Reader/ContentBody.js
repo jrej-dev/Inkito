@@ -1,8 +1,9 @@
 import React from 'react';
 import { Remarkable } from 'remarkable';
+import { imgify } from './imgify';
 import 'wired-elements';
 
-const md = new Remarkable({html: true})
+const md = new Remarkable({html: true}).use(imgify);
 
 const ContentBody = ({ content }) => {
   if (content) {
@@ -14,4 +15,4 @@ const ContentBody = ({ content }) => {
   }
 }
 
-  export default ContentBody;
+export default ContentBody;
