@@ -1,15 +1,13 @@
 import React from 'react';
-import ReactMarkdown from 'react-markdown/with-html';
+import { Remarkable } from 'remarkable';
 import 'wired-elements';
+
+const md = new Remarkable({html: true})
 
 const ContentBody = ({ content }) => {
   if (content) {
     return (
-      <ReactMarkdown
-      source={content.body}
-      escapeHtml={false}
-      disallowedTypes={['link']}
-      /> 
+     <div dangerouslySetInnerHTML={{ __html: md.render(content.body) }} />
     )
   } else {
     return <wired-spinner className="flex" class="custom" spinning duration="1000"/>

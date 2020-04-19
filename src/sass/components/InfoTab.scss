@@ -48,6 +48,9 @@
         img {
             display: none;
         }
+        iframe {
+            width: inherit;
+        }
     
     }
 }
@@ -82,7 +85,10 @@
     .comment-body {
         text-align: left;
         padding: 0 2em;
-        margin: 0.5em;     
+        margin: 0.5em;
+        img {
+            width: 100%;
+        }
     }
     .comment-upper-banner {
         @include flex(space-between);

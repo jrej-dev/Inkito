@@ -181,7 +181,7 @@ const Reader = ({ type }) => {
         <ListedBlogs />
       </ul>
       <ScrollText />
-      <AuthorBanner />
+      {/*<AuthorBanner />*/}
       <BottomNav />  
     </div>
   );

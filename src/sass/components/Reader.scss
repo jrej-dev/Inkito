@@ -33,6 +33,9 @@
 
 .comic-body {
     font-size: 0;
+    iframe {
+        display: none;
+    }
     hr {
         display: none;
     }
