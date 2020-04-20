@@ -1,5 +1,5 @@
-@import '../abstracts/variables';
-@import '../abstracts/mixins';
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
 
 .nav-reader-bottom {
     display: none;
@@ -15,7 +15,7 @@
     margin: 0;
     padding: 0 0.5em;
     height: inherit;
-    width: 100%;  
+    width: 100%;
     @include flex(space-evenly);
     flex-direction: row;
     background-color: $primary-color;
@@ -41,12 +41,11 @@
     bottom: -200px;
 }
 
-
 .nav-reader-list {
     margin: 0;
     padding: 0 0.5em;
     min-height: inherit;
-    width: 100%;  
+    width: 100%;
     @include flex(space-evenly);
     flex-direction: row;
     background-color: $primary-color;
@@ -72,7 +71,8 @@
     }
 }
 
-.previous,.next > * {
+.previous,
+.next > * {
     cursor: pointer;
 }
 
@@ -97,7 +97,7 @@
             display: none;
         }
     }
-    .nav-reader-list {
+    .nav-reader-list, .nav-reader-list-bottom {
         width: 100%;
         flex-wrap: wrap;
         p {

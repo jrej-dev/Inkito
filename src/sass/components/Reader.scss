@@ -13,10 +13,8 @@
         padding: 1em 0;
     }
     .content-body {
-        > * {
-            width: 70%;
-            padding: 0 15%;
-        }
+        @include flex(center);
+        min-height: 65vh;
         img {
             min-width: 100%;
             max-width: 100%;
@@ -33,6 +31,9 @@
 
 .comic-body {
     font-size: 0;
+    iframe {
+        display: none;
+    }
     hr {
         display: none;
     }
@@ -61,6 +62,81 @@
     border-radius: 50%;
 }
 
+.zoom-30 {
+    > * {
+        width: 30%;
+    }
+}
+.zoom-50 {
+    > * {
+        width: 50%;
+    }
+}
+.zoom-70 {
+    > * {
+        width: 70%;
+    }
+}
+.zoom-90 {
+    > * {
+        width: 90%;
+    }
+}
+
+.zoom-banner {
+    position: fixed;
+    transition: bottom 0.3s;
+    top: 40%;
+    right: -6.5em;
+    background-color: $light-color;
+    height: 6em;
+    width: 8em;
+    border-radius: 10px 0 0 10px;
+    border: 2px solid $primary-color;
+    border-right: none;
+    > * {
+        margin-right: 0.5em;
+    }
+    .zoom-cover {
+        width: 2em;
+        height: 100%;
+        border-radius: 7px 0 0 7px;
+        text-shadow: 1px 1px 1px $darkest-color;
+        color: $light-color;
+        background-color: $primary-color;
+        writing-mode: sideways-lr;
+        cursor:pointer;
+    }
+    .zoom-btn {
+        box-shadow:inset 0px 1px 0px 0px #ffffff;
+        background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+        background-color:#ffffff;
+        border-radius:6px;
+        border:1px solid #dcdcdc;
+        display:inline-block;
+        cursor:pointer;
+        color:#666666;
+        font-family:Arial;
+        font-size:15px;
+        font-weight:bold;
+        padding:0.5em 1em;
+        text-decoration:none;
+        text-shadow:0px 1px 0px #ffffff;
+        &:hover {
+            background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+            background-color:#f6f6f6;
+        }
+        &:active {
+            position:relative;
+            top:1px;
+        }
+    }         
+}
+.isActive {
+    right: 0;
+} 
+
+
 @media screen and (max-width: 850px) {
     .reader {
         wired-card {
@@ -71,6 +147,9 @@
                 width: 90%;
                 padding: 0 5%;
             }
+        }
+        .zoom-banner {
+            display: none;
         }
     }
     .author-banner {

@@ -19,6 +19,12 @@
     }   
 }
 
+.zoom-tab {
+    > wired-card {
+        width: 90%;
+    }
+}
+
 .info-banner {
     display: flex;
     justify-content: space-evenly;
@@ -47,6 +53,10 @@
         }
         img {
             display: none;
+        }
+        iframe {
+            overflow: hidden;
+            width: inherit;
         }
     
     }
@@ -82,7 +92,10 @@
     .comment-body {
         text-align: left;
         padding: 0 2em;
-        margin: 0.5em;     
+        margin: 0.5em;
+        img {
+            width: 100%;
+        }
     }
     .comment-upper-banner {
         @include flex(space-between);

@@ -63,6 +63,8 @@ export function StoreProvider({ children }) {
         seriesDetail: [],
         activeInfoTab: [],
         activeComments: [],
+        zoom: 70,
+        zoomIsActive: false,
         clickedSeriesAuthor: "",
         clickedSeriesTitle: "",
         clickedSeriesContent: "",
@@ -128,6 +130,7 @@ export function StoreProvider({ children }) {
             store.spinnerTimeout = value;
         },
         resetSeriesDetail: () => {
+            store.zoom = 70;
             store.seriesDetail = [];
             store.seriesLinks = [];
             store.activeInfoTab = [];
@@ -145,6 +148,23 @@ export function StoreProvider({ children }) {
         },
         toggleComments: (page) => {
             store.activeComments[page] = !store.activeComments[page];
+        },
+        toggleZoomBanner: (value) => {
+            if (value === false && store.zoomIsActive === true) {
+                store.zoomIsActive = false;
+            } else if (value === undefined) {
+                store.zoomIsActive = !store.zoomIsActive;
+            }
+        },
+        updateZoom: (increment) => {
+            if (store.zoom > 30 && store.zoom < 90) {
+                store.zoom = store.zoom + increment;
+            } else if (store.zoom === 30 && increment > 0) {
+                store.zoom = store.zoom + increment;
+            } else if (store.zoom === 90 && increment < 0) {
+                store.zoom = store.zoom + increment;
+            } 
+            console.log(store.zoom);
         },
         async fetchSeriesInfo(seriesId, type) {
             try {

@@ -20,7 +20,7 @@ import { Link } from "react-router-dom";*/
 import CommentList from './CommentList';
 import ContentBody from './ContentBody';
 
-const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type }) => {
+const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom }) => {
 
     if (content) {
       let reward = content.pending_payout_value === "0.000 HBD" ? content.total_payout_value.replace("HBD", "") : content.pending_payout_value.replace("HBD", "");
@@ -106,7 +106,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type }) => {
       }
 
       return (
-        <div className="info-tab">
+        <div className={zoom ? zoom === 90 ? "info-tab zoom-tab" : "info-tab" : "info-tab"}>
           <wired-card>
             <div className="info-card">
               <div className="default-banner flex">
