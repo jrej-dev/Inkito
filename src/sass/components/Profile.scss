@@ -35,7 +35,9 @@
         justify-content: space-evenly;
         align-items: center;
         margin: 1em 0;
-
+        .icon {
+            cursor: default;
+        }
         .panel-profile-pic {
             width: 10em;
             height: 10em;
@@ -54,10 +56,11 @@
     .cover-image {
         grid-area: img;
         width: 100%;
+        height: 100%;
         overflow: hidden;
         img {
-            min-width: 100%;
-            height: auto;
+            min-height: 100%;
+            min-width: auto;
         }
     }
     .series {
@@ -98,24 +101,6 @@
         }
     }
 }
-
-/*@media screen and (max-width: 850px) {
-    .profile-page {
-        grid-template-areas:
-            "img img img"
-            "info div series";
-        grid-template-columns: 1fr 1px 1fr;
-       
-        .series {
-            .series-list {
-                @include flex(center);
-            }
-            h2 {
-                text-align: center;
-            }
-        }
-    }
-}*/
 
 @media screen and (max-width: 850px) {
     .series-list {
@@ -159,8 +144,8 @@
             top: 1em;
             left: 0;
             .panel-profile-pic {
-                width: 5em;
-                height: 5em;
+                width: 6em;
+                height: 6em;
             }
         }
 

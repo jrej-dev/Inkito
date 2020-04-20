@@ -354,15 +354,25 @@ export function StoreProvider({ children }) {
                 return results;
             }
         },
+        async fetchAuthorSeries(author) {
+            const authorSeries = await client.database
+                .getDiscussions('blog', {
+                    tag: author,
+                    limit: 100
+                })
+                .then(result => result.map(object => (
+                    JSON.parse(object.json_metadata).tags
+                        .filter(tag => tag.includes(`${author}-`))
+                ))).then(result => [...new Set(result.flat())])
+
+            console.log(authorSeries)
+            /*for (let id of trendyComicIds) {
+                const comic = await store.fetchSeriesInfo(id);
+                this.trendingComics.push(comic);*/
+            //trendy.push(comic)
+        },
         async fetchAuthoInfo(author) {
             /*infos 
-                Name: 
-                Cover:  
-                Followers:
-                Following:
-                Bio:
-                Location:
-                Link:
                 seriesid: name-series
                 => fetchseriesinfo > author_series :array
             */
@@ -378,33 +388,33 @@ export function StoreProvider({ children }) {
                             result[0].website = json.website;
                             result[0].location = json.location;
                             result[0].cover = json.cover_image;
-                            result[0].follow = store.getFollowCount(author);
                             return result;
                         }
                     })
 
-                    //console.log(info);
+                this.authorInfo = info[0];
 
-                runInAction(() => {
-                    /*this.seriesLinkState = "done";
-                    this.seriesLinks = content;
- 
-                    this.seriesDetail.length = content.length;
-                    this.activeInfoTab = content.map(object => object = false);
-                    this.activeComments = content.map(object => object = false);*/
+                runInAction(async () => {
+                    const follow = await store.getFollowCount(author);
+                    if (this.authorInfo) {
+                        this.authorInfo.follow = follow;
+                        this.authorInfoState = "done";
+
+                        store.fetchAuthorSeries(author);
+                    }
                 })
 
             } catch (error) {
-                this.seriesLinkState = "error"
+                this.authorInfoState = "error"
                 console.log(error)
             }
 
         },
         //to be fixed
         async getFollowCount(author) {
-            let followCount = await client.call('get_follow_count', [author])
-                .then(result => {console.log(result);})
-            
+            const followCount = await client.call('follow_api', 'get_follow_count', [author])
+                .then(result => { return result })
+
             return followCount;
         }
     }));
