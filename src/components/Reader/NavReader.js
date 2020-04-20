@@ -29,7 +29,7 @@ const NavReader = ({ page, content, length, onClick, isHidden }) => {
               <p className="left-arrow">Previous</p>
             </div>
             <div className="flex episode-number">
-              <p className="episode">{page === 0 ? "" : "Episode"}</p>
+              <p className={page === 0 ? "episode hidden" : "episode"}>Episode</p>
               <p>{page === 0 ? "Cover" : page}</p>
             </div>
             <div className={page === length - 1 ? "disabled flex next" : "flex next"} onClick={page === length - 1 ? null : onClick}>

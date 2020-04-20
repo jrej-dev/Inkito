@@ -85,6 +85,7 @@
 
 .zoom-banner {
     position: fixed;
+    z-index: 2;
     transition: bottom 0.3s;
     top: 40%;
     right: -6.5em;

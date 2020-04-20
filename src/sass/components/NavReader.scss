@@ -63,12 +63,19 @@
     .episode-number > * {
         padding: 0 0.5em;
     }
+    .episode {
+        padding-right: 0;
+    }
     .post-title > * {
         padding: 0 0.5em;
     }
     .icons {
         padding: 0.5em 0;
     }
+}
+
+.hidden {
+    display: none;
 }
 
 .previous,

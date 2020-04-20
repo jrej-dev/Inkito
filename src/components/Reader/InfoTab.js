@@ -45,7 +45,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom }
       const ActiveInfoTab = () => {
         if (infoIsActive) {
           return (
-            <div className="flex">
+            <div className="flex pa-h">
               <img className="icon toggle" src={UpArrow} alt="up-arrow" onClick={onClick} />
 
               <div className="time-block flex">

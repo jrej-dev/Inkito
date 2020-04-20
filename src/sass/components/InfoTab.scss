@@ -35,11 +35,11 @@
         padding: 1em 1em;
     }
     .author-info {
-        width: 10%;
+        width: 15%;
         .author-name {
             > * {
                 margin: 0;
-                padding: 0 1em;
+                padding: 0;
             }
         }
     }
@@ -85,6 +85,9 @@
         width: 4em;
     }
     .comment-block {
+        > wired-card {
+            width: 90%;
+        }
         width: 70%;
         flex-basis: 90%;
         margin-bottom: 1em;

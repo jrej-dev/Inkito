@@ -1,23 +1,23 @@
 import React, { useEffect } from 'react';
-//import StoreContext from '../../stores/AppStore';
+import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 //import { Link } from "react-router-dom";
 
 import Nav from '../Main/Nav';
 import Location from '../Icons/location.png';
 import Link from '../Icons/link.png';
-import Add from '../Icons/add.png';
+//import Add from '../Icons/add.png';
 import 'wired-elements';
 import '../../sass/components/Profile.scss';
 
 const ProfilePage = () => {
-    //const store = React.useContext(StoreContext);
+    const store = React.useContext(StoreContext);
     var props = {};
 
     useEffect(() => {
         document.documentElement.scrollTop = 0;
         getUrlVars();
-        console.log(props.author)
+        store.fetchAuthoInfo(props.author);
     })
 
     const getUrlVars = () => {

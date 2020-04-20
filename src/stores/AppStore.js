@@ -63,6 +63,7 @@ export function StoreProvider({ children }) {
         seriesDetail: [],
         activeInfoTab: [],
         activeComments: [],
+        authorInfo: [],
         zoom: 70,
         zoomIsActive: false,
         clickedSeriesAuthor: "",
@@ -81,6 +82,7 @@ export function StoreProvider({ children }) {
         postDetailState: "",
         seriesDetailState: "",
         commentState: "",
+        authorInfoState: "",
 
         //Queries
         comicsQuery: {
@@ -163,10 +165,10 @@ export function StoreProvider({ children }) {
                 store.zoom = store.zoom + increment;
             } else if (store.zoom === 90 && increment < 0) {
                 store.zoom = store.zoom + increment;
-            } 
+            }
             console.log(store.zoom);
         },
-        async fetchSeriesInfo(seriesId, type) {
+        async fetchSeriesInfo(seriesId) {
             try {
                 const seriesInfo = await client.database
                     .getDiscussions('created', { tag: seriesId, limit: 100 })
@@ -351,6 +353,59 @@ export function StoreProvider({ children }) {
             if (results.length === 0 || results[0].parent_author.length > 0) {
                 return results;
             }
+        },
+        async fetchAuthoInfo(author) {
+            /*infos 
+                Name: 
+                Cover:  
+                Followers:
+                Following:
+                Bio:
+                Location:
+                Link:
+                seriesid: name-series
+                => fetchseriesinfo > author_series :array
+            */
+            this.authorInfo = [];
+            this.authorInfoState = "pending";
+            try {
+                const info = await client.database
+                    .call('get_accounts', [[author]])
+                    .then(result => {
+                        if (result.length > 0) {
+                            let json = JSON.parse(result[0].json_metadata).profile;
+                            result[0].about = json.about;
+                            result[0].website = json.website;
+                            result[0].location = json.location;
+                            result[0].cover = json.cover_image;
+                            result[0].follow = store.getFollowCount(author);
+                            return result;
+                        }
+                    })
+
+                    //console.log(info);
+
+                runInAction(() => {
+                    /*this.seriesLinkState = "done";
+                    this.seriesLinks = content;
+ 
+                    this.seriesDetail.length = content.length;
+                    this.activeInfoTab = content.map(object => object = false);
+                    this.activeComments = content.map(object => object = false);*/
+                })
+
+            } catch (error) {
+                this.seriesLinkState = "error"
+                console.log(error)
+            }
+
+        },
+        //to be fixed
+        async getFollowCount(author) {
+            let followCount = await client.call('get_follow_count', [author])
+                .then(result => {console.log(result);})
+            
+            return followCount;
         }
     }));
     return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>

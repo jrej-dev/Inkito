@@ -63,6 +63,13 @@
   }
 }
 
+.pa-h{
+  > * {
+    margin: 0;
+    padding: 0 0.5em;
+  }
+}
+
 .icon {
   height: 1.5em;       
 }
