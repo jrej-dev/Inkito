@@ -19,6 +19,12 @@
     }   
 }
 
+.zoom-tab {
+    > wired-card {
+        width: 90%;
+    }
+}
+
 .info-banner {
     display: flex;
     justify-content: space-evenly;

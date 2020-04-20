@@ -59,7 +59,7 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
               <div className={`comic-body content-body zoom-${store.zoom}`} onClick={closeZoomBanner}>
                 <ContentBody content={toJS(store.seriesDetail)[page]}/>
               </div>
-              <InfoTab commentIsActive={store.activeComments[page]} infoIsActive={store.activeInfoTab[page]} type={type} content={toJS(store.seriesDetail)[page]} onClick={infoClickHandle} />
+              <InfoTab commentIsActive={store.activeComments[page]} infoIsActive={store.activeInfoTab[page]} type={type} content={toJS(store.seriesDetail)[page]} onClick={infoClickHandle} zoom={store.zoom}/>
             </div>
           )
         } else if (type === "novels") {
