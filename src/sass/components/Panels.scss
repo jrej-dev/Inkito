@@ -97,3 +97,12 @@
         }
     }
 }
+
+@media screen and (max-width: 350px) {
+    .trendy-panel {
+        width: 17em;
+    }
+    .new-panel {
+        width: 17em;
+    }
+}
