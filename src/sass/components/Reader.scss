@@ -15,9 +15,6 @@
     .content-body {
         @include flex(center);
         min-height: 65vh;
-        > * {
-            width: $zoom;
-        }
         img {
             min-width: 100%;
             max-width: 100%;
@@ -29,6 +26,27 @@
     }
     .scroll-text {
         margin-bottom: 5em;
+    }
+}
+
+.zoom-30 {
+    > * {
+        width: 30%;
+    }
+}
+.zoom-50 {
+    > * {
+        width: 50%;
+    }
+}
+.zoom-70 {
+    > * {
+        width: 70%;
+    }
+}
+.zoom-90 {
+    > * {
+        width: 90%;
     }
 }
 
@@ -65,6 +83,25 @@
     border-radius: 50%;
 }
 
+.zoom {
+    position: fixed;
+    top:50%;
+    right: 0;
+    background-color: $light-color;
+    width: 2em;
+    border: 2px solid $primary-color;
+    border-right: none;
+    border-radius: 15% 0 0 15%;
+    > * {
+        height: 2em;
+    }
+    .zoomIn {
+        border-bottom: 2px solid $primary-color;
+    }
+}
+
+
+
 @media screen and (max-width: 850px) {
     .reader {
         wired-card {
@@ -75,6 +112,9 @@
                 width: 90%;
                 padding: 0 5%;
             }
+        }
+        .zoom {
+            display: none;
         }
     }
     .author-banner {

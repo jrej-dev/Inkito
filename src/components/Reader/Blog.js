@@ -26,6 +26,14 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
       store.toggleComments(page);
     }
   }
+  
+  const zoomHandle = (e) => {
+    if (e.target.className.includes("zoomIn")) {
+      store.updateZoom(20);
+    } else if (e.target.className.includes("zoomOut")) {
+      store.updateZoom(-20);
+    }
+  }
 
   const Content = () => {
     return useObserver(() => {
@@ -33,7 +41,11 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
         if (type === "comics") {
           return (
             <div>
-              <div className="comic-body content-body">
+              <div className="zoom">
+                <div className="zoomIn flex" onClick={zoomHandle}>+</div>              
+                <div className="zoomOut flex" onClick={zoomHandle}>-</div>
+              </div>
+              <div className={`comic-body content-body zoom-${store.zoom}`}>
                 <ContentBody content={toJS(store.seriesDetail)[page]}/>
               </div>
               <InfoTab commentIsActive={store.activeComments[page]} infoIsActive={store.activeInfoTab[page]} type={type} content={toJS(store.seriesDetail)[page]} onClick={infoClickHandle} />
@@ -42,7 +54,7 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
         } else if (type === "novels") {
           return (
             <div>
-              <div className="novel-body">
+              <div className="novel-body zoom-70">
                 <wired-card elevation="2">
                   <div className="content-body">
                     <ContentBody content={toJS(store.seriesDetail)[page]}/>
