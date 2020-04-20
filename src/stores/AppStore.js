@@ -354,22 +354,36 @@ export function StoreProvider({ children }) {
                 return results;
             }
         },
-        async fetchAuthorSeries(author) {
+        async fetchAuthorSeries(author, start) {
+            this.authorInfo.series = [];
+            let last_result = {};
             const authorSeries = await client.database
                 .getDiscussions('blog', {
                     tag: author,
+                    start_permlink: start,
                     limit: 100
                 })
-                .then(result => result.map(object => (
-                    JSON.parse(object.json_metadata).tags
-                        .filter(tag => tag.includes(`${author}-`))
-                ))).then(result => [...new Set(result.flat())])
+                .then(result => {
+                    if (result.length > 0) {
+                        last_result = result[result.length - 1];
+                        console.log(result[result.length - 1].permlink)
+                    }
+                    return result;
+                })
+                .then(result =>
+                    result.map(object => (
+                        JSON.parse(object.json_metadata).tags
+                            .filter(tag => tag.includes(`${author}-`))
+                    ))
+                ).then(result => [...new Set(result.flat())])
+                console.log(authorSeries);
 
-            console.log(authorSeries)
-            /*for (let id of trendyComicIds) {
-                const comic = await store.fetchSeriesInfo(id);
-                this.trendingComics.push(comic);*/
-            //trendy.push(comic)
+            for (let id of authorSeries) {
+                const series = await store.fetchSeriesInfo(id);
+                this.authorInfo.series.push(series);
+            }
+            //To be fixed
+            //store.fetchAuthorSeries(author, last_result.permlink);
         },
         async fetchAuthoInfo(author) {
             /*infos 

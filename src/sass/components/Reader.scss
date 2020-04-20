@@ -39,6 +39,13 @@
     }
 }
 
+.novel-body{
+    .content-body {
+        width: 70%;
+        margin: 0 15%;
+    }
+}
+
 .author-banner {
     > wired-card {
         height: inherit;
@@ -153,6 +160,14 @@
             display: none;
         }
     }
+
+    .novel-body{
+        .content-body {
+            width: 90%;
+            margin: 0 5%;
+        }
+    }
+
     .author-banner {
         .post-title {
             flex-basis: 50%;

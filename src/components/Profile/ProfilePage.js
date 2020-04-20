@@ -96,31 +96,22 @@ const ProfilePage = () => {
 
     const SeriesList = () => {
         return useObserver(() => {
-            if (true) {
-                return (
-                    /*array.map(object => {
-                        return (
-                            <li>
-                                <div className="series-thumbnail">
-                                    <img src="https://picsum.photos/300/300" alt="" />
-                                </div>
-                                <div className="series-info flex reset">
-                                    <h3 className="series-title">Ghoul Red One</h3>
-                                    <p>Last Update</p>
-                                </div>
-                            </li>
-                        )
-                    })*/
-                    <li>
-                        <div className="series-thumbnail">
-                            <img src="https://picsum.photos/300/300" alt="" />
-                        </div>
-                        <div className="series-info flex reset">
-                            <h3 className="series-title">Ghoul Red One</h3>
-                            <p>Last Update</p>
-                        </div>
-                    </li>
-                )
+            if (toJS(store.authorInfo.series)) {
+                let seriesList = [];
+                toJS(store.authorInfo).series.forEach(series => {
+                    seriesList.push(
+                        <li key={series.seriesId}>
+                            <div className="series-thumbnail">
+                                <img src={series.image} alt="" />
+                            </div>
+                            <div className="series-info flex reset">
+                                <h3 className="series-title">{series.title}</h3>
+                                <p>Updated: {series.last_update.last_update.slice(0, 10)}</p>
+                            </div>
+                        </li>
+                    )
+                })
+                return seriesList;
             } else {
                 return <wired-spinner class="custom" spinning duration="1000" />
             }
