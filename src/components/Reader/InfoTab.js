@@ -5,6 +5,7 @@ import { useObserver } from 'mobx-react';
 import ReactMarkdown from 'react-markdown/with-html';*/
 import 'wired-elements';
 import '../../sass/components/InfoTab.scss';
+import { Link } from "react-router-dom";
 
 /*import LeftArrow from '../Icons/left-arrow.png';
 import RightArrow from '../Icons/right-arrow.png';*/
@@ -20,11 +21,10 @@ import { Link } from "react-router-dom";*/
 import CommentList from './CommentList';
 import ContentBody from './ContentBody';
 
-const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, onAuthorClick, type, zoom }) => {
+const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom }) => {
 
     if (content) {
       let reward = content.pending_payout_value === "0.000 HBD" ? content.total_payout_value.replace("HBD", "") : content.pending_payout_value.replace("HBD", "");
-      let author = content.author;
 
       const compareDate = (contentDate) => {
         var g1 = new Date().toISOString().substring(0, 10);
@@ -70,17 +70,19 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, onAuthorClic
         }
       }
 
-      const ActiveContent = ({ onAuthorClick }) => {
+      const ActiveContent = () => {
         if (infoIsActive) {
           return (
             <div>
               <div className="info-banner">
-                <div className={type === "comics" ? "author-info flex-col pointer" : "author-info flex-row pointer"} onClick={() => onAuthorClick({author})}>
-                  <img className="panel-profile-pic" src={content.author ? `https://steemitimages.com/u/${content.author}/avatar` : ""} alt=" " />
-                  <div className="author-name">
-                    <p className="capital">{content.author}</p>
-                    <p>Creator</p>
-                  </div>
+                <div className={type === "comics" ? "author-info flex col" : "author-info flex row"}>
+                  <Link to={`/@${content.author}`}>
+                    <img className="panel-profile-pic" src={content.author ? `https://steemitimages.com/u/${content.author}/avatar` : ""} alt=" " />
+                    <div className="author-name">
+                      <p className="capital">{content.author}</p>
+                      <p>Creator</p>
+                    </div>
+                  </Link>
                 </div>
 
                 <div className={type === "comics" ? "content-info" : "content-info none"}>
@@ -97,7 +99,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, onAuthorClic
                   <h3>{content.replies.length > 0 ? `Comments (${content.replies.length})` : "No Comments"} </h3>
                   <div className="line" />
                 </div>
-                {commentIsActive ? <CommentList commentData={content} onAuthorClick={onAuthorClick}/> : ""}
+                {commentIsActive ? <CommentList commentData={content}/> : ""}
               </ul>
             </div>
           )
@@ -114,7 +116,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, onAuthorClic
                 <ActiveInfoTab />
                 <img className="icon heart" src={Heart} alt="heart" />
               </div>
-              <ActiveContent onAuthorClick={onAuthorClick}/>
+              <ActiveContent />
             </div>
           </wired-card>
         </div>

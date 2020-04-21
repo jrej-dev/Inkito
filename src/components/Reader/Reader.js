@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
-import { useHistory } from "react-router-dom";
 
 import '../../sass/components/Reader.scss';
 import 'wired-elements';
@@ -15,14 +14,13 @@ import AuthorBanner from './AuthorBanner';
 
 const Reader = ({ type }) => {
   const store = React.useContext(StoreContext);
-  const history = useHistory();
 
   var props = {};
   var lastScrollTop = 0;
 
   useEffect(() => {
     store.resetSeriesDetail();
-    
+
     getUrlVars();
     store.fetchPermlinks(props.author, props.seriesTitle);
     timeout(5000);
@@ -58,18 +56,12 @@ const Reader = ({ type }) => {
       // upscroll code
     }
     lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
-    
+
     if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 10) {
       if (store.currentPage + 1 < store.seriesLinks.length && store.seriesDetail[store.currentPage + 1]) {
         store.closeInfoTab();
         store.scrollCurrentPage(store.currentPage + 1);
       }
-    }
-  }
-
-  const authorClickHandle = (props) => {
-    if (store.seriesDetail.length > 0){
-      history.push(`/@${props.author}`);
     }
   }
 
@@ -113,7 +105,7 @@ const Reader = ({ type }) => {
         for (let i = store.startPage; i <= store.currentPage; i++) {
           blogs.push(
             <li key={seriesData[i] + store.currentPage} className="blog">
-              <Blog type={type} page={i} author={props.author} permlink={seriesData[i]} nextPermlink={seriesData[i + 1]} onAuthorClick={authorClickHandle}/>
+              <Blog type={type} page={i} author={props.author} permlink={seriesData[i]} nextPermlink={seriesData[i + 1]} />
               <p className="none scroll">Scroll to read more</p>
             </li>
           )
@@ -178,7 +170,7 @@ const Reader = ({ type }) => {
           </div>
         )
       } else {
-        return <AuthorBanner onAuthorClick={authorClickHandle}/>
+        return <AuthorBanner />
       }
     })
   }
@@ -190,7 +182,7 @@ const Reader = ({ type }) => {
         <ListedBlogs />
       </ul>
       <BottomBanner />
-      <BottomNav />  
+      <BottomNav />
     </div>
   );
 }

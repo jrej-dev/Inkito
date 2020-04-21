@@ -8,9 +8,9 @@ import '../../sass/components/Reader.scss';
 import Bell from '../Icons/bell.png';
 import Share from '../Icons/share.png';
 
-//import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const AuthorBanner = ({ onAuthorClick }) => {
+const AuthorBanner = () => {
     const store = React.useContext(StoreContext);
 
     return useObserver(() => {
@@ -21,25 +21,29 @@ const AuthorBanner = ({ onAuthorClick }) => {
                 <div className="author-banner flex">
                     <wired-card>
                         <div className="flex-even">
-                            <img className="panel-profile-pic pointer" src={`https://steemitimages.com/u/${author}/avatar`} alt="" onClick={() => onAuthorClick({author})}/>
-                            <div className="flex-col">
-                                <div className="author-name flex-row pointer" onClick={() => onAuthorClick({author})}>
-                                    <p className="capital">{author}</p>
-                                    <p>Creator</p>
+                            <Link to={`/@${content.author}`}>
+                                <img className="panel-profile-pic" src={`https://steemitimages.com/u/${author}/avatar`} alt="" />
+                            </Link>
+                            <div className="flex col">
+                                <div className="author-name">
+                                    <Link to={`/@${content.author}`} className="author-name flex row pa-h">
+                                        <p className="capital">{author}</p>
+                                        <p>Creator</p>
+                                    </Link>
                                 </div>
                                 {/*<p className="followers">1500 followers</p>*/}
                             </div>
-                            <div className="flex-col post-title">
+                            <div className="flex col post-title">
                                 <p>
                                     {content ? content.title : ""}
                                 </p>
                             </div>
-                            <div className="flex-row pointer share">
-                                <div className="flex-row">
+                            <div className="flex row pointer share">
+                                <div className="flex row">
                                     <p>Share</p>
                                     <img className="icon share" src={Share} alt="share" />
                                 </div>
-                                <div className="flex-row pointer follow">
+                                <div className="flex row pointer follow">
                                     <p>Follow</p>
                                     <img className="icon follow" src={Bell} alt="follow" />
                                 </div>

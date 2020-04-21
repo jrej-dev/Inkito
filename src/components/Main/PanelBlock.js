@@ -2,12 +2,12 @@ import React from 'react';
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
+
 import 'wired-elements';
 
 import TrendyPanel from '../Panels/TrendyPanel';
 import NewPanel from '../Panels/NewPanel';
 import { useHistory } from "react-router-dom";
-
 
 const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
     const store = React.useContext(StoreContext);
@@ -19,10 +19,6 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
         } else if (type === "novels") {
           history.push(`/novelReader/${props.author}/${props.seriesTitle}`);
         }
-    }
-
-    const authorClickHandle = (props) => {
-      history.push(`/@${props.author}`);
     }
 
     return useObserver(() => {
@@ -52,12 +48,10 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
                     <TrendyPanel 
                       content={trendy[j]}
                       onClick={contentClickHandle}
-                      onAuthorClick={authorClickHandle}
                     />
                     <NewPanel 
                       content={fresh[j]}
                       onClick={contentClickHandle}
-                      onAuthorClick={authorClickHandle}
                     />
                   </div>
                 )
@@ -67,12 +61,10 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
                     <NewPanel 
                       content={fresh[j]}
                       onClick={contentClickHandle}
-                      onAuthorClick={authorClickHandle}
                     />
                     <TrendyPanel 
                       content={trendy[j]}
                       onClick={contentClickHandle}
-                      onAuthorClick={authorClickHandle}
                    />
                   </div>
                 )
@@ -83,7 +75,6 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
                 <TrendyPanel 
                   content={trendy[j]}
                   onClick={contentClickHandle}
-                  onAuthorClick={authorClickHandle}
                 />
               </div>
             )
@@ -93,7 +84,6 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
                 <NewPanel 
                   content={fresh[j]}
                   onClick={contentClickHandle}
-                  onAuthorClick={authorClickHandle}
                 />
               </div>
             )
