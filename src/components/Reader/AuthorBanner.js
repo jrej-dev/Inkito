@@ -10,26 +10,28 @@ import Share from '../Icons/share.png';
 
 //import { Link } from "react-router-dom";
 
-const AuthorBanner = () => {
+const AuthorBanner = ({ onAuthorClick }) => {
     const store = React.useContext(StoreContext);
 
     return useObserver(() => {
         if (toJS(store.seriesDetail)[0]) {
+            let content = toJS(store.seriesDetail)[0];
+            let author = content.author;
             return (
                 <div className="author-banner flex">
                     <wired-card>
                         <div className="flex-even">
-                            <img className="panel-profile-pic" src={`https://steemitimages.com/u/${toJS(store.seriesDetail)[0].author}/avatar`} alt=" " />
+                            <img className="panel-profile-pic pointer" src={`https://steemitimages.com/u/${author}/avatar`} alt="" onClick={() => onAuthorClick({author})}/>
                             <div className="flex-col">
-                                <div className="author-name flex-row">
-                                    <p className="capital">{toJS(store.seriesDetail)[0].author}</p>
+                                <div className="author-name flex-row pointer" onClick={() => onAuthorClick({author})}>
+                                    <p className="capital">{author}</p>
                                     <p>Creator</p>
                                 </div>
                                 {/*<p className="followers">1500 followers</p>*/}
                             </div>
                             <div className="flex-col post-title">
                                 <p>
-                                    {toJS(store.seriesDetail)[0] ? toJS(store.seriesDetail)[0].title : ""}
+                                    {content ? content.title : ""}
                                 </p>
                             </div>
                             <div className="flex-row pointer share">

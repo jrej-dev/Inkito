@@ -10,10 +10,11 @@ import UpArrow from '../Icons/up-arrow.png';
 import DownArrow from '../Icons/down-arrow.png';
 import Flag from '../Icons/flag.png';
 
-const CommentBlock = ({ content, reply }) => {
+const CommentBlock = ({ content, reply, onAuthorClick }) => {
     
     let payout = content.pending_payout_value === "0.000 HBD" ? content.total_payout_value : content.pending_payout_value;
     let reward = payout.replace("HBD", "");
+    let author = content.author;
     
     const Response = () => {
         return (
@@ -44,13 +45,13 @@ const CommentBlock = ({ content, reply }) => {
     return (
         <div className="active comment-banner">
                         
-            <img className="panel-profile-pic" src={`https://steemitimages.com/u/${content.author}/avatar`} alt=" " />
+            <img className="panel-profile-pic pointer" src={`https://steemitimages.com/u/${content.author}/avatar`} alt=" " onClick={() => onAuthorClick({author})}/>
             <div className="comment-block">
 
                 <div className="comment-upper-banner flex">       
                     <div className="left-block reset">
                         {reply ? <Response /> : null}
-                        <p className="name capital">{content.author}</p>
+                        <p className="name capital pointer" onClick={() => onAuthorClick({author})}>{content.author}</p>
                         <img className="md-icon clock" src={Clock} alt="clock" />
                         <p>{compareDate(content.created.slice(0, 10))}</p>
                      </div>

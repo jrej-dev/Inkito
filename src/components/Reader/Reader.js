@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
+import { useHistory } from "react-router-dom";
+
 import '../../sass/components/Reader.scss';
 import 'wired-elements';
 
@@ -13,6 +15,7 @@ import AuthorBanner from './AuthorBanner';
 
 const Reader = ({ type }) => {
   const store = React.useContext(StoreContext);
+  const history = useHistory();
 
   var props = {};
   var lastScrollTop = 0;
@@ -64,6 +67,12 @@ const Reader = ({ type }) => {
     }
   }
 
+  const authorClickHandle = (props) => {
+    if (store.seriesDetail.length > 0){
+      history.push(`/@${props.author}`);
+    }
+  }
+
   const navClickHandle = (e) => {
     if (e.target.className.includes("right-arrow")) {
       document.documentElement.scrollTop = 0;
@@ -104,7 +113,7 @@ const Reader = ({ type }) => {
         for (let i = store.startPage; i <= store.currentPage; i++) {
           blogs.push(
             <li key={seriesData[i] + store.currentPage} className="blog">
-              <Blog type={type} page={i} author={props.author} permlink={seriesData[i]} nextPermlink={seriesData[i + 1]} />
+              <Blog type={type} page={i} author={props.author} permlink={seriesData[i]} nextPermlink={seriesData[i + 1]} onAuthorClick={authorClickHandle}/>
               <p className="none scroll">Scroll to read more</p>
             </li>
           )
@@ -169,8 +178,7 @@ const Reader = ({ type }) => {
           </div>
         )
       } else {
-        return <AuthorBanner />
-
+        return <AuthorBanner onAuthorClick={authorClickHandle}/>
       }
     })
   }

@@ -21,6 +21,10 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
         }
     }
 
+    const authorClickHandle = (props) => {
+      history.push(`/@${props.author}`);
+    }
+
     return useObserver(() => {
       if(toJS(newData).length > 0 || toJS(trendyData).length > 0) {
         let fresh = [];
@@ -48,10 +52,12 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
                     <TrendyPanel 
                       content={trendy[j]}
                       onClick={contentClickHandle}
+                      onAuthorClick={authorClickHandle}
                     />
                     <NewPanel 
                       content={fresh[j]}
                       onClick={contentClickHandle}
+                      onAuthorClick={authorClickHandle}
                     />
                   </div>
                 )
@@ -61,10 +67,12 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
                     <NewPanel 
                       content={fresh[j]}
                       onClick={contentClickHandle}
+                      onAuthorClick={authorClickHandle}
                     />
                     <TrendyPanel 
                       content={trendy[j]}
                       onClick={contentClickHandle}
+                      onAuthorClick={authorClickHandle}
                    />
                   </div>
                 )
@@ -75,6 +83,7 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
                 <TrendyPanel 
                   content={trendy[j]}
                   onClick={contentClickHandle}
+                  onAuthorClick={authorClickHandle}
                 />
               </div>
             )
@@ -84,6 +93,7 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
                 <NewPanel 
                   content={fresh[j]}
                   onClick={contentClickHandle}
+                  onAuthorClick={authorClickHandle}
                 />
               </div>
             )

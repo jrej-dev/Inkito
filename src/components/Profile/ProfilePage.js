@@ -93,7 +93,29 @@ const ProfilePage = () => {
             }
         })
     }
-
+    
+    const SeriesList = () => {
+        return useObserver(() => {
+            if (toJS(store.authorInfo.series)) {
+                if (toJS(store.authorInfo.series).length > 0) {
+                    return (
+                        <div className="series">
+                            <h2>Series</h2>
+                            <ComicList />
+                            <NovelList />
+                            {/*if more
+                            <li className="add-series">
+                                <img className="lg-icon" src={Add} alt="add-icon"/>
+                            </li>*/}
+                        </div>
+                    )
+                } else { return "" }
+            } else {
+                return ""
+            }
+        })
+    }
+    
     const ComicList = () => {
         return useObserver(() => {
             if (toJS(store.authorInfo.series)) {
@@ -176,15 +198,7 @@ const ProfilePage = () => {
 
                     <CoverImage />
 
-                    <div className="series">
-                        <h2>Series</h2>
-                        <ComicList />
-                        <NovelList />
-                        {/*if more
-                                    <li className="add-series">
-                                        <img className="lg-icon" src={Add} alt="add-icon"/>
-                                    </li>*/}
-                    </div>
+                    <SeriesList />
                 </div>
             </div>
         </div >

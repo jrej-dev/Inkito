@@ -20,10 +20,11 @@ import { Link } from "react-router-dom";*/
 import CommentList from './CommentList';
 import ContentBody from './ContentBody';
 
-const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom }) => {
+const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, onAuthorClick, type, zoom }) => {
 
     if (content) {
       let reward = content.pending_payout_value === "0.000 HBD" ? content.total_payout_value.replace("HBD", "") : content.pending_payout_value.replace("HBD", "");
+      let author = content.author;
 
       const compareDate = (contentDate) => {
         var g1 = new Date().toISOString().substring(0, 10);
@@ -69,12 +70,12 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom }
         }
       }
 
-      const ActiveContent = () => {
+      const ActiveContent = ({ onAuthorClick }) => {
         if (infoIsActive) {
           return (
             <div>
               <div className="info-banner">
-                <div className={type === "comics" ? "author-info flex-col" : "author-info flex-row"}>
+                <div className={type === "comics" ? "author-info flex-col pointer" : "author-info flex-row pointer"} onClick={() => onAuthorClick({author})}>
                   <img className="panel-profile-pic" src={content.author ? `https://steemitimages.com/u/${content.author}/avatar` : ""} alt=" " />
                   <div className="author-name">
                     <p className="capital">{content.author}</p>
@@ -96,7 +97,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom }
                   <h3>{content.replies.length > 0 ? `Comments (${content.replies.length})` : "No Comments"} </h3>
                   <div className="line" />
                 </div>
-                {commentIsActive ? <CommentList commentData={content} /> : ""}
+                {commentIsActive ? <CommentList commentData={content} onAuthorClick={onAuthorClick}/> : ""}
               </ul>
             </div>
           )
@@ -113,7 +114,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom }
                 <ActiveInfoTab />
                 <img className="icon heart" src={Heart} alt="heart" />
               </div>
-              <ActiveContent />
+              <ActiveContent onAuthorClick={onAuthorClick}/>
             </div>
           </wired-card>
         </div>
