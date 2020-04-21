@@ -94,26 +94,72 @@ const ProfilePage = () => {
         })
     }
 
-    const SeriesList = () => {
+    const ComicList = () => {
         return useObserver(() => {
             if (toJS(store.authorInfo.series)) {
                 let seriesList = [];
                 toJS(store.authorInfo).series.forEach(series => {
-                    seriesList.push(
-                        <li key={series.seriesId}>
-                            <div className="series-thumbnail">
-                                <img src={series.image} alt="" />
-                            </div>
-                            <div className="series-info flex reset">
-                                <h3 className="series-title">{series.title}</h3>
-                                <p>Updated: {series.last_update.last_update.slice(0, 10)}</p>
-                            </div>
-                        </li>
-                    )
+                    if (series.tags.includes("inkito-comics")) {
+                        seriesList.push(
+                            <li key={series.seriesId}>
+                                <div className="series-thumbnail">
+                                    <img src={series.image} alt="" />
+                                </div>
+                                <div className="series-info flex reset">
+                                    <h3 className="series-title">{series.title}</h3>
+                                    <p>Updated: {series.last_update.created.slice(0, 10)}</p>
+                                </div>
+                            </li>
+                        )
+                    }
                 })
-                return seriesList;
+                if (seriesList.length > 0) {
+                    return (
+                        <div>
+                            <h3 className="list-title">Comics</h3>
+                            <ul className="series-list pa">
+                                {seriesList}
+                            </ul>
+                        </div>
+                    )
+                } else { return "" }
             } else {
-                return <wired-spinner class="custom" spinning duration="1000" />
+                return ""
+            }
+        })
+    }
+
+    const NovelList = () => {
+        return useObserver(() => {
+            if (toJS(store.authorInfo.series)) {
+                let seriesList = [];
+                toJS(store.authorInfo).series.forEach(series => {
+                    if (series.tags.includes("inkito-novels")) {
+                        seriesList.push(
+                            <li key={series.seriesId}>
+                                <div className="series-thumbnail">
+                                    <img src={series.image} alt="" />
+                                </div>
+                                <div className="series-info flex reset">
+                                    <h3 className="series-title">{series.title}</h3>
+                                    <p>Updated: {series.last_update.created.slice(0, 10)}</p>
+                                </div>
+                            </li>
+                        )
+                    }
+                })
+                if (seriesList.length > 0) {
+                    return (
+                        <div>
+                            <h3 className="list-title">Novels</h3>
+                            <ul className="series-list pa">
+                                {seriesList}
+                            </ul>
+                        </div>
+                    )
+                } else { return "" }
+            } else {
+                return ""
             }
         })
     }
@@ -132,18 +178,16 @@ const ProfilePage = () => {
 
                     <div className="series">
                         <h2>Series</h2>
-                        <ul className="series-list pa">
-
-                            <SeriesList />
-                            {/*if more
+                        <ComicList />
+                        <NovelList />
+                        {/*if more
                                     <li className="add-series">
                                         <img className="lg-icon" src={Add} alt="add-icon"/>
                                     </li>*/}
-                        </ul>
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 
 }

@@ -354,19 +354,18 @@ export function StoreProvider({ children }) {
                 return results;
             }
         },
-        async fetchAuthorSeries(author, start) {
-            this.authorInfo.series = [];
+        async fetchAuthorSeries(author, last_author, last_permlink) {
             let last_result = {};
             const authorSeries = await client.database
                 .getDiscussions('blog', {
                     tag: author,
-                    start_permlink: start,
+                    start_author: last_author,
+                    start_permlink: last_permlink,
                     limit: 100
                 })
                 .then(result => {
                     if (result.length > 0) {
                         last_result = result[result.length - 1];
-                        console.log(result[result.length - 1].permlink)
                     }
                     return result;
                 })
@@ -376,20 +375,29 @@ export function StoreProvider({ children }) {
                             .filter(tag => tag.includes(`${author}-`))
                     ))
                 ).then(result => [...new Set(result.flat())])
-                console.log(authorSeries);
 
             for (let id of authorSeries) {
-                const series = await store.fetchSeriesInfo(id);
-                this.authorInfo.series.push(series);
+                if (store.authorInfo.series.length === 0) {
+                    let series = await store.fetchSeriesInfo(id);
+                    store.authorInfo.series.push(series);
+                } else {
+                    store.authorInfo.series.forEach(object => {
+                        if (object.seriesId !== id) {
+                            runInAction(async () => {
+                                let series = await store.fetchSeriesInfo(id);
+                                store.authorInfo.series.push(series);
+                            })
+                        }
+                    })
+                }
             }
-            //To be fixed
-            //store.fetchAuthorSeries(author, last_result.permlink);
+
+            if (authorSeries.length > 0) {
+                store.fetchAuthorSeries(author, last_result.author, last_result.permlink);
+            }
         },
         async fetchAuthoInfo(author) {
-            /*infos 
-                seriesid: name-series
-                => fetchseriesinfo > author_series :array
-            */
+
             this.authorInfo = [];
             this.authorInfoState = "pending";
             try {
@@ -413,6 +421,7 @@ export function StoreProvider({ children }) {
                     if (this.authorInfo) {
                         this.authorInfo.follow = follow;
                         this.authorInfoState = "done";
+                        this.authorInfo.series = [];
 
                         store.fetchAuthorSeries(author);
                     }
