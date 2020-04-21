@@ -104,6 +104,9 @@
         text-shadow: 1px 1px 1px $darkest-color;
         color: $light-color;
         background-color: $primary-color;
+        text-orientation: sideways;
+        writing-mode: vertical-lr;
+        //sideways not compatible on Chrome & Safari
         writing-mode: sideways-lr;
         cursor:pointer;
     }
