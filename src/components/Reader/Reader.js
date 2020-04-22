@@ -51,13 +51,13 @@ const Reader = ({ type }) => {
     var st = document.documentElement.scrollTop;
     if (st < lastScrollTop) {
       store.navIsHidden = false;
-    } else if (st > 100) {
+    } else if (st > 200) {
       store.navIsHidden = true;
       // upscroll code
     }
     lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
 
-    if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 10) {
+    if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 5) {
       if (store.currentPage + 1 < store.seriesLinks.length && store.seriesDetail[store.currentPage + 1]) {
         store.closeInfoTab();
         store.scrollCurrentPage(store.currentPage + 1);

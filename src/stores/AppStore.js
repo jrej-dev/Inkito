@@ -84,15 +84,6 @@ export function StoreProvider({ children }) {
         commentState: "",
         authorInfoState: "",
 
-        //Queries
-        comicsQuery: {
-            tag: "inkito-comics",
-            limit: 32,
-        },
-        novelsQuery: {
-            tag: "inkito-novels",
-            limit: 32,
-        },
         //Actions 
 
         // categories
@@ -133,6 +124,7 @@ export function StoreProvider({ children }) {
         },
         resetSeriesDetail: () => {
             store.zoom = 70;
+            store.navIsHidden = false;
             store.seriesDetail = [];
             store.seriesLinks = [];
             store.activeInfoTab = [];
@@ -195,57 +187,108 @@ export function StoreProvider({ children }) {
             }
         },
         //Fetching Comics
-        async fetchComics(query) {
-            this.trendingComics = []
+        async fetchComics(last_trendy_author, last_trendy_permlink, last_new_author, last_new_permlink) {
             this.trendyComicState = "pending"
             try {
+                let last_trendyComic = {};
                 const trendyComicIds = await client.database
-                    .getDiscussions("trending", query)
+                    .getDiscussions("trending",
+                        {
+                            tag: "inkito-comics",
+                            limit: 32,
+                            start_author: last_trendy_author,
+                            start_permlink: last_trendy_permlink
+                        }
+                    )
+                    .then(result => {
+                        if (result.length > 0) {
+                            last_trendyComic = result[result.length - 1];
+                        }
+                        return result;
+                    })
                     .then(result => result.map(object => (
                         JSON.parse(object.json_metadata).tags
                             .filter(tag => tag.includes(object.author))
                     ))).then(result => [...new Set(result.flat())])
-                //const trendy = [];
 
                 for (let id of trendyComicIds) {
-                    const comic = await store.fetchSeriesInfo(id);
-                    this.trendingComics.push(comic);
-                    //trendy.push(comic)
+                    if (this.trendingComics.length === 0) {
+                        const comic = await store.fetchSeriesInfo(id);
+                        this.trendingComics.push(comic);
+                    } else {
+                        if (!this.trendingComics.some(object => object.seriesId === id)) {
+                            const comic = await store.fetchSeriesInfo(id);
+                            this.trendingComics.push(comic);
+                        }
+                    }
                 }
                 this.trendyComicState = "done";
-                //this.trendingComics = trendy;
 
-                this.newComics = []
-                this.newComicState = "pending"
+                this.newComicState = "pending";
+
+                let last_newComic = {};
                 const createdComicIds = await client.database
-                    .getDiscussions("created", query)
+                    .getDiscussions("created",
+                        {
+                            tag: "inkito-comics",
+                            limit: 32,
+                            start_author: last_new_author,
+                            start_permlink: last_new_permlink
+                        }
+                    )
+                    .then(result => {
+                        if (result.length > 0) {
+                            last_newComic = result[result.length - 1];
+                        }
+                        return result;
+                    })
                     .then(result => result.map(object => (
                         JSON.parse(object.json_metadata).tags
                             .filter(tag => tag.includes(object.author))
                     ))).then(result => [...new Set(result.flat())])
 
                 const newComicIds = this.removeDuplicateContent(createdComicIds, trendyComicIds);
-                //const fresh = [];
 
                 for (let id of newComicIds) {
-                    const comic = await store.fetchSeriesInfo(id);
-                    this.newComics.push(comic);
-                    //fresh.push(comic);
+                    if (this.newComics.length === 0) {
+                        const comic = await store.fetchSeriesInfo(id);
+                        this.newComics.push(comic);
+                    } else {
+                        if (!this.newComics.some(object => object.seriesId === id)) {
+                            const comic = await store.fetchSeriesInfo(id);
+                            this.newComics.push(comic);
+                        }
+                    }
                 }
-
                 this.newComicState = "done";
-                //this.newComics = fresh;
+
+                if (createdComicIds.length > 1 || trendyComicIds.length > 1) {
+                    store.fetchComics(last_trendyComic.author, last_trendyComic.permlink, last_newComic.author, last_newComic.permlink);
+                }
 
             } catch (error) {
                 console.log(error);
             }
         },
-        async fetchNovels(query) {
-            this.trendingNovels = []
-            this.trendyNovelState = "pending"
+        async fetchNovels(last_trendy_author, last_trendy_permlink, last_new_author, last_new_permlink) {
+            this.trendyNovelState = "pending";
+            let last_trendyNovel = {};
             try {
                 const trendyNovelIds = await client.database
-                    .getDiscussions("trending", query)
+                    .getDiscussions("trending",
+                        {
+                            tag: "inkito-novels",
+                            limit: 32,
+                            start_author: last_trendy_author,
+                            start_permlink: last_trendy_permlink
+                        }
+                    )
+                    .then(result => {
+                        if (result.length > 0) {
+                            last_trendyNovel = result[result.length - 1];
+                        }
+                        return result;
+                    })
                     .then(result => result.map(object => (
                         JSON.parse(object.json_metadata).tags
                             .filter(tag => tag.includes(object.author))
@@ -253,17 +296,37 @@ export function StoreProvider({ children }) {
                 //const trendy = [];
 
                 for (let id of trendyNovelIds) {
-                    const novel = await store.fetchSeriesInfo(id);
-                    this.trendingNovels.push(novel);
+                    if (this.trendingNovels.length === 0) {
+                        const novel = await store.fetchSeriesInfo(id);
+                        this.trendingNovels.push(novel);
+                    } else {
+                        if (!this.trendingNovels.some(object => object.seriesId === id)) {
+                            const novel = await store.fetchSeriesInfo(id);
+                            this.trendingNovels.push(novel);
+                        }
+                    }
                     //trendy.push(novel);
                 }
                 this.trendyNovelState = "done";
                 //this.trendingNovels = trendy;
 
-                this.newNovels = [];
                 this.newNovelState = "pending";
+                let last_newNovel = {};
                 const createdNovelIds = await client.database
-                    .getDiscussions("created", query)
+                    .getDiscussions("created",
+                        {
+                            tag: "inkito-novels",
+                            limit: 32,
+                            start_author: last_new_author,
+                            start_permlink: last_new_permlink
+                        }
+                    )
+                    .then(result => {
+                        if (result.length > 0) {
+                            last_newNovel = result[result.length - 1];
+                        }
+                        return result;
+                    })
                     .then(result => result.map(object => (
                         JSON.parse(object.json_metadata).tags
                             .filter(tag => tag.includes(object.author))
@@ -273,38 +336,66 @@ export function StoreProvider({ children }) {
                 //const fresh = [];
 
                 for (let id of newNovelIds) {
-                    const novel = await store.fetchSeriesInfo(id);
-                    //fresh.push(novel);
-                    this.newNovels.push(novel);
+                    if (this.newNovels.length === 0) {
+                        const novel = await store.fetchSeriesInfo(id);
+                        this.newNovels.push(novel);
+                    } else {
+                        if (!this.newNovels.some(object => object.seriesId === id)) {
+                            const novel = await store.fetchSeriesInfo(id);
+                            this.newNovels.push(novel);
+                        }
+                    }
                 }
                 this.newNovelState = "done"
-                //this.newNovels = fresh;
+
+                if (createdNovelIds.length > 1 || trendyNovelIds.length > 1) {
+                    store.fetchNovels(last_trendyNovel.author, last_trendyNovel.permlink, last_newNovel.author, last_newNovel.permlink);
+                }
 
             } catch (error) {
                 console.log(error);
             }
         },
-        async fetchPermlinks(author, seriesTitle) {
+        async fetchPermlinks(author, seriesTitle, last_author, last_permlink, slice) {
             let seriesId = `${author}-${seriesTitle}`;
-            this.seriesLinks = [];
             this.seriesDetail = [];
             this.seriesLength = 1;
             this.seriesLinkState = "pending";
             try {
+                let last_result = {};
                 const content = await client.database
-                    .getDiscussions('created', { tag: seriesId, limit: 100 })
+                    .getDiscussions('created', { 
+                        tag: seriesId, 
+                        limit: 100,
+                        start_author: last_author,
+                        start_permlink: last_permlink 
+                    })
+                    .then(result => {
+                        if (result.length > 0) {
+                            last_result = result[result.length - 1];
+                        }
+                        return result;
+                    })
                     .then(result => {
                         return result.map(object => object.permlink).reverse();
                     })
-
+                
                 runInAction(() => {
                     this.seriesLinkState = "done";
-                    this.seriesLinks = content;
+                    if (slice){
+                        this.seriesLinks = this.seriesLinks.concat(content.slice(1));
+                    } else {
+                        this.seriesLinks = this.seriesLinks.concat(content);
+                    }
 
-                    this.seriesDetail.length = content.length;
-                    this.activeInfoTab = content.map(object => object = false);
-                    this.activeComments = content.map(object => object = false);
-                })
+                    this.seriesDetail.length = this.seriesLinks.length;
+                    this.activeInfoTab = this.seriesLinks.map(object => object = false);
+                    this.activeComments = this.seriesLinks.map(object => object = false);
+                })                
+                
+                if (content.length > 1) {
+                    store.fetchPermlinks(author, seriesTitle, last_result.author, last_result.permlink, true);
+                }
 
             } catch (error) {
                 this.seriesLinkState = "error"
@@ -319,11 +410,13 @@ export function StoreProvider({ children }) {
                     .then(result => {
                         return result;
                     })
-                this.seriesDetail[page] = content;
+                if (this.seriesDetail.length > page){
+                    this.seriesDetail[page] = content;
+                }
 
                 runInAction(async () => {
                     const result = await store.fetchComments(content);
-                    if (this.seriesDetail[page]) {
+                    if (this.seriesDetail.length > 0 && this.seriesDetail[page]) {
                         this.seriesDetail[page].replies = result;
                         this.seriesDetailState = "done";
                     }
@@ -374,20 +467,17 @@ export function StoreProvider({ children }) {
                             .filter(tag => tag.includes(`${author}-`))
                     ))
                 ).then(result => [...new Set(result.flat())])
-
+            
+                console.log(authorSeries);
             for (let id of authorSeries) {
                 if (store.authorInfo.series.length === 0) {
                     let series = await store.fetchSeriesInfo(id);
                     store.authorInfo.series.push(series);
                 } else {
-                    store.authorInfo.series.forEach(object => {
-                        if (object.seriesId !== id) {
-                            runInAction(async () => {
-                                let series = await store.fetchSeriesInfo(id);
-                                store.authorInfo.series.push(series);
-                            })
-                        }
-                    })
+                    if (!store.authorInfo.series.some(object => object.seriesId === id)) {
+                        let series = await store.fetchSeriesInfo(id);
+                        store.authorInfo.series.push(series);
+                    }
                 }
             }
 

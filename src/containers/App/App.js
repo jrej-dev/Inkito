@@ -21,8 +21,8 @@ const App = () => {
   })
 
   const fetchContent = () => {
-    store.fetchComics(store.comicsQuery);
-    store.fetchNovels(store.novelsQuery);
+    store.fetchComics();
+    store.fetchNovels();
   }
 
   return (

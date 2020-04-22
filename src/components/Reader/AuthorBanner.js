@@ -24,15 +24,11 @@ const AuthorBanner = () => {
                             <Link to={`/@${content.author}`}>
                                 <img className="panel-profile-pic" src={`https://steemitimages.com/u/${author}/avatar`} alt="" />
                             </Link>
-                            <div className="flex col">
-                                <div className="author-name">
-                                    <Link to={`/@${content.author}`} className="author-name flex row pa-h">
-                                        <p className="capital">{author}</p>
-                                        <p>Creator</p>
-                                    </Link>
-                                </div>
-                                {/*<p className="followers">1500 followers</p>*/}
-                            </div>
+                            <Link to={`/@${content.author}`} className="author-name flex col pa-h">
+                                <p className="capital">{author}</p>
+                                <p>Creator</p>
+                            </Link>
+                            {/*<p className="followers">1500 followers</p>*/}
                             <div className="flex col post-title">
                                 <p>
                                     {content ? content.title : ""}

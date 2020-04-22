@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 function Nav() {
   return (
     <div className="Nav flex">
-      <div className="title flex-start">
+      <div className="title flex-start pa-h">
         <h1>
           <Link to="/">Inkito</Link>
         </h1>
