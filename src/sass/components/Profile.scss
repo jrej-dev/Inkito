@@ -38,7 +38,7 @@
         justify-content: space-evenly;
         align-items: center;
         margin: 5% 0;
-        .icon {
+        .icon.location {
             cursor: default;
         }
         .panel-profile-pic {
@@ -93,6 +93,11 @@
                     width: 10em;
                     height: 10em;
                     object-fit: cover;
+                    &:hover {
+                        transition: all 0.1s;
+                        -webkit-transition: all 0.1s;
+                        -webkit-filter: brightness(80%);
+                    }
                 }
             }
             .series-info {

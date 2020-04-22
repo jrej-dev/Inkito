@@ -16,6 +16,7 @@ function NewPanel({ content, onClick }) {
       <wired-card elevation="2">
         <div className="new-panel">
           <div className="panel-image" onClick={() => onClick({ author, seriesTitle })}>
+            {/*Create a default image instead of random image*/}
             <img className="panel-main-image" src={content.image ? content.image : "https://i.picsum.photos/id/356/300/300.jpg"} alt="panel-main-thumbnail" />
             <img className="panel-icon" src={NewIcon} alt="fire-icon" />
           </div>

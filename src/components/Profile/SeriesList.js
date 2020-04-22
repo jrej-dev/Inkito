@@ -2,6 +2,7 @@ import React from 'react';
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
+import { Link } from "react-router-dom";
 
 import 'wired-elements';
 import '../../sass/components/Profile.scss';
@@ -14,15 +15,22 @@ const SeriesList = () => {
             if (toJS(store.authorInfo.series)) {
                 let seriesList = [];
                 toJS(store.authorInfo).series.forEach(series => {
-                    //check if last update includes inkito
-                    if (series.tags.includes("inkito-comics")) {
+                    let lastTags = JSON.parse(series.last_update.json_metadata).tags;
+                    let seriesUrl = series.seriesId.replace("-", "/");
+                    if (series.tags.includes("inkito-comics") || lastTags.includes("inkito-comics")) {
                         seriesList.push(
                             <li key={series.seriesId}>
                                 <div className="series-thumbnail">
-                                    <img src={series.image} alt="" />
+                                    <Link to={`/comicReader/${seriesUrl}`}>
+                                        <img src={series.image} alt="" />
+                                    </Link>
                                 </div>
                                 <div className="series-info flex reset">
-                                    <h3 className="series-title">{series.title}</h3>
+                                    <h3 className="series-title">
+                                        <Link to={`/comicReader/${seriesUrl}`}>
+                                            {series.title}
+                                        </Link>
+                                    </h3>
                                     <p>Updated: {series.last_update.created.slice(0, 10)}</p>
                                 </div>
                             </li>
@@ -44,21 +52,28 @@ const SeriesList = () => {
             }
         })
     }
-    
+
     const NovelList = () => {
         return useObserver(() => {
             if (toJS(store.authorInfo.series)) {
                 let seriesList = [];
                 toJS(store.authorInfo).series.forEach(series => {
-                    //check if last update includes inkito
-                    if (series.tags.includes("inkito-novels")) {
+                    let lastTags = JSON.parse(series.last_update.json_metadata).tags;
+                    let seriesUrl = series.seriesId.replace("-", "/");
+                    if (series.tags.includes("inkito-novels") || lastTags.includes("inkito-novels")) {
                         seriesList.push(
                             <li key={series.seriesId}>
                                 <div className="series-thumbnail">
-                                    <img src={series.image} alt="" />
+                                    <Link to={`/novelReader/${seriesUrl}`}>
+                                        <img src={series.image} alt="" />
+                                    </Link>
                                 </div>
                                 <div className="series-info flex reset">
-                                    <h3 className="series-title">{series.title}</h3>
+                                    <h3 className="series-title">
+                                        <Link to={`/novelReader/${seriesUrl}`}>
+                                            {series.title}
+                                        </Link>
+                                    </h3>
                                     <p>Updated: {series.last_update.created.slice(0, 10)}</p>
                                 </div>
                             </li>

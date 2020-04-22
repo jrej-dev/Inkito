@@ -3,7 +3,6 @@ import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
 
-//import { Link } from "react-router-dom";
 
 import SeriesList from './SeriesList';
 import Nav from '../Main/Nav';
@@ -62,14 +61,13 @@ const ProfilePage = () => {
 
                         <div className="links">
                             <div className="location flex row">
-                                <img className="icon" src={Location} alt="location icon" />
+                                <img className="icon location" src={Location} alt="location icon" />
                                 <p>{author.location}</p>
                             </div>
 
                             {/*Optional field? Link*/}
                             <div className="link flex row">
-                                <img className="icon" src={Link} alt="link-icon" />
-                                <a href={author.website} target="_blank" rel="noopener noreferrer">Website</a>
+                                <a href={author.website} target="_blank" rel="noopener noreferrer" className="flex row"> <img className="icon pointer" src={Link} alt="link-icon" /> Website</a>
                             </div>
                         </div>
                     </div>

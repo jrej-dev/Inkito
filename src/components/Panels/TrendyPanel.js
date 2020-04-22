@@ -16,6 +16,7 @@ function TrendyPanel({ content, onClick }) {
       <wired-card elevation="3" className="trendy-card">
         <div className="trendy-panel">
           <div className="panel-image" onClick={() => onClick({ author, seriesTitle })}>
+            {/*Create a default image instead of random image*/}
             <img className="panel-main-image" src={content.image ? content.image : "https://i.picsum.photos/id/356/300/300.jpg"} alt="panel-main-thumbnail" />
             <img className="panel-icon" src={TrendyIcon} alt="fire-icon" />
           </div>
