@@ -398,6 +398,8 @@ export function StoreProvider({ children }) {
         async fetchAuthoInfo(author) {
 
             this.authorInfo = [];
+            this.authorInfo.series = [];
+
             this.authorInfoState = "pending";
             try {
                 const info = await client.database
