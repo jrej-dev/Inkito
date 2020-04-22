@@ -19,7 +19,6 @@ const ProfilePage = () => {
     useEffect(() => {
         document.documentElement.scrollTop = 0;
         getUrlVars();
-        store.fetchAuthoInfo(props.author);
     })
 
     const getUrlVars = () => {
@@ -30,7 +29,8 @@ const ProfilePage = () => {
 
         var params = address.split("/");
         props.author = params[0];
-
+        
+        store.fetchAuthoInfo(props.author);
         return props;
     }
 
@@ -92,7 +92,6 @@ const ProfilePage = () => {
             }
         })
     }
-    
     return (
         <div className="profile">
             <Nav />
@@ -106,7 +105,6 @@ const ProfilePage = () => {
             </div>
         </div >
     );
-
 }
 
 export default ProfilePage;

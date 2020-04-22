@@ -15,9 +15,9 @@ const SeriesList = () => {
             if (toJS(store.authorInfo.series)) {
                 let seriesList = [];
                 toJS(store.authorInfo).series.forEach(series => {
-                    let lastTags = JSON.parse(series.last_update.json_metadata).tags;
+                    let lastTags = JSON.parse(series.last_update.json_metadata);
                     let seriesUrl = series.seriesId.replace("-", "/");
-                    if (series.tags.includes("inkito-comics") || lastTags.includes("inkito-comics")) {
+                    if (series.tags.includes("inkito-comics") || lastTags.tags.includes("inkito-comics")) {
                         seriesList.push(
                             <li key={series.seriesId}>
                                 <div className="series-thumbnail">
@@ -58,9 +58,9 @@ const SeriesList = () => {
             if (toJS(store.authorInfo.series)) {
                 let seriesList = [];
                 toJS(store.authorInfo).series.forEach(series => {
-                    let lastTags = JSON.parse(series.last_update.json_metadata).tags;
+                    let lastTags = JSON.parse(series.last_update.json_metadata);
                     let seriesUrl = series.seriesId.replace("-", "/");
-                    if (series.tags.includes("inkito-novels") || lastTags.includes("inkito-novels")) {
+                    if (series.tags.includes("inkito-novels") || lastTags.tags.includes("inkito-novels")) {
                         seriesList.push(
                             <li key={series.seriesId}>
                                 <div className="series-thumbnail">
