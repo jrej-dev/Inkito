@@ -7,6 +7,9 @@
     color: $darkest-color;
     height: 5em;
     width: 100%;
+    ul{
+      padding: 0;
+    }
     .search {
       display: none;
     }

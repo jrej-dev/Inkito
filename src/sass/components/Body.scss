@@ -1,6 +1,10 @@
 @import '../abstracts/variables';
 @import '../abstracts/mixins';
 
+.home {
+    margin: 0 0 2em 0;
+}
+
 .content-display {
     padding: 0 1em;
 
@@ -24,7 +28,7 @@
         .isActiveUnderlined {
             color: $darkest-color;
             h3 {
-                border-bottom: 2px double $primary-color;
+                border-bottom: 2px solid $primary-color;
             }
         }
     }
@@ -47,7 +51,6 @@
     .isActive {
         color: $darkest-color;
         border: 2px solid $primary-color;
-        border-style: double;
     }
 
 }

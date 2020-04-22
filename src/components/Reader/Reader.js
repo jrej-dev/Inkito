@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
+
 import '../../sass/components/Reader.scss';
 import 'wired-elements';
 
@@ -19,7 +20,7 @@ const Reader = ({ type }) => {
 
   useEffect(() => {
     store.resetSeriesDetail();
-    
+
     getUrlVars();
     store.fetchPermlinks(props.author, props.seriesTitle);
     timeout(5000);
@@ -55,7 +56,7 @@ const Reader = ({ type }) => {
       // upscroll code
     }
     lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
-    
+
     if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 10) {
       if (store.currentPage + 1 < store.seriesLinks.length && store.seriesDetail[store.currentPage + 1]) {
         store.closeInfoTab();
@@ -170,7 +171,6 @@ const Reader = ({ type }) => {
         )
       } else {
         return <AuthorBanner />
-
       }
     })
   }
@@ -182,7 +182,7 @@ const Reader = ({ type }) => {
         <ListedBlogs />
       </ul>
       <BottomBanner />
-      <BottomNav />  
+      <BottomNav />
     </div>
   );
 }

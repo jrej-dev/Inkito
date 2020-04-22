@@ -2,12 +2,12 @@ import React from 'react';
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
+
 import 'wired-elements';
 
 import TrendyPanel from '../Panels/TrendyPanel';
 import NewPanel from '../Panels/NewPanel';
 import { useHistory } from "react-router-dom";
-
 
 const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
     const store = React.useContext(StoreContext);

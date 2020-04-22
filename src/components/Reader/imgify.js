@@ -1,40 +1,5 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
-//function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-// Autoconvert URL-like texts to links
-
-// Stupid fabric to avoid singletons, for thread safety.
-// Required for engines like Nashorn.
-//
-/*function createLinkifier() {
-  var links = [];
-  var autolinker = new Autolinker({
-    stripPrefix: false,
-    url: true,
-    email: false,
-    replaceFn: function (match) {
-      // Only collect matched strings but don't change anything.
-      switch (match.getType()) {
-        /*eslint default-case:0*/
-/*case 'url':
-  links.push({
-    text: match.matchedText,
-    url: match.getUrl()
-  });
-  break;
-}
-return false;
-}
-});
-return {
-links: links,
-autolinker: autolinker
-};
-}*/
-
-
-
 function parseTokens(state) {
   var i, j, l, tokens, sources, alt, nodes, blockTokens = state.tokens;
   //linkifier = null, links, autolinker;
@@ -53,7 +18,6 @@ function parseTokens(state) {
       if (tokens[i].type === 'text' && tokens[i].content.match(regex)) {
 
         sources = tokens[i].content.match(regex);
-        console.log(sources);
 
         alt = sources[0].slice(-14, sources[0].length).replace(/-/gi, "");
 

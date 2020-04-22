@@ -10,11 +10,14 @@ import UpArrow from '../Icons/up-arrow.png';
 import DownArrow from '../Icons/down-arrow.png';
 import Flag from '../Icons/flag.png';
 
+import { Link } from "react-router-dom";
+
+
 const CommentBlock = ({ content, reply }) => {
-    
+
     let payout = content.pending_payout_value === "0.000 HBD" ? content.total_payout_value : content.pending_payout_value;
     let reward = payout.replace("HBD", "");
-    
+
     const Response = () => {
         return (
             <div className="flex reset">
@@ -25,43 +28,48 @@ const CommentBlock = ({ content, reply }) => {
     }
 
     const compareDate = (contentDate) => {
-    var g1 = new Date().toISOString().substring(0, 10);
-    var g2 = contentDate;
-    if (g1 >= g2) {
-        g1 = g1.split("-");
-        g2 = g2.split("-");
-        var g3 = [g1[0] - g2[0], g1[1] - g2[1], g1[2] - g2[2]]
-        if (g3[0] > 0) {
-        return g3[0] === 1 ? `${g3[0]} year ago` : `${g3[0]} years ago`;
-        } else if (g3[1] > 0) {
-        return g3[1] === 1 ? `${g3[1]} month ago` : `${g3[1]} months ago`;
-        } else if (g3[2] > 0) {
-        return g3[2] === 1 ? `${g3[2]} day ago` : `${g3[2]} days ago`;
+        var g1 = new Date().toISOString().substring(0, 10);
+        var g2 = contentDate;
+        if (g1 >= g2) {
+            g1 = g1.split("-");
+            g2 = g2.split("-");
+            var g3 = [g1[0] - g2[0], g1[1] - g2[1], g1[2] - g2[2]]
+            if (g3[0] > 0) {
+                return g3[0] === 1 ? `${g3[0]} year ago` : `${g3[0]} years ago`;
+            } else if (g3[1] > 0) {
+                return g3[1] === 1 ? `${g3[1]} month ago` : `${g3[1]} months ago`;
+            } else if (g3[2] > 0) {
+                return g3[2] === 1 ? `${g3[2]} day ago` : `${g3[2]} days ago`;
+            }
         }
     }
-    }
-    
+
     return (
         <div className="active comment-banner">
-                        
-            <img className="panel-profile-pic" src={`https://steemitimages.com/u/${content.author}/avatar`} alt=" " />
+            <Link to={`/@${content.author}`}>
+                <img className="panel-profile-pic" src={`https://steemitimages.com/u/${content.author}/avatar`} alt=" " />
+            </Link>
             <div className="comment-block">
 
-                <div className="comment-upper-banner flex">       
+                <div className="comment-upper-banner flex">
                     <div className="left-block reset">
                         {reply ? <Response /> : null}
-                        <p className="name capital">{content.author}</p>
+                        <p className="name capital">
+                            <Link to={`/@${content.author}`}>
+                                {content.author}
+                            </Link>
+                        </p>
                         <img className="md-icon clock" src={Clock} alt="clock" />
                         <p>{compareDate(content.created.slice(0, 10))}</p>
-                     </div>
+                    </div>
                     <img className="md-icon flag" src={Flag} alt="flag" />
                 </div>
-                
-                    <wired-card>
-                        <div className="comment-body">
-                            <ContentBody content={content}/>
-                        </div>
-                    </wired-card>   
+
+                <wired-card>
+                    <div className="comment-body">
+                        <ContentBody content={content} />
+                    </div>
+                </wired-card>
 
                 <div className="comment-bottom-banner reset">
                     <div className="left-block">
@@ -82,7 +90,7 @@ const CommentBlock = ({ content, reply }) => {
                 </div>
             </div>
             <ul className="replies">
-                <CommentList commentData={content} reply={true}/>
+                <CommentList commentData={content} reply={true} />
             </ul>
         </div>
     )

@@ -5,6 +5,7 @@ import { useObserver } from 'mobx-react';
 import ReactMarkdown from 'react-markdown/with-html';*/
 import 'wired-elements';
 import '../../sass/components/InfoTab.scss';
+import { Link } from "react-router-dom";
 
 /*import LeftArrow from '../Icons/left-arrow.png';
 import RightArrow from '../Icons/right-arrow.png';*/
@@ -45,7 +46,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom }
       const ActiveInfoTab = () => {
         if (infoIsActive) {
           return (
-            <div className="flex">
+            <div className="flex pa-h">
               <img className="icon toggle" src={UpArrow} alt="up-arrow" onClick={onClick} />
 
               <div className="time-block flex">
@@ -74,12 +75,14 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom }
           return (
             <div>
               <div className="info-banner">
-                <div className={type === "comics" ? "author-info flex-col" : "author-info flex-row"}>
-                  <img className="panel-profile-pic" src={content.author ? `https://steemitimages.com/u/${content.author}/avatar` : ""} alt=" " />
-                  <div className="author-name">
-                    <p className="capital">{content.author}</p>
-                    <p>Creator</p>
-                  </div>
+                <div className={type === "comics" ? "author-info flex col" : "author-info flex row"}>
+                  <Link to={`/@${content.author}`}>
+                    <img className="panel-profile-pic" src={content.author ? `https://steemitimages.com/u/${content.author}/avatar` : ""} alt=" " />
+                    <div className="author-name">
+                      <p className="capital">{content.author}</p>
+                      <p>Creator</p>
+                    </div>
+                  </Link>
                 </div>
 
                 <div className={type === "comics" ? "content-info" : "content-info none"}>
@@ -96,7 +99,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom }
                   <h3>{content.replies.length > 0 ? `Comments (${content.replies.length})` : "No Comments"} </h3>
                   <div className="line" />
                 </div>
-                {commentIsActive ? <CommentList commentData={content} /> : ""}
+                {commentIsActive ? <CommentList commentData={content}/> : ""}
               </ul>
             </div>
           )

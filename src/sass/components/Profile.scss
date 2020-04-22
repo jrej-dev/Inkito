@@ -1,0 +1,235 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+.profile {
+    width: 100vw;
+    min-height: 75vh;
+    background-color: $primary-color;
+    .container {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        padding: 2%;
+    }
+}
+
+.profile-page {
+    display: grid;
+    height: 95%;
+    width: 95%;
+    background-color: $light-color;
+    grid-template-areas:
+        "info div img"
+        "info div series";
+    grid-template-rows: 12em 1fr;
+    grid-template-columns: 1fr 1px 2fr;
+    border: 1px solid black;
+    .divider {
+        grid-area: div;
+        border-left: 1px solid $darkest-color;
+        height: 100%;
+    }
+    .profile-info {
+        grid-area: info;
+        min-height: 80vh;
+        height: 80%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        margin: 5% 0;
+        .icon.location {
+            cursor: default;
+        }
+        .panel-profile-pic {
+            width: 10em;
+            height: 10em;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .author > h2 {
+            color: $light-color;
+            text-shadow: 1px 1px 2px $darkest-color;
+        }
+
+        .description {
+            margin: 0 4em;
+        }
+    }
+    .cover-image {
+        grid-area: img;
+        background-color: $dark-color;
+        //background: linear-gradient($dark-color 20%, $darkest-color);
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        img {
+            object-fit: cover;
+            min-width: 100%;
+            min-height: 100%;
+        }
+    }
+    .series {
+        grid-area: series;
+        margin: 3% 5%;
+        min-height: 22em;
+        h2 {
+            margin-top: 0;
+            text-align: left;
+        }
+        .list-title {
+            margin-left: 7%;
+            text-align: left;
+        }
+        .series-list {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 0;
+            margin: 0;
+            flex-wrap: wrap;
+            .series-thumbnail {
+                img {
+                    width: 10em;
+                    height: 10em;
+                    object-fit: cover;
+                    &:hover {
+                        transition: all 0.1s;
+                        -webkit-transition: all 0.1s;
+                        -webkit-filter: brightness(80%);
+                    }
+                }
+            }
+            .series-info {
+                width: 10em;
+                flex-wrap: wrap;
+                > * {
+                    padding: 0 0.5em;
+                }
+            }
+        }
+    }
+
+    .series-list {
+        list-style: none;
+        .add-series {
+            min-height: 10em;
+        }
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .series-list {
+        @include flex(center);
+    }
+
+    .profile-page {
+        grid-template-areas:
+            "img"
+            "info"
+            "div"
+            "series";
+        grid-template-columns: auto;
+        grid-template-rows: 12em auto;
+        .profile-info{
+            min-height: initial;
+        }
+        .series {
+            width: 100%;
+            margin: 1em 0;
+            h2 {
+                text-align: center;
+            }
+            .list-title {
+                margin-left: 0;
+                text-align: center;
+            }
+            .series-list {
+                justify-content: center;
+                align-items: flex-start;
+            }
+        }
+        .divider {
+            border-top: 1px solid $darkest-color;
+            height: 1px;
+            width: 100%;
+        }
+        .author {
+            position: absolute;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1;
+            width: 100%;
+            height: 12em;
+            top: 1em;
+            left: 0;
+            .panel-profile-pic {
+                width: 6em;
+                height: 6em;
+            }
+        }
+
+        .links {
+            width: 80%;
+            display: flex;
+            justify-content: space-evenly;
+            flex-direction: row;
+        }
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .profile-page { 
+        .series {
+            width: 80%;
+            margin: 1em 10%;
+            .list-title {
+                margin-left: 7%;
+                text-align: left;
+            }
+            .series-list {
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: flex-start;
+                li {
+                    width: 95%;
+                    display: flex;
+                    flex-direction: row;
+                    .series-thumbnail {
+                        img {
+                            height: 7em;
+                            width: 7em;
+                        }
+                    }
+                    .series-info {
+                        width: 100%;
+                        text-align: left;
+                        flex-direction: column;
+                        align-items: flex-start;
+                        margin: 0 1em;
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 400px) {
+    .profile-page { 
+        .series {
+            .series-list {
+                li {
+                    .series-thumbnail {
+                        img {
+                            height: 5em;
+                            width: 5em;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

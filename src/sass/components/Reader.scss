@@ -3,7 +3,7 @@
 
 .reader {
     width: 100vw;
-    margin-top: 7em;
+    margin: 7em 0 2em 0;
     padding: 0;
     ul {
         padding: 0;
@@ -36,6 +36,13 @@
     }
     hr {
         display: none;
+    }
+}
+
+.novel-body{
+    .content-body {
+        width: 70%;
+        margin: 0 15%;
     }
 }
 
@@ -85,6 +92,7 @@
 
 .zoom-banner {
     position: fixed;
+    z-index: 2;
     transition: bottom 0.3s;
     top: 40%;
     right: -6.5em;
@@ -155,6 +163,14 @@
             display: none;
         }
     }
+
+    .novel-body{
+        .content-body {
+            width: 90%;
+            margin: 0 5%;
+        }
+    }
+
     .author-banner {
         .post-title {
             flex-basis: 50%;

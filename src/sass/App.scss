@@ -34,36 +34,18 @@
 
 .flex {
   @include flex(center);
-  > * {
-    margin: 0;
-    padding: 0 0.5em;
-  }
 }
 
-.flex-row {
-  @include flex(center);
+.row {
   flex-direction: row;
-  > * {
-    margin: 0;
-    padding: 0 0.5em;
-  }
 }
 
-.flex-col {
-  @include flex(center);
+.col {
   flex-direction: column;
-  > * {
-    margin: 0;
-    padding: 0 0.5em;
-  }
 }
 
 .flex-even {
   @include flex(space-evenly);
-  > * {
-    margin: 0;
-    padding: 0 0.5em;
-  }
 }
 
 .flex-start {
@@ -77,8 +59,19 @@
 .pa{
   > * {
     margin: 0;
+    padding: 0.5em 0.5em;
+  }
+}
+
+.pa-h{
+  > * {
+    margin: 0;
     padding: 0 0.5em;
   }
+}
+
+.hidden {
+  display: none;
 }
 
 .icon {
@@ -91,6 +84,10 @@
 .md-icon {
   padding: 0 0.2em;
   height: 1em; 
+}
+.lg-icon {
+  padding: 0 0.2em;
+  height: 7em; 
 }
 
 .pointer {

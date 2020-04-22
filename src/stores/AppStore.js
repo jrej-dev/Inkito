@@ -63,6 +63,7 @@ export function StoreProvider({ children }) {
         seriesDetail: [],
         activeInfoTab: [],
         activeComments: [],
+        authorInfo: [],
         zoom: 70,
         zoomIsActive: false,
         clickedSeriesAuthor: "",
@@ -81,6 +82,7 @@ export function StoreProvider({ children }) {
         postDetailState: "",
         seriesDetailState: "",
         commentState: "",
+        authorInfoState: "",
 
         //Queries
         comicsQuery: {
@@ -163,10 +165,10 @@ export function StoreProvider({ children }) {
                 store.zoom = store.zoom + increment;
             } else if (store.zoom === 90 && increment < 0) {
                 store.zoom = store.zoom + increment;
-            } 
+            }
             console.log(store.zoom);
         },
-        async fetchSeriesInfo(seriesId, type) {
+        async fetchSeriesInfo(seriesId) {
             try {
                 const seriesInfo = await client.database
                     .getDiscussions('created', { tag: seriesId, limit: 100 })
@@ -351,6 +353,92 @@ export function StoreProvider({ children }) {
             if (results.length === 0 || results[0].parent_author.length > 0) {
                 return results;
             }
+        },
+        async fetchAuthorSeries(author, last_author, last_permlink) {
+            let last_result = {};
+            const authorSeries = await client.database
+                .getDiscussions('blog', {
+                    tag: author,
+                    start_author: last_author,
+                    start_permlink: last_permlink,
+                    limit: 100
+                })
+                .then(result => {
+                    if (result.length > 0) {
+                        last_result = result[result.length - 1];
+                    }
+                    return result;
+                })
+                .then(result =>
+                    result.map(object => (
+                        JSON.parse(object.json_metadata).tags
+                            .filter(tag => tag.includes(`${author}-`))
+                    ))
+                ).then(result => [...new Set(result.flat())])
+
+            for (let id of authorSeries) {
+                if (store.authorInfo.series.length === 0) {
+                    let series = await store.fetchSeriesInfo(id);
+                    store.authorInfo.series.push(series);
+                } else {
+                    store.authorInfo.series.forEach(object => {
+                        if (object.seriesId !== id) {
+                            runInAction(async () => {
+                                let series = await store.fetchSeriesInfo(id);
+                                store.authorInfo.series.push(series);
+                            })
+                        }
+                    })
+                }
+            }
+
+            if (authorSeries.length > 0) {
+                store.fetchAuthorSeries(author, last_result.author, last_result.permlink);
+            }
+        },
+        async fetchAuthoInfo(author) {
+
+            this.authorInfo = [];
+            this.authorInfoState = "pending";
+            try {
+                const info = await client.database
+                    .call('get_accounts', [[author]])
+                    .then(result => {
+                        if (result.length > 0) {
+                            let json = JSON.parse(result[0].json_metadata).profile;
+                            result[0].about = json.about;
+                            result[0].website = json.website;
+                            result[0].location = json.location;
+                            result[0].cover = json.cover_image;
+                            return result;
+                        }
+                    })
+
+                this.authorInfo = info[0];
+
+                runInAction(async () => {
+                    const follow = await store.getFollowCount(author);
+                    if (this.authorInfo) {
+                        this.authorInfo.follow = follow;
+                        this.authorInfoState = "done";
+                        this.authorInfo.series = [];
+
+                        store.fetchAuthorSeries(author);
+                    }
+                })
+
+            } catch (error) {
+                this.authorInfoState = "error"
+                console.log(error)
+            }
+
+        },
+        //to be fixed
+        async getFollowCount(author) {
+            const followCount = await client.call('follow_api', 'get_follow_count', [author])
+                .then(result => { return result })
+
+            return followCount;
         }
     }));
     return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
