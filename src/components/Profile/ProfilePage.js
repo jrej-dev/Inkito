@@ -44,7 +44,7 @@ const ProfilePage = () => {
                             <img
                                 className="panel-profile-pic"
                                 src={`https://steemitimages.com/u/${author.name}/avatar`}
-                                alt=" "
+                                alt=""
                             />
                             <h2 className="capital">{author.name}</h2>
                         </div>
@@ -84,7 +84,7 @@ const ProfilePage = () => {
                 const author = toJS(store.authorInfo);
                 return (
                     <div className="cover-image reset flex">
-                        <img src={author.cover} alt=" " />
+                        {author.cover ? <img src={author.cover} alt=" " /> : ""}
                     </div>
                 )
             } else {

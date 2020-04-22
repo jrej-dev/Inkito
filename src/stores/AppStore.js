@@ -166,7 +166,6 @@ export function StoreProvider({ children }) {
             } else if (store.zoom === 90 && increment < 0) {
                 store.zoom = store.zoom + increment;
             }
-            console.log(store.zoom);
         },
         async fetchSeriesInfo(seriesId) {
             try {
