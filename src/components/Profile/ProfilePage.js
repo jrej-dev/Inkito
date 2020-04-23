@@ -95,7 +95,7 @@ const ProfilePage = () => {
     return (
         <div className="profile">
             <Nav />
-            <div className="container reset">
+            <div className="container reset" onClick={() => store.toggleNavMenu(false)}> 
                 <div className="profile-page">
                     <ProfileInfo />
                     <div className="divider" />

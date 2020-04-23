@@ -49,16 +49,18 @@ const Home = () => {
   return (
     <div className="home">
       <Nav />
-      <Hero />
-      <Promo />
-      <ComicContent />
-      <Link to="/comics">
-        <h3 className="more">See more...</h3>
-      </Link>
-      <NovelContent />
-      <Link to="/novels">
-        <h3 className="more">See more...</h3>
-      </Link>
+      <div onClick={() => store.toggleNavMenu(false)}>
+        <Hero />
+        <Promo />
+        <ComicContent />
+        <Link to="/comics">
+          <h3 className="more">See more...</h3>
+        </Link>
+        <NovelContent />
+        <Link to="/novels">
+          <h3 className="more">See more...</h3>
+        </Link>
+      </div>
     </div>
   );
 }

@@ -11,7 +11,7 @@ import Bell from '../Icons/bell.png';
 import { Link } from "react-router-dom";
 
 const NavReader = ({ page, content, length, onClick, isHidden }) => {
-  if (content) {
+  if (content && content[page].title) {
     return (
       <div className={isHidden ? "nav-reader hidden-top" : "nav-reader"}>
         <ul className="nav-reader-list">
