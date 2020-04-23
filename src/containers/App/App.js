@@ -18,11 +18,16 @@ const App = () => {
 
   useEffect (() => {
     fetchContent();
+    getUserDetail();
   })
 
   const fetchContent = () => {
     store.fetchComics();
     store.fetchNovels();
+  }
+
+  const getUserDetail = () => {
+    store.getUserDetail();
   }
 
   return (

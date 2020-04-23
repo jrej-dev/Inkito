@@ -1,10 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import StoreContext from '../../stores/AppStore';
+import { useObserver } from 'mobx-react';
+import { Link } from "react-router-dom";
+import { toJS } from 'mobx';
+
 import 'wired-elements';
 import '../../sass/components/Nav.scss';
 
-import { Link } from "react-router-dom";
-
 function Nav() {
+  const store = React.useContext(StoreContext);
+
+  useEffect (() => { 
+    store.initHSLogin();
+  })
+
+  const LogElement = () => {
+    return useObserver(() => {
+      if (toJS(store.userDetail).username) {
+        return (
+          <li>
+            <p className="capital">{store.userDetail.username}</p>
+            <p onClick={store.logOut} className="pointer">Logout</p>
+          </li>
+        )
+      } else {
+        return (
+          <li>
+            <a href={store.loginLink}>Login</a>
+          </li>
+        )
+      }
+    })
+  }
+
   return (
     <div className="Nav flex">
       <div className="title flex-start pa-h">
@@ -23,11 +51,9 @@ function Nav() {
           <Link to="/novels">Novels</Link>
         </li>
         <li className="nav-blog">
-          <a href="https://hive.blog/@inkito" target ="_blank" rel="noopener noreferrer">Blog</a>
+          <a href="https://hive.blog/@inkito" target="_blank" rel="noopener noreferrer">Blog</a>
         </li>
-        <li>
-          <a href="https://hive.blog/login.html" target ="_blank" rel="noopener noreferrer">Login/Register</a>
-        </li>
+        <LogElement />
       </ul>
     </div>
   );

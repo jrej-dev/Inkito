@@ -14,6 +14,16 @@ opts.chainId =
 //connect to server which is connected to the network/production
 const client = new Client('https://api.pharesim.me');
 
+//Hivesigner
+var hivesigner = require('hivesigner');
+
+var api = new hivesigner.Client({
+    app: 'inkito',
+    callbackURL: 'http://localhost:3000',
+    accessToken: 'access_token',
+    scope: ['vote', 'comment', 'posting'],
+});
+
 export function StoreProvider({ children }) {
     const store = useLocalStore(() => ({
 
@@ -64,6 +74,8 @@ export function StoreProvider({ children }) {
         activeInfoTab: [],
         activeComments: [],
         authorInfo: [],
+        userDetail: {},
+        loginLink: "",
         zoom: 70,
         zoomIsActive: false,
         clickedSeriesAuthor: "",
@@ -158,6 +170,44 @@ export function StoreProvider({ children }) {
             } else if (store.zoom === 90 && increment < 0) {
                 store.zoom = store.zoom + increment;
             }
+        },
+        logOut: () => {
+            api.revokeToken(function (err, res) {
+                if (res && res.success) {
+                    store.userDetail = {};
+                    document.location.href = '/';
+                }
+            });
+            return false;
+        },
+        initHSLogin: () => {
+            let link = api.getLoginURL();
+            runInAction(() => {
+                store.loginLink = link;
+            })
+        },
+        async getUserDetail() {
+            this.userDetail = {};
+            let access_token = new URLSearchParams(document.location.search).get('access_token');
+            let username = new URLSearchParams(document.location.search).get('username');
+            if (access_token) {
+                // set access token after login
+                api.setAccessToken(access_token);
+            }
+            /*var params = {};
+
+            // The "username" parameter is required prior to log in for "Hive Keychain" users.
+            if (hivesigner.useHiveKeychain) {
+            params = { username: this.username };
+            } else {
+                client.login(params, function(err, token) {
+                console.log(err, token)
+                });
+            }*/
+            runInAction(() => {
+                this.userDetail.access_token = access_token;
+                this.userDetail.username = username;
+            })
         },
         async fetchSeriesInfo(seriesId) {
             try {
@@ -262,6 +312,7 @@ export function StoreProvider({ children }) {
                 }
                 this.newComicState = "done";
 
+                // Incorporate lazy load
                 if (createdComicIds.length > 1 || trendyComicIds.length > 1) {
                     store.fetchComics(last_trendyComic.author, last_trendyComic.permlink, last_newComic.author, last_newComic.permlink);
                 }
@@ -348,6 +399,7 @@ export function StoreProvider({ children }) {
                 }
                 this.newNovelState = "done"
 
+                // Incorporate lazy load
                 if (createdNovelIds.length > 1 || trendyNovelIds.length > 1) {
                     store.fetchNovels(last_trendyNovel.author, last_trendyNovel.permlink, last_newNovel.author, last_newNovel.permlink);
                 }
@@ -364,11 +416,11 @@ export function StoreProvider({ children }) {
             try {
                 let last_result = {};
                 const content = await client.database
-                    .getDiscussions('created', { 
-                        tag: seriesId, 
+                    .getDiscussions('created', {
+                        tag: seriesId,
                         limit: 100,
                         start_author: last_author,
-                        start_permlink: last_permlink 
+                        start_permlink: last_permlink
                     })
                     .then(result => {
                         if (result.length > 0) {
@@ -379,10 +431,10 @@ export function StoreProvider({ children }) {
                     .then(result => {
                         return result.map(object => object.permlink).reverse();
                     })
-                
+
                 runInAction(() => {
                     this.seriesLinkState = "done";
-                    if (slice){
+                    if (slice) {
                         this.seriesLinks = this.seriesLinks.concat(content.slice(1));
                     } else {
                         this.seriesLinks = this.seriesLinks.concat(content);
@@ -391,8 +443,8 @@ export function StoreProvider({ children }) {
                     this.seriesDetail.length = this.seriesLinks.length;
                     this.activeInfoTab = this.seriesLinks.map(object => object = false);
                     this.activeComments = this.seriesLinks.map(object => object = false);
-                })                
-                
+                })
+
                 if (content.length > 1) {
                     store.fetchPermlinks(author, seriesTitle, last_result.author, last_result.permlink, true);
                 }
@@ -410,7 +462,7 @@ export function StoreProvider({ children }) {
                     .then(result => {
                         return result;
                     })
-                if (this.seriesDetail.length > page){
+                if (this.seriesDetail.length > page) {
                     this.seriesDetail[page] = content;
                 }
 
@@ -467,8 +519,8 @@ export function StoreProvider({ children }) {
                             .filter(tag => tag.includes(`${author}-`))
                     ))
                 ).then(result => [...new Set(result.flat())])
-            
-                console.log(authorSeries);
+
+            console.log(authorSeries);
             for (let id of authorSeries) {
                 if (store.authorInfo.series.length === 0) {
                     let series = await store.fetchSeriesInfo(id);
