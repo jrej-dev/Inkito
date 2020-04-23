@@ -14,7 +14,7 @@ const SeriesList = () => {
         return useObserver(() => {
             if (toJS(store.authorInfo.series)) {
                 let seriesList = [];
-                toJS(store.authorInfo).series.forEach(series => {
+                toJS(store.authorInfo.series).forEach(series => {
                     let lastTags = JSON.parse(series.last_update.json_metadata);
                     let seriesUrl = series.seriesId.replace("-", "/");
                     if (series.tags.includes("inkito-comics") || lastTags.tags.includes("inkito-comics")) {

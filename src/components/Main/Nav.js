@@ -14,13 +14,20 @@ function Nav() {
     store.initHSLogin();
   })
 
-  const LogElement = () => {
+  const LogElement = () => {  
+
     return useObserver(() => {
-      if (toJS(store.userDetail).username) {
+      if (toJS(store.userDetail)) {
+        let username = toJS(store.userDetail).name;
         return (
-          <li>
-            <p className="capital">{store.userDetail.username}</p>
-            <p onClick={store.logOut} className="pointer">Logout</p>
+          <li className="user">
+            <img src={`https://steemitimages.com/u/${username}/avatar`} alt=" " className="user-thumbnail pointer" onClick={() => store.toggleNavMenu()}/>
+            <div className={store.navMenuIsActive ? "user-menu flex col" : "user-menu flex col hidden"}>
+              <Link to={`/@${username}`}>
+                <p className="capital">{username}</p>
+              </Link>
+              <p onClick={store.logOut} className="pointer">Logout</p>
+            </div>
           </li>
         )
       } else {

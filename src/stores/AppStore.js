@@ -21,7 +21,7 @@ var api = new hivesigner.Client({
     app: 'inkito',
     callbackURL: 'http://localhost:3000',
     accessToken: 'access_token',
-    scope: ['vote', 'comment', 'posting'],
+    scope: ['vote', 'comment', 'follow', 'posting'],
 });
 
 export function StoreProvider({ children }) {
@@ -75,6 +75,7 @@ export function StoreProvider({ children }) {
         activeComments: [],
         authorInfo: [],
         userDetail: {},
+        hiveSign: {},
         loginLink: "",
         zoom: 70,
         zoomIsActive: false,
@@ -85,6 +86,7 @@ export function StoreProvider({ children }) {
         currentPage: 0,
         spinnerTimeout: false,
         navIsHidden: false,
+        navMenuIsActive: false,
 
         //Data states
         trendyComicState: "",
@@ -162,6 +164,13 @@ export function StoreProvider({ children }) {
                 store.zoomIsActive = !store.zoomIsActive;
             }
         },
+        toggleNavMenu: (value) => {
+            if (value) {
+                store.navMenuIsActive = value;
+            } else {
+                store.navMenuIsActive = !store.navMenuIsActive;
+            }
+        },
         updateZoom: (increment) => {
             if (store.zoom > 30 && store.zoom < 90) {
                 store.zoom = store.zoom + increment;
@@ -180,6 +189,11 @@ export function StoreProvider({ children }) {
             });
             return false;
         },
+        vote: (voter, author, permlink, weight) => {
+            api.vote(voter, author, permlink, weight, function (err, res) {
+                console.log(err, res)
+              });
+        },
         initHSLogin: () => {
             let link = api.getLoginURL();
             runInAction(() => {
@@ -187,26 +201,28 @@ export function StoreProvider({ children }) {
             })
         },
         async getUserDetail() {
+            this.hiveSign = {};
             this.userDetail = {};
             let access_token = new URLSearchParams(document.location.search).get('access_token');
             let username = new URLSearchParams(document.location.search).get('username');
             if (access_token) {
                 // set access token after login
                 api.setAccessToken(access_token);
+                
+                var user = await api.me((err, res) => {
+                    if (res) {
+                        return res
+                    }
+                    if (err) {
+                        console.log(err);
+                    }
+                })
             }
-            /*var params = {};
 
-            // The "username" parameter is required prior to log in for "Hive Keychain" users.
-            if (hivesigner.useHiveKeychain) {
-            params = { username: this.username };
-            } else {
-                client.login(params, function(err, token) {
-                console.log(err, token)
-                });
-            }*/
             runInAction(() => {
-                this.userDetail.access_token = access_token;
-                this.userDetail.username = username;
+                this.userDetail = user;
+                this.hiveSign.accessToken = access_token;
+                this.hiveSign.username = username;
             })
         },
         async fetchSeriesInfo(seriesId) {

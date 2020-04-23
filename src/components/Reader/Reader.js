@@ -112,7 +112,7 @@ const Reader = ({ type }) => {
         }
       } else {
         return (
-          store.spinnerTimeout ? <h3>No content Found</h3> : <wired-spinner class="custom" spinning duration="1000" />
+          store.spinnerTimeout ? <h3 className="flex">No content Found</h3> : <wired-spinner className="flex" class="custom" spinning duration="1000" />
         )
       }
       return blogs;
@@ -178,7 +178,7 @@ const Reader = ({ type }) => {
   return (
     <div className="reader">
       <Nav />
-      <ul>
+      <ul className="list-blog flex col">
         <ListedBlogs />
       </ul>
       <BottomBanner />
