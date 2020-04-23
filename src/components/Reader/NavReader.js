@@ -1,7 +1,7 @@
 import React from 'react';
 import 'wired-elements';
 import '../../sass/components/NavReader.scss';
-
+import NavMenu from '../Main/NavMenu';
 import LeftArrow from '../Icons/left-arrow.png';
 import RightArrow from '../Icons/right-arrow.png';
 import Heart from '../Icons/heart.png';
@@ -10,8 +10,8 @@ import Bell from '../Icons/bell.png';
 
 import { Link } from "react-router-dom";
 
-const NavReader = ({ page, content, length, onClick, isHidden }) => {
-  if (content && content[page].title) {
+const NavReader = ({ page, content, seriesLength, onClick, isHidden }) => {
+  if (content && content.length > page) {
     return (
       <div className={isHidden ? "nav-reader hidden-top" : "nav-reader"}>
         <ul className="nav-reader-list">
@@ -32,7 +32,7 @@ const NavReader = ({ page, content, length, onClick, isHidden }) => {
               <p className={page === 0 ? "episode hidden" : "episode"}>Episode</p>
               <p>{page === 0 ? "Cover" : page}</p>
             </div>
-            <div className={page === length - 1 ? "disabled flex next" : "flex next"} onClick={page === length - 1 ? null : onClick}>
+            <div className={page === seriesLength - 1 ? "disabled flex next" : "flex next"} onClick={page === seriesLength - 1 ? null : onClick}>
               <p className="right-arrow">Next</p>
               <img className="icon right-arrow" src={RightArrow} alt="right-arrow" />
             </div>
@@ -53,10 +53,7 @@ const NavReader = ({ page, content, length, onClick, isHidden }) => {
             <img className="icon comment" src={Bubble} alt="comment bubble" onClick={onClick} />
             <img className="icon follow" src={Bell} alt="follow bell" onClick={onClick} />
           </li>
-
-          <li className="login" onClick={onClick}>
-            <a href="https://hive.blog/login.html" target="_blank" rel="noopener noreferrer">Login/Register</a>
-          </li>
+          <NavMenu />
         </ul>
       </div>
     )
@@ -69,7 +66,7 @@ const NavReader = ({ page, content, length, onClick, isHidden }) => {
               <Link to="/">Inkito</Link>
             </h1>
           </li>
-          <li className="flex arrows ">
+          <li className="flex arrows pa-h">
             <div className="disabled flex previous" >
               <img className="icon left-arrow" src={LeftArrow} alt="left-arrow" />
               <p className="left-arrow">Previous</p>
@@ -84,7 +81,7 @@ const NavReader = ({ page, content, length, onClick, isHidden }) => {
             <img className="icon comment" src={Bubble} alt="comment bubble" onClick={onClick} />
             <img className="icon follow" src={Bell} alt="follow bell" onClick={onClick} />
           </li>
-          <li className="login" onClick={onClick}>Login/Register</li>
+          <NavMenu />
         </ul>
       </div>
     );

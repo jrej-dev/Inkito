@@ -19,15 +19,22 @@ const App = () => {
   useEffect (() => {
     fetchContent();
     getUserDetail();
+    store.toggleNavMenu(false);
   })
+
+  const getUserDetail = () => {
+    const localUser = localStorage.getItem('hiveSign')
+    if (JSON.parse(localUser) !== null) {
+      let user = JSON.parse(localUser)
+      store.getUserDetail(user.accessToken, user.username);
+    } else {
+      store.getUserDetail();
+    }
+  }
 
   const fetchContent = () => {
     store.fetchComics();
     store.fetchNovels();
-  }
-
-  const getUserDetail = () => {
-    store.getUserDetail();
   }
 
 

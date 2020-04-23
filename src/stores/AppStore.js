@@ -138,6 +138,7 @@ export function StoreProvider({ children }) {
         },
         resetSeriesDetail: () => {
             store.zoom = 70;
+            store.navMenuIsActive = false;
             store.navIsHidden = false;
             store.seriesDetail = [];
             store.seriesLinks = [];
@@ -200,14 +201,22 @@ export function StoreProvider({ children }) {
                 store.loginLink = link;
             })
         },
-        async getUserDetail() {
+        async getUserDetail(localAccess, localUser) {
             this.hiveSign = {};
             this.userDetail = {};
-            let access_token = new URLSearchParams(document.location.search).get('access_token');
-            let username = new URLSearchParams(document.location.search).get('username');
+
+            if (localAccess && localUser){
+                var access_token = localAccess;
+                var username = localUser;
+            } else {
+                access_token = new URLSearchParams(document.location.search).get('access_token');
+                username = new URLSearchParams(document.location.search).get('username');   
+            }
+            
             if (access_token) {
                 // set access token after login
                 api.setAccessToken(access_token);
+                store.toggleNavMenu(false);
                 
                 var user = await api.me((err, res) => {
                     if (res) {
@@ -223,6 +232,9 @@ export function StoreProvider({ children }) {
                 this.userDetail = user;
                 this.hiveSign.accessToken = access_token;
                 this.hiveSign.username = username;
+                if (access_token && username){
+                    localStorage.setItem('hiveSign', JSON.stringify(this.hiveSign));
+                }
             })
         },
         async fetchSeriesInfo(seriesId) {
@@ -449,7 +461,6 @@ export function StoreProvider({ children }) {
                     })
 
                 runInAction(() => {
-                    this.seriesLinkState = "done";
                     if (slice) {
                         this.seriesLinks = this.seriesLinks.concat(content.slice(1));
                     } else {
@@ -463,8 +474,9 @@ export function StoreProvider({ children }) {
 
                 if (content.length > 1) {
                     store.fetchPermlinks(author, seriesTitle, last_result.author, last_result.permlink, true);
+                } else {
+                    this.seriesLinkState = "done";
                 }
-
             } catch (error) {
                 this.seriesLinkState = "error"
                 console.log(error)

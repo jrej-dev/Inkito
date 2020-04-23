@@ -101,7 +101,7 @@ const Reader = ({ type }) => {
     return useObserver(() => {
       var seriesData = toJS(store.seriesLinks);
       var blogs = [];
-      if (store.currentPage <= seriesData.length) {
+      if (toJS(store.seriesLinks).length >= store.currentPage + 1 && store.seriesLinkState === "done") {
         for (let i = store.startPage; i <= store.currentPage; i++) {
           blogs.push(
             <li key={seriesData[i] + store.currentPage} className="blog">
@@ -121,11 +121,12 @@ const Reader = ({ type }) => {
 
   const Nav = () => {
     return useObserver(() => {
-      if (toJS(store.seriesDetail)[store.currentPage]) {
+      if (toJS(store.seriesDetail).length > 0 && toJS(store.seriesDetail)[store.currentPage] && toJS(store.seriesDetail)[0] && store.seriesLinks.length > 0) {
+        
         return (
           <NavReader
             page={store.currentPage}
-            length={store.seriesLinks.length}
+            seriesLength={store.seriesLinks.length}
             onClick={navClickHandle}
             content={toJS(store.seriesDetail)}
             isHidden={store.navIsHidden}
@@ -133,7 +134,7 @@ const Reader = ({ type }) => {
         )
       } else {
         return (
-          <NavReader onClick={navClickHandle} />
+          <NavReader onClick={navClickHandle}/>
         )
       }
     })
@@ -165,7 +166,7 @@ const Reader = ({ type }) => {
         return (
           <div className="scroll-text">
             <p >Scroll to read more.</p>
-            <wired-spinner class="custom" spinning duration="3000" />
+            <wired-spinner className="flex" class="custom" spinning duration="3000" />
             {/*<img className="icon down-arrow" src={DownArrow} alt="down-arrow"/>*/}
           </div>
         )
@@ -178,7 +179,7 @@ const Reader = ({ type }) => {
   return (
     <div className="reader">
       <Nav />
-      <ul className="list-blog flex col">
+      <ul className="list-blog flex col" onClick={() => store.toggleNavMenu(false)}>
         <ListedBlogs />
       </ul>
       <BottomBanner />

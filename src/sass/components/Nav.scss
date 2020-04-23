@@ -34,6 +34,9 @@
       list-style-type: none;
     }
   }
+}
+.user {
+  position: relative;
   .user-menu {
     z-index: 2;
     position: absolute;
@@ -43,7 +46,7 @@
     min-height: 5em;
     width: 4em;
     top: 4em;
-    right: 2em;
+    left: unquote("calc(50% - 2em)");
     > * {
       &:hover {
         color: $dark-color;

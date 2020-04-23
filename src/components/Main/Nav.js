@@ -1,44 +1,10 @@
-import React, { useEffect } from 'react';
-import StoreContext from '../../stores/AppStore';
-import { useObserver } from 'mobx-react';
+import React from 'react';
+import NavMenu from './NavMenu';
 import { Link } from "react-router-dom";
-import { toJS } from 'mobx';
-
-import 'wired-elements';
 import '../../sass/components/Nav.scss';
+import 'wired-elements';
 
 function Nav() {
-  const store = React.useContext(StoreContext);
-
-  useEffect (() => { 
-    store.initHSLogin();
-  })
-
-  const LogElement = () => {  
-
-    return useObserver(() => {
-      if (toJS(store.userDetail)) {
-        let username = toJS(store.userDetail).name;
-        return (
-          <li className="user">
-            <img src={`https://steemitimages.com/u/${username}/avatar`} alt=" " className="user-thumbnail pointer" onClick={() => store.toggleNavMenu()}/>
-            <div className={store.navMenuIsActive ? "user-menu flex col" : "user-menu flex col hidden"}>
-              <Link to={`/@${username}`}>
-                <p className="capital">{username}</p>
-              </Link>
-              <p onClick={store.logOut} className="pointer">Logout</p>
-            </div>
-          </li>
-        )
-      } else {
-        return (
-          <li>
-            <a href={store.loginLink}>Login</a>
-          </li>
-        )
-      }
-    })
-  }
 
   return (
     <div className="Nav flex">
@@ -60,7 +26,7 @@ function Nav() {
         <li className="nav-blog">
           <a href="https://hive.blog/@inkito" target="_blank" rel="noopener noreferrer">Blog</a>
         </li>
-        <LogElement />
+        <NavMenu />
       </ul>
     </div>
   );

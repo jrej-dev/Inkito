@@ -7,11 +7,15 @@
     margin: 7em 0 2em 0;
     padding: 0;
     ul {
+        width: 100%;
         padding: 0;
     }
     wired-card {
         width: 70%;
         padding: 1em 0;
+    }
+    .blog {
+        width: inherit;
     }
     .content-body {
         @include flex(center);
@@ -150,7 +154,6 @@
 .isActive {
     right: 0;
 } 
-
 
 @media screen and (max-width: 850px) {
     .reader {

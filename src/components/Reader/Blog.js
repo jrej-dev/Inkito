@@ -83,7 +83,7 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
   }
 
   return (
-    <div className="blog">
+    <div className="blog flex">
       <Content />
       {/*if more content exists show down arrow
           <img src={DownArrow} alt="down-arrow"/>*/}
