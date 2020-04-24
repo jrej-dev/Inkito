@@ -114,7 +114,7 @@ const Reader = ({ type }) => {
       var seriesData = toJS(store.seriesLinks);
       var blogs = [];
       if (type === "comics"){
-        blogs = [ <div className={store.zoomIsActive ? "zoom-banner flex-start isActive" : "zoom-banner flex-start"} onClick={zoomHandle}>
+        blogs = [ <div key="zoom-banner" className={store.zoomIsActive ? "zoom-banner flex-start isActive" : "zoom-banner flex-start"} onClick={zoomHandle}>
           <div className="zoom-cover">Zoom</div>
           <button className="zoom-in zoom-btn flex">+</button>
           <button className="zoom-out zoom-btn flex">-</button>

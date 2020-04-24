@@ -194,13 +194,20 @@ export function StoreProvider({ children }) {
                 localStorage.setItem('access-token', "");
                 localStorage.setItem('users', "");
                 store.userDetail = {};
+                if (err) {
+                    console.log(err);
+                }
             });
             return false;
         },
         vote: (voter, author, permlink, weight) => {
             api.vote(voter, author, permlink, weight, function (err, res) {
-                console.log(err, res)
-              });
+                if (res) {
+                    console.log(res)
+                } else {
+                    console.log(err)
+                }
+            });
         },
         initHSLogin: () => {
             let link = api.getLoginURL();
@@ -211,19 +218,19 @@ export function StoreProvider({ children }) {
         async getUserDetail(localAccess, localUser) {
             this.userDetail = {};
 
-            if (localAccess && localUser){
+            if (localAccess && localUser) {
                 var access_token = localAccess;
                 var username = localUser;
             } else {
                 access_token = new URLSearchParams(document.location.search).get('access_token');
-                username = new URLSearchParams(document.location.search).get('username');   
+                username = new URLSearchParams(document.location.search).get('username');
             }
-            
+
             if (access_token) {
                 // set access token after login
                 api.setAccessToken(access_token);
                 store.toggleNavMenu(false);
-                
+
                 var user = await api.me((err, res) => {
                     if (res) {
                         return res
@@ -236,10 +243,10 @@ export function StoreProvider({ children }) {
 
             runInAction(() => {
                 this.userDetail = user;
-                if (store.cookieConsent && access_token){
+                if (store.cookieConsent && access_token) {
                     localStorage.setItem('access-token', JSON.stringify(access_token));
                 }
-                if (store.cookieConsent && username){
+                if (store.cookieConsent && username) {
                     localStorage.setItem('users', JSON.stringify(username));
                 }
             })

@@ -1,7 +1,5 @@
 import React from 'react';
-import StoreContext from '../../stores/AppStore';
-import { useObserver } from 'mobx-react';
-
+import HeartElement from './HeartElement';
 /*import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import ReactMarkdown from 'react-markdown/with-html';*/
@@ -11,9 +9,6 @@ import { Link } from "react-router-dom";
 
 /*import LeftArrow from '../Icons/left-arrow.png';
 import RightArrow from '../Icons/right-arrow.png';*/
-//import Heart from '../Icons/heart.png';
-import RedHeart from '../Icons/red-heart.png';
-import GreyHeart from '../Icons/grey-heart.png';
 
 import DownArrow from '../Icons/down-arrow.png';
 import UpArrow from '../Icons/up-arrow.png';
@@ -27,29 +22,8 @@ import CommentList from './CommentList';
 import ContentBody from './ContentBody';
 
 const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom }) => {
-  const store = React.useContext(StoreContext);
 
   if (content) {
-
-    const HeartElement = () => {
-      return useObserver(() => {
-        if (content.active_votes.length >= 0) {
-          if (content.active_votes.some(vote => vote.voter === store.userDetail.name)) {
-            return (
-              <img className="icon heart" src={RedHeart} alt="" />
-            )
-          } else {
-            return (
-              <img className="icon heart" src={GreyHeart} alt="" />
-            )
-          }
-        } else {
-          return (
-            <img className="icon heart" src={GreyHeart} alt="" />
-          )
-        }
-      })
-    }
 
     let reward = content.pending_payout_value === "0.000 HBD" ? content.total_payout_value.replace("HBD", "") : content.pending_payout_value.replace("HBD", "");
 
@@ -126,7 +100,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom }
                 <h3>{content.replies.length > 0 ? `Comments (${content.replies.length})` : "No Comments"} </h3>
                 <div className="line" />
               </div>
-              {commentIsActive ? <CommentList commentData={content} /> : <img className="icon heart" src={GreyHeart} alt="" />}
+              {commentIsActive ? <CommentList commentData={content} /> : ""}
             </ul>
           </div>
         )
@@ -141,7 +115,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom }
           <div className="info-card">
             <div className="default-banner flex">
               <ActiveInfoTab />
-              {store.userDetail.name ? <HeartElement /> : ""}
+              <HeartElement content={content} />
             </div>
             <ActiveContent />
           </div>

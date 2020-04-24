@@ -59,7 +59,9 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
           )
         }
       } else {
-        return <wired-spinner className="flex" class="custom" spinning duration="1000" />
+        return (
+          <wired-spinner class="custom" spinning duration="1000" />
+        )
       }
     })
   }
