@@ -12,6 +12,7 @@ import FullDisplay from '../../components/FullDisplay/FullDisplay';
 import Reader from '../../components/Reader/Reader';
 import ProfilePage from '../../components/Profile/ProfilePage';
 import Page404 from '../../components/Main/Page404'; 
+import CookieBanner from '../../components/Main/CookieBanner'; 
 
 const App = () => {
   const store = React.useContext(StoreContext);
@@ -20,13 +21,14 @@ const App = () => {
     fetchContent();
     getUserDetail();
     store.toggleNavMenu(false);
+    store.checkCookieConsent();
   })
 
   const getUserDetail = () => {
-    const localUser = localStorage.getItem('hiveSign')
-    if (JSON.parse(localUser) !== null) {
-      let user = JSON.parse(localUser)
-      store.getUserDetail(user.accessToken, user.username);
+    const accessToken = localStorage.getItem('access-token');
+    const user = localStorage.getItem('users');
+    if (accessToken && user) {
+      store.getUserDetail(JSON.parse(accessToken), JSON.parse(user));
     } else {
       store.getUserDetail();
     }
@@ -63,6 +65,7 @@ const App = () => {
           <Route component={Page404} />
         </Switch>
         <Footer />
+        <CookieBanner/>
       </div>
       </Router>
   );

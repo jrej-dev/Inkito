@@ -28,19 +28,6 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
     }
   }
 
-  const zoomHandle = (e) => {
-    if (e.target.className.includes("zoom-cover")) {
-      store.toggleZoomBanner();
-    } else if (e.target.className.includes("zoom-in")) {
-      store.updateZoom(20);
-    } else if (e.target.className.includes("zoom-out")) {
-      store.updateZoom(-20);
-    } else {
-      store.toggleZoomBanner(false);
-    }
-  }
-
-
   const closeZoomBanner = () => {
     store.toggleZoomBanner(false);
   }
@@ -51,11 +38,6 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
         if (type === "comics") {
           return (
             <div>
-              <div className={store.zoomIsActive ? "zoom-banner flex-start isActive" : "zoom-banner flex-start"} onClick={zoomHandle}>
-                <div className="zoom-cover">Zoom</div>
-                <button className="zoom-in zoom-btn flex">+</button>
-                <button className="zoom-out zoom-btn flex">-</button>
-              </div>
               <div className={`comic-body content-body zoom-${store.zoom}`} onClick={closeZoomBanner}>
                 <ContentBody content={toJS(store.seriesDetail)[page]} />
               </div>
@@ -83,7 +65,7 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
   }
 
   return (
-    <div className="blog flex">
+    <div className="blog">
       <Content />
       {/*if more content exists show down arrow
           <img src={DownArrow} alt="down-arrow"/>*/}

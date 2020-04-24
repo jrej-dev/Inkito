@@ -75,7 +75,6 @@ export function StoreProvider({ children }) {
         activeComments: [],
         authorInfo: [],
         userDetail: {},
-        hiveSign: {},
         loginLink: "",
         zoom: 70,
         zoomIsActive: false,
@@ -87,6 +86,7 @@ export function StoreProvider({ children }) {
         spinnerTimeout: false,
         navIsHidden: false,
         navMenuIsActive: false,
+        cookieConsent: null,
 
         //Data states
         trendyComicState: "",
@@ -168,7 +168,7 @@ export function StoreProvider({ children }) {
         toggleNavMenu: (value) => {
             if (value) {
                 store.navMenuIsActive = value;
-            } else {
+            } else if (value === undefined) {
                 store.navMenuIsActive = !store.navMenuIsActive;
             }
         },
@@ -181,12 +181,19 @@ export function StoreProvider({ children }) {
                 store.zoom = store.zoom + increment;
             }
         },
+        checkCookieConsent: () => {
+            const cookie = localStorage.getItem('cookie-consent');
+            store.cookieConsent = JSON.parse(cookie);
+        },
         logOut: () => {
             api.revokeToken(function (err, res) {
                 if (res && res.success) {
                     store.userDetail = {};
                     document.location.href = '/';
                 }
+                localStorage.setItem('access-token', "");
+                localStorage.setItem('users', "");
+                store.userDetail = {};
             });
             return false;
         },
@@ -202,7 +209,6 @@ export function StoreProvider({ children }) {
             })
         },
         async getUserDetail(localAccess, localUser) {
-            this.hiveSign = {};
             this.userDetail = {};
 
             if (localAccess && localUser){
@@ -230,10 +236,11 @@ export function StoreProvider({ children }) {
 
             runInAction(() => {
                 this.userDetail = user;
-                this.hiveSign.accessToken = access_token;
-                this.hiveSign.username = username;
-                if (access_token && username){
-                    localStorage.setItem('hiveSign', JSON.stringify(this.hiveSign));
+                if (store.cookieConsent && access_token){
+                    localStorage.setItem('access-token', JSON.stringify(access_token));
+                }
+                if (store.cookieConsent && username){
+                    localStorage.setItem('users', JSON.stringify(username));
                 }
             })
         },

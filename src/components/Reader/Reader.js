@@ -97,10 +97,32 @@ const Reader = ({ type }) => {
     }, delay)
   }
 
+  const zoomHandle = (e) => {
+    if (e.target.className.includes("zoom-cover")) {
+      store.toggleZoomBanner();
+    } else if (e.target.className.includes("zoom-in")) {
+      store.updateZoom(20);
+    } else if (e.target.className.includes("zoom-out")) {
+      store.updateZoom(-20);
+    } else {
+      store.toggleZoomBanner(false);
+    }
+  }
+
   const ListedBlogs = () => {
     return useObserver(() => {
       var seriesData = toJS(store.seriesLinks);
       var blogs = [];
+      if (type === "comics"){
+        blogs = [ <div className={store.zoomIsActive ? "zoom-banner flex-start isActive" : "zoom-banner flex-start"} onClick={zoomHandle}>
+          <div className="zoom-cover">Zoom</div>
+          <button className="zoom-in zoom-btn flex">+</button>
+          <button className="zoom-out zoom-btn flex">-</button>
+        </div> ];
+      } else {
+        blogs = [];
+      }
+    
       if (toJS(store.seriesLinks).length >= store.currentPage + 1 && store.seriesLinkState === "done") {
         for (let i = store.startPage; i <= store.currentPage; i++) {
           blogs.push(
@@ -179,7 +201,7 @@ const Reader = ({ type }) => {
   return (
     <div className="reader">
       <Nav />
-      <ul className="list-blog flex col" onClick={() => store.toggleNavMenu(false)}>
+      <ul className="list-blog" onClick={() => store.toggleNavMenu(false)}>
         <ListedBlogs />
       </ul>
       <BottomBanner />
