@@ -209,6 +209,37 @@ export function StoreProvider({ children }) {
                 }
             });
         },
+        //Inkito to add as beneficiary.
+        //The comment() method is rate limited to 5 minutes per root comment (post), and 20 seconds per non-root comment (reply).
+        /*comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, cb) {
+            if (useHiveKeychain()) {
+                return window.hive_keychain.requestPost(
+                    author,
+                    title,
+                    body,
+                    parentPermlink,
+                    parentAuthor,
+                    jsonMetadata,
+                    permlink,
+                    '',
+                    response => {
+                        if (response.error) return cb(response.error);
+                        return cb(null, response);
+                    },
+                );
+            }
+            const params = {
+                parent_author: parentAuthor,
+                parent_permlink: parentPermlink,
+                author,
+                permlink,
+                title,
+                body,
+                json_metadata: JSON.stringify(jsonMetadata),
+                beneficiaries : [{"account":"inkito","weight":1000}]
+            };
+            return this.broadcast([['comment', params]], cb);
+        },*/
         initHSLogin: () => {
             let link = api.getLoginURL();
             runInAction(() => {
