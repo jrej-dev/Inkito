@@ -3,9 +3,10 @@ import 'wired-elements';
 
 import ContentBody from './ContentBody';
 import CommentList from './CommentList';
+//import CommentInput from './CommentInput';
 
 import Clock from '../Icons/clock.png';
-import Heart from '../Icons/heart.png';
+import HeartElement from './HeartElement';
 import UpArrow from '../Icons/up-arrow.png';
 import DownArrow from '../Icons/down-arrow.png';
 import Flag from '../Icons/flag.png';
@@ -47,7 +48,7 @@ const CommentBlock = ({ content, reply }) => {
     return (
         <div className="active comment-banner">
             <Link to={`/@${content.author}`}>
-                <img className="panel-profile-pic" src={`https://steemitimages.com/u/${content.author}/avatar`} alt=" " />
+                <img className="panel-profile-pic" src={`https://images.hive.blog/u/${content.author}/avatar`} alt=" " />
             </Link>
             <div className="comment-block">
 
@@ -73,7 +74,8 @@ const CommentBlock = ({ content, reply }) => {
 
                 <div className="comment-bottom-banner reset">
                     <div className="left-block">
-                        <img className="icon heart" src={Heart} alt="heart" />
+                        <HeartElement content={content} className="heartElement"/>
+
 
                         <div className="reward-block flex reset">
                             <p>$ {reward}</p>
@@ -89,6 +91,7 @@ const CommentBlock = ({ content, reply }) => {
                     <p>Reply</p>
                 </div>
             </div>
+            {/*<CommentInput content={content}/>*/}
             <ul className="replies">
                 <CommentList commentData={content} reply={true} />
             </ul>

@@ -113,17 +113,17 @@ const Reader = ({ type }) => {
     return useObserver(() => {
       var seriesData = toJS(store.seriesLinks);
       var blogs = [];
-      if (type === "comics"){
-        blogs = [ <div key="zoom-banner" className={store.zoomIsActive ? "zoom-banner flex-start isActive" : "zoom-banner flex-start"} onClick={zoomHandle}>
+      if (type === "comics") {
+        blogs = [<div key="zoom-banner" className={store.zoomIsActive ? "zoom-banner flex-start isActive" : "zoom-banner flex-start"} onClick={zoomHandle}>
           <div className="zoom-cover">Zoom</div>
           <button className="zoom-in zoom-btn flex">+</button>
           <button className="zoom-out zoom-btn flex">-</button>
-        </div> ];
+        </div>];
       } else {
         blogs = [];
       }
-    
-      if (toJS(store.seriesLinks).length >= store.currentPage + 1 && store.seriesLinkState === "done") {
+
+      if (seriesData.length >= store.currentPage + 1 && store.seriesLinkState === "done") {
         for (let i = store.startPage; i <= store.currentPage; i++) {
           blogs.push(
             <li key={seriesData[i] + store.currentPage} className="blog">
@@ -144,7 +144,7 @@ const Reader = ({ type }) => {
   const Nav = () => {
     return useObserver(() => {
       if (toJS(store.seriesDetail).length > 0 && toJS(store.seriesDetail)[store.currentPage] && toJS(store.seriesDetail)[0] && store.seriesLinks.length > 0) {
-        
+
         return (
           <NavReader
             page={store.currentPage}
@@ -156,7 +156,7 @@ const Reader = ({ type }) => {
         )
       } else {
         return (
-          <NavReader onClick={navClickHandle}/>
+          <NavReader onClick={navClickHandle} />
         )
       }
     })

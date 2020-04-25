@@ -17,7 +17,7 @@ const NavMenu = () => {
         let username = toJS(store.userDetail).name;
         return (
           <li className="login user">
-            <img src={`https://steemitimages.com/u/${username}/avatar`} alt=" " className="user-thumbnail pointer" onClick={() => store.toggleNavMenu()}/>
+            <img src={`https://images.hive.blog/u/${username}/avatar`} alt=" " className="user-thumbnail pointer" onClick={() => store.toggleNavMenu()}/>
             <div className={store.navMenuIsActive ? "user-menu flex col" : "user-menu flex col hidden"}>
               <Link to={`/@${username}`}>
                 <p className="capital">{username}</p>

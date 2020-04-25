@@ -43,7 +43,7 @@ const ProfilePage = () => {
                         <div className="author reset">
                             <img
                                 className="panel-profile-pic"
-                                src={`https://steemitimages.com/u/${author.name}/avatar`}
+                                src={`https://images.hive.blog/u/${author.name}/avatar`}
                                 alt=""
                             />
                             <h2 className="capital">{author.name}</h2>

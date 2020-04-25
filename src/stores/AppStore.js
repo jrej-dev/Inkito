@@ -97,6 +97,7 @@ export function StoreProvider({ children }) {
         seriesDetailState: "",
         commentState: "",
         authorInfoState: "",
+        voteState: "",
 
         //Actions 
 
@@ -201,13 +202,19 @@ export function StoreProvider({ children }) {
             return false;
         },
         vote: (voter, author, permlink, weight) => {
+            store.voteState = `${permlink}-pending`;
             api.vote(voter, author, permlink, weight, function (err, res) {
                 if (res) {
                     console.log(res)
+                    store.voteState = `${permlink}-done`;
                 } else {
                     console.log(err)
+                    store.voteState = `${permlink}-error`;
                 }
             });
+        },
+        resetVoteState: () => {
+            store.voteState = "";
         },
         //Inkito to add as beneficiary.
         //The comment() method is rate limited to 5 minutes per root comment (post), and 20 seconds per non-root comment (reply).
@@ -528,6 +535,7 @@ export function StoreProvider({ children }) {
             }
         },
         async fetchSeriesDetail(author, permlink, page) {
+            console.log("fetching" + permlink+ " page: " + page);
             this.seriesDetailState = "pending"
             try {
                 const content = await client.database
@@ -546,9 +554,10 @@ export function StoreProvider({ children }) {
                         this.seriesDetailState = "done";
                     }
 
-                    if (page > 1) {
+                    if (page > 1 && this.seriesDetail[0] === undefined) {
                         store.fetchSeriesDetail(author, store.seriesLinks[0], 0);
                     }
+                    this.seriesDetailState = ""
                 });
 
             } catch (error) {

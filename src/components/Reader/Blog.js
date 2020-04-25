@@ -11,10 +11,10 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
   const store = React.useContext(StoreContext);
 
   useEffect(() => {
-    if (page === 0 || store.seriesDetail[page] === undefined) {
+    if (store.seriesDetail[page] === undefined) {
       store.fetchSeriesDetail(author, permlink, page);
     }
-    if (page + 1 < store.seriesLinks.length) {
+    if (store.seriesDetail[page + 1] === undefined && page + 1 < store.seriesLinks.length) {
       store.fetchSeriesDetail(author, nextPermlink, page + 1);
     }
     window.addEventListener('scroll', closeZoomBanner);

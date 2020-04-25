@@ -1,5 +1,5 @@
-@import '../abstracts/variables';
-@import '../abstracts/mixins';
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
 
 .info-tab {
     > wired-card {
@@ -8,15 +8,11 @@
         margin: 1em 0;
     }
 
-    .heart {
-        margin-left: auto;
-    }
-    
-    .default-banner  {
+    .default-banner {
         white-space: nowrap;
         width: 90%;
         margin: 0 5%;
-    }   
+    }
 }
 
 .zoom-tab {
@@ -58,7 +54,6 @@
             overflow: hidden;
             max-width: 100%;
         }
-    
     }
 }
 
@@ -132,9 +127,8 @@
     }
     .replies {
         margin-left: 2em;
-        width: 100%
+        width: 100%;
     }
-    
 }
 
 .comment-title {
@@ -143,8 +137,8 @@
     color: $darkest-color;
     width: 100%;
     margin: 2em 0;
-    >img {
-        margin:0;
+    > img {
+        margin: 0;
         height: 1.5em;
         width: 3.5em;
     }
@@ -156,10 +150,25 @@
     }
 }
 
+.heart {
+    margin-left: auto;
+    min-height: 1.5em;
+    width: 2em;
+    &:active {
+        -webkit-filter: drop-shadow(0px 0px 1px $darkest-color);
+        filter: drop-shadow(0px 0px 1px $darkest-color);
+    }
+    >wired-spinner {
+        transform: scale(0.5);
+    }
+}
+
+.inactive {
+    //filter: saturate(0.5);
+}
 
 @media screen and (max-width: 850px) {
-    
-    .default-banner  {
+    .default-banner {
         .time-block {
             display: none;
         }

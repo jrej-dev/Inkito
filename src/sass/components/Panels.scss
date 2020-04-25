@@ -67,8 +67,9 @@
     }
     .panel-profile-pic {
         object-fit: cover;
-        height: 80%;
-        width: 20%;
+        max-height: 4em;
+        height: 100%;
+        width: auto;
         border-radius: 50%;
     }
     .reward-block {

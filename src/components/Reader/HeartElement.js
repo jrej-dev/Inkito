@@ -8,26 +8,34 @@ import GreyHeart from '../Icons/grey-heart.png';
 import 'wired-elements';
 import '../../sass/components/InfoTab.scss';
 
-const HeartElement = ({ content }) => {
+const HeartElement = ({ content, isActive }) => {
     const store = React.useContext(StoreContext);
-
+    
     const handleVote = () => {
         store.vote(store.userDetail.name, content.author, content.permlink, 10000)
     }
     return useObserver(() => {
         if (store.userDetail.name && content.active_votes.length >= 0) {
-            if (content.active_votes.some(vote => vote.voter === store.userDetail.name)) {
+            if (content.active_votes.some(vote => vote.voter === store.userDetail.name) || store.voteState === `${content.permlink}-done`) {
                 return (
-                    <img className="icon heart" src={RedHeart} alt="heart" onClick={handleVote}/>
+                    
+                    <img className={isActive ? "icon heart" : "icon heart inactive"} src={RedHeart} alt="" onClick={handleVote}/>
                 )
-            } else {
+            } else if (!content.active_votes.some(vote => vote.voter === store.userDetail.name) && store.voteState !== `${content.permlink}-pending`) {
                 return (
-                    <img className="icon heart" src={GreyHeart} alt="heart" onClick={handleVote}/>
+                    <img className={isActive ? "icon heart" : "icon heart inactive"} src={GreyHeart} alt="" onClick={handleVote}/>
+                )
+            } else if (store.voteState === `${content.permlink}-pending`) {
+                return (
+                    <div className="icon heart flex">
+                        <wired-spinner class="custom" spinning duration="1000" />
+                    </div>
                 )
             }
+            store.resetVoteState();
         } else {
             return (
-                <img className="icon heart" src={Heart} alt="heart" />
+                <img className={isActive ? "icon heart" : "icon heart inactive"} src={Heart} alt=""/>
             )
         }
     })

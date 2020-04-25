@@ -18,7 +18,7 @@ const App = () => {
   const store = React.useContext(StoreContext);
 
   useEffect (() => {
-    fetchContent();
+    //fetchContent();
     getUserDetail();
     store.toggleNavMenu(false);
     store.checkCookieConsent();
