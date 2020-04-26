@@ -83,7 +83,6 @@ export function StoreProvider({ children }) {
         clickedSeriesContent: "",
         startPage: 0,
         currentPage: 0,
-        spinnerTimeout: false,
         navIsHidden: false,
         navMenuIsActive: false,
         cookieConsent: null,
@@ -535,7 +534,6 @@ export function StoreProvider({ children }) {
             }
         },
         async fetchSeriesDetail(author, permlink, page) {
-            console.log("fetching" + permlink+ " page: " + page);
             this.seriesDetailState = "pending"
             try {
                 const content = await client.database

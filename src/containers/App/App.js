@@ -18,7 +18,6 @@ const App = () => {
   const store = React.useContext(StoreContext);
 
   useEffect (() => {
-    //fetchContent();
     getUserDetail();
     store.toggleNavMenu(false);
     store.checkCookieConsent();
@@ -34,12 +33,6 @@ const App = () => {
     }
   }
 
-  const fetchContent = () => {
-    store.fetchComics();
-    store.fetchNovels();
-  }
-
-
   return (
     <Router>
       <div className="App">
@@ -48,10 +41,10 @@ const App = () => {
             <Home />
           </Route>
           <Route exact path="/comics">
-            <FullDisplay display={"comics"} />
+            <FullDisplay type={"comics"} />
           </Route>
           <Route exact path="/novels">
-            <FullDisplay display={"novels"} />
+            <FullDisplay type={"novels"} />
           </Route>
           <Route path="/comicReader">
             <Reader type={"comics"}/>

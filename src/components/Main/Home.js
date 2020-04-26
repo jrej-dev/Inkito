@@ -12,6 +12,7 @@ const Home = () => {
   const store = React.useContext(StoreContext);
 
   useEffect (() => { 
+    fetchContent();
     document.documentElement.scrollTop = 0;
     store.updateActiveComicCategory("All Categories");
     store.updateActiveNovelCategory("All Categories");
@@ -20,6 +21,15 @@ const Home = () => {
     store.updateCurrentPage(0);
   })
 
+  const fetchContent = () => {
+    if (store.newComics.length === 0) {
+      store.fetchComics();
+    } 
+    if (store.newNovels.length === 0){
+      store.fetchNovels();
+    }
+  }
+  
   const ComicContent = () => {    
     return useObserver(() => {
       return <ContentDisplay 

@@ -23,7 +23,7 @@ const Reader = ({ type }) => {
 
     getUrlVars();
     store.fetchPermlinks(props.author, props.seriesTitle);
-    timeout(5000);
+    //timeout(5000);
     props.currentPage ? store.updateCurrentPage(props.currentPage) : store.updateCurrentPage(0);
 
     document.documentElement.scrollTop = 0;
@@ -90,12 +90,12 @@ const Reader = ({ type }) => {
     }
   }
 
-  const timeout = (delay) => {
+  /*const timeout = (delay) => {
     store.setSpinnerTimeout(false);
     setTimeout(() => {
       store.setSpinnerTimeout(true);
     }, delay)
-  }
+  }*/
 
   const zoomHandle = (e) => {
     if (e.target.className.includes("zoom-cover")) {
@@ -134,7 +134,10 @@ const Reader = ({ type }) => {
         }
       } else {
         return (
-          store.spinnerTimeout ? <h3 className="flex">No content Found</h3> : <wired-spinner className="flex" class="custom" spinning duration="1000" />
+          /*store.currentPage >= seriesData.length ? <div className="flex no-content"><h3>No content Found</h3></div> :*/ 
+          <div className="flex no-content">
+            <wired-spinner className="flex" class="custom" spinning duration="1000" />
+          </div>
         )
       }
       return blogs;

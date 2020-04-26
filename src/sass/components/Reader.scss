@@ -3,7 +3,7 @@
 
 .reader {
     width: 100vw;
-    min-height: 80vh;
+    min-height: 77vh;
     margin: 7em 0 2em 0;
     padding: 0;
     ul {
@@ -13,7 +13,7 @@
         width: 70%;
         padding: 1em 0;
     }
-    .content-body {
+   .content-body {
         @include flex(center);
         min-height: 65vh;
         img {
@@ -28,8 +28,8 @@
     .scroll-text {
         margin-bottom: 5em;
     }
-    .list-blog {
-        min-height: 50vh;
+    .no-content {
+        height: 20em;
     }
 }
 
