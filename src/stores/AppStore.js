@@ -19,7 +19,7 @@ var hivesigner = require('hivesigner');
 
 var api = new hivesigner.Client({
     app: 'inkito',
-    callbackURL: 'http://localhost:3000',
+    callbackURL: 'https://www.inkito.io',
     accessToken: 'access_token',
     scope: ['vote', 'comment', 'follow', 'posting'],
 });
