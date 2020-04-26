@@ -22,7 +22,7 @@ const AuthorBanner = () => {
                     <wired-card>
                         <div className="flex-even">
                             <Link to={`/@${content.author}`}>
-                                <img className="panel-profile-pic" src={`https://steemitimages.com/u/${author}/avatar`} alt="" />
+                                <img className="panel-profile-pic" src={`https://images.hive.blog/u/${author}/avatar`} alt="" />
                             </Link>
                             <Link to={`/@${content.author}`} className="author-name flex col pa-h">
                                 <p className="capital">{author}</p>

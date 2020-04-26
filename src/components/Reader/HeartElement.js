@@ -18,12 +18,18 @@ const HeartElement = ({ content, isActive }) => {
         if (store.userDetail && content.active_votes.length >= 0) {
             if (content.active_votes.some(vote => vote.voter === store.userDetail.name) || store.voteState === `${content.permlink}-done`) {
                 return (
-                    <img className={isActive ? "icon heart" : "icon heart inactive"} src={RedHeart} alt="red-heart"/>
+                    <img className="icon heart" src={RedHeart} alt="red-heart"/>
                 )
             } else if (!content.active_votes.some(vote => vote.voter === store.userDetail.name) && store.voteState !== `${content.permlink}-pending`) {
-                return (
-                    <img className={isActive ? "icon heart" : "icon heart inactive"} src={GreyHeart} alt="grey-heart" onClick={handleVote}/>
-                )
+                if (isActive) {
+                    return (
+                        <img className="icon heart" src={GreyHeart} alt="grey-heart" onClick={handleVote}/>
+                    )
+                } else {
+                    return (
+                        <img className="icon heart" src={Heart} alt="grey-heart" onClick={handleVote}/>
+                    )
+                }
             } else if (store.voteState === `${content.permlink}-pending`) {
                 return (
                     <div className="icon heart flex">
@@ -34,7 +40,7 @@ const HeartElement = ({ content, isActive }) => {
             store.resetVoteState();
         } else {
             return (
-                <img className={isActive ? "icon heart" : "icon heart inactive"} src={Heart} alt="heart"/>
+                <img className="icon heart" src={Heart} alt="heart"/>
             )
         }
     })

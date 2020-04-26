@@ -151,6 +151,7 @@ const Reader = ({ type }) => {
         return (
           <NavReader
             page={store.currentPage}
+            seriesLinks={store.seriesLinks}
             seriesLength={store.seriesLinks.length}
             onClick={navClickHandle}
             content={toJS(store.seriesDetail)}

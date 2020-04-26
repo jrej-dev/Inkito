@@ -1,10 +1,11 @@
 import React from 'react';
 import 'wired-elements';
 import '../../sass/components/NavReader.scss';
+import HeartElement from './HeartElement';
 import NavMenu from '../Main/NavMenu';
 import LeftArrow from '../Icons/left-arrow.png';
 import RightArrow from '../Icons/right-arrow.png';
-import Heart from '../Icons/heart.png';
+import Heart from '../Icons/grey-heart.png';
 import Bubble from '../Icons/bubble.png';
 import Bell from '../Icons/bell.png';
 
@@ -49,7 +50,7 @@ const NavReader = ({ page, content, seriesLength, onClick, isHidden }) => {
           </li>
 
           <li className="flex icons">
-            <img className="icon heart" src={Heart} alt="heart" onClick={onClick} />
+            {content[seriesLength-1] ? <HeartElement content={content[seriesLength-1]}/> : <img className="icon heart" src={Heart} alt="heart" onClick={onClick} /> }
             <img className="icon comment" src={Bubble} alt="comment bubble" onClick={onClick} />
             <img className="icon follow" src={Bell} alt="follow bell" onClick={onClick} />
           </li>
