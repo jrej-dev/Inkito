@@ -15,7 +15,7 @@ const HeartElement = ({ content, isActive }) => {
         store.vote(store.userDetail.name, content.author, content.permlink, 10000)
     }
     return useObserver(() => {
-        if (store.userDetail.name && content.active_votes.length >= 0) {
+        if (store.userDetail && content.active_votes.length >= 0) {
             if (content.active_votes.some(vote => vote.voter === store.userDetail.name) || store.voteState === `${content.permlink}-done`) {
                 return (
                     <img className={isActive ? "icon heart" : "icon heart inactive"} src={RedHeart} alt="red-heart"/>
