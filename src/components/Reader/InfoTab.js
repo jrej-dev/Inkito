@@ -22,12 +22,11 @@ import { Link } from "react-router-dom";*/
 import CommentList from './CommentList';
 import ContentBody from './ContentBody';
 
-const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom }) => {
+const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, page}) => {
 
   if (content) {
-
-    let reward = content.pending_payout_value === "0.000 HBD" ? content.total_payout_value.replace("HBD", "") : content.pending_payout_value.replace("HBD", "");
-
+    let reward = content.pending_payout_value ? content.pending_payout_value === "0.000 HBD" ? content.total_payout_value.replace("HBD", "") : content.pending_payout_value.replace("HBD", "") : "?";
+    
     const compareDate = (contentDate) => {
       var g1 = new Date().toISOString().substring(0, 10);
       var g2 = contentDate;
@@ -41,25 +40,6 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom }
           return g3[1] === 1 ? `${g3[1]} month ago` : `${g3[1]} months ago`;
         } else if (g3[2] > 0) {
           return g3[2] === 1 ? `${g3[2]} day ago` : `${g3[2]} days ago`;
-        }
-      }
-    }
-
-    const isPostActive = (contentDate) => {
-      var g1 = new Date().toISOString().substring(0, 10);
-      var g2 = contentDate;
-      if (g1 >= g2) {
-        g1 = g1.split("-");
-        g2 = g2.split("-");
-        var g3 = [g1[0] - g2[0], g1[1] - g2[1], g1[2] - g2[2]]
-        if (g3[0] > 0) {
-          return false;
-        } else if (g3[1] > 0) {
-          return false;
-        } else if (g3[2] > 7) {
-          return false;
-        } else if (g3[2] <= 7){
-          return true;
         }
       }
     }
@@ -120,7 +100,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom }
                 <h3>{content.replies.length > 0 ? `Comments (${content.replies.length})` : "No Comments"} </h3>
                 <div className="line" />
               </div>
-              {commentIsActive ? <CommentList commentData={content} /> : ""}
+              {commentIsActive ? <CommentList commentData={content} page={page}/> : ""}
             </ul>
           </div>
         )
@@ -135,7 +115,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom }
           <div className="info-card">
             <div className="default-banner flex">
               <ActiveInfoTab />
-              <HeartElement content={content} className="heartElement" isActive={isPostActive(content.created.slice(0, 10))}/>
+              <HeartElement content={content} className="heartElement" page={page}/>
             </div>
             <ActiveContent />
           </div>

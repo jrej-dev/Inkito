@@ -1,6 +1,5 @@
 import React from 'react';
 import 'wired-elements';
-
 import ContentBody from './ContentBody';
 import CommentList from './CommentList';
 //import CommentInput from './CommentInput';
@@ -14,7 +13,7 @@ import Flag from '../Icons/flag.png';
 import { Link } from "react-router-dom";
 
 
-const CommentBlock = ({ content, reply }) => {
+const CommentBlock = ({ content, reply, page }) => {
 
     let payout = content.pending_payout_value === "0.000 HBD" ? content.total_payout_value : content.pending_payout_value;
     let reward = payout.replace("HBD", "");
@@ -41,10 +40,13 @@ const CommentBlock = ({ content, reply }) => {
                 return g3[1] === 1 ? `${g3[1]} month ago` : `${g3[1]} months ago`;
             } else if (g3[2] > 0) {
                 return g3[2] === 1 ? `${g3[2]} day ago` : `${g3[2]} days ago`;
+            } else if (g3[2] === 0){
+                return "Today";
+            } else {
+                return "?";
             }
         }
     }
-
     return (
         <div className="active comment-banner">
             <Link to={`/@${content.author}`}>
@@ -74,7 +76,7 @@ const CommentBlock = ({ content, reply }) => {
 
                 <div className="comment-bottom-banner reset">
                     <div className="left-block">
-                        <HeartElement content={content} className="heartElement"/>
+                        <HeartElement content={content} className="heartElement" page={page}/>
 
 
                         <div className="reward-block flex reset">
@@ -93,7 +95,7 @@ const CommentBlock = ({ content, reply }) => {
             </div>
             {/*<CommentInput content={content}/>*/}
             <ul className="replies">
-                <CommentList commentData={content} reply={true} />
+                <CommentList commentData={content} reply={true} page={page}/>
             </ul>
         </div>
     )

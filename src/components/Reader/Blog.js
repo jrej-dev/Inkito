@@ -11,15 +11,17 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
   const store = React.useContext(StoreContext);
 
   useEffect(() => {
-    if (store.seriesDetail[page] === undefined) {
-      store.fetchSeriesDetail(author, permlink, page);
-    }
-    if (store.seriesDetail[page + 1] === undefined && page + 1 < store.seriesLinks.length) {
-      store.fetchSeriesDetail(author, nextPermlink, page + 1);
-    }
-    //For the heart in the NavReader Bar
-    if (store.seriesDetail[store.seriesLinks.length - 1] === undefined) {
-      store.fetchSeriesDetail(author, store.seriesLinks[store.seriesLinks.length - 1], store.seriesLinks.length - 1);
+    if (store.seriesDetail.length > page) {
+      if (store.seriesDetail[page] === undefined) {
+        store.fetchSeriesDetail(author, permlink, page);
+      }
+      if (page + 1 < store.seriesLinks.length && store.seriesDetail[page + 1] === undefined) {
+        store.fetchSeriesDetail(author, nextPermlink, page + 1);
+      }
+      //For the heart in the NavReader Bar
+      if (store.seriesDetail[store.seriesLinks.length - 1] === undefined) {
+        store.fetchSeriesDetail(author, store.seriesLinks[store.seriesLinks.length - 1], store.seriesLinks.length - 1);
+      }
     }
     window.addEventListener('scroll', closeZoomBanner);
   })
@@ -36,6 +38,7 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
     store.toggleZoomBanner(false);
   }
 
+
   const Content = () => {
     return useObserver(() => {
       if (toJS(store.seriesDetail).length > 0 && store.activeComments.length > 0 && store.activeInfoTab.length > 0) {
@@ -45,7 +48,7 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
               <div className={`comic-body content-body zoom-${store.zoom}`} onClick={closeZoomBanner}>
                 <ContentBody content={toJS(store.seriesDetail)[page]} />
               </div>
-              <InfoTab commentIsActive={store.activeComments[page]} infoIsActive={store.activeInfoTab[page]} type={type} content={toJS(store.seriesDetail)[page]} onClick={infoClickHandle} zoom={store.zoom} />
+              <InfoTab commentIsActive={store.activeComments[page]} infoIsActive={store.activeInfoTab[page]} type={type} content={toJS(store.seriesDetail)[page]} onClick={infoClickHandle} zoom={store.zoom} page={page} />
             </div>
           )
         } else if (type === "novels") {
@@ -58,7 +61,7 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
                   </div>
                 </wired-card>
               </div>
-              <InfoTab commentIsActive={store.activeComments[page]} infoIsActive={store.activeInfoTab[page]} type={type} content={toJS(store.seriesDetail)[page]} onClick={infoClickHandle} />
+              <InfoTab commentIsActive={store.activeComments[page]} infoIsActive={store.activeInfoTab[page]} type={type} content={toJS(store.seriesDetail)[page]} onClick={infoClickHandle} page={page} />
             </div>
           )
         }

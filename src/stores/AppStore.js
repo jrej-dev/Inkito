@@ -121,12 +121,6 @@ export function StoreProvider({ children }) {
         scrollCurrentPage: page => {
             store.currentPage = page;
         },
-        /*sortByLatestUpdate: content => {
-            content = content.slice().sort(function (a, b) {
-                return new Date(b.last_update) - new Date(a.last_update)
-            })
-            return content;
-        },*/
         // Removing duplicates from new content data
         removeDuplicateContent: (newIds, trendyIds) => {
             return newIds.filter(id =>
@@ -200,20 +194,53 @@ export function StoreProvider({ children }) {
             });
             return false;
         },
-        vote: (voter, author, permlink, weight) => {
-            store.voteState = `${permlink}-pending`;
-            api.vote(voter, author, permlink, weight, function (err, res) {
-                if (res) {
-                    console.log(res)
-                    store.voteState = `${permlink}-done`;
-                } else {
-                    console.log(err)
-                    store.voteState = `${permlink}-error`;
-                }
-            });
+        fetchActiveVotes: (author, permlink) => {
+            return client.database
+                .call('get_active_votes', [author, permlink])
+                .then(result => {
+                    return result;
+                })
         },
-        resetVoteState: () => {
-            store.voteState = "";
+        fetchPendingReward: (author, permlink) => {
+            return client.database
+                .call('get_content', [author, permlink])
+                .then(result => {
+                    return result.pending_payout_value
+                })
+        },
+        async vote(voter, author, permlink, weight, page) {
+            store.voteState = permlink;
+            try {
+                api.vote(voter, author, permlink, weight)
+                    .then(res => {
+                        if (res) {
+                            //console.log(res)
+                            runInAction(async () => {
+                                store.voteState = "done";
+                                const votes = await store.fetchActiveVotes(author, permlink);
+                                const reward = await store.fetchPendingReward(author, permlink);
+
+                                function findPermlink(content) {
+                                    if (content.permlink === permlink) {
+                                        content.active_votes = votes;
+                                        content.pending_payout_value = reward;
+                                    } else {
+                                        for (let reply of content.replies) {
+                                            findPermlink(reply)
+                                        }
+                                    }
+                                }
+
+                                if (store.seriesDetail.length > page) {
+                                    findPermlink(store.seriesDetail[page]);
+                                }
+                            })
+                        }
+                    })
+            } catch (error) {
+                console.log(error)
+                store.voteState = "error";
+            }
         },
         //Inkito to add as beneficiary.
         //The comment() method is rate limited to 5 minutes per root comment (post), and 20 seconds per non-root comment (reply).
@@ -339,7 +366,6 @@ export function StoreProvider({ children }) {
                         JSON.parse(object.json_metadata).tags
                             .filter(tag => tag.includes(object.author))
                     ))).then(result => [...new Set(result.flat())])
-
                 for (let id of trendyComicIds) {
                     if (this.trendingComics.length === 0) {
                         const comic = await store.fetchSeriesInfo(id);
@@ -375,7 +401,6 @@ export function StoreProvider({ children }) {
                         JSON.parse(object.json_metadata).tags
                             .filter(tag => tag.includes(object.author))
                     ))).then(result => [...new Set(result.flat())])
-
                 const newComicIds = this.removeDuplicateContent(createdComicIds, trendyComicIds);
 
                 for (let id of newComicIds) {
@@ -392,7 +417,7 @@ export function StoreProvider({ children }) {
                 this.newComicState = "done";
 
                 // Incorporate lazy load
-                if (createdComicIds.length > 1 || trendyComicIds.length > 1) {
+                if (createdComicIds.length > 2 || trendyComicIds.length > 2) {
                     store.fetchComics(last_trendyComic.author, last_trendyComic.permlink, last_newComic.author, last_newComic.permlink);
                 }
 
@@ -569,6 +594,10 @@ export function StoreProvider({ children }) {
 
             if (results.length === 0 || results[0].parent_author.length > 0) {
                 for (let result of results) {
+                    for (let comment of results) {
+                        const votes = await store.fetchActiveVotes(comment.author, comment.permlink);
+                        comment.active_votes = votes;
+                    }
                     const replies = await store.fetchComments(result);
                     result.replies = replies
                 }

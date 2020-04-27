@@ -23,7 +23,6 @@ const Reader = ({ type }) => {
 
     getUrlVars();
     store.fetchPermlinks(props.author, props.seriesTitle);
-    //timeout(5000);
     props.currentPage ? store.updateCurrentPage(props.currentPage) : store.updateCurrentPage(0);
 
     document.documentElement.scrollTop = 0;
@@ -78,24 +77,8 @@ const Reader = ({ type }) => {
     } else if (e.target.className.includes("last")) {
       document.documentElement.scrollTop = 0;
       store.updateCurrentPage(store.seriesLinks.length - 1);
-
-
-      //Left to do below
-    } else if (e.target.className.includes("heart")) {
-      console.log("like")
-    } else if (e.target.className.includes("comment")) {
-      console.log("comment")
-    } else if (e.target.className.includes("follow")) {
-      console.log("follow")
     }
   }
-
-  /*const timeout = (delay) => {
-    store.setSpinnerTimeout(false);
-    setTimeout(() => {
-      store.setSpinnerTimeout(true);
-    }, delay)
-  }*/
 
   const zoomHandle = (e) => {
     if (e.target.className.includes("zoom-cover")) {
@@ -123,18 +106,18 @@ const Reader = ({ type }) => {
         blogs = [];
       }
 
-      if (seriesData.length >= store.currentPage + 1 && store.seriesLinkState === "done") {
+      if (store.seriesLinkState === "done" && seriesData.length >= store.currentPage + 1) {
         for (let i = store.startPage; i <= store.currentPage; i++) {
           blogs.push(
             <li key={seriesData[i] + store.currentPage} className="blog">
-              <Blog type={type} page={i} author={props.author} permlink={seriesData[i]} nextPermlink={seriesData[i + 1]} />
+              <Blog type={type} page={i} author={props.author} permlink={seriesData[i]} nextPermlink={seriesData.length === store.currentPage + 1 ? undefined : seriesData[i + 1]} />
               <p className="none scroll">Scroll to read more</p>
             </li>
           )
         }
       } else {
         return (
-          /*store.currentPage >= seriesData.length ? <div className="flex no-content"><h3>No content Found</h3></div> :*/ 
+          /*store.currentPage >= seriesData.length ? <div className="flex no-content"><h3>No content Found</h3></div> :*/
           <div className="flex no-content">
             <wired-spinner className="flex" class="custom" spinning duration="1000" />
           </div>
@@ -168,7 +151,7 @@ const Reader = ({ type }) => {
 
   const BottomNav = () => {
     return useObserver(() => {
-      if (toJS(store.seriesDetail)[store.currentPage]) {
+      if (toJS(store.seriesDetail).length > 0 && toJS(store.seriesDetail)[store.currentPage] && toJS(store.seriesDetail)[0] && store.seriesLinks.length > 0) {
         return (
           <NavReaderBottom
             page={store.currentPage}
