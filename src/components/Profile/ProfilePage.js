@@ -24,9 +24,9 @@ const ProfilePage = () => {
     })
 
     const fetchAuthoInfo = (author) => {
-        if (toJS(store.authorInfo) === [] || toJS(store.authorInfo).name !== author){
+        if (toJS(store.authorInfo) && toJS(store.authorInfo).name !== author){
             store.fetchAuthoInfo(author); 
-        }
+        } 
     }
 
     const getUrlVars = () => {
