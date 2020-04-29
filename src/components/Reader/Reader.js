@@ -23,11 +23,12 @@ const Reader = ({ type }) => {
 
     getUrlVars();
     store.fetchPermlinks(props.author, props.seriesTitle);
+
     props.currentPage ? store.updateCurrentPage(props.currentPage) : store.updateCurrentPage(0);
 
     document.documentElement.scrollTop = 0;
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {window.removeEventListener('scroll', handleScroll); store.toggleNavMenu(false);}
   })
 
   const getUrlVars = () => {
@@ -129,15 +130,16 @@ const Reader = ({ type }) => {
 
   const Nav = () => {
     return useObserver(() => {
-      if (toJS(store.seriesDetail).length > 0 && toJS(store.seriesDetail)[store.currentPage] && toJS(store.seriesDetail)[0] && store.seriesLinks.length > 0) {
+      if (store.seriesLinkState === "done" && toJS(store.seriesLinks).length > 0 && toJS(store.seriesDetail).length > 0 && toJS(store.seriesDetail)[store.seriesLinks.length-1] && toJS(store.seriesDetail)[store.currentPage] && toJS(store.seriesDetail)[0]) {
 
         return (
           <NavReader
             page={store.currentPage}
-            seriesLinks={store.seriesLinks}
-            seriesLength={store.seriesLinks.length}
+            seriesLength={toJS(store.seriesLinks).length}
             onClick={navClickHandle}
-            content={toJS(store.seriesDetail)}
+            firstPage={toJS(store.seriesDetail)[0]}
+            currentPage={toJS(store.seriesDetail)[store.currentPage]}
+            lastPage={toJS(store.seriesDetail)[store.seriesLinks.length-1]}
             isHidden={store.navIsHidden}
           />
         )
@@ -171,17 +173,19 @@ const Reader = ({ type }) => {
 
   const BottomBanner = () => {
     return useObserver(() => {
-      if (store.currentPage < store.seriesDetail.length - 1) {
-        return (
-          <div className="scroll-text">
-            <p >Scroll to read more.</p>
-            <wired-spinner className="flex" class="custom" spinning duration="3000" />
-            {/*<img className="icon down-arrow" src={DownArrow} alt="down-arrow"/>*/}
-          </div>
-        )
-      } else {
-        return <AuthorBanner />
-      }
+      if (store.seriesDetail.length > 0) {
+        if (store.currentPage < store.seriesDetail.length - 1) {
+          return (
+            <div className="scroll-text">
+              <p >Scroll to read more.</p>
+              <wired-spinner className="flex" class="custom" spinning duration="3000" />
+              {/*<img className="icon down-arrow" src={DownArrow} alt="down-arrow"/>*/}
+            </div>
+          )
+        } else {
+          return <AuthorBanner author={props.author}/>
+        }
+      } else return ""
     })
   }
 

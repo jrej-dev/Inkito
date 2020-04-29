@@ -75,7 +75,14 @@
 }
 
 .icon {
-  height: 1.5em;       
+  height: 1.5em;   
+  &:active {
+    -webkit-filter: drop-shadow(0px 0px 1px $darkest-color);
+    filter: drop-shadow(0px 0px 1px $darkest-color);
+  }
+  >wired-spinner {
+      transform: scale(0.5);
+  }    
 }
 .sm-icon {
   padding: 0 0.2em;

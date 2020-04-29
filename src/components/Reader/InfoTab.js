@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown/with-html';*/
 import 'wired-elements';
 import '../../sass/components/InfoTab.scss';
 import { Link } from "react-router-dom";
+import BellElement from './BellElement';
 
 /*import LeftArrow from '../Icons/left-arrow.png';
 import RightArrow from '../Icons/right-arrow.png';*/
@@ -78,12 +79,13 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
             <div className="info-banner">
               <div className={type === "comics" ? "author-info flex col" : "author-info flex row"}>
                 <Link to={`/@${content.author}`}>
-                  <img className="panel-profile-pic" src={content.author ? `https://steemitimages.com/u/${content.author}/avatar` : ""} alt=" " />
+                  <img className="panel-profile-pic" src={content.author ? `https://images.hive.blog/u/${content.author}/avatar` : ""} alt=" " />
                   <div className="author-name">
                     <p className="capital">{content.author}</p>
                     <p>Creator</p>
                   </div>
                 </Link>
+                <BellElement className="bellElement" />
               </div>
 
               <div className={type === "comics" ? "content-info" : "content-info none"}>

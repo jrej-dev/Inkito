@@ -32,6 +32,9 @@
     }
     .author-info {
         width: 15%;
+        > * {
+            margin-bottom: 0.5em;
+        }
         .author-name {
             > * {
                 margin: 0;
@@ -154,20 +157,9 @@
     margin-left: auto;
     min-height: 1.5em;
     width: 2em;
-    &:active {
-        -webkit-filter: drop-shadow(0px 0px 1px $darkest-color);
-        filter: drop-shadow(0px 0px 1px $darkest-color);
-    }
     >wired-spinner {
         transform: scale(0.5);
     }
-}
-
-.inactive {
-    /*mask-image: url(../../components/Icons/dotted-black.png);
-    mask-position: 50% top;
-    mask-size: contain;*/
-    //filter: saturate(0.5);
 }
 
 @media screen and (max-width: 850px) {

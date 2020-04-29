@@ -113,14 +113,18 @@
         .title {
             padding: 0.5em 0;
             order: 1;
-            flex-basis: 55%;
+            flex-basis: 50%;
         }
         .icons {
-            display: none;
+            .heart {
+                display: none;
+            }
+            order: 2;
+            flex-basis: 10%;
         }
         .login {
             order: 2;
-            flex-basis: 45%;
+            flex-basis: 20%;
             padding: 0;
         }
         .arrows {

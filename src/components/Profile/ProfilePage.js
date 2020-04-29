@@ -19,7 +19,15 @@ const ProfilePage = () => {
     useEffect(() => {
         document.documentElement.scrollTop = 0;
         getUrlVars();
+        
+        return () => store.toggleNavMenu(false);
     })
+
+    const fetchAuthoInfo = (author) => {
+        if (toJS(store.authorInfo) === [] || toJS(store.authorInfo).name !== author){
+            store.fetchAuthoInfo(author); 
+        }
+    }
 
     const getUrlVars = () => {
         var address = window.location.href;
@@ -30,9 +38,10 @@ const ProfilePage = () => {
         var params = address.split("/");
         props.author = params[0];
         
-        store.fetchAuthoInfo(props.author);
+        fetchAuthoInfo(props.author);
         return props;
     }
+
 
     const ProfileInfo = () => {
         return useObserver(() => {

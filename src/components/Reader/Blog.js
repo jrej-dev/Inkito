@@ -17,7 +17,12 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
       }
       if (page + 1 < store.seriesLinks.length && store.seriesDetail[page + 1] === undefined) {
         store.fetchSeriesDetail(author, nextPermlink, page + 1);
+      } else {
+          if (toJS(store.authorInfo) === [] || toJS(store.authorInfo).name !== author){
+              store.fetchAuthoInfo(author); 
+          }
       }
+      
       //For the heart in the NavReader Bar
       if (store.seriesDetail[store.seriesLinks.length - 1] === undefined) {
         store.fetchSeriesDetail(author, store.seriesLinks[store.seriesLinks.length - 1], store.seriesLinks.length - 1);
@@ -41,7 +46,7 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
 
   const Content = () => {
     return useObserver(() => {
-      if (toJS(store.seriesDetail).length > 0 && store.activeComments.length > 0 && store.activeInfoTab.length > 0) {
+      if (toJS(store.seriesDetail).length > 0 && toJS(store.seriesDetail).length > page && store.activeComments && store.activeInfoTab) {
         if (type === "comics") {
           return (
             <div>

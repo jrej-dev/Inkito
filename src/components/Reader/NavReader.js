@@ -1,18 +1,20 @@
 import React from 'react';
 import 'wired-elements';
 import '../../sass/components/NavReader.scss';
+import BellElement from './BellElement';
 import HeartElement from './HeartElement';
 import NavMenu from '../Main/NavMenu';
 import LeftArrow from '../Icons/left-arrow.png';
 import RightArrow from '../Icons/right-arrow.png';
 import Heart from '../Icons/grey-heart.png';
-import Bubble from '../Icons/bubble.png';
+import Share from '../Icons/share.png';
 import Bell from '../Icons/bell.png';
 
 import { Link } from "react-router-dom";
 
-const NavReader = ({ page, content, seriesLength, onClick, isHidden }) => {
-  if (content && content.length > page) {
+const NavReader = ({ firstPage, currentPage, lastPage, page, seriesLength, onClick, isHidden }) => {
+  
+  if (firstPage && currentPage) {
     return (
       <div className={isHidden ? "nav-reader hidden-top" : "nav-reader"}>
         <ul className="nav-reader-list">
@@ -42,17 +44,17 @@ const NavReader = ({ page, content, seriesLength, onClick, isHidden }) => {
 
           <li className="flex post-title">
             <p>
-              {content[page] ? content[page].title.includes(content[0].title) ? "" : `${content[0].title} /` : ""}
+              {currentPage ? currentPage.title.includes(firstPage.title) ? "" : `${firstPage.title} /` : ""}
             </p>
             <p>
-              {content[page] ? content[page].title : ""}
+              {currentPage ? currentPage.title : ""}
             </p>
           </li>
 
           <li className="flex icons">
-            {content[seriesLength-1] ? <HeartElement content={content[seriesLength-1]}/> : <img className="icon heart" src={Heart} alt="heart" onClick={onClick} /> }
-            <img className="icon comment" src={Bubble} alt="comment bubble" onClick={onClick} />
-            <img className="icon follow" src={Bell} alt="follow bell" onClick={onClick} />
+            {lastPage ? <HeartElement content={lastPage} page={seriesLength - 1} className="heartElement" /> : <img src={Heart} className="heart icon" alt="heart" />}
+            <img className="icon share" src={Share} alt="share arrow" onClick={onClick} />
+            <BellElement className="bellElement" />
           </li>
           <NavMenu />
         </ul>
@@ -78,9 +80,9 @@ const NavReader = ({ page, content, seriesLength, onClick, isHidden }) => {
             </div>
           </li>
           <li className="flex icons">
-            <img className="icon heart" src={Heart} alt="heart" onClick={onClick} />
-            <img className="icon comment" src={Bubble} alt="comment bubble" onClick={onClick} />
-            <img className="icon follow" src={Bell} alt="follow bell" onClick={onClick} />
+            <img className="icon heart" src={Heart} alt="heart" />
+            <img className="icon share" src={Share} alt="share arrow" onClick={onClick} />
+            <img className="icon follow" src={Bell} alt="follow bell" />
           </li>
           <NavMenu />
         </ul>

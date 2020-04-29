@@ -19,6 +19,7 @@ const Home = () => {
     store.updateActiveComicTrend("all");
     store.updateActiveNovelTrend("all");
     store.updateCurrentPage(0);
+    return () => store.toggleNavMenu(false);
   })
 
   const fetchContent = () => {
