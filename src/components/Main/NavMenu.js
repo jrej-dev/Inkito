@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import { useHistory  } from "react-router-dom";
@@ -8,16 +8,6 @@ import '../../sass/components/Nav.scss';
 const NavMenu = () => {  
     const store = React.useContext(StoreContext);
     const history = useHistory();
-
-    useEffect (() => { 
-      let mounted = true;
-      if (store.loginLink === ""){
-        if(mounted){
-          store.initHSLogin();
-        }
-      }
-      return () => mounted = false;
-    })
 
     return useObserver(() => {
       if (toJS(store.userDetail)) {

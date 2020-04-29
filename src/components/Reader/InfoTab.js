@@ -1,4 +1,5 @@
 import React from 'react';
+import StoreContext from '../../stores/AppStore';
 import HeartElement from './HeartElement';
 /*import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
@@ -10,7 +11,7 @@ import BellElement from './BellElement';
 
 /*import LeftArrow from '../Icons/left-arrow.png';
 import RightArrow from '../Icons/right-arrow.png';*/
-
+import CommentInput from './CommentInput';
 import DownArrow from '../Icons/down-arrow.png';
 import UpArrow from '../Icons/up-arrow.png';
 import Clock from '../Icons/clock.png';
@@ -23,7 +24,8 @@ import { Link } from "react-router-dom";*/
 import CommentList from './CommentList';
 import ContentBody from './ContentBody';
 
-const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, page}) => {
+const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, page, replyIsActive}) => {
+  const store = React.useContext(StoreContext);
 
   if (content) {
     let reward = content.pending_payout_value ? content.pending_payout_value === "0.000 HBD" ? content.total_payout_value.replace("HBD", "") : content.pending_payout_value.replace("HBD", "") : "?";
@@ -93,9 +95,13 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
                   <ContentBody content={content} />
                 </wired-card>
               </div>
-
             </div>
 
+            <p className="reply flex-end pointer" onClick={() => {store.toggleReplyIsActive(content.permlink)}}>Reply</p>
+            <div className="comments">
+              { replyIsActive === content.permlink ? <CommentInput content={content}/> : "" }
+            </div>
+            
             <ul className="comments">
               <div className="comment-title flex reset" key="comment-title">
                 {content.replies.length > 0 ? commentIsActive ? <img className="icon comments" src={UpArrow} alt="up-arrow" onClick={onClick} /> : <img className="icon comments" src={DownArrow} alt="down-arrow" onClick={onClick} /> : ""}

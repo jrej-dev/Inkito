@@ -21,6 +21,9 @@ const App = () => {
     getUserDetail();
     store.toggleNavMenu(false);
     store.checkCookieConsent();
+    if (store.loginLink === ""){
+      store.initHSLogin();
+    }
   })
 
   const getUserDetail = () => {

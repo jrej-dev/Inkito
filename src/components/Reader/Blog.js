@@ -55,7 +55,7 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
               <div className={`comic-body content-body zoom-${store.zoom}`} onClick={closeZoomBanner}>
                 <ContentBody content={toJS(store.seriesDetail)[page]} />
               </div>
-              <InfoTab commentIsActive={store.activeComments[page]} infoIsActive={store.activeInfoTab[page]} type={type} content={toJS(store.seriesDetail)[page]} onClick={infoClickHandle} zoom={store.zoom} page={page} />
+              <InfoTab commentIsActive={store.activeComments[page]} infoIsActive={store.activeInfoTab[page]} type={type} content={toJS(store.seriesDetail)[page]} onClick={infoClickHandle} zoom={store.zoom} page={page} replyIsActive={store.replyIsActive}/>
             </div>
           )
         } else if (type === "novels") {
@@ -68,7 +68,7 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
                   </div>
                 </wired-card>
               </div>
-              <InfoTab commentIsActive={store.activeComments[page]} infoIsActive={store.activeInfoTab[page]} type={type} content={toJS(store.seriesDetail)[page]} onClick={infoClickHandle} page={page} />
+              <InfoTab commentIsActive={store.activeComments[page]} infoIsActive={store.activeInfoTab[page]} type={type} content={toJS(store.seriesDetail)[page]} onClick={infoClickHandle} page={page} replyIsActive={store.replyIsActive}/>
             </div>
           )
         }

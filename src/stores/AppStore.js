@@ -88,6 +88,7 @@ export function StoreProvider({ children }) {
         navIsHidden: false,
         navMenuIsActive: false,
         cookieConsent: null,
+        replyIsActive: "",
 
         //Data states
         trendyComicState: "",
@@ -183,6 +184,13 @@ export function StoreProvider({ children }) {
             const cookie = localStorage.getItem('cookie-consent');
             store.cookieConsent = JSON.parse(cookie);
         },
+        toggleReplyIsActive: (value) => {
+            if (store.replyIsActive === value) {
+                store.replyIsActive = "";
+            } else if (store.replyIsActive !== value) {
+                store.replyIsActive = value; 
+            } 
+        },
         logOut: () => {
             api.revokeToken(function (err, res) {
                 if (res && res.success) {
@@ -227,7 +235,6 @@ export function StoreProvider({ children }) {
                     if (store.seriesDetail.length > 0){
                         store.seriesDetail[0].followers.push(follower);
                     }
-
                 })
 
             } catch (error) {
@@ -264,9 +271,9 @@ export function StoreProvider({ children }) {
                 const result = await api.vote(voter, author, permlink, weight)
                     .then(res => { return res });
 
-
                 console.log(result);
                 this.voteState = "done";
+
                 runInAction(async () => {
                     const votes = await store.fetchActiveVotes(author, permlink);
                     const reward = await store.fetchPendingReward(author, permlink);
@@ -275,6 +282,7 @@ export function StoreProvider({ children }) {
                         if (content.permlink === permlink) {
                             content.active_votes = votes;
                             content.pending_payout_value = reward;
+                            return content;
                         } else {
                             for (let reply of content.replies) {
                                 findPermlink(reply)

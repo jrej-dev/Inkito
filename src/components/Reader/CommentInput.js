@@ -40,17 +40,15 @@ const CommentInput = ({ content }) => {
                                 </p>
                             </div>
                         </div>
-        
-                        <wired-card>
-                            <div className="comment-body">
-                                <textarea>
-                                    Your reply...
-                                </textarea>
-                            </div>
-                        </wired-card>
-        
-                        <div className="comment-bottom-banner reset">
-                            <p>Send</p>
+
+                        <div className="comment-body">
+                            <wired-textarea placeholder="Your reply..." rows="6">
+                            </wired-textarea>
+                        </div>
+
+                        <div className="comment-bottom-banner flex-start pa-hh">
+                            <button className="send-btn">Send</button>
+                            <p className="pointer" onClick={() => {store.toggleReplyIsActive(content.permlink)}}>Cancel</p>
                         </div>
                     </div>
                     

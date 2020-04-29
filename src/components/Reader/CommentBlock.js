@@ -74,7 +74,7 @@ const CommentBlock = ({ content, reply, page }) => {
                     </div>
                 </wired-card>
 
-                <div className="comment-bottom-banner reset">
+                <div className="comment-bottom-banner flex-between reset">
                     <div className="left-block">
                         <HeartElement content={content} className="heartElement" page={page}/>
 

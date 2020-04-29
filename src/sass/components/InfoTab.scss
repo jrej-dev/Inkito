@@ -26,7 +26,7 @@
     justify-content: space-evenly;
     align-items: flex-start;
     width: 95%;
-    margin: 2em 2.5%;
+    margin: 2em 2.5% 0 2.5%;
     > * {
         padding: 1em 1em;
     }
@@ -60,6 +60,12 @@
     }
 }
 
+.reply {
+    width: inherit;
+    margin: 0;
+    padding-right: 10%;
+}
+
 .none {
     display: none;
 }
@@ -91,6 +97,9 @@
         margin-bottom: 1em;
     }
     .comment-body {
+        > wired-textarea {
+            width: 90%;
+        }
         text-align: left;
         padding: 0 2em;
         margin: 0.5em;
@@ -116,7 +125,6 @@
         }
     }
     .comment-bottom-banner {
-        @include flex(space-between);
         width: 90%;
         margin: 0.5em 5%;
     }
