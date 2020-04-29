@@ -19,8 +19,6 @@ const Reader = ({ type }) => {
   var lastScrollTop = 0;
 
   useEffect(() => {
-    store.resetSeriesDetail();
-
     getUrlVars();
     store.fetchPermlinks(props.author, props.seriesTitle);
 
@@ -28,7 +26,7 @@ const Reader = ({ type }) => {
 
     document.documentElement.scrollTop = 0;
     window.addEventListener('scroll', handleScroll);
-    return () => {window.removeEventListener('scroll', handleScroll); store.toggleNavMenu(false);}
+    return () => {window.removeEventListener('scroll', handleScroll); store.toggleNavMenu(false); store.resetSeriesDetail();}
   })
 
   const getUrlVars = () => {

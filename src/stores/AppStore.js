@@ -609,7 +609,8 @@ export function StoreProvider({ children }) {
             }
         },
         async fetchSeriesDetail(author, permlink, page) {
-            this.seriesDetailState = "pending"
+            this.seriesDetailState = "pending";
+            this.all_followers = [];
             try {
                 const content = await client.database
                     .call('get_content', [author, permlink])
@@ -628,6 +629,7 @@ export function StoreProvider({ children }) {
                         if (page === 0){
                             const followers = await store.getFollowers(author);
                             this.seriesDetail[page].followers = followers;
+                            this.all_followers = [];
                         }
                     }
                     if (page > 1 && this.seriesDetail[0] === undefined) {

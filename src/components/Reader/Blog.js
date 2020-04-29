@@ -17,12 +17,14 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
       }
       if (page + 1 < store.seriesLinks.length && store.seriesDetail[page + 1] === undefined) {
         store.fetchSeriesDetail(author, nextPermlink, page + 1);
-      } else {
-          if (toJS(store.authorInfo) && toJS(store.authorInfo).name !== author){
-              store.fetchAuthoInfo(author); 
-          }
+      } else if (page + 1 === store.seriesLinks.length) {
+        if (toJS(store.authorInfo).length > 0 && toJS(store.authorInfo).name !== author) {
+          store.fetchAuthoInfo(author);
+        } else if (toJS(store.authorInfo).length === 0) {
+          store.fetchAuthoInfo(author);
+        }
       }
-      
+
       //For the heart in the NavReader Bar
       if (store.seriesDetail[store.seriesLinks.length - 1] === undefined) {
         store.fetchSeriesDetail(author, store.seriesLinks[store.seriesLinks.length - 1], store.seriesLinks.length - 1);
