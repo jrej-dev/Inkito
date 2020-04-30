@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: inkito.io
+Token: fc5d6581273f79ae534499adc65a9183b9752a25145ff1ac0c6ab4d30fb651b5
