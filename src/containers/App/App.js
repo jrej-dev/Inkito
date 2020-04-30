@@ -24,7 +24,6 @@ const App = () => {
     if (store.loginLink === ""){
       store.initHSLogin();
     }
-    console.log(Date.now());
   })
 
   const getUserDetail = () => {

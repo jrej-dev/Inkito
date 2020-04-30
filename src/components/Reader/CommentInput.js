@@ -1,24 +1,24 @@
 import React, {useState} from 'react';
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
-
-import 'wired-elements';
+import { Link } from "react-router-dom";
 
 import UpArrow from '../Icons/up-arrow.png';
+import 'wired-elements';
 
-import { Link } from "react-router-dom";
 
 
 const CommentInput = ({ content }) => {
     const store = React.useContext(StoreContext);
-    const parentAuthor = content.author;
+    const [body, setBody] = useState("");
+    
+    /*const parentAuthor = content.author;
     const parentPermlink = content.permlink;
     const tags = JSON.parse(content.json_metadata).tags;
     const jsonMetadata = JSON.stringify({ tags, app: 'Inkito' });
     const permlink = "re-"+ content.permlink + "-" + Date.now();
-    const title = "";
+    const title = "";*/
 
-    const [body, setBody] = useState("");
 
     const Response = () => {
         return (
@@ -30,14 +30,11 @@ const CommentInput = ({ content }) => {
     }
 
     const handleReplyChange = (e) => {
-        console.log(e.target.value);
         setBody(e.target.value);
     }
 
     const handleReplySubmit = (author) => {
-        
-        //parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata
-        console.log(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
+        //store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata)
     }
 
     return useObserver(() => {

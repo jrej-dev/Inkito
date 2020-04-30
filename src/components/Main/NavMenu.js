@@ -24,16 +24,20 @@ const NavMenu = () => {
           )
         } else {
           return (
-            <li className="login">
+            <li className="login flex row">
               <a href={store.loginLink}>Login</a>
+              <p>/</p>
+              <a href="https://signup.hive.io/" target="_blank" rel="noopener noreferrer">Register</a>
             </li>
           )
         }
       } else {
         return (
-          <li className="login">
-            <a href={store.loginLink}>Login</a>
-          </li>
+          <li className="login flex row">
+              <a href={store.loginLink}>Login</a>
+              <p>/</p>
+              <a href="https://signup.hive.io/" target="_blank" rel="noopener noreferrer">Register</a>
+            </li>
         )
       }
     })
