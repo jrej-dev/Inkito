@@ -97,7 +97,7 @@
         margin-bottom: 1em;
     }
     .comment-body {
-        > wired-textarea {
+        > textarea {
             width: 90%;
         }
         text-align: left;
@@ -127,7 +127,11 @@
     .comment-bottom-banner {
         width: 90%;
         margin: 0.5em 5%;
+        .send-btn {
+            margin-left: 0.5em;
+        }
     }
+    
 
     .left-block {
         @include flex(flex-start);

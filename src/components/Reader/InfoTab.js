@@ -99,7 +99,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
 
             <p className="reply flex-end pointer" onClick={() => {store.toggleReplyIsActive(content.permlink)}}>Reply</p>
             <div className="comments">
-              { replyIsActive === content.permlink ? <CommentInput content={content}/> : "" }
+              { replyIsActive === content.permlink ? <CommentInput content={content}/> : <div className="hidden"><CommentInput content={content}/></div> }
             </div>
             
             <ul className="comments">
@@ -108,7 +108,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
                 <h3>{content.replies.length > 0 ? `Comments (${content.replies.length})` : "No Comments"} </h3>
                 <div className="line" />
               </div>
-              {commentIsActive ? <CommentList commentData={content} page={page}/> : ""}
+              {commentIsActive ? <CommentList commentData={content} page={page} replyIsActive={replyIsActive}/> : ""}
             </ul>
           </div>
         )

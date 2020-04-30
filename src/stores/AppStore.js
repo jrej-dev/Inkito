@@ -143,6 +143,7 @@ export function StoreProvider({ children }) {
             store.seriesLinks = [];
             store.activeInfoTab = [];
             store.spinnerTimeout = [];
+            store.replyIsActive = ""
         },
         toggleInfoTab: (page) => {
             store.activeInfoTab[page] = !store.activeInfoTab[page];
