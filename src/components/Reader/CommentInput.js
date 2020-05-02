@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import { Link } from "react-router-dom";
@@ -12,7 +12,7 @@ const CommentInput = ({ content }) => {
     const store = React.useContext(StoreContext);
     const [body, setBody] = useState("");
     const textArea = useRef(null);
-    
+
     const parentAuthor = content.author;
     const parentPermlink = content.permlink;
     const tags = JSON.parse(content.json_metadata).tags;
@@ -26,7 +26,7 @@ const CommentInput = ({ content }) => {
         return () => {
             currentTextArea.removeEventListener('input', handleChange);
         }
-      }, [])    
+    }, [])
 
     const Response = () => {
         return (
@@ -41,9 +41,8 @@ const CommentInput = ({ content }) => {
         setBody(e.detail.sourceEvent.target.value);
     }
 
-    const handleReplySubmit = (author) => {
-        console.log(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
-        //store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
+    const handleReplySubmit = (author, page) => {
+        store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, page);
     }
 
     return useObserver(() => {
@@ -65,17 +64,25 @@ const CommentInput = ({ content }) => {
                                 </p>
                             </div>
                         </div>
-                        <form onSubmit={(e) => { e.preventDefault(); handleReplySubmit(store.userDetail.name) }}>
+                        <form onSubmit={(e) => { e.preventDefault(); handleReplySubmit(store.userDetail.name, store.currentPage) }}>
                             <div className="comment-body">
-                                <wired-textarea
-                                    //disabled
-                                    placeholder="Your reply..."
-                                    rows="4"
-                                    ref={textArea} 
-                                    value={body} 
-                                ></wired-textarea>
+                                { store.commentState === "pending" ? 
+                                    <wired-textarea
+                                        disabled
+                                        placeholder="Your reply..."
+                                        rows="4"
+                                        ref={textArea}
+                                        value={body}
+                                    />
+                                    :
+                                    <wired-textarea
+                                        placeholder="Your reply..."
+                                        rows="4"
+                                        ref={textArea}
+                                        value={body}
+                                    />
+                                }
                             </div>
-
                             <div className="comment-bottom-banner flex-start pa-hh">
                                 <button type="submit" className="send-btn">Send</button>
                                 <p className="pointer" onClick={() => { store.toggleReplyIsActive(content.permlink) }}>Cancel</p>
