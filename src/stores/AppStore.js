@@ -89,6 +89,7 @@ export function StoreProvider({ children }) {
         navIsHidden: false,
         navMenuIsActive: false,
         shareMenuIsActive: false,
+        shareMenuBottomIsActive: false,
         cookieConsent: null,
         replyIsActive: "",
 
@@ -180,6 +181,13 @@ export function StoreProvider({ children }) {
                 store.shareMenuIsActive = false;
             } else if (value === undefined) {
                 store.shareMenuIsActive = !store.shareMenuIsActive;
+            }
+        },
+        toggleShareMenuBottom: (value) => {
+            if (value === false && store.shareMenuBottomIsActive === true) {
+                store.shareMenuBottomIsActive = false;
+            } else if (value === undefined) {
+                store.shareMenuBottomIsActive = !store.shareMenuBottomIsActive;
             }
         },
         updateZoom: (increment) => {

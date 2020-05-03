@@ -24,12 +24,20 @@ import {
 } from "react-share";
 
 
-const ShareMenu = ({ image, shareIsActive }) => {
+const ShareMenu = ({ image, shareIsActive, bottom }) => {
     const store = React.useContext(StoreContext);
     
+    const handleClick = () => {
+        if (bottom) {
+            store.toggleShareMenuBottom();
+        } else {
+            store.toggleShareMenu();
+        }
+    }
+
     return (
         <div className="sharing">
-            <img className="icon share" src={Share} alt="share arrow" onClick={() => store.toggleShareMenu()} />
+            <img className="icon share" src={Share} alt="share arrow" onClick={handleClick} />
             <div className={shareIsActive ? "share-menu flex wrap pa" : "share-menu flex wrap pa hidden"}>
                 <EmailShareButton url={window.location.href} subject={"Check this out."} body={"Here is a great story I found on Inkito.io"}>
                     <EmailIcon size={32} round={true} />

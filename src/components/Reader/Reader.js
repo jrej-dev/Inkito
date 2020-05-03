@@ -51,6 +51,7 @@ const Reader = ({ type }) => {
       store.toggleNav(false);
       store.toggleNavMenu(false);
       store.toggleShareMenu(false);  
+      store.toggleShareMenuBottom(false);
     } else if (st > 200) {
       store.toggleNav(true);
       // upscroll code
@@ -198,7 +199,7 @@ const Reader = ({ type }) => {
             </div>
           )
         } else {
-          return <AuthorBanner author={props.author} content={toJS(store.seriesDetail)[0]}/>
+          return <AuthorBanner author={props.author} content={toJS(store.seriesDetail)[0]} shareIsActive={store.shareMenuBottomIsActive} userDetail={toJS(store.userDetail)} followState={store.followState}/>
         }
       } else return ""
     })

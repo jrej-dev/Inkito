@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react';
 import StoreContext from '../../stores/AppStore';
 import BellElement from './BellElement';
+import ShareMenu from './ShareMenu';
 import { toJS } from 'mobx';
 import 'wired-elements';
 import '../../sass/components/Reader.scss';
 
-import Share from '../Icons/share.png';
-
 import { Link } from "react-router-dom";
 
-const AuthorBanner = ({ content }) => {
+const AuthorBanner = ({ userDetail, followState, content, shareIsActive }) => {
     const store = React.useContext(StoreContext);
 
     useEffect(() => {
@@ -30,6 +29,7 @@ const AuthorBanner = ({ content }) => {
 
         if (content) {
             let author = content.author;
+            let image = JSON.parse(content.json_metadata).image;
      
             return (
                 <div className="author-banner flex">
@@ -51,9 +51,9 @@ const AuthorBanner = ({ content }) => {
                             <div className="flex row pointer share">
                                 <div className="flex row">
                                     <p>Share</p>
-                                    <img className="icon share" src={Share} alt="share" />
+                                    {image ? <ShareMenu image={image[0]} shareIsActive={shareIsActive} bottom={true}/> : <ShareMenu shareIsActive={shareIsActive} bottom={true}/>}
                                 </div>
-                                <BellElement text={true} className="bellElement" />
+                                <BellElement className="bellElement" text={true} userDetail={userDetail} seriesInfo={toJS(store.seriesInfo)} followState={followState}/>
                             </div>
                         </div>
                     </wired-card>

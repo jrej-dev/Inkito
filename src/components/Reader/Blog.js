@@ -24,10 +24,6 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
           store.fetchAuthoInfo(author);
         }
       }
-
-      if (store.seriesDetailState === "error"){
-        window.location.reload();
-      }
       //For the heart in the NavReader Bar
       if (store.seriesDetail[store.seriesLinks.length - 1] === undefined) {
         store.fetchSeriesDetail(author, store.seriesLinks[store.seriesLinks.length - 1], store.seriesLinks.length - 1);
@@ -52,6 +48,9 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
   const Content = () => {
     return useObserver(() => {
       if (toJS(store.seriesDetail).length > 0 && toJS(store.seriesDetail).length > page && store.activeComments && store.activeInfoTab) {
+        if (store.seriesDetailState === "error"){
+          window.location.reload();
+        }
         if (type === "comics") {
           return (
             <div>

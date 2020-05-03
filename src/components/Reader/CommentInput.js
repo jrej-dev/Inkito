@@ -12,13 +12,6 @@ const CommentInput = ({ content, userDetail, page, commentState }) => {
     const [body, setBody] = useState("");
     const textArea = useRef(null);
 
-    const parentAuthor = content.author;
-    const parentPermlink = content.permlink;
-    const tags = JSON.parse(content.json_metadata).tags;
-    const jsonMetadata = { tags, app: 'Inkito' };
-    const permlink = "re-" + content.permlink + "-" + Date.now();
-    const title = "";
-
     useEffect(() => {
         var currentTextArea = textArea.current;
         currentTextArea.addEventListener('input', handleChange);
@@ -41,10 +34,16 @@ const CommentInput = ({ content, userDetail, page, commentState }) => {
     }
 
     const handleReplySubmit = (author, page) => {
+        const parentAuthor = content.author;
+        const parentPermlink = content.permlink;
+        const tags = JSON.parse(content.json_metadata).tags;
+        const jsonMetadata = { tags, app: 'Inkito' };
+        const permlink = "re-" + content.permlink + "-" + Date.now();
+        const title = "";
         store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, page);
     }
 
-    if (userDetail && userDetail.name) {
+    if (content && userDetail && userDetail.name) {
         return (
             <div className="active comment-banner">
                 <Link to={`/@${userDetail.name}`}>

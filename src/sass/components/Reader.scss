@@ -58,11 +58,11 @@
             flex-wrap: wrap;
             width: 100%;
             min-height: 5em;
-            .post-title {
-                flex-basis: 30%;
-                white-space: nowrap;
-            }
         }
+    }
+    .post-title {
+        flex-basis: 30%;
+        white-space: nowrap;
     }
 }
 
