@@ -252,7 +252,6 @@ export function StoreProvider({ children }) {
 
             api.follow(follower, following, function (err, res) {
                 if (res) {
-                    console.log(res);
                     if (store.seriesInfo) {
                         store.seriesInfo.followers.push(follower);
                         runInAction (() => {
@@ -274,7 +273,6 @@ export function StoreProvider({ children }) {
 
             api.unfollow(unfollower, unfollowing, function (err, res) {
                 if (res) {
-                    console.log(res);
                     if (store.seriesInfo) {
                         store.followState = "done";
                         store.seriesInfo.followers = store.seriesInfo.followers.filter(follower => follower !== unfollower);
@@ -291,7 +289,6 @@ export function StoreProvider({ children }) {
             store.voteState = permlink;
             api.vote(voter, author, permlink, weight, function (err, res) {
                 if (res) {
-                    console.log(res);
                     runInAction(async () => {
                         const votes = await store.fetchActiveVotes(author, permlink);
                         const reward = await store.fetchPendingReward(author, permlink);
