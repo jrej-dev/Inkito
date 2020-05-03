@@ -1,7 +1,5 @@
 import React from 'react';
 import StoreContext from '../../stores/AppStore';
-import { useObserver } from 'mobx-react';
-import { toJS } from 'mobx';
 
 import Heart from '../Icons/heart.png';
 import RedHeart from '../Icons/red-heart.png';
@@ -9,9 +7,9 @@ import GreyHeart from '../Icons/grey-heart.png';
 import 'wired-elements';
 import '../../sass/components/InfoTab.scss';
 
-const HeartElement = ({ content, page }) => {
+const HeartElement = ({ userDetail, content, page, voteState }) => {
     const store = React.useContext(StoreContext);
-    
+
     const handleVote = (user) => {
         store.vote(user, content.author, content.permlink, 10000, page);
     }
@@ -35,42 +33,40 @@ const HeartElement = ({ content, page }) => {
         }
     }
 
-    return useObserver(() => {
-        if (toJS(store.userDetail) && content) {
-            if (toJS(store.userDetail).name && content.active_votes.length >= 0) {
-                let userName = toJS(store.userDetail).name;
-                if (store.voteState === content.permlink) {
-                    return (
-                        <div className="icon heart flex">
-                            <wired-spinner class="custom" spinning duration="1000" />
-                        </div>
-                    )
-                } else if (content.active_votes.some(vote => vote.voter === userName)) {
-                    return (
-                        <img className="icon heart" src={RedHeart} alt="red-heart" onClick={() => { handleVote(userName) }} />
-                    )
-                } else if (!content.active_votes.some(vote => vote.voter === store.userDetail.name) && store.voteState !== content.permlink) {
-                    if (isPostActive(content.created.slice(0, 10))) {
-                        return (
-                            <img className="icon heart" src={GreyHeart} alt="grey-heart" onClick={() => { handleVote(userName) }} />
-                        )
-                    } else {
-                        return (
-                            <img className="icon heart" src={Heart} alt="heart" onClick={() => { handleVote(userName) }} />
-                        )
-                    }
-                }
-            } else {
+    if (userDetail && content) {
+        if (userDetail.name && content.active_votes.length >= 0) {
+            let userName = userDetail.name;
+            if (voteState === content.permlink) {
                 return (
-                    <img className="icon heart" src={Heart} alt="heart" />
+                    <div className="icon heart flex">
+                        <wired-spinner class="custom" spinning duration="1000" />
+                    </div>
                 )
+            } else if (content.active_votes.some(vote => vote.voter === userName)) {
+                return (
+                    <img className="icon heart" src={RedHeart} alt="red-heart" onClick={() => { handleVote(userName) }} />
+                )
+            } else if (!content.active_votes.some(vote => vote.voter === store.userDetail.name) && voteState !== content.permlink) {
+                if (isPostActive(content.created.slice(0, 10))) {
+                    return (
+                        <img className="icon heart" src={GreyHeart} alt="grey-heart" onClick={() => { handleVote(userName) }} />
+                    )
+                } else {
+                    return (
+                        <img className="icon heart" src={Heart} alt="heart" onClick={() => { handleVote(userName) }} />
+                    )
+                }
             }
         } else {
             return (
                 <img className="icon heart" src={Heart} alt="heart" />
             )
         }
-    })
+    } else {
+        return (
+            <img className="icon heart" src={Heart} alt="heart" />
+        )
+    }
 }
 
 export default HeartElement;

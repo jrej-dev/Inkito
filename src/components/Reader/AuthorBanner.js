@@ -1,16 +1,14 @@
 import React, { useEffect } from 'react';
 import StoreContext from '../../stores/AppStore';
 import BellElement from './BellElement';
-import { useObserver } from 'mobx-react';
+import ShareMenu from './ShareMenu';
 import { toJS } from 'mobx';
 import 'wired-elements';
 import '../../sass/components/Reader.scss';
 
-import Share from '../Icons/share.png';
-
 import { Link } from "react-router-dom";
 
-const AuthorBanner = ({ author }) => {
+const AuthorBanner = ({ userDetail, followState, content, shareIsActive }) => {
     const store = React.useContext(StoreContext);
 
     useEffect(() => {
@@ -18,10 +16,10 @@ const AuthorBanner = ({ author }) => {
     })
 
     const Follower = () => {
-        if (toJS(store.authorInfo)) {
-            if (toJS(store.authorInfo).follow) {
+        if (toJS(store.seriesInfo)) {
+            if (toJS(store.seriesInfo).followers) {
                 return (
-                    <p className="followers">{toJS(store.authorInfo).follow.follower_count} followers</p>
+                    <p className="followers">{toJS(store.seriesInfo).followers.length} followers</p>
                 )
             } else {
                 return ""
@@ -29,10 +27,9 @@ const AuthorBanner = ({ author }) => {
         } else return ""
     }
 
-    return useObserver(() => {
-        if (toJS(store.seriesDetail)[0]) {
-            let content = toJS(store.seriesDetail)[0];
+        if (content) {
             let author = content.author;
+            let image = JSON.parse(content.json_metadata).image;
      
             return (
                 <div className="author-banner flex">
@@ -54,9 +51,9 @@ const AuthorBanner = ({ author }) => {
                             <div className="flex row pointer share">
                                 <div className="flex row">
                                     <p>Share</p>
-                                    <img className="icon share" src={Share} alt="share" />
+                                    {image ? <ShareMenu image={image[0]} shareIsActive={shareIsActive} bottom={true}/> : <ShareMenu shareIsActive={shareIsActive} bottom={true}/>}
                                 </div>
-                                <BellElement text={true} className="bellElement" />
+                                <BellElement className="bellElement" text={true} userDetail={userDetail} seriesInfo={toJS(store.seriesInfo)} followState={followState}/>
                             </div>
                         </div>
                     </wired-card>
@@ -65,7 +62,6 @@ const AuthorBanner = ({ author }) => {
         } else {
             return ""
         }
-    })
 }
 
 export default AuthorBanner;

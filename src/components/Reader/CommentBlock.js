@@ -1,8 +1,9 @@
 import React from 'react';
+import StoreContext from '../../stores/AppStore';
 import 'wired-elements';
 import ContentBody from './ContentBody';
 import CommentList from './CommentList';
-//import CommentInput from './CommentInput';
+import CommentInput from './CommentInput';
 
 import Clock from '../Icons/clock.png';
 import HeartElement from './HeartElement';
@@ -13,7 +14,8 @@ import Flag from '../Icons/flag.png';
 import { Link } from "react-router-dom";
 
 
-const CommentBlock = ({ content, reply, page }) => {
+const CommentBlock = ({ content, reply, page, replyIsActive, userDetail, commentState, voteState}) => {
+    const store = React.useContext(StoreContext);
 
     let payout = content.pending_payout_value === "0.000 HBD" ? content.total_payout_value : content.pending_payout_value;
     let reward = payout.replace("HBD", "");
@@ -76,7 +78,7 @@ const CommentBlock = ({ content, reply, page }) => {
 
                 <div className="comment-bottom-banner flex-between reset">
                     <div className="left-block">
-                        <HeartElement content={content} className="heartElement" page={page}/>
+                        <HeartElement content={content} className="heartElement" page={page} userDetail={userDetail} voteState={voteState}/>
 
 
                         <div className="reward-block flex reset">
@@ -90,12 +92,16 @@ const CommentBlock = ({ content, reply, page }) => {
                         </div>
                     </div>
 
-                    <p>Reply</p>
+                    <p className="pointer" onClick={() => {store.toggleReplyIsActive(content.permlink)}}>Reply</p>
                 </div>
             </div>
-            {/*<CommentInput content={content}/>*/}
+            
+            <div className="comments">
+                { replyIsActive === content.permlink ? <CommentInput content={content} userDetail={userDetail} commentState={commentState} page={page}/> : <div className="hidden"><CommentInput content={content} page={page} userDetail={userDetail} commentState={commentState}/></div> }
+            </div>
+
             <ul className="replies">
-                <CommentList commentData={content} reply={true} page={page}/>
+                <CommentList commentData={content} reply={true} page={page} replyIsActive={replyIsActive} userDetail={userDetail} commentState={commentState} voteState={voteState}/>
             </ul>
         </div>
     )

@@ -54,13 +54,13 @@ export function StoreProvider({ children }) {
                 title: "Shades Of Men",
                 author: "Jrej",
                 thumbnail: "https://picsum.photos/500/300",
-                link: "http://localhost:3000/comicReader/jrej/ghoulredone"
+                link: "https://www.inkito.io/comicReader/jrej/ghoulredone"
             },
             {
                 title: "IN/SYS",
                 author: "Jrej",
                 thumbnail: "https://picsum.photos/400/300",
-                link: "http://localhost:3000/comicReader/jrej/shadesofmen"
+                link: "https://www.inkito.io/comicReader/jrej/shadesofmen"
             }
         ],
 
@@ -71,6 +71,7 @@ export function StoreProvider({ children }) {
         newNovels: [],
         seriesLinks: [],
         seriesDetail: [],
+        seriesInfo: {},
         activeInfoTab: [],
         activeComments: [],
         authorInfo: [],
@@ -87,6 +88,8 @@ export function StoreProvider({ children }) {
         currentPage: 0,
         navIsHidden: false,
         navMenuIsActive: false,
+        shareMenuIsActive: false,
+        shareMenuBottomIsActive: false,
         cookieConsent: null,
         replyIsActive: "",
 
@@ -137,12 +140,11 @@ export function StoreProvider({ children }) {
         },
         resetSeriesDetail: () => {
             store.zoom = 70;
-            store.navMenuIsActive = false;
-            store.navIsHidden = false;
             store.seriesDetail = [];
             store.seriesLinks = [];
             store.activeInfoTab = [];
             store.spinnerTimeout = [];
+            store.replyIsActive = ""
         },
         toggleInfoTab: (page) => {
             store.activeInfoTab[page] = !store.activeInfoTab[page];
@@ -152,7 +154,7 @@ export function StoreProvider({ children }) {
             }
         },
         closeInfoTab: () => {
-            store.activeInfoTab = store.activeInfoTab.map(info => info = false);
+            store.activeInfoTab = store.activeInfoTab.map(info => (info = false));
         },
         toggleComments: (page) => {
             store.activeComments[page] = !store.activeComments[page];
@@ -164,11 +166,28 @@ export function StoreProvider({ children }) {
                 store.zoomIsActive = !store.zoomIsActive;
             }
         },
+        toggleNav: (value) => {
+            store.navIsHidden = value;
+        },
         toggleNavMenu: (value) => {
             if (value === false && store.navMenuIsActive === true) {
-                    store.navMenuIsActive = false;
+                store.navMenuIsActive = false;
             } else if (value === undefined) {
                 store.navMenuIsActive = !store.navMenuIsActive;
+            }
+        },
+        toggleShareMenu: (value) => {
+            if (value === false && store.shareMenuIsActive === true) {
+                store.shareMenuIsActive = false;
+            } else if (value === undefined) {
+                store.shareMenuIsActive = !store.shareMenuIsActive;
+            }
+        },
+        toggleShareMenuBottom: (value) => {
+            if (value === false && store.shareMenuBottomIsActive === true) {
+                store.shareMenuBottomIsActive = false;
+            } else if (value === undefined) {
+                store.shareMenuBottomIsActive = !store.shareMenuBottomIsActive;
             }
         },
         updateZoom: (increment) => {
@@ -188,8 +207,8 @@ export function StoreProvider({ children }) {
             if (store.replyIsActive === value) {
                 store.replyIsActive = "";
             } else if (store.replyIsActive !== value) {
-                store.replyIsActive = value; 
-            } 
+                store.replyIsActive = value;
+            }
         },
         logOut: () => {
             api.revokeToken(function (err, res) {
@@ -220,106 +239,114 @@ export function StoreProvider({ children }) {
                     return result.pending_payout_value
                 })
         },
-        async follow(follower, following) {
-            this.followState = "pending";
-
-            try {
-                const result = await api.follow(follower, following)
-                .then(res => { return res });
-                
-                if (result) {
-                    this.followState = "done";
-                }
-
-                runInAction( () => {
-                    if (store.seriesDetail.length > 0){
-                        store.seriesDetail[0].followers.push(follower);
-                    }
-                })
-
-            } catch (error) {
-                console.log(error);
-                this.followState = "error";
-            }
+        initHSLogin: () => {
+            let link = api.getLoginURL();
+            runInAction(() => {
+                store.loginLink = link;
+            })
         },
-        async unfollow(unfollower, unfollowing) {
-            this.followState = "pending";
+        follow: (follower, following) => {
+            runInAction (() => {
+                store.followState = "pending";
+            })
 
-            try {
-                const result = await api.unfollow(unfollower, unfollowing)
-                .then(res => { return res });
-
-                if (result) {
-                    this.followState = "done";
-                }
-
-                runInAction( () => {
-                    if (store.seriesDetail.length > 0){
-                        store.seriesDetail[0].followers = this.all_followers.filter(follower => follower !== unfollower);
+            api.follow(follower, following, function (err, res) {
+                if (res) {
+                    console.log(res);
+                    if (store.seriesInfo) {
+                        store.seriesInfo.followers.push(follower);
+                        runInAction (() => {
+                            store.followState = "done";
+                        })
+                    } else {
+                        console.log("failed to add follower - Please refresh.")
                     }
-                })
-
-            } catch (error) {
-                console.log(error);
-                this.followState = "error";
-            }
+                } else if (err) {
+                    console.log(err);
+                    runInAction (() => {
+                        store.followState = "error";
+                    })
+                }
+            })
         },
-        async vote(voter, author, permlink, weight, page) {
-            this.voteState = permlink;
+        unfollow: (unfollower, unfollowing) => {
+            store.followState = "pending";
 
-            try {
-                const result = await api.vote(voter, author, permlink, weight)
-                    .then(res => { return res });
+            api.unfollow(unfollower, unfollowing, function (err, res) {
+                if (res) {
+                    console.log(res);
+                    if (store.seriesInfo) {
+                        store.followState = "done";
+                        store.seriesInfo.followers = store.seriesInfo.followers.filter(follower => follower !== unfollower);
+                    } else {
+                        console.log("failed to add follower - Please refresh.")
+                    }
+                } else if (err) {
+                    console.log(err);
+                    store.followState = "error";
+                }
+            })
+        },
+        vote: (voter, author, permlink, weight, page) => {
+            store.voteState = permlink;
+            api.vote(voter, author, permlink, weight, function (err, res) {
+                if (res) {
+                    console.log(res);
+                    runInAction(async () => {
+                        const votes = await store.fetchActiveVotes(author, permlink);
+                        const reward = await store.fetchPendingReward(author, permlink);
 
-                console.log(result);
-                this.voteState = "done";
-
-                runInAction(async () => {
-                    const votes = await store.fetchActiveVotes(author, permlink);
-                    const reward = await store.fetchPendingReward(author, permlink);
-
-                    function findPermlink(content) {
-                        if (content.permlink === permlink) {
-                            content.active_votes = votes;
-                            content.pending_payout_value = reward;
-                            return content;
-                        } else {
-                            for (let reply of content.replies) {
-                                findPermlink(reply)
+                        function findPermlink(content) {
+                            if (content.permlink === permlink) {
+                                content.active_votes = votes;
+                                content.pending_payout_value = reward;
+                                store.voteState = "done";
+                                return content;
+                            } else {
+                                for (let reply of content.replies) {
+                                    findPermlink(reply)
+                                }
                             }
                         }
-                    }
 
-                    if (store.seriesDetail.length > page) {
-                        findPermlink(store.seriesDetail[page]);
-                    }
-                })
-
-            } catch (error) {
-                console.log(error);
-                this.voteState = "error";
-            }
+                        if (store.seriesDetail.length > page) {
+                            findPermlink(store.seriesDetail[page]);
+                        }
+                    })
+                } else if (err) {
+                    store.voteState = "error";
+                    console.log(err);
+                }
+            })
         },
-        //Inkito to add as beneficiary.
+        getBeneficiaries: (author, permlink) => {
+            return ["comment_options", {
+                author: author,
+                permlink: permlink,
+                max_accepted_payout: "1000000.000 HBD",
+                percent_steem_dollars: 10000,
+                allow_votes: 1,
+                allow_curation_rewards: 1,
+                extensions: [
+                    [
+                        0,
+                        {
+                            beneficiaries: [
+                                {
+                                    account: "inkito",
+                                    weight: 1000
+                                }
+                            ]
+                        }
+                    ]
+                ]
+            }];
+        },
         //The comment() method is rate limited to 5 minutes per root comment (post), and 20 seconds per non-root comment (reply).
-        /*comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, cb) {
-            if (useHiveKeychain()) {
-                return window.hive_keychain.requestPost(
-                    author,
-                    title,
-                    body,
-                    parentPermlink,
-                    parentAuthor,
-                    jsonMetadata,
-                    permlink,
-                    '',
-                    response => {
-                        if (response.error) return cb(response.error);
-                        return cb(null, response);
-                    },
-                );
-            }
-            const params = {
+        comment: (parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, page) => {
+            store.commentState = "pending";
+            let tx = [];
+            let params = {
                 parent_author: parentAuthor,
                 parent_permlink: parentPermlink,
                 author,
@@ -327,22 +354,57 @@ export function StoreProvider({ children }) {
                 title,
                 body,
                 json_metadata: JSON.stringify(jsonMetadata),
-                beneficiaries : [{"account":"inkito","weight":1000}]
             };
-            return this.broadcast([['comment', params]], cb);
-        },*/
-        initHSLogin: () => {
-            let link = api.getLoginURL();
-            runInAction(() => {
-                store.loginLink = link;
+
+            tx.push(['comment', params]);
+            tx.push(store.getBeneficiaries(author, permlink));
+
+            api.broadcast(tx, function (err, res) {
+                if (res) {
+                    store.commentState = "done";
+                    store.toggleReplyIsActive(parentPermlink);
+                    
+                    runInAction(() => {
+                        params.pending_payout_value = "0.000 HBD";
+                        params.total_payout_value = "0.000 HBD";
+                        params.created = new Date().toISOString();
+                        params.active_votes = [];
+
+                        function findParentPermlink(content) {
+                            if (content.permlink === parentPermlink) {
+                                content.replies.push(params);
+                            } else {
+                                for (let reply of content.replies) {
+                                    findParentPermlink(reply)
+                                }
+                            }
+                        }
+
+                        if (store.seriesDetail.length > page){
+                            console.log(store.seriesDetail[page].permlink)
+                            findParentPermlink(store.seriesDetail[page]);
+                        }
+                    })
+                } else if (err) {
+                    store.commentState = "error";
+                    console.log(err);
+                }
             })
         },
-        async getUserDetail(localAccess, localUser) {
-            this.userDetail = {};
+        getUserDetail: (localAccess, localUser) => {
+            store.userDetail = {};
+            var params = {};
 
             if (localAccess && localUser) {
                 var access_token = localAccess;
                 var username = localUser;
+
+            } else if (hivesigner.useHiveKeychain) {
+                // The "username" parameter is required prior to log in for "Hive Keychain" users.
+                params = { username: 'fabien' };
+                api.login(params, function (err, token) {
+                    console.log(err, token)
+                });
             } else {
                 access_token = new URLSearchParams(document.location.search).get('access_token');
                 username = new URLSearchParams(document.location.search).get('username');
@@ -353,25 +415,23 @@ export function StoreProvider({ children }) {
                 api.setAccessToken(access_token);
                 store.toggleNavMenu(false);
 
-                var user = await api.me((err, res) => {
+                api.me((err, res) => {
                     if (res) {
-                        return res
+                        runInAction(() => {
+                            store.userDetail = res;
+                            if (store.cookieConsent && access_token) {
+                                localStorage.setItem('access-token', JSON.stringify(access_token));
+                            }
+                            if (store.cookieConsent && username) {
+                                localStorage.setItem('users', JSON.stringify(username));
+                            }
+                        })
                     }
                     if (err) {
                         console.log(err);
                     }
                 })
             }
-
-            runInAction(() => {
-                this.userDetail = user;
-                if (store.cookieConsent && access_token) {
-                    localStorage.setItem('access-token', JSON.stringify(access_token));
-                }
-                if (store.cookieConsent && username) {
-                    localStorage.setItem('users', JSON.stringify(username));
-                }
-            })
         },
         async fetchSeriesInfo(seriesId) {
             try {
@@ -572,6 +632,10 @@ export function StoreProvider({ children }) {
         },
         async fetchPermlinks(author, seriesTitle, last_author, last_permlink, slice) {
             let seriesId = `${author}-${seriesTitle}`;
+            this.seriesInfo = {};
+            this.seriesInfo.author = author;
+            this.seriesInfo.series_title = seriesTitle;
+
             this.seriesDetail = [];
             this.seriesLength = 1;
             this.seriesLinkState = "pending";
@@ -625,23 +689,25 @@ export function StoreProvider({ children }) {
                     .then(result => {
                         return result;
                     })
-                if (this.seriesDetail.length > page) {
-                    this.seriesDetail[page] = content;
-                }
-
+                
                 runInAction(async () => {
+                    if (this.seriesDetail.length > page) {
+                        this.seriesDetail[page] = content;
+                    }
                     const result = await store.fetchComments(content);
                     if (this.seriesDetail.length > 0 && this.seriesDetail[page]) {
                         this.seriesDetail[page].replies = result;
                         this.seriesDetailState = "done";
-                        if (page === 0){
+                        if (page === 0 && this.seriesInfo) {
                             const followers = await store.getFollowers(author);
-                            this.seriesDetail[page].followers = followers;
+                            this.seriesInfo.followers = followers;
                             this.all_followers = [];
+                        } else if (this.seriesDetail[0] === undefined) {
+                            console.log("error - fetching followers failed");
                         }
                     }
-                    if (page > 1 && this.seriesDetail[0] === undefined) {
-                        store.fetchSeriesDetail(author, store.seriesLinks[0], 0);                        
+                    if (this.seriesDetail.length > 0 && page > 1 && this.seriesDetail[0] === undefined) {
+                        store.fetchSeriesDetail(author, store.seriesLinks[0], 0);
                     }
                 });
 
@@ -766,22 +832,22 @@ export function StoreProvider({ children }) {
         async getFollowers(author, start, slice) {
             let last_follower = "";
 
-            const followers = await client.call('follow_api', 'get_followers', [author,start,"blog",1000])
-            .then(result => { 
-                if (result){
-                    last_follower = result[result.length - 1 ].follower;
-                }
-                return result.map(follow => follow.follower);
-            })
-            
-            runInAction (() => {
-                if (slice){
+            const followers = await client.call('follow_api', 'get_followers', [author, start, "blog", 1000])
+                .then(result => {
+                    if (result) {
+                        last_follower = result[result.length - 1].follower;
+                    }
+                    return result.map(follow => follow.follower);
+                })
+
+            runInAction(() => {
+                if (slice) {
                     this.all_followers = this.all_followers.concat(followers.slice(1));
-                }else {
+                } else {
                     this.all_followers = this.all_followers.concat(followers);
                 }
             })
-            
+
             if (followers.length === 1000) {
                 store.getFollowers(author, last_follower, true)
             } else {
@@ -791,22 +857,22 @@ export function StoreProvider({ children }) {
         async getFollowing(author, start, slice) {
             let last_following = "";
 
-            const following = await client.call('follow_api', 'get_following', [author,start,"blog",1000])
-            .then(result => { 
-                if (result){
-                    last_following = result[result.length - 1 ].following;
-                }
-                return result.map(follow => follow.following);
-            })
-            
-            runInAction (() => {
-                if (slice){
+            const following = await client.call('follow_api', 'get_following', [author, start, "blog", 1000])
+                .then(result => {
+                    if (result) {
+                        last_following = result[result.length - 1].following;
+                    }
+                    return result.map(follow => follow.following);
+                })
+
+            runInAction(() => {
+                if (slice) {
                     this.all_following = this.all_following.concat(following.slice(1));
-                }else {
+                } else {
                     this.all_following = this.all_following.concat(following);
                 }
             })
-            
+
             if (following.length === 1000) {
                 store.getFollowing(author, last_following, true)
             } else {
