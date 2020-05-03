@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
 import StoreContext from '../../stores/AppStore';
-import { useObserver } from 'mobx-react';
 import { Link } from "react-router-dom";
 
 import UpArrow from '../Icons/up-arrow.png';
@@ -8,7 +7,7 @@ import 'wired-elements';
 
 
 
-const CommentInput = ({ content }) => {
+const CommentInput = ({ content, userDetail, page, commentState }) => {
     const store = React.useContext(StoreContext);
     const [body, setBody] = useState("");
     const textArea = useRef(null);
@@ -45,55 +44,55 @@ const CommentInput = ({ content }) => {
         store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, page);
     }
 
-    return useObserver(() => {
-        if (store.userDetail.name) {
-            return (
-                <div className="active comment-banner">
-                    <Link to={`/@${store.userDetail.name}`}>
-                        <img className="panel-profile-pic" src={`https://images.hive.blog/u/${store.userDetail.name}/avatar`} alt=" " />
-                    </Link>
-                    <div className="comment-block">
+    if (userDetail && userDetail.name) {
+        return (
+            <div className="active comment-banner">
+                <Link to={`/@${userDetail.name}`}>
+                    <img className="panel-profile-pic" src={`https://images.hive.blog/u/${userDetail.name}/avatar`} alt=" " />
+                </Link>
+                <div className="comment-block">
 
-                        <div className="comment-upper-banner flex">
-                            <div className="left-block reset">
-                                <Response />
-                                <p className="name capital">
-                                    <Link to={`/@${store.userDetail.name}`}>
-                                        {store.userDetail.name}
-                                    </Link>
-                                </p>
-                            </div>
+                    <div className="comment-upper-banner flex">
+                        <div className="left-block reset">
+                            <Response />
+                            <p className="name capital">
+                                <Link to={`/@${userDetail.name}`}>
+                                    {userDetail.name}
+                                </Link>
+                            </p>
                         </div>
-                        <form onSubmit={(e) => { e.preventDefault(); handleReplySubmit(store.userDetail.name, store.currentPage) }}>
-                            <div className="comment-body">
-                                { store.commentState === "pending" ? 
-                                    <wired-textarea
-                                        disabled
-                                        placeholder="Your reply..."
-                                        rows="4"
-                                        ref={textArea}
-                                        value={body}
-                                    />
-                                    :
-                                    <wired-textarea
-                                        placeholder="Your reply..."
-                                        rows="4"
-                                        ref={textArea}
-                                        value={body}
-                                    />
-                                }
-                            </div>
-                            <div className="comment-bottom-banner flex-start pa-hh">
-                                <button type="submit" className="send-btn">Send</button>
-                                <p className="pointer" onClick={() => { store.toggleReplyIsActive(content.permlink) }}>Cancel</p>
-                            </div>
-                        </form>
                     </div>
-
+                    <form onSubmit={(e) => { e.preventDefault(); handleReplySubmit(userDetail.name, page) }}>
+                        <div className="comment-body">
+                            {commentState === "pending" ?
+                                <wired-textarea
+                                    disabled
+                                    placeholder="Your reply..."
+                                    rows="4"
+                                    ref={textArea}
+                                    value={body}
+                                />
+                                :
+                                <wired-textarea
+                                    placeholder="Your reply..."
+                                    rows="4"
+                                    ref={textArea}
+                                    value={body}
+                                />
+                            }
+                        </div>
+                        <div className="comment-bottom-banner flex-start pa-hh">
+                            <button type="submit" className="send-btn">Send</button>
+                            <p className="pointer" onClick={() => { store.toggleReplyIsActive(content.permlink) }}>Cancel</p>
+                        </div>
+                    </form>
                 </div>
-            )
-        }
-    })
+
+            </div>
+        )
+    } else {
+        return ""
+    }
 }
 
 export default CommentInput;

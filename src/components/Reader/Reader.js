@@ -26,7 +26,7 @@ const Reader = ({ type }) => {
 
     document.documentElement.scrollTop = 0;
     window.addEventListener('scroll', handleScroll);
-    return () => {window.removeEventListener('scroll', handleScroll); store.toggleNavMenu(false); store.resetSeriesDetail();}
+    return () => {window.removeEventListener('scroll', handleScroll); store.toggleNavMenu(false); store.toggleShareMenu(false); store.resetSeriesDetail(); }
   })
 
   const getUrlVars = () => {
@@ -48,13 +48,15 @@ const Reader = ({ type }) => {
   const handleScroll = () => {
     var st = document.documentElement.scrollTop;
     if (st < lastScrollTop) {
-      store.navIsHidden = false;
+      store.toggleNav(false);
+      store.toggleNavMenu(false);
+      store.toggleShareMenu(false);  
     } else if (st > 200) {
-      store.navIsHidden = true;
+      store.toggleNav(true);
       // upscroll code
     }
     lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
-
+    
     if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 5) {
       if (store.currentPage + 1 < store.seriesLinks.length && store.seriesDetail[store.currentPage + 1]) {
         store.closeInfoTab();
@@ -109,7 +111,14 @@ const Reader = ({ type }) => {
         for (let i = store.startPage; i <= store.currentPage; i++) {
           blogs.push(
             <li key={seriesData[i] + store.currentPage} className="blog">
-              <Blog type={type} page={i} author={props.author} permlink={seriesData[i]} nextPermlink={seriesData.length === store.currentPage + 1 ? undefined : seriesData[i + 1]} />
+              <Blog 
+                type={type} 
+                page={i} 
+                author={props.author} 
+                permlink={seriesData[i]} 
+                nextPermlink={seriesData.length === store.currentPage + 1 ? undefined : seriesData[i + 1]} 
+                
+                />
               <p className="none scroll">Scroll to read more</p>
             </li>
           )
@@ -128,8 +137,7 @@ const Reader = ({ type }) => {
 
   const Nav = () => {
     return useObserver(() => {
-      if (store.seriesLinkState === "done" && toJS(store.seriesLinks).length > 0 && toJS(store.seriesDetail).length > 0 && toJS(store.seriesDetail)[store.seriesLinks.length-1] && toJS(store.seriesDetail)[store.currentPage] && toJS(store.seriesDetail)[0]) {
-
+      if (store.seriesLinkState === "done" && toJS(store.seriesLinks).length > 0 && toJS(store.seriesDetail).length > 0 && toJS(store.userDetail)) {
         return (
           <NavReader
             page={store.currentPage}
@@ -138,7 +146,16 @@ const Reader = ({ type }) => {
             firstPage={toJS(store.seriesDetail)[0]}
             currentPage={toJS(store.seriesDetail)[store.currentPage]}
             lastPage={toJS(store.seriesDetail)[store.seriesLinks.length-1]}
+
             isHidden={store.navIsHidden}
+            navMenuIsActive={store.navMenuIsActive}
+            shareIsActive={store.shareMenuIsActive}
+            
+            userDetail={toJS(store.userDetail)}
+            seriesInfo={toJS(store.seriesInfo)}
+            followState={store.followState}
+
+            voteState={store.voteState}
           />
         )
       } else {
@@ -171,7 +188,7 @@ const Reader = ({ type }) => {
 
   const BottomBanner = () => {
     return useObserver(() => {
-      if (store.seriesDetail.length > 0) {
+      if (store.seriesDetail.length > 0 && toJS(store.seriesDetail)[0]) {
         if (store.currentPage < store.seriesDetail.length - 1) {
           return (
             <div className="scroll-text">
@@ -181,7 +198,7 @@ const Reader = ({ type }) => {
             </div>
           )
         } else {
-          return <AuthorBanner author={props.author}/>
+          return <AuthorBanner author={props.author} content={toJS(store.seriesDetail)[0]}/>
         }
       } else return ""
     })
@@ -190,7 +207,7 @@ const Reader = ({ type }) => {
   return (
     <div className="reader">
       <Nav />
-      <ul className="list-blog" onClick={() => store.toggleNavMenu(false)}>
+      <ul className="list-blog" onClick={() => {store.toggleNavMenu(false); store.toggleShareMenu(false)}}>
         <ListedBlogs />
       </ul>
       <BottomBanner />

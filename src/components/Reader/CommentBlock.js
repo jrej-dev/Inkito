@@ -14,7 +14,7 @@ import Flag from '../Icons/flag.png';
 import { Link } from "react-router-dom";
 
 
-const CommentBlock = ({ content, reply, page, replyIsActive}) => {
+const CommentBlock = ({ content, reply, page, replyIsActive, userDetail, commentState, voteState}) => {
     const store = React.useContext(StoreContext);
 
     let payout = content.pending_payout_value === "0.000 HBD" ? content.total_payout_value : content.pending_payout_value;
@@ -78,7 +78,7 @@ const CommentBlock = ({ content, reply, page, replyIsActive}) => {
 
                 <div className="comment-bottom-banner flex-between reset">
                     <div className="left-block">
-                        <HeartElement content={content} className="heartElement" page={page}/>
+                        <HeartElement content={content} className="heartElement" page={page} userDetail={userDetail} voteState={voteState}/>
 
 
                         <div className="reward-block flex reset">
@@ -97,11 +97,11 @@ const CommentBlock = ({ content, reply, page, replyIsActive}) => {
             </div>
             
             <div className="comments">
-              { replyIsActive === content.permlink ? <CommentInput content={content}/> : <div className="hidden"><CommentInput content={content}/></div> }
+                { replyIsActive === content.permlink ? <CommentInput content={content} userDetail={userDetail} commentState={commentState} page={page}/> : <div className="hidden"><CommentInput content={content} page={page} userDetail={userDetail} commentState={commentState}/></div> }
             </div>
 
             <ul className="replies">
-                <CommentList commentData={content} reply={true} page={page} replyIsActive={replyIsActive}/>
+                <CommentList commentData={content} reply={true} page={page} replyIsActive={replyIsActive} userDetail={userDetail} commentState={commentState} voteState={voteState}/>
             </ul>
         </div>
     )

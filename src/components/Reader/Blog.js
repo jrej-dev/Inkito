@@ -25,6 +25,9 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
         }
       }
 
+      if (store.seriesDetailState === "error"){
+        window.location.reload();
+      }
       //For the heart in the NavReader Bar
       if (store.seriesDetail[store.seriesLinks.length - 1] === undefined) {
         store.fetchSeriesDetail(author, store.seriesLinks[store.seriesLinks.length - 1], store.seriesLinks.length - 1);
@@ -55,7 +58,22 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
               <div className={`comic-body content-body zoom-${store.zoom}`} onClick={closeZoomBanner}>
                 <ContentBody content={toJS(store.seriesDetail)[page]} />
               </div>
-              <InfoTab commentIsActive={store.activeComments[page]} infoIsActive={store.activeInfoTab[page]} type={type} content={toJS(store.seriesDetail)[page]} onClick={infoClickHandle} zoom={store.zoom} page={page} replyIsActive={store.replyIsActive}/>
+              <InfoTab 
+                commentIsActive={store.activeComments[page]} 
+                infoIsActive={store.activeInfoTab[page]} 
+                type={type} 
+                content={toJS(store.seriesDetail)[page]} 
+                onClick={infoClickHandle} 
+                zoom={store.zoom} 
+                page={page} 
+                replyIsActive={store.replyIsActive} 
+                
+                userDetail={toJS(store.userDetail)}
+                seriesInfo={toJS(store.seriesInfo)}
+                followState={store.followState}
+                commentState={store.commentState}
+                voteState={store.voteState}
+              />
             </div>
           )
         } else if (type === "novels") {
@@ -68,7 +86,21 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
                   </div>
                 </wired-card>
               </div>
-              <InfoTab commentIsActive={store.activeComments[page]} infoIsActive={store.activeInfoTab[page]} type={type} content={toJS(store.seriesDetail)[page]} onClick={infoClickHandle} page={page} replyIsActive={store.replyIsActive}/>
+              <InfoTab 
+                commentIsActive={store.activeComments[page]} 
+                infoIsActive={store.activeInfoTab[page]} 
+                type={type} 
+                content={toJS(store.seriesDetail)[page]} 
+                onClick={infoClickHandle} 
+                page={page} 
+                replyIsActive={store.replyIsActive}
+                
+                userDetail={toJS(store.userDetail)}
+                seriesInfo={toJS(store.seriesInfo)}
+                followState={store.followState}
+                commentState={store.commentState}
+                voteState={store.voteState}
+                />
             </div>
           )
         }

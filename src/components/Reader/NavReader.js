@@ -4,17 +4,17 @@ import '../../sass/components/NavReader.scss';
 import BellElement from './BellElement';
 import HeartElement from './HeartElement';
 import NavMenu from '../Main/NavMenu';
+import ShareMenu from './ShareMenu';
 import LeftArrow from '../Icons/left-arrow.png';
 import RightArrow from '../Icons/right-arrow.png';
 import Heart from '../Icons/grey-heart.png';
-import Share from '../Icons/share.png';
 import Bell from '../Icons/bell.png';
 
 import { Link } from "react-router-dom";
 
-const NavReader = ({ firstPage, currentPage, lastPage, page, seriesLength, onClick, isHidden }) => {
-  
+const NavReader = ({ firstPage, currentPage, lastPage, page, seriesLength, onClick, isHidden, shareIsActive, userDetail, seriesInfo, navMenuIsActive, followState, voteState}) => {
   if (firstPage && currentPage) {
+    let image = JSON.parse(currentPage.json_metadata).image;
     return (
       <div className={isHidden ? "nav-reader hidden-top" : "nav-reader"}>
         <ul className="nav-reader-list">
@@ -52,11 +52,11 @@ const NavReader = ({ firstPage, currentPage, lastPage, page, seriesLength, onCli
           </li>
 
           <li className="flex icons">
-            {lastPage ? <HeartElement content={lastPage} page={seriesLength - 1} className="heartElement" /> : <img src={Heart} className="heart icon" alt="heart" />}
-            <img className="icon share" src={Share} alt="share arrow" onClick={onClick} />
-            <BellElement className="bellElement" />
+            {lastPage ? <HeartElement content={lastPage} page={seriesLength - 1} userDetail={userDetail} voteState={voteState} className="heartElement" /> : <img src={Heart} className="heart icon" alt="heart" />}
+            {image ? <ShareMenu image={image[0]} shareIsActive={shareIsActive}/> : <ShareMenu shareIsActive={shareIsActive}/>}
+            <BellElement className="bellElement" userDetail={userDetail} seriesInfo={seriesInfo} followState={followState}/>
           </li>
-          <NavMenu />
+          <NavMenu navMenuIsActive={navMenuIsActive} userDetail={userDetail}/>
         </ul>
       </div>
     )
@@ -81,7 +81,7 @@ const NavReader = ({ firstPage, currentPage, lastPage, page, seriesLength, onCli
           </li>
           <li className="flex icons">
             <img className="icon heart" src={Heart} alt="heart" />
-            <img className="icon share" src={Share} alt="share arrow" onClick={onClick} />
+            <ShareMenu />
             <img className="icon follow" src={Bell} alt="follow bell" />
           </li>
           <NavMenu />

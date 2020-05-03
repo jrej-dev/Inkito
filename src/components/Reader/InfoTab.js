@@ -24,7 +24,7 @@ import { Link } from "react-router-dom";*/
 import CommentList from './CommentList';
 import ContentBody from './ContentBody';
 
-const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, page, replyIsActive}) => {
+const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, page, replyIsActive, userDetail, seriesInfo, followState, commentState, voteState}) => {
   const store = React.useContext(StoreContext);
 
   if (content) {
@@ -87,7 +87,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
                     <p>Creator</p>
                   </div>
                 </Link>
-                <BellElement className="bellElement" />
+                <BellElement className="bellElement" userDetail={userDetail} seriesInfo={seriesInfo} followState={followState}/>
               </div>
 
               <div className={type === "comics" ? "content-info" : "content-info none"}>
@@ -99,7 +99,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
 
             <p className="reply flex-end pointer" onClick={() => {store.toggleReplyIsActive(content.permlink)}}>Reply</p>
             <div className="comments">
-              { replyIsActive === content.permlink ? <CommentInput content={content}/> : <div className="hidden"><CommentInput content={content}/></div> }
+              { replyIsActive === content.permlink ? <CommentInput content={content} userDetail={userDetail} commentState={commentState} page={page}/> : <div className="hidden"><CommentInput content={content} userDetail={userDetail} commentState={commentState}/></div> }
             </div>
             
             <ul className="comments">
@@ -108,7 +108,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
                 <h3>{content.replies.length > 0 ? `Comments (${content.replies.length})` : "No Comments"} </h3>
                 <div className="line" />
               </div>
-              {commentIsActive ? <CommentList commentData={content} page={page} replyIsActive={replyIsActive}/> : ""}
+              {commentIsActive ? <CommentList commentData={content} page={page} replyIsActive={replyIsActive} userDetail={userDetail} commentState={commentState} voteState={voteState}/> : ""}
             </ul>
           </div>
         )
@@ -123,7 +123,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
           <div className="info-card">
             <div className="default-banner flex">
               <ActiveInfoTab />
-              <HeartElement content={content} className="heartElement" page={page}/>
+              <HeartElement content={content} className="heartElement" page={page} userDetail={userDetail} voteState={voteState}/>
             </div>
             <ActiveContent />
           </div>

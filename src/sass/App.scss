@@ -1,5 +1,5 @@
-@import './abstracts/variables';
-@import './abstracts/mixins';
+@import "./abstracts/variables";
+@import "./abstracts/mixins";
 
 .App {
   font-family: $secondary-font;
@@ -9,14 +9,15 @@
   overflow-x: hidden;
   text-align: center;
   background-color: white;
-  h1, h2 {
+  h1,
+  h2 {
     font-family: $primary-font;
   }
   a {
     color: inherit;
     text-decoration: none;
     &:hover {
-      color: $dark-color
+      color: $dark-color;
     }
   }
 }
@@ -27,8 +28,8 @@
 
 .reset {
   > * {
-      margin: 0;
-      padding: 0;
+    margin: 0;
+    padding: 0;
   }
 }
 
@@ -64,21 +65,25 @@
   @include flex(space-between);
 }
 
-.pa{
+.wrap {
+  flex-wrap: wrap;
+}
+
+.pa {
   > * {
     margin: 0;
     padding: 0.5em 0.5em;
   }
 }
 
-.pa-h{
+.pa-h {
   > * {
     margin: 0;
     padding: 0 0.5em;
   }
 }
 
-.pa-hh{
+.pa-hh {
   > * {
     margin: 0;
     padding: 0 1em;
@@ -90,53 +95,28 @@
 }
 
 .icon {
-  height: 1.5em;   
+  height: 1.5em;
   &:active {
     -webkit-filter: drop-shadow(0px 0px 1px $darkest-color);
     filter: drop-shadow(0px 0px 1px $darkest-color);
   }
-  >wired-spinner {
-      transform: scale(0.5);
-  }    
+  > wired-spinner {
+    transform: scale(0.5);
+  }
 }
 .sm-icon {
   padding: 0 0.2em;
-  height: 0.5em; 
+  height: 0.5em;
 }
 .md-icon {
   padding: 0 0.2em;
-  height: 1em; 
+  height: 1em;
 }
 .lg-icon {
   padding: 0 0.2em;
-  height: 7em; 
+  height: 7em;
 }
 
 .pointer {
   cursor: pointer;
-}
-
-button {
-  box-shadow:inset 0px 1px 0px 0px #ffffff;
-  background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
-  background-color:#ffffff;
-  border-radius:6px;
-  border:1px solid #dcdcdc;
-  display:inline-block;
-  cursor:pointer;
-  color:#666666;
-  font-family:Arial;
-  font-size:15px;
-  font-weight:bold;
-  padding:0.5em 1em;
-  text-decoration:none;
-  text-shadow:0px 1px 0px #ffffff;
-  &:hover {
-      background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
-      background-color:#f6f6f6;
-  }
-  &:active {
-      position:relative;
-      top:1px;
-  }
 }

@@ -95,6 +95,25 @@
     }
 }
 
+.sharing {
+    position: relative;
+    .share-menu {
+      z-index: 2;
+      position: absolute;
+      border-radius: 10px;
+      padding: 0.2em;
+      background-color: $light-color;
+      border: 1px solid $darkest-color;
+      min-height: 5em;
+      min-width: 10em;
+      top: 3em;
+      left: unquote("calc(50% - 5em)");
+      > * {
+        margin: 0.2em;
+      }
+    }
+  }
+
 @media screen and (max-width: 850px) {
     .nav-reader-bottom {
         display: block;

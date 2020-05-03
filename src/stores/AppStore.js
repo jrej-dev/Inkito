@@ -54,13 +54,13 @@ export function StoreProvider({ children }) {
                 title: "Shades Of Men",
                 author: "Jrej",
                 thumbnail: "https://picsum.photos/500/300",
-                link: "http://localhost:3000/comicReader/jrej/ghoulredone"
+                link: "https://www.inkito.io/comicReader/jrej/ghoulredone"
             },
             {
                 title: "IN/SYS",
                 author: "Jrej",
                 thumbnail: "https://picsum.photos/400/300",
-                link: "http://localhost:3000/comicReader/jrej/shadesofmen"
+                link: "https://www.inkito.io/comicReader/jrej/shadesofmen"
             }
         ],
 
@@ -71,6 +71,7 @@ export function StoreProvider({ children }) {
         newNovels: [],
         seriesLinks: [],
         seriesDetail: [],
+        seriesInfo: {},
         activeInfoTab: [],
         activeComments: [],
         authorInfo: [],
@@ -87,6 +88,7 @@ export function StoreProvider({ children }) {
         currentPage: 0,
         navIsHidden: false,
         navMenuIsActive: false,
+        shareMenuIsActive: false,
         cookieConsent: null,
         replyIsActive: "",
 
@@ -137,8 +139,6 @@ export function StoreProvider({ children }) {
         },
         resetSeriesDetail: () => {
             store.zoom = 70;
-            store.navMenuIsActive = false;
-            store.navIsHidden = false;
             store.seriesDetail = [];
             store.seriesLinks = [];
             store.activeInfoTab = [];
@@ -153,7 +153,7 @@ export function StoreProvider({ children }) {
             }
         },
         closeInfoTab: () => {
-            store.activeInfoTab = store.activeInfoTab.map(info => info = false);
+            store.activeInfoTab = store.activeInfoTab.map(info => (info = false));
         },
         toggleComments: (page) => {
             store.activeComments[page] = !store.activeComments[page];
@@ -165,11 +165,21 @@ export function StoreProvider({ children }) {
                 store.zoomIsActive = !store.zoomIsActive;
             }
         },
+        toggleNav: (value) => {
+            store.navIsHidden = value;
+        },
         toggleNavMenu: (value) => {
             if (value === false && store.navMenuIsActive === true) {
                 store.navMenuIsActive = false;
             } else if (value === undefined) {
                 store.navMenuIsActive = !store.navMenuIsActive;
+            }
+        },
+        toggleShareMenu: (value) => {
+            if (value === false && store.shareMenuIsActive === true) {
+                store.shareMenuIsActive = false;
+            } else if (value === undefined) {
+                store.shareMenuIsActive = !store.shareMenuIsActive;
             }
         },
         updateZoom: (increment) => {
@@ -228,42 +238,52 @@ export function StoreProvider({ children }) {
             })
         },
         follow: (follower, following) => {
-            //store.followState = "pending";
+            runInAction (() => {
+                store.followState = "pending";
+            })
 
             api.follow(follower, following, function (err, res) {
                 if (res) {
-                    //store.followState = "done";
-                    if (store.seriesDetail.length > 0) {
-                        runInAction(() => {
-                            store.seriesDetail[0].followers.push(follower);
+                    console.log(res);
+                    if (store.seriesInfo) {
+                        store.seriesInfo.followers.push(follower);
+                        runInAction (() => {
+                            store.followState = "done";
                         })
+                    } else {
+                        console.log("failed to add follower - Please refresh.")
                     }
                 } else if (err) {
                     console.log(err);
-                    //store.followState = "error";
+                    runInAction (() => {
+                        store.followState = "error";
+                    })
                 }
             })
         },
         unfollow: (unfollower, unfollowing) => {
-            //store.followState = "pending";
+            store.followState = "pending";
 
             api.unfollow(unfollower, unfollowing, function (err, res) {
                 if (res) {
-                    if (store.seriesDetail.length > 0) {
-                        runInAction(() => {
-                            store.seriesDetail[0].followers = store.all_followers.filter(follower => follower !== unfollower);
-                        })
+                    console.log(res);
+                    if (store.seriesInfo) {
+                        store.followState = "done";
+                        store.seriesInfo.followers = store.seriesInfo.followers.filter(follower => follower !== unfollower);
+                    } else {
+                        console.log("failed to add follower - Please refresh.")
                     }
                 } else if (err) {
                     console.log(err);
+                    store.followState = "error";
                 }
             })
-            //store.followState = "done";
         },
         vote: (voter, author, permlink, weight, page) => {
             store.voteState = permlink;
             api.vote(voter, author, permlink, weight, function (err, res) {
                 if (res) {
+                    console.log(res);
                     runInAction(async () => {
                         const votes = await store.fetchActiveVotes(author, permlink);
                         const reward = await store.fetchPendingReward(author, permlink);
@@ -272,6 +292,7 @@ export function StoreProvider({ children }) {
                             if (content.permlink === permlink) {
                                 content.active_votes = votes;
                                 content.pending_payout_value = reward;
+                                store.voteState = "done";
                                 return content;
                             } else {
                                 for (let reply of content.replies) {
@@ -285,10 +306,10 @@ export function StoreProvider({ children }) {
                         }
                     })
                 } else if (err) {
+                    store.voteState = "error";
                     console.log(err);
                 }
             })
-            store.voteState = "done";
         },
         getBeneficiaries: (author, permlink) => {
             return ["comment_options", {
@@ -315,7 +336,7 @@ export function StoreProvider({ children }) {
         },
         //The comment() method is rate limited to 5 minutes per root comment (post), and 20 seconds per non-root comment (reply).
         comment: (parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, page) => {
-            //store.commentState = "pending";
+            store.commentState = "pending";
             let tx = [];
             let params = {
                 parent_author: parentAuthor,
@@ -332,33 +353,35 @@ export function StoreProvider({ children }) {
 
             api.broadcast(tx, function (err, res) {
                 if (res) {
+                    store.commentState = "done";
                     store.toggleReplyIsActive(parentPermlink);
-                    runInAction (() => {
+                    
+                    runInAction(() => {
                         params.pending_payout_value = "0.000 HBD";
                         params.total_payout_value = "0.000 HBD";
                         params.created = new Date().toISOString();
                         params.active_votes = [];
-    
+
                         function findParentPermlink(content) {
                             if (content.permlink === parentPermlink) {
                                 content.replies.push(params);
-                                return content.replies;
                             } else {
                                 for (let reply of content.replies) {
                                     findParentPermlink(reply)
                                 }
                             }
                         }
-    
-                        if (store.seriesDetail.length > page) {
+
+                        if (store.seriesDetail.length > page){
+                            console.log(store.seriesDetail[page].permlink)
                             findParentPermlink(store.seriesDetail[page]);
                         }
                     })
                 } else if (err) {
+                    store.commentState = "error";
                     console.log(err);
                 }
             })
-            //store.commentState = "done";
         },
         getUserDetail: (localAccess, localUser) => {
             store.userDetail = {};
@@ -601,6 +624,10 @@ export function StoreProvider({ children }) {
         },
         async fetchPermlinks(author, seriesTitle, last_author, last_permlink, slice) {
             let seriesId = `${author}-${seriesTitle}`;
+            this.seriesInfo = {};
+            this.seriesInfo.author = author;
+            this.seriesInfo.series_title = seriesTitle;
+
             this.seriesDetail = [];
             this.seriesLength = 1;
             this.seriesLinkState = "pending";
@@ -663,13 +690,15 @@ export function StoreProvider({ children }) {
                     if (this.seriesDetail.length > 0 && this.seriesDetail[page]) {
                         this.seriesDetail[page].replies = result;
                         this.seriesDetailState = "done";
-                        if (page === 0) {
+                        if (page === 0 && this.seriesInfo) {
                             const followers = await store.getFollowers(author);
-                            this.seriesDetail[page].followers = followers;
+                            this.seriesInfo.followers = followers;
                             this.all_followers = [];
+                        } else if (this.seriesDetail[0] === undefined) {
+                            console.log("error - fetching followers failed");
                         }
                     }
-                    if (page > 1 && this.seriesDetail[0] === undefined) {
+                    if (this.seriesDetail.length > 0 && page > 1 && this.seriesDetail[0] === undefined) {
                         store.fetchSeriesDetail(author, store.seriesLinks[0], 0);
                     }
                 });
