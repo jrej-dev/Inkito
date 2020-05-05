@@ -396,13 +396,6 @@ export function StoreProvider({ children }) {
                 var access_token = localAccess;
                 var username = localUser;
 
-            } else if (hivesigner.useHiveKeychain) {
-                // The "username" parameter is required prior to log in for "Hive Keychain" users.
-                params = { username: 'fabien' };
-                /*api.login(params, function (err, token) {
-                    console.log(err, token)
-                });*/
-                console.log("hiveKeyChain user", params);
             } else {
                 access_token = new URLSearchParams(document.location.search).get('access_token');
                 username = new URLSearchParams(document.location.search).get('username');
