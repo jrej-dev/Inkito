@@ -1,14 +1,16 @@
 import React from 'react';
 import StoreContext from '../../stores/AppStore';
+import { useAlert } from 'react-alert';
+
 import { useObserver } from 'mobx-react';
 import '../../sass/components/Promo.scss';
-//import 'wired-elements';
 
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 
 const Promo = () => {
     const store = React.useContext(StoreContext);
-    
+    const alert = useAlert();
+
     const PromoBoxes = () => {
         return useObserver(() => {
             var promoList = [];
@@ -44,11 +46,9 @@ const Promo = () => {
             <div className="heroCover" />
             <ul className="promoBanner">
                 <PromoBoxes />
-                <li className="promoBox promoLink flex">
-                    <Link to="/">
-                    <h2 className="promoted">Promoted</h2>
-                    <p className="here">Get your story up here.</p>
-                    </Link>
+                <li className="promoBox promoLink flex" onClick={() => { alert.show('Not available yet.') }}>
+                    <h2 className="promoted pointer">Promoted</h2>
+                    <p className="here pointer">Get your story up here.</p>
                 </li>
             </ul>
         </div>

@@ -390,7 +390,6 @@ export function StoreProvider({ children }) {
         },
         getUserDetail: (localAccess, localUser) => {
             store.userDetail = {};
-            var params = {};
 
             if (localAccess && localUser) {
                 var access_token = localAccess;
@@ -781,6 +780,7 @@ export function StoreProvider({ children }) {
                             result[0].website = json.website;
                             result[0].location = json.location;
                             result[0].cover = json.cover_image;
+                            result[0].avatar = json.profile_image;
                             return result;
                         }
                     })

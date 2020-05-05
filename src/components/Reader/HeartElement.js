@@ -1,5 +1,6 @@
 import React from 'react';
 import StoreContext from '../../stores/AppStore';
+import { useAlert } from 'react-alert'
 
 import Heart from '../Icons/heart.png';
 import RedHeart from '../Icons/red-heart.png';
@@ -9,6 +10,7 @@ import '../../sass/components/InfoTab.scss';
 
 const HeartElement = ({ userDetail, content, page, voteState }) => {
     const store = React.useContext(StoreContext);
+    const alert = useAlert();
 
     const handleVote = (user) => {
         store.vote(user, content.author, content.permlink, 10000, page);
@@ -44,7 +46,7 @@ const HeartElement = ({ userDetail, content, page, voteState }) => {
                 )
             } else if (content.active_votes.some(vote => vote.voter === userName)) {
                 return (
-                    <img className="icon heart" src={RedHeart} alt="red-heart" onClick={() => { handleVote(userName) }} />
+                    <img className="icon heart" src={RedHeart} alt="red-heart" /*add dislike function here.*//>
                 )
             } else if (!content.active_votes.some(vote => vote.voter === store.userDetail.name) && voteState !== content.permlink) {
                 if (isPostActive(content.created.slice(0, 10))) {
@@ -59,12 +61,12 @@ const HeartElement = ({ userDetail, content, page, voteState }) => {
             }
         } else {
             return (
-                <img className="icon heart" src={Heart} alt="heart" />
+                <img className="icon heart" src={Heart} alt="heart" onClick={() => { alert.show('Please login first.') }}/>
             )
         }
     } else {
         return (
-            <img className="icon heart" src={Heart} alt="heart" />
+            <img className="icon heart" src={Heart} alt="heart" onClick={() => { alert.show('Please login first.') }}/>
         )
     }
 }

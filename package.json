@@ -16,6 +16,8 @@
     "mobx-react-lite": "^2.0.6",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
+    "react-alert": "^7.0.0",
+    "react-alert-template-basic": "^1.0.0",
     "react-app-polyfill": "^1.0.6",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",

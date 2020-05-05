@@ -1,5 +1,6 @@
 import React from 'react';
 import StoreContext from '../../stores/AppStore';
+import { useAlert } from 'react-alert'
 import HeartElement from './HeartElement';
 /*import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
@@ -24,12 +25,13 @@ import { Link } from "react-router-dom";*/
 import CommentList from './CommentList';
 import ContentBody from './ContentBody';
 
-const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, page, replyIsActive, userDetail, seriesInfo, followState, commentState, voteState}) => {
+const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, page, replyIsActive, userDetail, seriesInfo, followState, commentState, voteState }) => {
   const store = React.useContext(StoreContext);
+  const alert = useAlert();
 
   if (content) {
     let reward = content.pending_payout_value ? content.pending_payout_value === "0.000 HBD" ? content.total_payout_value.replace("HBD", "") : content.pending_payout_value.replace("HBD", "") : "?";
-    
+
     const compareDate = (contentDate) => {
       var g1 = new Date().toISOString().substring(0, 10);
       var g2 = contentDate;
@@ -87,7 +89,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
                     <p>Creator</p>
                   </div>
                 </Link>
-                <BellElement className="bellElement" userDetail={userDetail} seriesInfo={seriesInfo} followState={followState}/>
+                <BellElement className="bellElement" userDetail={userDetail} seriesInfo={seriesInfo} followState={followState} />
               </div>
 
               <div className={type === "comics" ? "content-info" : "content-info none"}>
@@ -97,18 +99,22 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
               </div>
             </div>
 
-            <p className="reply flex-end pointer" onClick={() => {store.toggleReplyIsActive(content.permlink)}}>Reply</p>
+            {userDetail.name ?
+              <p className="reply flex-end pointer" onClick={() => { store.toggleReplyIsActive(content.permlink) }}>Reply</p>
+              :
+              <p className="reply flex-end pointer" onClick={() => { alert.show('Please login first.') }}>Reply</p>
+            }
             <div className="comments">
-              { replyIsActive === content.permlink ? <CommentInput content={content} userDetail={userDetail} commentState={commentState} page={page}/> : <div className="hidden"><CommentInput content={content} userDetail={userDetail} commentState={commentState}/></div> }
+              {replyIsActive === content.permlink ? <CommentInput content={content} userDetail={userDetail} commentState={commentState} page={page} /> : <div className="hidden"><CommentInput content={content} userDetail={userDetail} commentState={commentState} /></div>}
             </div>
-            
+
             <ul className="comments">
               <div className="comment-title flex reset" key="comment-title">
                 {content.replies.length > 0 ? commentIsActive ? <img className="icon comments" src={UpArrow} alt="up-arrow" onClick={onClick} /> : <img className="icon comments" src={DownArrow} alt="down-arrow" onClick={onClick} /> : ""}
                 <h3>{content.replies.length > 0 ? `Comments (${content.replies.length})` : "No Comments"} </h3>
                 <div className="line" />
               </div>
-              {commentIsActive ? <CommentList commentData={content} page={page} replyIsActive={replyIsActive} userDetail={userDetail} commentState={commentState} voteState={voteState}/> : ""}
+              {commentIsActive ? <CommentList commentData={content} page={page} replyIsActive={replyIsActive} userDetail={userDetail} commentState={commentState} voteState={voteState} /> : ""}
             </ul>
           </div>
         )
@@ -123,7 +129,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
           <div className="info-card">
             <div className="default-banner flex">
               <ActiveInfoTab />
-              <HeartElement content={content} className="heartElement" page={page} userDetail={userDetail} voteState={voteState}/>
+              <HeartElement content={content} className="heartElement" page={page} userDetail={userDetail} voteState={voteState} />
             </div>
             <ActiveContent />
           </div>

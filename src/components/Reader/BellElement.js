@@ -1,5 +1,6 @@
 import React from 'react';
 import StoreContext from '../../stores/AppStore';
+import { useAlert } from 'react-alert'
 
 import Bell from '../Icons/bell.png';
 import GreenBell from '../Icons/green-bell.png';
@@ -11,6 +12,7 @@ import '../../sass/components/InfoTab.scss';
 
 const BellElement = ({ followState, userDetail, seriesInfo, text }) => {
     const store = React.useContext(StoreContext);
+    const alert = useAlert();
 
     const handleFollow = (username, author) => {
         store.follow(username, author);
@@ -68,13 +70,13 @@ const BellElement = ({ followState, userDetail, seriesInfo, text }) => {
         } else {
             // inactive
             return (
-                <img className="icon bell" src={Bell} alt="bell" />
+                <img className="icon bell" src={Bell} alt="bell" onClick={() => { alert.show('Please login first.') }}/>
             )
         }
     } else {
         // inactive
         return (
-            <img className="icon bell" src={Bell} alt="bell" />
+            <img className="icon bell" src={Bell} alt="bell" onClick={() => { alert.show('Please login first.') }}/>
         )
     }
 }

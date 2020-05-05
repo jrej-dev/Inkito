@@ -12,7 +12,6 @@
         padding: 2%;
     }
 }
-
 .profile-page {
     display: grid;
     height: 95%;
@@ -24,6 +23,79 @@
     grid-template-rows: 12em 1fr;
     grid-template-columns: 1fr 1px 2fr;
     border: 1px solid black;
+}
+.profile-edit {
+    display: grid;
+    height: 95%;
+    width: 95%;
+    background-color: $light-color;
+    grid-template-areas:
+        "info div edit"
+        "info div edit";
+    grid-template-rows: 12em 1fr;
+    grid-template-columns: 1fr 1px 2fr;
+    border: 1px solid black;
+    .cover-image {
+        display: none;
+    }
+    .series {
+        display: none;
+    }
+}
+
+.profile-page, .profile-edit {
+    .edit {
+        grid-area: edit;
+        margin: 0 3em 2em 3em;
+        .edit-form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+            > * {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                width: 100%;
+                > * {
+                    margin: 0.2em;
+                }
+                .blue {
+                    color: $primary-color;
+                    cursor: pointer;
+                    font-weight: bold;
+                }
+            }
+            input {
+                min-width: 50%;
+            }
+            .name {
+                input {
+                    min-width: 10%;
+                }
+            }
+            .about {
+                textarea {
+                    min-height: 10em;
+                    min-width: 50%;
+                }
+            }
+            
+            .send-btn {
+                box-shadow: inset 0px 1px 0px 0px $primary-color;
+                background: linear-gradient(to bottom, $primary-color 5%, $secondary-color 100%);
+                background-color: $primary-color;
+                color: $darkest-color;
+                background-color: $primary-color;
+                &:hover {
+                    background: linear-gradient(to bottom, $secondary-color 5%, $primary-color 100%);
+                    background-color: $secondary-color;
+                  }
+            }
+        }
+    }
     .divider {
         grid-area: div;
         border-left: 1px solid $darkest-color;
@@ -128,6 +200,7 @@
     .series-list {
         @include flex(center);
     }
+
     .profile-page {
         grid-template-areas:
             "img"
@@ -136,11 +209,34 @@
             "series";
         grid-template-columns: auto;
         grid-template-rows: 12em auto;
+    }
+
+    .profile-edit {
+        grid-template-areas:
+            "img"
+            "info"
+            "edit";
+        grid-template-columns: auto;
+        grid-template-rows: 12em auto;
+        .cover-image {
+            display: flex;
+        }
+        .profile-info {
+            margin: 0;
+        }
+        .stats, .description, .location, .link, .location {
+            display: none;
+        }
+    }
+
+    .profile-page, .profile-edit {
         .edit-banner {
+            z-index: 2;
             color: $light-color;
             text-shadow: 1px 1px 2px $darkest-color;
             position: absolute;
-            top: 2em;
+            top: 3em;
+            right: 1em;
         }
         .profile-info{
             min-height: initial;

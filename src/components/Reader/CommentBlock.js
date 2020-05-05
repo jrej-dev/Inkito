@@ -1,5 +1,7 @@
 import React from 'react';
 import StoreContext from '../../stores/AppStore';
+import { useAlert } from 'react-alert'
+
 //import 'wired-elements';
 import ContentBody from './ContentBody';
 import CommentList from './CommentList';
@@ -16,6 +18,7 @@ import { Link } from "react-router-dom";
 
 const CommentBlock = ({ content, reply, page, replyIsActive, userDetail, commentState, voteState}) => {
     const store = React.useContext(StoreContext);
+    const alert = useAlert();
 
     let payout = content.pending_payout_value === "0.000 HBD" ? content.total_payout_value : content.pending_payout_value;
     let reward = payout.replace("HBD", "");
@@ -92,7 +95,11 @@ const CommentBlock = ({ content, reply, page, replyIsActive, userDetail, comment
                         </div>
                     </div>
 
-                    <p className="pointer" onClick={() => {store.toggleReplyIsActive(content.permlink)}}>Reply</p>
+                    {userDetail.name ?
+                        <p className="reply flex-end pointer" onClick={() => { store.toggleReplyIsActive(content.permlink) }}>Reply</p>
+                        :
+                        <p className="reply flex-end pointer" onClick={() => { alert.show('Please login first.') }}>Reply</p>
+                    }
                 </div>
             </div>
             

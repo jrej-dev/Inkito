@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
 
-
+import ProfileEdit from './ProfileEdit';
 import SeriesList from './SeriesList';
 import Nav from '../Main/Nav';
 import Location from '../Icons/location.png';
@@ -14,19 +14,22 @@ import '../../sass/components/Profile.scss';
 
 const ProfilePage = () => {
     const store = React.useContext(StoreContext);
+    //to be changed to false;
+    const [isEdited, setEdited] = useState(true);
+
     var props = {};
 
     useEffect(() => {
         document.documentElement.scrollTop = 0;
         getUrlVars();
-        
+
         return () => store.toggleNavMenu(false);
     })
 
     const fetchAuthoInfo = (author) => {
-        if (toJS(store.authorInfo).length > 0 && toJS(store.authorInfo).name !== author){
-            store.fetchAuthoInfo(author); 
-        } else if ( toJS(store.authorInfo).length === 0){
+        if (toJS(store.authorInfo).length > 0 && toJS(store.authorInfo).name !== author) {
+            store.fetchAuthoInfo(author);
+        } else if (toJS(store.authorInfo).length === 0) {
             store.fetchAuthoInfo(author);
         }
     }
@@ -39,9 +42,13 @@ const ProfilePage = () => {
 
         var params = address.split("/");
         props.author = params[0];
-        
+
         fetchAuthoInfo(props.author);
         return props;
+    }
+
+    const handleEdit = () => {
+        setEdited(!isEdited);
     }
 
 
@@ -49,11 +56,11 @@ const ProfilePage = () => {
         return useObserver(() => {
             if (toJS(store.authorInfo) && toJS(store.userDetail)) {
                 const author = toJS(store.authorInfo);
-                const user = toJS(store.userDetail).name
+                const user = toJS(store.userDetail).name || "";
                 return (
                     <div className="profile-info">
                         <div className="edit-banner flex-end">
-                            {user === author.name ? <p className="edit pointer">Edit</p> : ""}
+                            {user === author.name ? <p className="edit pointer" onClick={handleEdit}>Edit</p> : ""}
                         </div>
                         <div className="author reset">
                             <img
@@ -111,12 +118,13 @@ const ProfilePage = () => {
     return (
         <div className="profile">
             <Nav />
-            <div className="container reset" onClick={() => store.toggleNavMenu(false)}> 
-                <div className="profile-page">
+            <div className="container reset" onClick={() => store.toggleNavMenu(false)}>
+                <div className={isEdited ? "profile-edit" : "profile-page"}>
                     <ProfileInfo />
                     <div className="divider" />
                     <CoverImage />
                     <SeriesList />
+                    <ProfileEdit isEdited={isEdited} handleEdit={handleEdit}/>
                 </div>
             </div>
         </div >
