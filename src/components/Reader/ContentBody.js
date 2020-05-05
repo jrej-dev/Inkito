@@ -1,7 +1,7 @@
 import React from 'react';
 import { Remarkable } from 'remarkable';
 import { imgify } from './imgify';
-import 'wired-elements';
+//import 'wired-elements';
 
 const md = new Remarkable({html: true}).use(imgify);
 

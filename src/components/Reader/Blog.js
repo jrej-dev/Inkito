@@ -3,7 +3,7 @@ import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
 import '../../sass/components/Reader.scss';
-import 'wired-elements';
+//import 'wired-elements';
 import ContentBody from './ContentBody';
 import InfoTab from './InfoTab';
 

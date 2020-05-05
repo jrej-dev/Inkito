@@ -1,11 +1,12 @@
 import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
+
 import React from 'react';
 import { StoreProvider } from './stores/AppStore';
 import ReactDOM from 'react-dom';
 import './sass/index.scss';
 import App from './containers/App/App';
 import * as serviceWorker from './serviceWorker';
+import "wired-elements";
 
 ReactDOM.render(
   <React.StrictMode>

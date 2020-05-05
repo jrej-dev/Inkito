@@ -6,7 +6,7 @@ import GreenBell from '../Icons/green-bell.png';
 import GreyBell from '../Icons/grey-bell.png';
 
 
-import 'wired-elements';
+//import 'wired-elements';
 import '../../sass/components/InfoTab.scss';
 
 const BellElement = ({ followState, userDetail, seriesInfo, text }) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import StoreContext from '../../stores/AppStore';
-import 'wired-elements';
+//import 'wired-elements';
 
 import '../../sass/components/Body.scss';
 import '../../sass/components/Panels.scss';

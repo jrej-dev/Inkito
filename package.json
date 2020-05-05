@@ -7,6 +7,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "core-js": "^3.6.5",
     "dsteem": "^0.11.3",
     "hivesigner": "^3.1.5",
     "i": "^0.3.6",
@@ -39,10 +40,10 @@
       "not op_mini all"
     ],
     "development": [
-      "ie 11",
       "last 1 chrome version",
       "last 1 firefox version",
-      "last 1 safari version"
+      "last 1 safari version",
+      "ie 11"
     ]
   }
 }

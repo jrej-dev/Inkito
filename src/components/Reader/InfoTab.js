@@ -4,7 +4,7 @@ import HeartElement from './HeartElement';
 /*import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import ReactMarkdown from 'react-markdown/with-html';*/
-import 'wired-elements';
+//import 'wired-elements';
 import '../../sass/components/InfoTab.scss';
 import { Link } from "react-router-dom";
 import BellElement from './BellElement';

@@ -2,7 +2,7 @@ import React from 'react';
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import '../../sass/components/Promo.scss';
-import 'wired-elements';
+//import 'wired-elements';
 
 import { Link } from "react-router-dom";
 

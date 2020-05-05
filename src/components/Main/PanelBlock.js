@@ -3,7 +3,7 @@ import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
 
-import 'wired-elements';
+//import 'wired-elements';
 
 import TrendyPanel from '../Panels/TrendyPanel';
 import NewPanel from '../Panels/NewPanel';

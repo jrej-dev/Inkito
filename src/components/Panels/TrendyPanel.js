@@ -1,7 +1,7 @@
 import React from 'react';
 import TrendyIcon from '../Icons/trendyicon.png';
 import '../../sass/components/Panels.scss';
-import 'wired-elements';
+//import 'wired-elements';
 import { Link } from "react-router-dom";
 
 function TrendyPanel({ content, onClick }) {

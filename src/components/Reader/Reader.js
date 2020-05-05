@@ -4,7 +4,7 @@ import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
 
 import '../../sass/components/Reader.scss';
-import 'wired-elements';
+//import 'wired-elements';
 
 import Blog from './Blog';
 import NavReader from './NavReader';

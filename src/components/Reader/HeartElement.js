@@ -4,7 +4,7 @@ import StoreContext from '../../stores/AppStore';
 import Heart from '../Icons/heart.png';
 import RedHeart from '../Icons/red-heart.png';
 import GreyHeart from '../Icons/grey-heart.png';
-import 'wired-elements';
+//import 'wired-elements';
 import '../../sass/components/InfoTab.scss';
 
 const HeartElement = ({ userDetail, content, page, voteState }) => {

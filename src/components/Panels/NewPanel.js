@@ -1,7 +1,7 @@
 import React from 'react';
 import NewIcon from '../Icons/newicon.png';
 import '../../sass/components/Panels.scss';
-import 'wired-elements';
+//import 'wired-elements';
 import { Link } from "react-router-dom";
 
 function NewPanel({ content, onClick }) {

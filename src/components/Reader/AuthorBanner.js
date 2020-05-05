@@ -3,7 +3,7 @@ import StoreContext from '../../stores/AppStore';
 import BellElement from './BellElement';
 import ShareMenu from './ShareMenu';
 import { toJS } from 'mobx';
-import 'wired-elements';
+//import 'wired-elements';
 import '../../sass/components/Reader.scss';
 
 import { Link } from "react-router-dom";

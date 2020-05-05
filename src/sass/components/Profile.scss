@@ -38,6 +38,12 @@
         justify-content: space-evenly;
         align-items: center;
         margin: 5% 0;
+        .edit-banner {
+            height: 1em;
+            width: 80%;
+            margin: 0 10%;
+        }
+
         .icon.location {
             cursor: default;
         }
@@ -130,6 +136,12 @@
             "series";
         grid-template-columns: auto;
         grid-template-rows: 12em auto;
+        .edit-banner {
+            color: $light-color;
+            text-shadow: 1px 1px 2px $darkest-color;
+            position: absolute;
+            top: 2em;
+        }
         .profile-info{
             min-height: initial;
         }

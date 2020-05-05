@@ -1,5 +1,5 @@
 import React from 'react';
-import 'wired-elements';
+//import 'wired-elements';
 import '../../sass/components/NavReader.scss';
 
 import LeftArrow from '../Icons/left-arrow.png';

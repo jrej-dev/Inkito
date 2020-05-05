@@ -6,7 +6,7 @@ import { toJS } from 'mobx';
 import NavMenu from './NavMenu';
 import { Link } from "react-router-dom";
 import '../../sass/components/Nav.scss';
-import 'wired-elements';
+//import 'wired-elements';
 
 function Nav() {
   const store = React.useContext(StoreContext);

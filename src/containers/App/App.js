@@ -1,8 +1,9 @@
+import 'core-js';
 import React, { useEffect } from 'react';
 import StoreContext from '../../stores/AppStore';
 import {
   BrowserRouter as Router,
-  Switch, 
+  Switch,
   Route,
 } from "react-router-dom";
 import '../../sass/App.scss';
@@ -11,17 +12,17 @@ import Footer from '../../components/Main/Footer';
 import FullDisplay from '../../components/FullDisplay/FullDisplay';
 import Reader from '../../components/Reader/Reader';
 import ProfilePage from '../../components/Profile/ProfilePage';
-import Page404 from '../../components/Main/Page404'; 
-import CookieBanner from '../../components/Main/CookieBanner'; 
+import Page404 from '../../components/Main/Page404';
+import CookieBanner from '../../components/Main/CookieBanner';
 
 const App = () => {
   const store = React.useContext(StoreContext);
 
-  useEffect (() => {
+  useEffect(() => {
     getUserDetail();
     store.toggleNavMenu(false);
     store.checkCookieConsent();
-    if (store.loginLink === ""){
+    if (store.loginLink === "") {
       store.initHSLogin();
     }
   })
@@ -35,6 +36,7 @@ const App = () => {
       store.getUserDetail();
     }
   }
+
 
   return (
     <Router>
@@ -50,10 +52,10 @@ const App = () => {
             <FullDisplay type={"novels"} />
           </Route>
           <Route path="/comicReader">
-            <Reader type={"comics"}/>
+            <Reader type={"comics"} />
           </Route>
           <Route path="/novelReader">
-            <Reader type={"novels"}/>
+            <Reader type={"novels"} />
           </Route>
           <Route path="/@*">
             <ProfilePage />
@@ -61,10 +63,11 @@ const App = () => {
           <Route component={Page404} />
         </Switch>
         <Footer />
-        <CookieBanner/>
+        <CookieBanner />
       </div>
-      </Router>
+    </Router>
   );
+
 }
 
 export default App;

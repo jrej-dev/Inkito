@@ -9,7 +9,7 @@ import Nav from '../Main/Nav';
 import Location from '../Icons/location.png';
 import Link from '../Icons/link.png';
 //import Add from '../Icons/add.png';
-import 'wired-elements';
+//import 'wired-elements';
 import '../../sass/components/Profile.scss';
 
 const ProfilePage = () => {
@@ -47,10 +47,14 @@ const ProfilePage = () => {
 
     const ProfileInfo = () => {
         return useObserver(() => {
-            if (toJS(store.authorInfo)) {
+            if (toJS(store.authorInfo) && toJS(store.userDetail)) {
                 const author = toJS(store.authorInfo);
+                const user = toJS(store.userDetail).name
                 return (
                     <div className="profile-info">
+                        <div className="edit-banner flex-end">
+                            {user === author.name ? <p className="edit pointer">Edit</p> : ""}
+                        </div>
                         <div className="author reset">
                             <img
                                 className="panel-profile-pic"
@@ -103,6 +107,7 @@ const ProfilePage = () => {
             }
         })
     }
+
     return (
         <div className="profile">
             <Nav />

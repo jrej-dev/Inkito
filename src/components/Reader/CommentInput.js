@@ -3,7 +3,7 @@ import StoreContext from '../../stores/AppStore';
 import { Link } from "react-router-dom";
 
 import UpArrow from '../Icons/up-arrow.png';
-import 'wired-elements';
+//import 'wired-elements';
 
 
 
@@ -14,9 +14,13 @@ const CommentInput = ({ content, userDetail, page, commentState }) => {
 
     useEffect(() => {
         var currentTextArea = textArea.current;
-        currentTextArea.addEventListener('input', handleChange);
+        if (currentTextArea) {
+            currentTextArea.addEventListener('input', handleChange);
+        }
         return () => {
-            currentTextArea.removeEventListener('input', handleChange);
+            if (currentTextArea) {
+                currentTextArea.removeEventListener('input', handleChange);
+            }
         }
     }, [])
 

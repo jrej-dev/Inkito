@@ -4,7 +4,7 @@ import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
 import { Link } from "react-router-dom";
 
-import 'wired-elements';
+//import 'wired-elements';
 import '../../sass/components/Profile.scss';
 
 const SeriesList = () => {

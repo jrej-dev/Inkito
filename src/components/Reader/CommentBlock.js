@@ -1,6 +1,6 @@
 import React from 'react';
 import StoreContext from '../../stores/AppStore';
-import 'wired-elements';
+//import 'wired-elements';
 import ContentBody from './ContentBody';
 import CommentList from './CommentList';
 import CommentInput from './CommentInput';
