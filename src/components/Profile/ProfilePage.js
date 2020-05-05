@@ -15,7 +15,7 @@ import '../../sass/components/Profile.scss';
 const ProfilePage = () => {
     const store = React.useContext(StoreContext);
     //to be changed to false;
-    const [isEdited, setEdited] = useState(true);
+    const [isEdited, setEdited] = useState(false);
 
     var props = {};
 
@@ -115,6 +115,17 @@ const ProfilePage = () => {
         })
     }
 
+    const EditPage = () => {
+        return useObserver(() => {
+            if(store.updateProfileState === "done") {
+                window.location.reload();
+            }
+            if (toJS(store.authorInfo)) {
+                return <ProfileEdit isEdited={isEdited} handleEdit={handleEdit} authorInfo={toJS(store.authorInfo)} state={store.updateProfileState}/>
+            }
+        })
+    }
+
     return (
         <div className="profile">
             <Nav />
@@ -124,7 +135,7 @@ const ProfilePage = () => {
                     <div className="divider" />
                     <CoverImage />
                     <SeriesList />
-                    <ProfileEdit isEdited={isEdited} handleEdit={handleEdit}/>
+                    <EditPage />
                 </div>
             </div>
         </div >

@@ -23,60 +23,74 @@ const BellElement = ({ followState, userDetail, seriesInfo, text }) => {
     }
 
     if (userDetail && seriesInfo) {
-        if (userDetail.name && seriesInfo.author && seriesInfo.followers) {
+        if (userDetail.name && seriesInfo.author) {
             let username = userDetail.name;
-            let followers = seriesInfo.followers;
             let author = seriesInfo.author;
 
-            if (followState === "pending") {
-                return (
-                    <div className="icon bell flex">
-                        <wired-spinner class="custom" spinning duration="1000" />
-                    </div>
-                )
-            } else if (author === username) {
+            if (author === username) {
                 return (
                     ""
                 )
             }
-            else if (followers.some(fan => fan === username)) {
-                if (text) {
+
+            if (seriesInfo.followers) {
+                let followers = seriesInfo.followers;
+
+                if (followState === "pending") {
                     return (
-                        <div className="flex row pointer follow">
-                            <p onClick={() => { handleUnfollow(username, author) }}>Followed</p>
-                            <img className="icon bell" src={GreenBell} alt="green-bell" onClick={() => { handleUnfollow(username, author) }} />
+                        <div className="icon bell flex">
+                            <wired-spinner class="custom" spinning duration="1000" />
                         </div>
                     )
-                } else {
-                    return (
-                        <img className="icon bell" src={GreenBell} alt="green-bell" onClick={() => { handleUnfollow(username, author) }} />
-                    )
-                }
+                } else if (followers.some(fan => fan === username)) {
+                    if (text) {
+                        return (
+                            <div className="flex row pointer follow">
+                                <p onClick={() => { handleUnfollow(username, author) }}>Followed</p>
+                                <img className="icon bell" src={GreenBell} alt="green-bell" onClick={() => { handleUnfollow(username, author) }} />
+                            </div>
+                        )
+                    } else {
+                        return (
+                            <img className="icon bell" src={GreenBell} alt="green-bell" onClick={() => { handleUnfollow(username, author) }} />
+                        )
+                    }
 
+                } else {
+                    if (text) {
+                        return (
+                            <div className="flex row pointer follow">
+                                <p onClick={() => { handleFollow(username, author) }}>Follow</p>
+                                <img className="icon bell" src={GreyBell} alt="grey-bell" onClick={() => { handleFollow(username, author) }} />
+                            </div>
+                        )
+                    } else {
+                        return (
+                            <img className="icon bell" src={GreyBell} alt="grey-bell" onClick={() => { handleFollow(username, author) }} />
+                        )
+                    }
+                }
             } else {
                 if (text) {
                     return (
-                        <div className="flex row pointer follow">
-                            <p onClick={() => { handleFollow(username, author) }}>Follow</p>
-                            <img className="icon bell" src={GreyBell} alt="grey-bell" onClick={() => { handleFollow(username, author) }} />
-                        </div>
+                        <img className="icon bell" src={Bell} alt="bell" />
                     )
                 } else {
                     return (
-                        <img className="icon bell" src={GreyBell} alt="grey-bell" onClick={() => { handleFollow(username, author) }} />
+                        <img className="icon bell" src={Bell} alt="bell" />
                     )
                 }
             }
         } else {
             // inactive
             return (
-                <img className="icon bell" src={Bell} alt="bell" onClick={() => { alert.show('Please login first.') }}/>
+                <img className="icon bell" src={Bell} alt="bell" onClick={() => { alert.show('Please login first.') }} />
             )
         }
     } else {
         // inactive
         return (
-            <img className="icon bell" src={Bell} alt="bell" onClick={() => { alert.show('Please login first.') }}/>
+            <img className="icon bell" src={Bell} alt="bell" onClick={() => { alert.show('Please login first.') }} />
         )
     }
 }

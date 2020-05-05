@@ -108,7 +108,7 @@ const Reader = ({ type }) => {
         blogs = [];
       }
 
-      if (store.seriesLinkState === "done" && seriesData.length >= store.currentPage + 1) {
+      if (store.seriesLinkState === "done" && seriesData.length > 0 && seriesData.length >= store.currentPage + 1) {
         for (let i = store.startPage; i <= store.currentPage; i++) {
           blogs.push(
             <li key={seriesData[i] + store.currentPage} className="blog">

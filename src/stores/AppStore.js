@@ -105,6 +105,7 @@ export function StoreProvider({ children }) {
         authorInfoState: "",
         voteState: "",
         followState: "",
+        updateProfileState: "",
 
         //Actions 
 
@@ -384,6 +385,26 @@ export function StoreProvider({ children }) {
                     })
                 } else if (err) {
                     store.commentState = "error";
+                    console.log(err);
+                }
+            })
+        },
+        updateProfile: (account_name, metadata) => {
+            store.updateProfileState = "pending";
+            let params = {
+                account: account_name,
+                json_metadata: "",
+                posting_json_metadata: metadata,
+                extensions: []
+            };
+
+            api.broadcast([['account_update2', params]], function (err, res) {
+                if (res) {
+                    store.updateProfileState = "done";
+                    console.log(res);
+
+                } else if (err) {
+                    store.updateProfileState = "error";
                     console.log(err);
                 }
             })
@@ -775,8 +796,9 @@ export function StoreProvider({ children }) {
                     .call('get_accounts', [[author]])
                     .then(result => {
                         if (result.length > 0) {
-                            let json = JSON.parse(result[0].json_metadata).profile;
+                            let json = JSON.parse(result[0].posting_json_metadata).profile;
                             result[0].about = json.about;
+                            result[0].displayName = json.name;
                             result[0].website = json.website;
                             result[0].location = json.location;
                             result[0].cover = json.cover_image;

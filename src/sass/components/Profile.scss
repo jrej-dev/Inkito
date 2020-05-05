@@ -46,7 +46,7 @@
 .profile-page, .profile-edit {
     .edit {
         grid-area: edit;
-        margin: 0 3em 2em 3em;
+        margin: 2em 3em 2em 3em;
         .edit-form {
             display: flex;
             flex-direction: column;
@@ -68,18 +68,15 @@
                     font-weight: bold;
                 }
             }
-            input {
+            wired-input {
                 min-width: 50%;
             }
-            .name {
-                input {
-                    min-width: 10%;
-                }
+            wired-textarea {
+                text-align: left;
             }
-            .about {
-                textarea {
-                    min-height: 10em;
-                    min-width: 50%;
+            .name {
+                > wired-input {
+                    min-width: 25%;
                 }
             }
             
