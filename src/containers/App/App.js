@@ -1,5 +1,6 @@
 import 'core-js';
 import React, { useEffect } from 'react';
+import { useObserver } from 'mobx-react';
 import StoreContext from '../../stores/AppStore';
 import {
   BrowserRouter as Router,
@@ -7,6 +8,7 @@ import {
   Route,
 } from "react-router-dom";
 import '../../sass/App.scss';
+import Login from '../../components/Login/Login';
 import Home from '../../components/Main/Home';
 import Footer from '../../components/Main/Footer';
 import FullDisplay from '../../components/FullDisplay/FullDisplay';
@@ -25,7 +27,18 @@ const App = () => {
     if (store.loginLink === "") {
       store.initHSLogin();
     }
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {window.removeEventListener('scroll', handleScroll) }
   })
+
+  const handleScroll = () => {
+    var st = document.documentElement.scrollTop;
+    if (st > 400) {
+      store.toggleLogin(false);
+    }
+
+  }
 
   const getUserDetail = () => {
     const accessToken = localStorage.getItem('access-token');
@@ -37,11 +50,17 @@ const App = () => {
     }
   }
 
+  const LoginPopUp = () => {
+    return useObserver(() => {
+      return <Login loginIsActive={store.loginIsActive}/>
+    })
+  }
 
   return (
     <Router>
       <div className="App">
-        <Switch>
+        <LoginPopUp />
+        <Switch >
           <Route exact path="/">
             <Home />
           </Route>

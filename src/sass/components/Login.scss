@@ -1,0 +1,153 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+   
+.login-popup {
+    transition: top 0.3s;
+    position: absolute;
+    position: fixed;
+    z-index: 3;
+    top: 5%;
+    left: unquote("calc(50% - 23em)");
+    height: 40em;
+    width: 40em;
+    .login-image {
+        z-index: -1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: auto;
+        height: 100%;
+    }
+    .login-content {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        top: 11.5em;
+        left: 9.2em;
+        width: 28.5em;
+        height: 28.5em;
+        a {
+            box-shadow: inset 0px 1px 0px 0px #ffffff;
+            background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+            background-color: #ffffff;
+            border-radius: 6px;
+            border: 1px solid #dcdcdc;
+            display: inline-block;
+            cursor: pointer;
+            color: #666666;
+            font-family: Arial;
+            font-size: 15px;
+            font-weight: bold;
+            padding: 0.5em 1em;
+            text-decoration: none;
+            text-shadow: 0px 1px 0px #ffffff;
+            &:hover {
+              background: linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+              background-color: #f6f6f6;
+            }
+            &:active {
+              position: relative;
+              top: 1px;
+            }
+        }    
+        p {
+            white-space: nowrap;
+        }
+        .divider {
+            width: 100%;
+        }
+        .arobase {
+            color: $primary-color;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            width: 100%;
+            height: 50%;
+            > * {
+                width: 60%;
+                padding: 0.5em 0;
+            }
+            wired-input {
+                width: 100%;
+            }
+            h2 {
+                margin: 0;
+                padding-right: 0.5em;
+            }
+            .buttons {
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+                width: 50%;
+                margin-left: 1em;
+                > * {
+                    padding: 0.5em 2em;
+                }
+            }
+        }
+        .login-hivesigner {
+            width: 100%;
+            padding: 0;
+            > * {
+                margin: 1em 0;
+            }
+            a, .hivesigner {
+                padding-top: 0.5em;
+                width: 50%;
+            }
+        }
+    }
+}
+
+.hidden-top-login {
+    top: -50em;
+}
+
+@media screen and (max-width: 500px) {
+    .login-popup {
+        position: fixed;
+        top: 10%;
+        left: unquote("calc(50% - 15em)");
+        height: 25em;
+        width: 25em;
+        
+        .login-content {
+            position: absolute;
+            top: 7em;
+            left: 5.8em;
+            width: 17.8em;
+            height: 18em;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+    
+            h2 {
+                display: none;
+            }
+            form {
+                .buttons {
+                    padding: 0;
+                    > * {
+                        padding: 0.5em 1em;
+                        margin: 0;
+                    }
+                }
+            }
+            .login-hivesigner {
+                > * {
+                    margin: 0;
+                }
+                button, .hivesigner {
+                    padding-top: 0.5em;
+                    width: 60%;
+                }
+            }
+        }
+    }
+}

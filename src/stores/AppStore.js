@@ -86,6 +86,7 @@ export function StoreProvider({ children }) {
         clickedSeriesContent: "",
         startPage: 0,
         currentPage: 0,
+        loginIsActive: false,
         navIsHidden: false,
         navMenuIsActive: false,
         shareMenuIsActive: false,
@@ -165,6 +166,13 @@ export function StoreProvider({ children }) {
                 store.zoomIsActive = false;
             } else if (value === undefined) {
                 store.zoomIsActive = !store.zoomIsActive;
+            }
+        },
+        toggleLogin: (value) => {
+            if (value === false && store.loginIsActive === true) {
+                store.loginIsActive = false;
+            } else if (value === undefined) {
+                store.loginIsActive = !store.loginIsActive;
             }
         },
         toggleNav: (value) => {

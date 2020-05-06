@@ -13,16 +13,17 @@ const NavMenu = ({ navMenuIsActive, userDetail }) => {
     return (
       <li className="login user">
         <img src={`https://images.hive.blog/u/${username}/avatar`} alt=" " className="user-thumbnail pointer" onClick={() => store.toggleNavMenu()} />
-        <div className={navMenuIsActive ? "user-menu flex col" : "user-menu flex col hidden"}>
-          <p className="capital pointer" onClick={() => { history.push(`/@${username}`); window.location.reload() }}>{username}</p>
-          <p onClick={store.logOut} className="pointer">Logout</p>
+        <div className={navMenuIsActive ? "user-menu flex col pa" : "user-menu flex col hidden"}>
+          <p className="pointer" onClick={() => { history.push(`/@${username}`); window.location.reload() }}>Profile</p>
+          <a href={`https://wallet.hive.blog/@${username}/transfers`} target="_blank" rel="noopener noreferrer">Wallet</a>
+          <p className="pointer" onClick={store.logOut}>Logout</p>
         </div>
       </li>
     )
   } else {
     return (
       <li className="login flex row">
-        <a href={store.loginLink}>Login</a>
+        <p className="pointer" onClick={() => {store.toggleLogin()}}>Login</p>
         <p>/</p>
         <a href="https://signup.hive.io/" target="_blank" rel="noopener noreferrer">Register</a>
       </li>

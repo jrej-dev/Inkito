@@ -47,11 +47,6 @@
     width: 4em;
     top: 4em;
     left: unquote("calc(50% - 2em)");
-    > * {
-      &:hover {
-        color: $dark-color;
-      }
-    }
   }
   .user-thumbnail {
     height: 3em;
