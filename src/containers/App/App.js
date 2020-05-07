@@ -52,7 +52,7 @@ const App = () => {
 
   const LoginPopUp = () => {
     return useObserver(() => {
-      return <Login loginIsActive={store.loginIsActive}/>
+        return <Login loginIsActive={store.loginIsActive}/>
     })
   }
 

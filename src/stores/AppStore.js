@@ -417,6 +417,18 @@ export function StoreProvider({ children }) {
                 }
             })
         },
+        keyChainLogin: (user) => {
+                let params = { username: user };
+                       
+                api.login(params, function (err,token) {
+                    if (token) {
+                        store.toggleLogin(false);
+                        store.getUserDetail(token, user)
+                    } else if (err) {
+                        console.log(err);
+                    }
+                })                
+        },
         getUserDetail: (localAccess, localUser) => {
             store.userDetail = {};
 

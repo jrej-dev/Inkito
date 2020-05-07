@@ -3,62 +3,60 @@ import StoreContext from '../../stores/AppStore';
 import '../../sass/components/Login.scss';
 import LoginImage from '../Icons/login.png';
 import Hivesigner from '../Icons/hivesigner.svg';
+import Keychain from '../Icons/keychain.png';
 
 const Login = ({ loginIsActive }) => {
   const store = React.useContext(StoreContext);
-  const usernameInput = useRef(null);
-  const ppkInput = useRef(null);
-
   const [username, setUsername] = useState("");
-  const [PPK, setPPK] = useState("");
+  const usernameInput = useRef(null);
 
   useEffect(() => {
     var currentUsername = usernameInput.current;
-    var currentPpk = ppkInput.current;
 
     if (currentUsername) {
-      currentUsername.addEventListener('input', handleUsernameChange);
-    }
-    if (currentPpk) {
-      currentPpk.addEventListener('input', handlePpkChange);
+      currentUsername.addEventListener('input', handleChange);
     }
     return () => {
       if (currentUsername) {
-        currentUsername.removeEventListener('input', handleUsernameChange);
-      }
-      if (currentPpk) {
-        currentPpk.removeEventListener('input', handlePpkChange);
+        currentUsername.removeEventListener('input', handleChange);
       }
     }
-  }, [])
+  })
 
-  const handleUsernameChange = (e) => {
+  const handleChange = (e) => {
     setUsername(e.detail.sourceEvent.target.value);
-  }
-
-  const handlePpkChange = (e) => {
-    setPPK(e.detail.sourceEvent.target.value);
+    console.log(username)
   }
 
   const handleSubmit = () => {
-    //console.log(username, PPK);
+    store.keyChainLogin(username.toLowerCase());
   }
+
+  const handleCancel = () => {
+    store.toggleLogin();
+  };
 
   return (
     <div className={loginIsActive ? "login-popup" : "login-popup hidden-top-login"}>
       <img className="login-image" src={LoginImage} alt="login" />
       <div className="login-content">
 
-        <h2>Inkito</h2>
+        <h2 className="title">Inkito</h2>
 
         <div className="flex row divider pa-hh">
           <hr className="divider" />
-          <p>Creator Login</p>
+          <p>Using Hive Keychain</p>
           <hr className="divider" />
         </div>
 
-        <form >
-          <div className="flex row">
+        <div className="keychain-image">
+          <img src={Keychain} alt="keychain"/>
+        </div>
+        {
+        typeof window !== 'undefined' && window && window.hive_keychain ?
+      
+        <form onSubmit={(e) => {e.preventDefault(); handleSubmit()}}>
+          <div className="input flex row">
             <h2 className="arobase">@</h2>
             <wired-input 
               placeholder="Account Name" 
@@ -66,33 +64,30 @@ const Login = ({ loginIsActive }) => {
               value={username}
             />
           </div>
-          <div>
-            <wired-input 
-              placeholder="Private Posting Key"
-              ref={ppkInput}
-              value={PPK} 
-            />
-          </div>
-
+          
           <div className="buttons">
-            <button type="submit" className="send-btn" onClick={(e) => {handleSubmit(); e.preventDefault()}}>Send</button>
-            <p className="pointer" onClick={() => { store.toggleLogin() }}>Cancel</p>
+            <button type="submit" className="send-btn">Send</button>
+            <p className="pointer" onClick={handleCancel}>Cancel</p>
           </div>
         </form>
-
+        :
+        <div className="buttons">
+            <a href="https://chrome.google.com/webstore/detail/hive-keychain/jcacnejopjdphbnjgfaaobbfafkihpep">Install for Chrome</a>
+            <a href="https://addons.mozilla.org/en-US/firefox/addon/hive-keychain/">Install for Firefox</a>
+        </div>
+        }
+        
         <div className="flex row divider pa-hh">
           <hr className="divider" />
-          <p>Reader Login (No image upload)</p>
+          <p>Other login method</p>
           <hr className="divider" />
         </div>
 
         <div className="login-hivesigner">
-
           <a href={store.loginLink}>
             <img src={Hivesigner} className="hivesigner" alt="hivesigner" />
           </a>
         </div>
-
 
       </div>
     </div>

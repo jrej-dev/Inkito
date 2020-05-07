@@ -22,7 +22,7 @@ const CommentInput = ({ content, userDetail, page, commentState }) => {
                 currentTextArea.removeEventListener('input', handleChange);
             }
         }
-    }, [])
+    })
 
     const Response = () => {
         return (
