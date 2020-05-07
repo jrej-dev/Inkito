@@ -43,9 +43,9 @@ const Login = ({ loginIsActive }) => {
 
         <h2 className="title">Inkito</h2>
 
-        <div className="flex row divider pa-hh">
-          <hr className="divider" />
-          <p>Using Hive Keychain</p>
+        <div className="keychain-divider flex row divider pa-hh">
+          <hr className="first-divider divider" />
+            <p>Hive Keychain</p>
           <hr className="divider" />
         </div>
 
