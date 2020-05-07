@@ -131,7 +131,7 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state  }) => {
                         />
                     }
                     
-                    <p className="blue">Upload an image</p>
+                    {/*<p className="blue">Upload an image</p>*/}
                 </div>
 
                 <div className="cover">
@@ -150,7 +150,7 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state  }) => {
                             ref={coverInput}
                         />
                     }
-                    <p className="blue">Upload an image</p>
+                    {/*<p className="blue">Upload an image</p>*/}
                 </div>
 
                 <div className="name">
