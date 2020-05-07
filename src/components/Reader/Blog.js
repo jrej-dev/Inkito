@@ -18,7 +18,7 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
       if (page + 1 < store.seriesLinks.length && store.seriesDetail.length > 0 && store.seriesDetail[page + 1] === undefined) {
         store.fetchSeriesDetail(author, nextPermlink, page + 1);
       } else if (page + 1 === store.seriesLinks.length) {
-        if (toJS(store.authorInfo).length > 0 && toJS(store.authorInfo).name !== author) {
+        if (toJS(store.authorInfo) && toJS(store.authorInfo).name !== author) {
           store.fetchAuthoInfo(author);
         } else if (toJS(store.authorInfo).length === 0) {
           store.fetchAuthoInfo(author);

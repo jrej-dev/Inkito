@@ -29,7 +29,7 @@ const Login = ({ loginIsActive }) => {
   }
 
   const handleSubmit = () => {
-    store.keyChainLogin(username.toLowerCase());
+    store.login(username.toLowerCase());
   }
 
   const handleCancel = () => {

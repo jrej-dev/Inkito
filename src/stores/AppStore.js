@@ -417,11 +417,12 @@ export function StoreProvider({ children }) {
                 }
             })
         },
-        keyChainLogin: (user) => {
+        login: (user) => {
                 let params = { username: user };
                        
                 api.login(params, function (err,token) {
                     if (token) {
+                        console.log(token)
                         store.toggleLogin(false);
                         store.getUserDetail(token, user)
                     } else if (err) {
@@ -439,7 +440,7 @@ export function StoreProvider({ children }) {
             } else {
                 access_token = new URLSearchParams(document.location.search).get('access_token');
                 username = new URLSearchParams(document.location.search).get('username');
-            }
+            } 
 
             if (access_token) {
                 // set access token after login
