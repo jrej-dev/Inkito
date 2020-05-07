@@ -135,7 +135,10 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state  }) => {
                 </div>
 
                 <div className="cover">
-                    <label>Cover image url (Optimal: 2048x512 pixels)</label>
+                    <div className="cover-label flex-start row wrap">
+                        <label>Cover image url</label>
+                        <label>(Optimal: 2048x512 pixels)</label>
+                    </div>
                     { state === "pending" ?
                         <wired-input
                             disabled
@@ -176,14 +179,14 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state  }) => {
                     { state === "pending" ?
                         <wired-textarea
                             disabled
-                            rows="4"
+                            rows="6"
                             type="text"
                             value={about}
                             ref={aboutInput}
                         />
                         :
                         <wired-textarea
-                            rows="4"
+                            rows="6"
                             type="text"
                             value={about}
                             ref={aboutInput}
