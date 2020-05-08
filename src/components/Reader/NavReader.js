@@ -56,7 +56,7 @@ const NavReader = ({ firstPage, currentPage, lastPage, page, seriesLength, onCli
             {image ? <ShareMenu image={image[0]} shareIsActive={shareIsActive}/> : <ShareMenu shareIsActive={shareIsActive}/>}
             <BellElement className="bellElement" userDetail={userDetail} seriesInfo={seriesInfo} followState={followState}/>
           </li>
-          <NavMenu navMenuIsActive={navMenuIsActive} userDetail={userDetail}/>
+          <NavMenu navMenuIsActive={navMenuIsActive} username={userDetail.name}/>
         </ul>
       </div>
     )
@@ -84,7 +84,6 @@ const NavReader = ({ firstPage, currentPage, lastPage, page, seriesLength, onCli
             <ShareMenu />
             <img className="icon follow" src={Bell} alt="follow bell" />
           </li>
-          <NavMenu />
         </ul>
       </div>
     );

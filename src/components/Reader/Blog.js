@@ -47,7 +47,7 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
 
   const Content = () => {
     return useObserver(() => {
-      if (toJS(store.seriesDetail).length > 0 && toJS(store.seriesDetail).length > page && store.activeComments && store.activeInfoTab) {
+      if (toJS(store.seriesDetail).length > 0 && toJS(store.seriesDetail)[page] && store.activeComments && store.activeInfoTab) {
         if (store.seriesDetailState === "error"){
           window.location.reload();
         }
