@@ -21,7 +21,7 @@ const App = () => {
   const store = React.useContext(StoreContext);
 
   useEffect(() => {
-    //store.temporalLogin();
+    store.temporalLogin();
 
     getUserDetail();
     store.toggleNavMenu(false);
