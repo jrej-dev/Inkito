@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import StoreContext from '../../stores/AppStore';
 
-const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state  }) => {
+const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
     const store = React.useContext(StoreContext);
     const [avatar, setAvatar] = useState(authorInfo.avatar);
     const [cover, setCover] = useState(authorInfo.cover);
@@ -9,6 +9,9 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state  }) => {
     const [about, setAbout] = useState(authorInfo.about);
     const [location, setLocation] = useState(authorInfo.location);
     const [website, setWebsite] = useState(authorInfo.website);
+
+    const [avatarFile, setAvatarFile] = useState(null);
+    const [coverFile, setCoverFile] = useState(null);
 
     const avatarInput = useRef(null);
     const coverInput = useRef(null);
@@ -44,7 +47,7 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state  }) => {
         if (currentWebsite) {
             currentWebsite.addEventListener('input', handleWebsiteChange);
         }
-        
+
         return () => {
             if (currentAvatar) {
                 currentAvatar.removeEventListener('input', handleAvatarChange);
@@ -110,13 +113,60 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state  }) => {
         handleEdit();
     }
 
+    const onCoverUpload = async () => {
+        /*if (coverFile) {
+            var myHeaders = new Headers();
+
+            var formdata = new FormData();
+            formdata.append("file", avatarFile, "file");
+            formdata.append("hold_time", "12");
+
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: formdata,
+                redirect: 'follow'
+            };
+            const fetch_response = await fetch('https://inkito-ipfs.herokuapp.com/upload', requestOptions);
+            console.log(fetch_response);
+            const body = await fetch_response.text();
+            console.log(body);
+
+            setCover(`https://gateway.ipfs.io/ipfs/${body}`);
+        }*/
+        setCover(`test`);
+    }
+
+
+    const onAvatarUpload = async () => {
+        /*if (avatarFile) {
+            var myHeaders = new Headers();
+
+            var formdata = new FormData();
+            formdata.append("file", avatarFile, "file");
+            formdata.append("hold_time", "12");
+
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: formdata,
+                redirect: 'follow'
+            };
+            const fetch_response = await fetch('https://inkito-ipfs.herokuapp.com/upload', requestOptions);
+            const body = await fetch_response.text();
+            console.log(body);
+            //setAvatar(`https://gateway.ipfs.io/ipfs/${JSON.parse(body).response}`);
+        }*/
+        setAvatar(`test`);
+    }
+
     return (
         <div className={isEdited ? "edit flex col pa" : "hidden"}>
             <h3> Public Profile Settings </h3>
-            <form className="edit-form pa" onSubmit={(e) => { e.preventDefault(); handleSubmit() }}>
+            <div className="edit-form pa" >
                 <div className="avatar">
                     <label>Profile picture url</label>
-                    { state === "pending" ?
+                    {state === "pending" ?
                         <wired-input
                             disabled
                             type="text"
@@ -130,8 +180,12 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state  }) => {
                             ref={avatarInput}
                         />
                     }
-                    
-                    {/*<p className="blue">Upload an image</p>*/}
+                    <div className="flex row">
+                        <form >
+                            <input type="file" placeholder="Upload an image" onChange={(e) => setAvatarFile(e.target.files[0])} />
+                            <button className="blue" type="submit" onClick={(e) => { onAvatarUpload(); e.preventDefault(); }}>Upload</button>
+                        </form>
+                    </div>
                 </div>
 
                 <div className="cover">
@@ -139,7 +193,7 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state  }) => {
                         <label>Cover image url</label>
                         <label>(Optimal: 2048x512 pixels)</label>
                     </div>
-                    { state === "pending" ?
+                    {state === "pending" ?
                         <wired-input
                             disabled
                             type="text"
@@ -153,12 +207,17 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state  }) => {
                             ref={coverInput}
                         />
                     }
-                    {/*<p className="blue">Upload an image</p>*/}
+                    <div className="flex row">
+                        <form>
+                            <input type="file" placeholder="Upload an image" onChange={(e) => setCoverFile(e.target.files[0])} />
+                            <button className="blue" type="submit" onClick={(e) => { onCoverUpload(); e.preventDefault(); }}>Upload</button>
+                        </form>
+                    </div>
                 </div>
 
                 <div className="name">
                     <label>Display name</label>
-                    { state === "pending" ?
+                    {state === "pending" ?
                         <wired-input
                             disabled
                             type="text"
@@ -176,7 +235,7 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state  }) => {
 
                 <div className="about">
                     <label>About me</label>
-                    { state === "pending" ?
+                    {state === "pending" ?
                         <wired-textarea
                             disabled
                             rows="6"
@@ -196,7 +255,7 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state  }) => {
 
                 <div className="location">
                     <label>Location</label>
-                    { state === "pending" ?
+                    {state === "pending" ?
                         <wired-input
                             disabled
                             type="text"
@@ -214,7 +273,7 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state  }) => {
 
                 <div className="website">
                     <label>Website</label>
-                    { state === "pending" ?
+                    {state === "pending" ?
                         <wired-input
                             disabled
                             type="text"
@@ -236,11 +295,11 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state  }) => {
                         </div>*/}
                 <div className="pa">
                     <div className="flex row pa-hh">
-                        <button type="submit" className="send-btn">Update</button>
+                        <button type="submit" className="send-btn" onSubmit={(e) => { e.preventDefault(); handleSubmit() }}>Update</button>
                         <p className="pointer" onClick={handleCancel}>Cancel</p>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     )
 }

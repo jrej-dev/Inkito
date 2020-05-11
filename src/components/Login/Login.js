@@ -12,7 +12,6 @@ const Login = ({ loginIsActive }) => {
 
   useEffect(() => {
     var currentUsername = usernameInput.current;
-
     if (currentUsername) {
       currentUsername.addEventListener('input', handleChange);
     }

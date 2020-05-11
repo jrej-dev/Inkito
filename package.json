@@ -7,10 +7,12 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "buffer": "^5.6.0",
     "core-js": "^3.6.5",
     "dsteem": "^0.11.3",
     "hivesigner": "^3.1.5",
     "i": "^0.3.6",
+    "ipfs-http-client": "^44.0.3",
     "mobx": "^5.15.4",
     "mobx-react": "^6.1.8",
     "mobx-react-lite": "^2.0.6",
@@ -24,6 +26,7 @@
     "react-scripts": "3.4.1",
     "react-share": "^4.1.0",
     "remarkable": "^2.0.0",
+    "temporal": "github:bonedaddy/temporal-js",
     "wired-elements": "^2.0.5"
   },
   "scripts": {
@@ -35,6 +38,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "proxy": "http://localhost:5000/",
   "browserslist": {
     "production": [
       ">0.2%",
