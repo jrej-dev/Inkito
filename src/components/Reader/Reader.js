@@ -199,7 +199,14 @@ const Reader = ({ type }) => {
             </div>
           )
         } else {
-          return <AuthorBanner author={props.author} content={toJS(store.seriesDetail)[0]} shareIsActive={store.shareMenuBottomIsActive} userDetail={toJS(store.userDetail)} followState={store.followState}/>
+          return <AuthorBanner 
+            author={props.author} 
+            content={toJS(store.seriesDetail)[0]} 
+            shareIsActive={store.shareMenuBottomIsActive} 
+            userDetail={toJS(store.userDetail)} 
+            followState={store.followState}                 
+            seriesInfo={toJS(store.seriesInfo)}
+          />
         }
       } else return ""
     })

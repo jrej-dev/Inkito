@@ -8,7 +8,7 @@ import '../../sass/components/Reader.scss';
 
 import { Link } from "react-router-dom";
 
-const AuthorBanner = ({ userDetail, followState, content, shareIsActive }) => {
+const AuthorBanner = ({ userDetail, followState, content, shareIsActive, seriesInfo }) => {
     const store = React.useContext(StoreContext);
 
     useEffect(() => {
@@ -38,7 +38,7 @@ const AuthorBanner = ({ userDetail, followState, content, shareIsActive }) => {
                     <wired-card>
                         <div className="flex-even">
                             <Link to={`/@${content.author}`}>
-                                <img className="panel-profile-pic" src={`https://images.hive.blog/u/${author}/avatar`} alt="" />
+                                <img className="panel-profile-pic" src={seriesInfo.author_image} alt="" />
                             </Link>
                             <Link to={`/@${content.author}`} className="author-name flex col pa-h">
                                 <p className="capital">{author}</p>
