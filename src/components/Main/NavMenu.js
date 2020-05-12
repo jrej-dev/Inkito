@@ -4,17 +4,18 @@ import { useHistory } from "react-router-dom";
 
 import '../../sass/components/Nav.scss';
 
-const NavMenu = ({ navMenuIsActive, username }) => {
+const NavMenu = ({ navMenuIsActive, user }) => {
   const store = React.useContext(StoreContext);
   const history = useHistory();
   
-  if (username) {
+  if (user && user.account) {
+    let userData = JSON.parse(user.account.posting_json_metadata);
     return (
       <li className="login user">
-        <img src={`https://images.hive.blog/u/${username}/avatar`} alt=" " className="user-thumbnail pointer" onClick={() => store.toggleNavMenu()} />
+        <img src={userData.profile.profile_image} alt=" " className="user-thumbnail pointer" onClick={() => store.toggleNavMenu()} />
         <div className={navMenuIsActive ? "user-menu flex col pa" : "user-menu flex col hidden"}>
-          <p className="pointer" onClick={() => { history.push(`/@${username}`); window.location.reload() }}>Profile</p>
-          <a href={`https://wallet.hive.blog/@${username}/transfers`} target="_blank" rel="noopener noreferrer">Wallet</a>
+          <p className="pointer" onClick={() => { history.push(`/@${user.name}`); window.location.reload() }}>Profile</p>
+          <a href={`https://wallet.hive.blog/@${user.name}/transfers`} target="_blank" rel="noopener noreferrer">Wallet</a>
           <p className="pointer" onClick={store.logOut}>Logout</p>
         </div>
       </li>

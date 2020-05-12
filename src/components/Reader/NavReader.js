@@ -56,7 +56,7 @@ const NavReader = ({ firstPage, currentPage, lastPage, page, seriesLength, onCli
             {image ? <ShareMenu image={image[0]} shareIsActive={shareIsActive}/> : <ShareMenu shareIsActive={shareIsActive}/>}
             <BellElement className="bellElement" userDetail={userDetail} seriesInfo={seriesInfo} followState={followState}/>
           </li>
-          <NavMenu navMenuIsActive={navMenuIsActive} username={userDetail.name}/>
+          <NavMenu navMenuIsActive={navMenuIsActive} user={userDetail}/>
         </ul>
       </div>
     )

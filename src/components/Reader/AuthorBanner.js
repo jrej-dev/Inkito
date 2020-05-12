@@ -15,7 +15,9 @@ const AuthorBanner = ({ userDetail, followState, content, shareIsActive }) => {
         return () => store.toggleNavMenu(false);
     })
 
+
     const Follower = () => {
+
         if (toJS(store.seriesInfo)) {
             if (toJS(store.seriesInfo).followers) {
                 return (
@@ -30,7 +32,7 @@ const AuthorBanner = ({ userDetail, followState, content, shareIsActive }) => {
         if (content) {
             let author = content.author;
             let image = JSON.parse(content.json_metadata).image;
-     
+            
             return (
                 <div className="author-banner flex">
                     <wired-card>

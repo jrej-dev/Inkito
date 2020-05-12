@@ -21,7 +21,7 @@ const Nav = () => {
   let Menu = () => {
     return useObserver(() => {
       if (toJS(store.userDetail) && toJS(store.userDetail).name) {
-        return <NavMenu navMenuIsActive={store.navMenuIsActive} username={toJS(store.userDetail).name} />
+        return <NavMenu navMenuIsActive={store.navMenuIsActive} user={toJS(store.userDetail)} />
       } else {
         return <NavMenu />
       }

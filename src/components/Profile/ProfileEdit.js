@@ -74,10 +74,10 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
     })
 
     const handleAvatarChange = (e) => {
-        store.setAvatar(e.detail.sourceEvent.target.value);
+        setAvatar(e.detail.sourceEvent.target.value);
     }
     const handleCoverChange = (e) => {
-        store.setCover(e.detail.sourceEvent.target.value);
+        setCover(e.detail.sourceEvent.target.value);
     }
     const handleNameChange = (e) => {
         setName(e.detail.sourceEvent.target.value);

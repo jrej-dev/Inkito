@@ -500,8 +500,10 @@ export function StoreProvider({ children }) {
                         }
                     })
 
+                    seriesInfo.profile_image = await store.fetchAvatar(seriesInfo.author);
+                    
                 return seriesInfo;
-
+                
             } catch (error) {
                 console.log(error)
             }
@@ -745,8 +747,10 @@ export function StoreProvider({ children }) {
                         this.seriesDetail[page].replies = result;
                         this.seriesDetailState = "done";
                         if (page === 0 && this.seriesInfo) {
+                            const avatar = await store.fetchAvatar(author);
                             const followers = await store.getFollowers(author);
                             this.seriesInfo.followers = followers;
+                            this.seriesInfo.author_image = avatar
                             this.all_followers = [];
                         } else if (this.seriesDetail[0] === undefined) {
                             console.log("error - fetching followers failed");
@@ -769,8 +773,8 @@ export function StoreProvider({ children }) {
             if (results.length === 0 || results[0].parent_author.length > 0) {
                 for (let result of results) {
                     for (let comment of results) {
-                        const votes = await store.fetchActiveVotes(comment.author, comment.permlink);
-                        comment.active_votes = votes;
+                        comment.active_votes = await store.fetchActiveVotes(comment.author, comment.permlink);
+                        comment.profile_image = await store.fetchAvatar(comment.author);
                     }
                     const replies = await store.fetchComments(result);
                     result.replies = replies
@@ -870,7 +874,17 @@ export function StoreProvider({ children }) {
             }
 
         },
-        //to be fixed
+        async fetchAvatar(author) {
+            const avatar = await client.database
+            .call('get_accounts', [[author]])
+            .then(result => {
+                if (result.length > 0) {
+                    let json = JSON.parse(result[0].posting_json_metadata).profile;
+                    return json.profile_image;
+                }
+            })
+            return avatar;
+        },
         async getFollowCount(author) {
             const followCount = await client.call('follow_api', 'get_follow_count', [author])
                 .then(result => { return result })

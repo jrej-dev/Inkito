@@ -22,7 +22,7 @@ function NewPanel({ content, onClick }) {
           </div>
           <div className="panel-banner">
             <Link to={`/@${content.author}`}>
-              <img className="panel-profile-pic" src={`https://images.hive.blog/u/${author}/avatar`} alt=" " />
+              <img className="panel-profile-pic" src={content.profile_image} alt=" " />
             </Link>
             <span className="panel-info">
               <span className="panel-title" onClick={() => onClick({ author, seriesTitle })}>{content.title.length > 60 ? `${content.title.slice(0, 60)}...` : content.title}</span>

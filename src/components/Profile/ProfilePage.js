@@ -65,7 +65,7 @@ const ProfilePage = () => {
                         <div className="author reset">
                             <img
                                 className="panel-profile-pic"
-                                src={`https://images.hive.blog/u/${author.name}/avatar`}
+                                src={author.avatar}
                                 alt=""
                             />
                             <h2 className="capital">{author.name}</h2>

@@ -55,7 +55,7 @@ const CommentBlock = ({ content, reply, page, replyIsActive, userDetail, comment
     return (
         <div className="active comment-banner">
             <Link to={`/@${content.author}`}>
-                <img className="panel-profile-pic" src={`https://images.hive.blog/u/${content.author}/avatar`} alt=" " />
+                <img className="panel-profile-pic" src={content.profile_image} alt=" " />
             </Link>
             <div className="comment-block">
 

@@ -83,7 +83,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
             <div className="info-banner">
               <div className={type === "comics" ? "author-info flex col" : "author-info flex row"}>
                 <Link to={`/@${content.author}`}>
-                  <img className="panel-profile-pic" src={content.author ? `https://images.hive.blog/u/${content.author}/avatar` : ""} alt=" " />
+                  <img className="panel-profile-pic" src={seriesInfo.author_image} alt=" " />
                   <div className="author-name">
                     <p className="capital">{content.author}</p>
                     <p>Creator</p>
