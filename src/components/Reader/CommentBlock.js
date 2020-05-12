@@ -16,7 +16,7 @@ import Flag from '../Icons/flag.png';
 import { Link } from "react-router-dom";
 
 
-const CommentBlock = ({ content, reply, page, replyIsActive, userDetail, commentState, voteState}) => {
+const CommentBlock = ({ content, reply, page, replyIsActive, userDetail, commentState, voteState }) => {
     const store = React.useContext(StoreContext);
     const alert = useAlert();
 
@@ -45,7 +45,7 @@ const CommentBlock = ({ content, reply, page, replyIsActive, userDetail, comment
                 return g3[1] === 1 ? `${g3[1]} month ago` : `${g3[1]} months ago`;
             } else if (g3[2] > 0) {
                 return g3[2] === 1 ? `${g3[2]} day ago` : `${g3[2]} days ago`;
-            } else if (g3[2] === 0){
+            } else if (g3[2] === 0) {
                 return "Today";
             } else {
                 return "?";
@@ -81,7 +81,7 @@ const CommentBlock = ({ content, reply, page, replyIsActive, userDetail, comment
 
                 <div className="comment-bottom-banner flex-between reset">
                     <div className="left-block">
-                        <HeartElement content={content} className="heartElement" page={page} userDetail={userDetail} voteState={voteState}/>
+                        <HeartElement content={content} className="heartElement" page={page} userDetail={userDetail} voteState={voteState} />
 
 
                         <div className="reward-block flex reset">
@@ -98,17 +98,21 @@ const CommentBlock = ({ content, reply, page, replyIsActive, userDetail, comment
                     {userDetail.name ?
                         <p className="reply flex-end pointer" onClick={() => { store.toggleReplyIsActive(content.permlink) }}>Reply</p>
                         :
-                        <p className="reply flex-end pointer" onClick={() => { alert.show('Please login first.') }}>Reply</p>
+                        <p className="reply flex-end pointer" onClick={() => {
+                            alert.show('Please login first.', {
+                                timeout: 2000, // custom timeout just for this one alert
+                            })
+                        }}>Reply</p>
                     }
                 </div>
             </div>
-            
+
             <div className="comments">
-                { replyIsActive === content.permlink ? <CommentInput content={content} userDetail={userDetail} commentState={commentState} page={page}/> : <div className="hidden"><CommentInput content={content} page={page} userDetail={userDetail} commentState={commentState}/></div> }
+                {replyIsActive === content.permlink ? <CommentInput content={content} userDetail={userDetail} commentState={commentState} page={page} /> : <div className="hidden"><CommentInput content={content} page={page} userDetail={userDetail} commentState={commentState} /></div>}
             </div>
 
             <ul className="replies">
-                <CommentList commentData={content} reply={true} page={page} replyIsActive={replyIsActive} userDetail={userDetail} commentState={commentState} voteState={voteState}/>
+                <CommentList commentData={content} reply={true} page={page} replyIsActive={replyIsActive} userDetail={userDetail} commentState={commentState} voteState={voteState} />
             </ul>
         </div>
     )

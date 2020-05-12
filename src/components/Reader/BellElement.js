@@ -84,13 +84,21 @@ const BellElement = ({ followState, userDetail, seriesInfo, text }) => {
         } else {
             // inactive
             return (
-                <img className="icon bell" src={Bell} alt="bell" onClick={() => { alert.show('Please login first.') }} />
+                <img className="icon bell" src={Bell} alt="bell" onClick={() => {
+                    alert.show('Please login first.', {
+                        timeout: 2000, // custom timeout just for this one alert
+                    })
+                }} />
             )
         }
     } else {
         // inactive
         return (
-            <img className="icon bell" src={Bell} alt="bell" onClick={() => { alert.show('Please login first.') }} />
+            <img className="icon bell" src={Bell} alt="bell" onClick={() => {
+                alert.show('Please login first.', {
+                    timeout: 2000, // custom timeout just for this one alert
+                })
+            }} />
         )
     }
 }

@@ -46,7 +46,7 @@ const HeartElement = ({ userDetail, content, page, voteState }) => {
                 )
             } else if (content.active_votes.some(vote => vote.voter === userName)) {
                 return (
-                    <img className="icon heart" src={RedHeart} alt="red-heart" /*add dislike function here.*//>
+                    <img className="icon heart" src={RedHeart} alt="red-heart" /*add dislike function here.*/ />
                 )
             } else if (!content.active_votes.some(vote => vote.voter === store.userDetail.name) && voteState !== content.permlink) {
                 if (isPostActive(content.created.slice(0, 10))) {
@@ -61,12 +61,20 @@ const HeartElement = ({ userDetail, content, page, voteState }) => {
             }
         } else {
             return (
-                <img className="icon heart" src={Heart} alt="heart" onClick={() => { alert.show('Please login first.') }}/>
+                <img className="icon heart" src={Heart} alt="heart" onClick={() => {
+                    alert.show('Please login first.', {
+                        timeout: 2000, // custom timeout just for this one alert
+                    })
+                }} />
             )
         }
     } else {
         return (
-            <img className="icon heart" src={Heart} alt="heart" onClick={() => { alert.show('Please login first.') }}/>
+            <img className="icon heart" src={Heart} alt="heart" onClick={() => {
+                alert.show('Please login first.', {
+                    timeout: 2000, // custom timeout just for this one alert
+                })
+            }} />
         )
     }
 }

@@ -102,7 +102,11 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
             {userDetail.name ?
               <p className="reply flex-end pointer" onClick={() => { store.toggleReplyIsActive(content.permlink) }}>Reply</p>
               :
-              <p className="reply flex-end pointer" onClick={() => { alert.show('Please login first.') }}>Reply</p>
+              <p className="reply flex-end pointer" onClick={() => {
+                alert.show('Please login first.', {
+                  timeout: 2000, // custom timeout just for this one alert
+                })
+              }}>Reply</p>
             }
             <div className="comments">
               {replyIsActive === content.permlink ? <CommentInput content={content} userDetail={userDetail} commentState={commentState} page={page} /> : <div className="hidden"><CommentInput content={content} userDetail={userDetail} commentState={commentState} /></div>}

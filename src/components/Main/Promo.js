@@ -15,25 +15,25 @@ const Promo = () => {
         return useObserver(() => {
             var promoList = [];
             var length = store.promoArray.length;
-            for (let i = 0; i< 6; i++) {
-                if (i<length) {
-                    promoList.push(    
-                        <li className={`promoBox promo${i + 1}`} 
-                        key={store.promoArray[i].title}>
+            for (let i = 0; i < 6; i++) {
+                if (i < length) {
+                    promoList.push(
+                        <li className={`promoBox promo${i + 1}`}
+                            key={store.promoArray[i].title}>
                             <a href={store.promoArray[i].link}>
                                 <img
                                     src={store.promoArray[i].thumbnail}
                                     alt={`Thumbnail ${store.promoArray[i].title}`}
                                 />
                             </a>
-                        </li>  
+                        </li>
                     )
                 } else {
                     promoList.push(
-                        <li 
-                            className={`promoBox promo${i + 1} empty`} 
+                        <li
+                            className={`promoBox promo${i + 1} empty`}
                             key={`promo${i + 1}`}>
-                        </li> 
+                        </li>
                     )
                 }
             }
@@ -46,7 +46,11 @@ const Promo = () => {
             <div className="heroCover" />
             <ul className="promoBanner">
                 <PromoBoxes />
-                <li className="promoBox promoLink flex" onClick={() => { alert.show('Not available yet.') }}>
+                <li className="promoBox promoLink flex" onClick={() => {
+                    alert.show('Not available yet.', {
+                        timeout: 2000, // custom timeout just for this one alert
+                    })
+                }}>
                     <h2 className="promoted pointer">Promoted</h2>
                     <p className="here pointer">Get your story up here.</p>
                 </li>
