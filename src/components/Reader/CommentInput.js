@@ -48,10 +48,11 @@ const CommentInput = ({ content, userDetail, page, commentState }) => {
     }
 
     if (content && userDetail && userDetail.name) {
+        let userData = JSON.parse(userDetail.account.posting_json_metadata);
         return (
             <div className="active comment-banner">
                 <Link to={`/@${userDetail.name}`}>
-                    <img className="panel-profile-pic" src={`https://images.hive.blog/u/${userDetail.name}/avatar`} alt=" " />
+                    <img className="panel-profile-pic" src={userData.profile.profile_image} alt=" " />
                 </Link>
                 <div className="comment-block">
 
