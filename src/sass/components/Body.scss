@@ -103,4 +103,8 @@
         margin: 1em 0;
         text-align: center;
     }
+    .title-line {
+        > * {
+            flex-basis: 20%;
+        }
 }
