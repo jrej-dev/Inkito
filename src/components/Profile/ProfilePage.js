@@ -132,7 +132,7 @@ const ProfilePage = () => {
                 window.location.reload();
             }
             if (toJS(store.authorInfo)) {
-                return <ProfileEdit isEdited={isEdited} handleEdit={handleEdit} authorInfo={toJS(store.authorInfo)} state={store.updateProfileState}/>
+                return <ProfileEdit isEdited={isEdited} handleEdit={handleEdit} authorInfo={toJS(store.authorInfo)} state={store.updateProfileState} />
             }
         })
     }

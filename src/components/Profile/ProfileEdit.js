@@ -1,8 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react';
 import StoreContext from '../../stores/AppStore';
+import { useAlert } from 'react-alert';
 
 const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
     const store = React.useContext(StoreContext);
+    const alert = useAlert();
+
     const [avatar, setAvatar] = useState(authorInfo.avatar);
     const [cover, setCover] = useState(authorInfo.cover);
     const [name, setName] = useState(authorInfo.displayName);
@@ -73,7 +76,7 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
     const handleAvatarChange = (e) => {
         store.setAvatar(e.detail.sourceEvent.target.value);
     }
-    const handleCoverChange = (e) => {    
+    const handleCoverChange = (e) => {
         store.setCover(e.detail.sourceEvent.target.value);
     }
     const handleNameChange = (e) => {
@@ -100,7 +103,20 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
                 website: website
             }
         };
-        store.updateProfile(authorInfo.name, JSON.stringify(tx));
+
+        if (about !== authorInfo.about || cover !== authorInfo.cover || location !== authorInfo.location || name !== authorInfo.displayName || avatar !== authorInfo.avatar || website !== authorInfo.website) {
+            store.updateProfile(authorInfo.name, JSON.stringify(tx));
+            if (state === "done") {
+                handleEdit();
+                alert.success('Profile Udpated', {
+                    timeout: 2000, // custom timeout just for this one alert
+                })
+            }
+        } else {
+            alert.show('No changes', {
+                timeout: 2000, // custom timeout just for this one alert
+            })
+        }
     }
 
     const handleCancel = () => {
