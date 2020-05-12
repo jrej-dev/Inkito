@@ -68,13 +68,13 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
                 currentWebsite.removeEventListener('input', handleWebsiteChange);
             }
         }
-    }, [])
+    })
 
     const handleAvatarChange = (e) => {
-        setAvatar(e.detail.sourceEvent.target.value);
+        store.setAvatar(e.detail.sourceEvent.target.value);
     }
-    const handleCoverChange = (e) => {
-        setCover(e.detail.sourceEvent.target.value);
+    const handleCoverChange = (e) => {    
+        store.setCover(e.detail.sourceEvent.target.value);
     }
     const handleNameChange = (e) => {
         setName(e.detail.sourceEvent.target.value);
@@ -114,7 +114,7 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
     }
 
     const onCoverUpload = async () => {
-        /*if (coverFile) {
+        if (coverFile) {
             var myHeaders = new Headers();
 
             var formdata = new FormData();
@@ -130,16 +130,15 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
             const fetch_response = await fetch('https://inkito-ipfs.herokuapp.com/upload', requestOptions);
             console.log(fetch_response);
             const body = await fetch_response.text();
-            console.log(body);
 
-            setCover(`https://gateway.ipfs.io/ipfs/${body}`);
-        }*/
-        setCover(`test`);
+            setCover(`https://gateway.ipfs.io/ipfs/${JSON.parse(body).response}`);
+            coverInput.current.value = `https://gateway.ipfs.io/ipfs/${JSON.parse(body).response}`;
+        }
     }
 
 
     const onAvatarUpload = async () => {
-        /*if (avatarFile) {
+        if (avatarFile) {
             var myHeaders = new Headers();
 
             var formdata = new FormData();
@@ -154,10 +153,10 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
             };
             const fetch_response = await fetch('https://inkito-ipfs.herokuapp.com/upload', requestOptions);
             const body = await fetch_response.text();
-            console.log(body);
-            //setAvatar(`https://gateway.ipfs.io/ipfs/${JSON.parse(body).response}`);
-        }*/
-        setAvatar(`test`);
+
+            setAvatar(`https://gateway.ipfs.io/ipfs/${JSON.parse(body).response}`);
+            avatarInput.current.value = `https://gateway.ipfs.io/ipfs/${JSON.parse(body).response}`;
+        }
     }
 
     return (
@@ -180,12 +179,10 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
                             ref={avatarInput}
                         />
                     }
-                    <div className="flex row">
-                        <form >
-                            <input type="file" placeholder="Upload an image" onChange={(e) => setAvatarFile(e.target.files[0])} />
-                            <button className="blue" type="submit" onClick={(e) => { onAvatarUpload(); e.preventDefault(); }}>Upload</button>
-                        </form>
-                    </div>
+                    <form className="flex row">
+                        <input type="file" placeholder="Upload an image" onChange={(e) => setAvatarFile(e.target.files[0])} />
+                        <p className="blue" onClick={onAvatarUpload}>Upload</p>
+                    </form>
                 </div>
 
                 <div className="cover">
@@ -207,12 +204,10 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
                             ref={coverInput}
                         />
                     }
-                    <div className="flex row">
-                        <form>
-                            <input type="file" placeholder="Upload an image" onChange={(e) => setCoverFile(e.target.files[0])} />
-                            <button className="blue" type="submit" onClick={(e) => { onCoverUpload(); e.preventDefault(); }}>Upload</button>
-                        </form>
-                    </div>
+                    <form className="flex row">
+                        <input type="file" placeholder="Upload an image" onChange={(e) => setCoverFile(e.target.files[0])} />
+                        <p className="blue" onClick={onCoverUpload}>Upload</p>
+                    </form>
                 </div>
 
                 <div className="name">
@@ -295,7 +290,7 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
                         </div>*/}
                 <div className="pa">
                     <div className="flex row pa-hh">
-                        <button type="submit" className="send-btn" onSubmit={(e) => { e.preventDefault(); handleSubmit() }}>Update</button>
+                        <button className="send-btn" onClick={handleSubmit}>Update</button>
                         <p className="pointer" onClick={handleCancel}>Cancel</p>
                     </div>
                 </div>

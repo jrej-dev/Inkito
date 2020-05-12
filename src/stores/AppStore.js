@@ -25,10 +25,6 @@ var api = new hivesigner.Client({
     scope: ['vote', 'comment', 'follow', 'posting'],
 });
 
-//Temporal
-const Temporal = require('temporal');
-const temporal = new Temporal();
-
 export function StoreProvider({ children }) {
     const store = useLocalStore(() => ({
 
@@ -97,8 +93,7 @@ export function StoreProvider({ children }) {
         shareMenuIsActive: false,
         shareMenuBottomIsActive: false,
         cookieConsent: null,
-        replyIsActive: "",
-        uploadAddress: "",
+        replyIsActive: "",    
 
         //Data states
         trendyComicState: "",

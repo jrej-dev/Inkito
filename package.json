@@ -38,7 +38,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "http://localhost:5000/",
+  "proxy": "https://inkito-ipfs.herokuapp.com/",
   "browserslist": {
     "production": [
       ">0.2%",
