@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ useEffect } from 'react';
 //import 'wired-elements';
 import '../../sass/components/NavReader.scss';
 import BellElement from './BellElement';
@@ -13,6 +13,18 @@ import Bell from '../Icons/bell.png';
 import { Link } from "react-router-dom";
 
 const NavReader = ({ firstPage, currentPage, lastPage, page, seriesLength, onClick, isHidden, shareIsActive, userDetail, seriesInfo, navMenuIsActive, followState, voteState}) => {
+  useEffect (() => { 
+    return () => dispose();
+  })
+
+  const dispose = () => {
+    Menu = () => { "" };
+  }
+
+  let Menu = () => {
+    return <NavMenu navMenuIsActive={navMenuIsActive} user={userDetail}/>
+  }
+  
   if (firstPage && currentPage) {
     let image = JSON.parse(currentPage.json_metadata).image;
     return (
@@ -56,7 +68,7 @@ const NavReader = ({ firstPage, currentPage, lastPage, page, seriesLength, onCli
             {image ? <ShareMenu image={image[0]} shareIsActive={shareIsActive}/> : <ShareMenu shareIsActive={shareIsActive}/>}
             <BellElement className="bellElement" userDetail={userDetail} seriesInfo={seriesInfo} followState={followState}/>
           </li>
-          <NavMenu navMenuIsActive={navMenuIsActive} user={userDetail}/>
+          <Menu />
         </ul>
       </div>
     )
