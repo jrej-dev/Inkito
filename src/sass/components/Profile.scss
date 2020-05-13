@@ -91,6 +91,43 @@
                     background-color: $secondary-color;
                   }
             }
+            .upload {
+                margin: 0.5em 0;
+                p {
+                    margin-left: 0.2em;
+                }
+                .custom-file-input::-webkit-file-upload-button {
+                    visibility: hidden;
+                  }
+                  .custom-file-input::before {
+                    content: 'Browse';
+                    box-shadow: inset 0px 1px 0px 0px #ffffff;
+                    background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+                    background-color: #ffffff;
+                    border-radius: 6px;
+                    border: 1px solid #dcdcdc;
+                    display: inline-block;
+                    cursor: pointer;
+                    color: #666666;
+                    font-family: Arial;
+                    font-size: 12px;
+                    font-weight: bold;
+                    padding: 0.2em 1em;
+                    text-decoration: none;
+                    text-shadow: 0px 1px 0px #ffffff;
+                    &:hover {
+                        background: linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+                        background-color: #f6f6f6;
+                    }
+                    &:active {
+                        position: relative;
+                        top: 1px;
+                    }
+                  }
+                  .custom-file-input:active::before {
+                    background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+                  }
+            }
         }
     }
     .divider {

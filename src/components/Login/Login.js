@@ -24,7 +24,6 @@ const Login = ({ loginIsActive }) => {
 
   const handleChange = (e) => {
     setUsername(e.detail.sourceEvent.target.value);
-    console.log(username)
   }
 
   const handleSubmit = () => {

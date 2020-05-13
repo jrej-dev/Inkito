@@ -436,7 +436,6 @@ export function StoreProvider({ children }) {
 
             api.login(params, function (err, token) {
                 if (token) {
-                    console.log(token)
                     store.toggleLogin(false);
                     store.getUserDetail(token, user)
                 } else if (err) {

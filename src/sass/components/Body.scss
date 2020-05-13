@@ -14,7 +14,6 @@
         @include flex(flex-start);
         flex-direction: row;
         flex-wrap: wrap;
-
         > * {
             margin: 0.5em 0;
             padding: 0 0.5em;
@@ -103,9 +102,13 @@
         margin: 1em 0;
         text-align: center;
     }
-    .title-line {
-        > * {
-            flex-basis: 20%;
+    .content-display {
+
+        .title-line{
+            width: 100%;
+            h3 {
+                margin: 0.5em 0;
+            }
         }
-     }
+    }
 }

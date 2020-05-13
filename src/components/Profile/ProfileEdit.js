@@ -195,9 +195,9 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
                             ref={avatarInput}
                         />
                     }
-                    <form className="flex row">
-                        <input type="file" placeholder="Upload an image" onChange={(e) => setAvatarFile(e.target.files[0])} />
-                        <p className="blue" onClick={onAvatarUpload}>Upload</p>
+                    <form className="upload flex-start row wrap reset">
+                        <input className="custom-file-input" type="file" placeholder="Upload an image" onChange={(e) => setAvatarFile(e.target.files[0])} />
+                        <p className="blue" onClick={onAvatarUpload}>Upload file</p>
                     </form>
                 </div>
 
@@ -220,9 +220,9 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
                             ref={coverInput}
                         />
                     }
-                    <form className="flex row">
-                        <input type="file" placeholder="Upload an image" onChange={(e) => setCoverFile(e.target.files[0])} />
-                        <p className="blue" onClick={onCoverUpload}>Upload</p>
+                    <form className="upload flex-start row wrap reset">
+                        <input className="custom-file-input" type="file" placeholder="Upload an image" onChange={(e) => setCoverFile(e.target.files[0])} />
+                        <p className="blue" onClick={onCoverUpload}>Upload file</p>
                     </form>
                 </div>
 
