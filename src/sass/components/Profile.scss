@@ -43,7 +43,8 @@
     }
 }
 
-.profile-page, .profile-edit {
+.profile-page,
+.profile-edit {
     .edit {
         grid-area: edit;
         margin: 2em 3em 2em 3em;
@@ -79,7 +80,7 @@
                     min-width: 25%;
                 }
             }
-            
+
             .send-btn {
                 box-shadow: inset 0px 1px 0px 0px $primary-color;
                 background: linear-gradient(to bottom, $primary-color 5%, $secondary-color 100%);
@@ -89,7 +90,7 @@
                 &:hover {
                     background: linear-gradient(to bottom, $secondary-color 5%, $primary-color 100%);
                     background-color: $secondary-color;
-                  }
+                }
             }
             .upload {
                 margin: 0.5em 0;
@@ -98,9 +99,9 @@
                 }
                 .custom-file-input::-webkit-file-upload-button {
                     visibility: hidden;
-                  }
-                  .custom-file-input::before {
-                    content: 'Browse';
+                }
+                .custom-file-input::before {
+                    content: "Browse";
                     box-shadow: inset 0px 1px 0px 0px #ffffff;
                     background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
                     background-color: #ffffff;
@@ -123,10 +124,10 @@
                         position: relative;
                         top: 1px;
                     }
-                  }
-                  .custom-file-input:active::before {
+                }
+                .custom-file-input:active::before {
                     background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
-                  }
+                }
             }
         }
     }
@@ -201,7 +202,8 @@
             margin: 0;
             flex-wrap: wrap;
             .series-thumbnail {
-                img {
+                position: relative;
+                .thumbnail {
                     width: 10em;
                     height: 10em;
                     object-fit: cover;
@@ -211,6 +213,48 @@
                         -webkit-filter: brightness(80%);
                     }
                 }
+            }
+            .add-series {
+                margin-left: 3em;
+                .add-sr-btn {
+                    padding: 1em;
+                    font-size: 20px;
+                }
+            }
+            .series-admin {
+                z-index: 1;
+                top: 0.2em;
+                right: 0;
+                position: absolute;
+                > * {
+                    width: 2em;
+                    margin: 0 0.2em;
+                    padding: 0.5em 0.5em;
+                }
+                .icon {
+                    padding: 0;
+                    height: 1em;
+                    width: 1em;
+                }
+                .add-ep-btn {
+                    box-shadow: inset 0px 1px 0px 0px $success-color;
+                    background: linear-gradient(to bottom, rgb(100, 223, 171) 5%, $success-color 100%);
+                    background-color: rgb(100, 223, 171);
+                    border-radius: 6px;
+                    border: 1px solid rgb(100, 223, 171);
+                    cursor: pointer;
+                    font-family: Arial;
+                    text-decoration: none;
+                    &:hover {
+                        background: linear-gradient(to bottom, $success-color 5%, rgb(100, 223, 171) 100%);
+                        background-color: $success-color;
+                    }
+                    &:active {
+                        position: relative;
+                        top: 1px;
+                    }
+                }
+                
             }
             .series-info {
                 width: 10em;
@@ -258,12 +302,17 @@
         .profile-info {
             margin: 0;
         }
-        .stats, .description, .location, .link, .location {
+        .stats,
+        .description,
+        .location,
+        .link,
+        .location {
             display: none;
         }
     }
 
-    .profile-page, .profile-edit {
+    .profile-page,
+    .profile-edit {
         .edit-banner {
             z-index: 2;
             color: $light-color;
@@ -272,7 +321,7 @@
             top: 3em;
             right: 0.5em;
         }
-        .profile-info{
+        .profile-info {
             min-height: initial;
         }
         .series {
@@ -325,7 +374,7 @@
     wired-textarea {
         width: 100%;
     }
-    .profile-page { 
+    .profile-page {
         .series {
             width: 80%;
             margin: 1em 10%;
@@ -355,14 +404,16 @@
                         margin: 0 1em;
                     }
                 }
+                .add-series {
+                    min-height: 7em;
+                }
             }
         }
     }
-
 }
 
 @media screen and (max-width: 400px) {
-    .profile-page { 
+    .profile-page {
         .series {
             .series-list {
                 li {
@@ -373,6 +424,7 @@
                         }
                     }
                 }
+                
             }
         }
     }

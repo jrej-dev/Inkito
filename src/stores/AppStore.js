@@ -492,6 +492,7 @@ export function StoreProvider({ children }) {
                                 author: result[0].author,
                                 image: JSON.parse(result[0].json_metadata).image[0],
                                 tags: JSON.parse(result[0].json_metadata).tags,
+                                first_permlink: result[0].permlink,
                                 last_payout: reward,
                                 last_update: lastUpdate,
                                 seriesId: seriesId

@@ -1,0 +1,23 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+
+.publish {
+    width: 100vw;
+    min-height: 75vh;
+    background-color: $primary-color;
+    .container {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        padding: 2%;
+    }
+}
+.publish-page {
+    display: grid;
+    min-height: 40em;
+    height: 95%;
+    width: 95%;
+    background-color: $light-color;
+    border: 1px solid black;
+}

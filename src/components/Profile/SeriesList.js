@@ -3,14 +3,13 @@ import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
 import { Link } from "react-router-dom";
-
-//import 'wired-elements';
+import Edit from '../Icons/edit.png';
 import '../../sass/components/Profile.scss';
 
 const SeriesList = () => {
     const store = React.useContext(StoreContext);
 
-    const ComicList = ({ seriesArray }) => {
+    const ComicList = ({ author, user, seriesArray }) => {
         if (seriesArray.length > 0) {
             let seriesList = [];
             seriesArray.forEach(series => {
@@ -20,8 +19,16 @@ const SeriesList = () => {
                     seriesList.push(
                         <li key={series.seriesId}>
                             <div className="series-thumbnail">
+                                <div className={user === author ? "series-admin" : "hidden"}>
+                                    <button>
+                                        <img src={Edit} className="sm-icon icon" alt="Edit" />
+                                    </button>
+                                    <button className="add-ep-btn">
+                                        +
+                                    </button>
+                                </div>
                                 <Link to={`/comicReader/${seriesUrl}`}>
-                                    <img src={series.image} alt="" />
+                                    <img className="thumbnail" src={series.image} alt="" />
                                 </Link>
                             </div>
                             <div className="series-info flex reset">
@@ -42,6 +49,9 @@ const SeriesList = () => {
                         <h3 className="list-title">Comics</h3>
                         <ul className="series-list pa">
                             {seriesList}
+                            <li className={user === author ? "add-series flex-start" : "hidden"}>
+                                <button className="add-sr-btn">+</button>
+                            </li>
                         </ul>
                     </div>
                 )
@@ -51,7 +61,7 @@ const SeriesList = () => {
         }
     }
 
-    const NovelList = ({ seriesArray }) => {
+    const NovelList = ({ author, user, seriesArray }) => {
         if (seriesArray.length > 0) {
             let seriesList = [];
             seriesArray.forEach(series => {
@@ -61,8 +71,16 @@ const SeriesList = () => {
                     seriesList.push(
                         <li key={series.seriesId}>
                             <div className="series-thumbnail">
+                                <div className={user === author ? "series-admin" : "hidden"}>
+                                    <button>
+                                        <img src={Edit} className="sm-icon icon" alt="Edit" />
+                                    </button>
+                                    <button className="add-ep-btn">
+                                        +
+                                    </button>
+                                </div>
                                 <Link to={`/novelReader/${seriesUrl}`}>
-                                    <img src={series.image} alt="" />
+                                    <img className="thumbnail" src={series.image} alt="" />
                                 </Link>
                             </div>
                             <div className="series-info flex reset">
@@ -84,6 +102,9 @@ const SeriesList = () => {
                         <h3 className="list-title">Novels</h3>
                         <ul className="series-list pa">
                             {seriesList}
+                            <li className={user === author ? "add-series flex-start" : "hidden"}>
+                                <button className="add-sr-btn">+</button>
+                            </li>
                         </ul>
                     </div>
                 )
@@ -97,15 +118,13 @@ const SeriesList = () => {
     return useObserver(() => {
         if (toJS(store.authorInfo)) {
             if (toJS(store.authorInfo).series && toJS(store.authorInfo).series.length > 0) {
+                const author = toJS(store.authorInfo);
+                const user = toJS(store.userDetail).name || "";
                 return (
                     <div className="series">
                         <h2>Series</h2>
-                        <ComicList seriesArray={toJS(store.authorInfo.series)} />
-                        <NovelList seriesArray={toJS(store.authorInfo.series)} />
-                        {/*if more
-                        <li className="add-series">
-                            <img className="lg-icon" src={Add} alt="add-icon"/>
-                        </li>*/}
+                        <ComicList author={author.name} user={user} seriesArray={author.series} />
+                        <NovelList author={author.name} user={user} seriesArray={author.series} />
                     </div>
                 )
             } else { return "" }

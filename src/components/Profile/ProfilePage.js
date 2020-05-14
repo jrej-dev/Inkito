@@ -8,7 +8,6 @@ import SeriesList from './SeriesList';
 import Nav from '../Main/Nav';
 import Location from '../Icons/location.png';
 import Link from '../Icons/link.png';
-//import Add from '../Icons/add.png';
 //import 'wired-elements';
 import '../../sass/components/Profile.scss';
 
@@ -54,7 +53,7 @@ const ProfilePage = () => {
 
     const ProfileInfo = () => {
         return useObserver(() => {
-            if (toJS(store.authorInfo) && toJS(store.userDetail)) {
+            if (toJS(store.authorInfo)) {
                 const author = toJS(store.authorInfo);
                 const user = toJS(store.userDetail).name || "";
                 return (

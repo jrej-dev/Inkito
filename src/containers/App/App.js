@@ -15,6 +15,10 @@ import FullDisplay from '../../components/FullDisplay/FullDisplay';
 import Reader from '../../components/Reader/Reader';
 import ProfilePage from '../../components/Profile/ProfilePage';
 import Page404 from '../../components/Main/Page404';
+
+import NewSeries from '../../components/Publish/NewSeries';
+import NewEpisode from '../../components/Publish/NewEpisode';
+
 import CookieBanner from '../../components/Main/CookieBanner';
 
 const App = () => {
@@ -80,6 +84,12 @@ const App = () => {
           </Route>
           <Route path="/@*">
             <ProfilePage />
+          </Route>
+          <Route exact path="/series">
+            <NewSeries/>
+          </Route>
+          <Route path="/series/">
+            <NewEpisode/>
           </Route>
           <Route component={Page404} />
         </Switch>
