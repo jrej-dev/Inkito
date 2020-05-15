@@ -11,7 +11,9 @@
         width: 100%;
         padding: 2%;
     }
+    
 }
+
 .profile-page {
     display: grid;
     height: 95%;
@@ -131,11 +133,14 @@
             }
         }
     }
+
     .divider {
         grid-area: div;
         border-left: 1px solid $darkest-color;
         height: 100%;
+        width: 1px;
     }
+    
     .profile-info {
         grid-area: info;
         min-height: 80vh;
