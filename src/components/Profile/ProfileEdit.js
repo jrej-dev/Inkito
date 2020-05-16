@@ -119,7 +119,7 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
         }
     }
 
-    const handleCancel = () => {
+    const handleCancel = (e) => {
         setAvatar(authorInfo.avatar);
         setCover(authorInfo.cover);
         setName(authorInfo.name);

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import StoreContext from '../../stores/AppStore';
-import { useObserver } from 'mobx-react';
-import { toJS } from 'mobx';
+//import { useObserver } from 'mobx-react';
+//import { toJS } from 'mobx';
 
 import Nav from '../Main/Nav';
 import '../../sass/components/Publish.scss';

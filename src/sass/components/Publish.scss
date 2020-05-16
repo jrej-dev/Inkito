@@ -3,18 +3,17 @@
 
 
 .publish {
+    position: relative;
     width: 100vw;
-    min-height: 75vh;
     background-color: $primary-color;
     .container {
         position: relative;
         height: 100%;
-        width: 100%;
+        width: 100vw;
         padding: 2%;
     }
     .publish-page {
         display: grid;
-        height: 95%;
         width: 95%;
         background-color: $light-color;
         border: 1px solid black;
@@ -28,7 +27,12 @@
         }
           
         tbody tr{
-            min-height: 10em;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 0.5em;
+            height: 2em;
             &:nth-child(odd){
                 background-color: $third-color;
             }
@@ -38,9 +42,36 @@
             cursor: pointer;
             font-weight: bold;
         }
-        
+        .imageLink {
+            transition: top 0.3s;
+            position: absolute;
+            position: fixed;
+            z-index: 2;
+            top: 10%;
+            background-color: $light-color;
+            left: unquote("calc(50% - 8.5em)");
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            height: 20em;
+            width: 16em;
+            border: 1px solid black;
+            .close {
+                position: absolute;
+                top: 1em;
+                right: 1em;
+            }
+            > wired-input {
+                width: 80%;
+            }
+        }
+        .hidden-top {
+            top: -50em;
+        }        
     }
 }
+
 
 .upload {
     width: 100%;
@@ -101,7 +132,7 @@
 }
 
 .tags > wired-input {
-    width: 100%;
+    width: 50%;
 }
 
 .end {
@@ -150,6 +181,12 @@
                         margin-bottom: 2em;
                     }
                     flex-direction: column;
+                }
+                .input {
+                    align-items: center;
+                    > wired-input {
+                        width: 90%;
+                    }
                 }
             }
         }

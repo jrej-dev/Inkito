@@ -50,7 +50,9 @@ const SeriesList = () => {
                         <ul className="series-list pa">
                             {seriesList}
                             <li className={user === author ? "add-series flex-start" : "hidden"}>
-                                <button className="add-sr-btn">+</button>
+                                <Link to={'/publish/comic'}>
+                                    <button className="add-sr-btn">+</button>
+                                </Link>
                             </li>
                         </ul>
                     </div>
@@ -103,7 +105,9 @@ const SeriesList = () => {
                         <ul className="series-list pa">
                             {seriesList}
                             <li className={user === author ? "add-series flex-start" : "hidden"}>
-                                <button className="add-sr-btn">+</button>
+                                <Link to='/publish/novel'>
+                                    <button className="add-sr-btn">+</button>
+                                </Link>
                             </li>
                         </ul>
                     </div>

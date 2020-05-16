@@ -88,8 +88,11 @@ const App = () => {
           <Route path="/series">
             <SeriesEdit/>
           </Route>
-          <Route path="/publish">
-            <PublishPage/>
+          <Route path="/publish/comic">
+            <PublishPage publishType={"comic"}/>
+          </Route>
+          <Route path="/publish/novel">
+            <PublishPage publishType={"novel"}/>
           </Route>
           <Route component={Page404} />
         </Switch>
