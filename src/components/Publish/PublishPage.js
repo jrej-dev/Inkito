@@ -1,28 +1,29 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { useLocation } from "react-router-dom";
 import StoreContext from '../../stores/AppStore';
-//import { useObserver } from 'mobx-react';
-//import { toJS } from 'mobx';
+import { useObserver } from 'mobx-react';
+import { toJS } from 'mobx';
 import { useAlert } from 'react-alert';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import Nav from '../Main/Nav';
 import '../../sass/components/Publish.scss';
 
-const PublishPage = ({ publishType }) => {
+const PublishPage = ({ publishState }) => {
     const store = React.useContext(StoreContext);
     const alert = useAlert();
+    const location = useLocation();
 
-    const [series, setSeries] = useState("new");
-    const [type, setType] = useState("comic");
-    const [images, setImages] = useState([]);
+    const [series, setSeries] = useState(location.state && location.state.series ? location.state.series : "new");
+    const [type, setType] = useState(location.state && location.state.type ? location.state.type : "comic");
+    const [images, setImages] = useState(location.state && location.state.seriesInfo ? [location.state.seriesInfo.image] : []);
     const [imageFile, setImageFile] = useState(null);
     const [imageLink, setImageLink] = useState("");
     const [imageLinkIsActive, setimageLinkIsActive] = useState(false);
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [tags, setTags] = useState("");
+    const [title, setTitle] = useState(location.state && location.state.seriesInfo ? location.state.seriesInfo.title : "");
+    const [description, setDescription] = useState(location.state && location.state.seriesInfo ? type === "comic" ? location.state.seriesInfo.body.replace(/^!\[.*\)$/gm, '') : location.state.seriesInfo.body : "");
+    const [tags, setTags] = useState(location.state && location.state.seriesInfo ? location.state.seriesInfo.tags.join(" ").replace(`inkito-${type}s`, "").replace(location.state.seriesInfo.seriesId, "") : "");
     const [categories, setCategories] = useState([]);
-
 
     const seriesSelected = useRef(null);
     const typeSelected = useRef(null);
@@ -34,15 +35,9 @@ const PublishPage = ({ publishType }) => {
     var props = {};
 
     useEffect(() => {
-        if (publishType) {
-            if (publishType === "comic") {
-                setType("comic");
-            } else if (publishType === "novel") {
-                setType("novel");
-            }
-        }
-        getUrlParams();
 
+        getUrlParams();
+        getLocationInfo();
         var currentSeries = seriesSelected.current;
         var currentType = typeSelected.current;
         var currentImageLink = imageLinkInput.current;
@@ -72,7 +67,8 @@ const PublishPage = ({ publishType }) => {
 
         return () => {
             store.toggleNavMenu(false);
-
+            dispose();
+            window.history.pushState(null, '')
             if (currentSeries) {
                 currentSeries.removeEventListener('selected', handleSeriesChange);
             }
@@ -90,9 +86,34 @@ const PublishPage = ({ publishType }) => {
             }
             if (currentTags) {
                 currentTags.removeEventListener('input', handleTagsChange);
-            }  
+            }
         }
     })
+
+    const dispose = () => {
+        SeriesCombo = () => { return [] };
+    }
+
+    const getLocationInfo = async () => {
+        if (location.state && location.state.seriesInfo) {
+            store.fetchPermlinks(location.state.seriesInfo.author, location.state.seriesInfo.title.split(" ").join("").toLowerCase());
+        }
+    }
+
+    const getUrlParams = () => {
+        props.user = new URLSearchParams(document.location.search).get('user');
+        if (props.user) {
+            fetchAuthoInfo(props.user);
+        }
+    }
+
+    const fetchAuthoInfo = (user) => {
+        if (toJS(store.authorInfo) && toJS(store.authorInfo).name !== user) {
+            store.fetchAuthoInfo(user);
+        } else if (toJS(store.authorInfo).length === 0) {
+            store.fetchAuthoInfo(user);
+        }
+    }
 
     const handleSeriesChange = (e) => {
         setSeries(e.detail.selected);
@@ -100,6 +121,8 @@ const PublishPage = ({ publishType }) => {
     }
     const handleTypeChange = (e) => {
         setType(e.detail.selected);
+        setSeries("new");
+        seriesSelected.current.value = { value: "new", text: "New Series" }
     }
     const handleImageLinkChange = (e) => {
         setImageLink(e.detail.sourceEvent.target.value);
@@ -116,21 +139,37 @@ const PublishPage = ({ publishType }) => {
     const handleCatChange = (e) => {
         if (e.target.checked === false && categories.length < 3 && !categories.includes(e.target.innerText)) {
             setCategories([...categories, e.target.innerText])
-        } else if (categories.length > 0 && e.target.checked === true){
+        } else if (categories.length > 0 && e.target.checked === true) {
             let arr = [...categories];
             arr = arr.filter(cat => cat !== e.target.innerText);
             setCategories(arr);
         }
     }
+
+    const resetForm = (e) => {
+        e.preventDefault();
+        setTitle("");
+        titleInput.current.value = "";
+        setDescription("");
+        descriptionInput.current.value = "";
+
+        if (tags) {
+            setTags("");
+            tagsInput.current.value = "";
+        }
+
+        setImages([]);
+    }
+
     const onImageUpload = async () => {
-        /*if (imageFile) {*/
-            if (series === "new" && images.length > 0){
+        if (imageFile) {
+            if (series === "new" && images.length > 0) {
                 alert.show('There can only be one thumbnail.', {
                     timeout: 2000, // custom timeout just for this one alert
                 })
-                setTimeout(function(){ imageLinkInput.current.value = ""; }, 2200);
+                setTimeout(function () { imageLinkInput.current.value = ""; }, 2200);
             } else {
-                /*var myHeaders = new Headers();
+                var myHeaders = new Headers();
 
                 var formdata = new FormData();
                 formdata.append("file", imageFile, "file");
@@ -145,26 +184,27 @@ const PublishPage = ({ publishType }) => {
                 const fetch_response = await fetch('https://inkito-ipfs.herokuapp.com/upload', requestOptions);
                 const body = await fetch_response.text();
 
-                setImages([...images,`https://gateway.ipfs.io/ipfs/${JSON.parse(body).response}`]);*/
-                //avatarInput.current.value = `https://gateway.ipfs.io/ipfs/${JSON.parse(body).response}`;
-            
-                setImages([...images, "https://gateway.ipfs.io/ipfs/test"]);
+                setImages([...images, `https://gateway.ipfs.io/ipfs/${JSON.parse(body).response}`]);
             }
-        /*}*/
+        }
     }
 
-    const getUrlParams = () => {
-        props.series_id = new URLSearchParams(document.location.search).get('new');
-        props.permlink = new URLSearchParams(document.location.search).get('edit');
-    }
-
-    const SeriesCombo = () => {
-        let arr = ["test", "test2"]
-        let combo = [];
-        arr.forEach(series => {
-            combo.push(<wired-item value={series} key={series}>{series}</wired-item>)
+    let SeriesCombo = () => {
+        return useObserver(() => {
+            if (toJS(store.authorInfo) && toJS(store.authorInfo).series) {
+                let combo = [];
+                toJS(store.authorInfo).series.forEach(series => {
+                    combo.push(<wired-item value={series.title} key={series.seriesId} type={series.tags.includes("inkito-comics") ? "comic" : "novel"}>{series.title}</wired-item>)
+                })
+                if (location.state && location.state.series) {
+                    combo = combo.filter(series => series.props.value !== location.state.series)
+                }
+                combo = combo.filter(series => series.props.type === type)
+                return combo;
+            } else {
+                return []
+            }
         })
-        return combo;
     }
 
     const handleImageDelete = (index) => {
@@ -175,13 +215,13 @@ const PublishPage = ({ publishType }) => {
 
     const addImageLink = (e) => {
         e.preventDefault();
-        if (imageLink){
+        if (imageLink) {
             if (imageLink.match(/\.(jpeg|jpg|gif|png)$/) != null) {
-                if (series === "new" && images.length > 0){
+                if (series === "new" && images.length > 0) {
                     alert.show('There can only be one thumbnail.', {
                         timeout: 2000, // custom timeout just for this one alert
                     })
-                    setTimeout(function(){ imageLinkInput.current.value = ""; }, 2200);
+                    setTimeout(function () { imageLinkInput.current.value = ""; }, 2200);
                 } else {
                     setImages([...images, imageLink])
                     imageLinkInput.current.value = "";
@@ -190,7 +230,7 @@ const PublishPage = ({ publishType }) => {
                 alert.error('Please enter a valid image url.', {
                     timeout: 2000, // custom timeout just for this one alert
                 })
-                setTimeout(function(){ imageLinkInput.current.value = ""; }, 2200);
+                setTimeout(function () { imageLinkInput.current.value = ""; }, 2200);
             }
         }
     }
@@ -223,7 +263,7 @@ const PublishPage = ({ publishType }) => {
         ) {
             return;
         };
-        
+
         const newImages = Array.from(images);
         newImages.splice(source.index, 1);
         newImages.splice(destination.index, 0, draggableId);
@@ -233,11 +273,87 @@ const PublishPage = ({ publishType }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(categories);
-        if (images.length > 0 && title && description) {
-            console.log("ready to send")
+        let tagList = [];
+        let seriesId = "";
+        if (series === "new") {
+            seriesId = props.user.toLowerCase() + "-" + title.split(" ").join("").toLowerCase();
+            if (seriesId.length > 24) {
+                seriesId = seriesId.slice(0, 24);
+            }
+        } else {
+            if (location.state && location.state.seriesInfo) {
+                seriesId = location.state.seriesInfo.seriesId;
+            } else {
+                let seriesInfo = toJS(store.authorInfo).series.filter(serie => serie.title === series)
+                seriesId = seriesInfo[0].seriesId;
+            }
+        }
+
+        if (tags) {
+            tagList = tags.split(" ");
+            tagList = tagList.filter(tag => tag !== '');
+        }
+        if (type === "comic") {
+            tagList.unshift("inkito-comics", seriesId);
+        } else if (type === "novel") {
+            tagList.unshift("inkito-novels", seriesId);
+        }
+        if (categories.length > 0) {
+            let catList = categories.map(cat => cat.split(" ").join("").toLowerCase());
+            tagList = [...tagList, ...catList];
+        }
+        if (tagList.length > 5) {
+            let overFlow = tagList.length - 5;
+            tagList.splice(-1, overFlow);
+        }
+
+        let parentAuthor = "";
+        let parentPermlink = tagList[0];
+        const author = props.user;
+        let permlink = ""
+        let jsonMetadata = {};
+        let body = ""
+
+        if (location.state && location.state.seriesInfo) {
+            permlink = location.state.seriesInfo.permlink;
+            parentAuthor = location.state.seriesInfo.parent_author;
+            parentPermlink = location.state.seriesInfo.parent_permlink;
+            jsonMetadata = location.state.seriesInfo.metadata;
+            jsonMetadata.tags = tagList;
+
+
+        } else {
+            permlink = title.split(" ").join("-").toLowerCase() + Date.now();
+            jsonMetadata = { tagList, app: 'Inkito' }
+        }
+
+        if (images.length > 0) {
+            let imageMarkdown = [];
+            images.forEach((image, index) => imageMarkdown.push(`![image ${index + 1}](${image})`))
+            body = imageMarkdown.join(" ") + " " + description
+        } else {
+            body = description;
+        }
+
+        if (title && description) {
+            if (type === "novel" && series !== "new") {
+                store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
+            } else if (images.length > 0) {
+                store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
+            }
         } else {
             alert.show('Please fill in required fields', {
+                timeout: 2000, // custom timeout just for this one alert
+            })
+        }
+
+        if (publishState === "done") {
+            alert.success('Episode published.', {
+                timeout: 2000, // custom timeout just for this one alert
+            })
+            resetForm();
+        } else if (publishState === "error") {
+            alert.error('Something went wrong.', {
                 timeout: 2000, // custom timeout just for this one alert
             })
         }
@@ -248,50 +364,98 @@ const PublishPage = ({ publishType }) => {
             <Nav />
             <div className="container reset" onClick={() => store.toggleNavMenu(false)}>
                 <div className="publish-page">
-                    <h2>New Episode</h2>
+                    {location.state && location.state.seriesInfo ?
+                        <h2>Update Episode</h2>
+                        :
+                        <h2>New Episode</h2>
+                    }
                     <form>
                         <div className="divider" />
 
                         <div className="series flex-between row wrap w-90 pa">
                             <div className="series-select flex row wrap pa-h">
                                 <h2>Select Series</h2>
-                                <wired-combo selected={series} ref={seriesSelected}>
-                                    <wired-item value="new">New Series</wired-item>
-                                    <SeriesCombo />
-                                </wired-combo>
+                                {location.state && location.state.seriesInfo ?
+                                    <wired-combo disabled selected={series} ref={seriesSelected}>
+                                        <wired-item value="new">New Series</wired-item>
+                                        {
+                                            type === location.state.type ?
+                                                <wired-item value={location.state.series} type={location.state.type}>{location.state.series}</wired-item>
+                                                :
+                                                ""
+                                        }
+                                        <SeriesCombo />
+                                    </wired-combo>
+                                    :
+                                    location.state && location.state.series && location.state.type ?
+                                        <wired-combo selected={series} ref={seriesSelected}>
+                                            <wired-item value="new">New Series</wired-item>
+                                            {
+                                                type === location.state.type ?
+                                                    <wired-item value={location.state.series} type={location.state.type}>{location.state.series}</wired-item>
+                                                    :
+                                                    ""
+                                            }
+                                            <SeriesCombo />
+                                        </wired-combo>
+                                        :
+                                        <wired-combo selected={series} ref={seriesSelected}>
+                                            <wired-item value="new">New Series</wired-item>
+                                            <SeriesCombo />
+                                        </wired-combo>
+
+                                }
                             </div>
                             <div className="type-select flex row pa-h">
-                                <wired-radio-group selected={type} ref={typeSelected}>
-                                    <wired-radio
-                                        name="comic"
-                                        checked
-                                    >
-                                        Comic
-                                    </wired-radio>
-                                    <wired-radio
-                                        name="novel"
-                                    >
-                                        Novel
-                                    </wired-radio>
-                                </wired-radio-group>
+                                {
+                                    location.state && location.state.seriesInfo ?
+                                        <wired-radio-group selected={type} ref={typeSelected}>
+                                            <wired-radio
+                                                name="comic"
+                                                disabled
+                                            >
+                                                Comic
+                                        </wired-radio>
+                                            <wired-radio
+                                                name="novel"
+                                                disabled
+                                            >
+                                                Novel
+                                        </wired-radio>
+                                        </wired-radio-group>
+                                        :
+                                        <wired-radio-group selected={type} ref={typeSelected}>
+                                            <wired-radio
+                                                name="comic"
+                                                checked
+                                            >
+                                                Comic
+                                        </wired-radio>
+                                            <wired-radio
+                                                name="novel"
+                                            >
+                                                Novel
+                                        </wired-radio>
+                                        </wired-radio-group>
+                                }
                             </div>
                         </div>
 
                         <div className="divider" />
 
                         <div className="w-90 pa">
-                            <div className={type === "novel" &&  series !== "new" ? "hidden" : "flex-start row pa-h"}>
+                            <div className={type === "novel" && series !== "new" ? "hidden" : "flex-start row pa-h"}>
                                 {
                                     series === "new" ?
-                                    <h2>Series Thumbnail</h2>
-                                    :
-                                    <h2>Images</h2>
-                                
+                                        <h2>Series Thumbnail</h2>
+                                        :
+                                        <h2>Images</h2>
+
                                 }
                                 <p>(Maximum file size of 2MB)</p>
                             </div>
 
-                            <div className={type === "novel" &&  series !== "new" ? "hidden" : "flex-start row pa-h"}>
+                            <div className={type === "novel" && series !== "new" ? "hidden" : "flex-start row pa-h"}>
                                 <p>
                                     Please note that Inkito uses
                                         <b> IPFS </b>
@@ -311,12 +475,12 @@ const PublishPage = ({ publishType }) => {
                                 <wired-input
                                     placeholder="Image link"
                                     value={imageLink}
-                                    ref={imageLinkInput}                                
+                                    ref={imageLinkInput}
                                 />
                                 <button onClick={addImageLink}>Add</button>
                             </div>
 
-                            <div className={type === "novel" &&  series !== "new" ? "hidden" : "flex col"}>
+                            <div className={type === "novel" && series !== "new" ? "hidden" : "flex col"}>
                                 <table border="1" rules="none">
                                     {images.length > 0 ?
                                         <DragDropContext onDragEnd={onDragEnd}>
@@ -339,7 +503,7 @@ const PublishPage = ({ publishType }) => {
                                 </table>
                             </div>
 
-                            <div className={type === "novel" &&  series !== "new" ? "hidden" : "upload flex-start wrap row pa-h"}>
+                            <div className={type === "novel" && series !== "new" ? "hidden" : "upload flex-start wrap row pa-h"}>
                                 <input className="custom-file-input" type="file" placeholder="Upload an image" onChange={(e) => setImageFile(e.target.files[0])} />
                                 <div className="buttons flex-between">
                                     <p className="blue" onClick={onImageUpload}>Upload file</p>
@@ -348,16 +512,16 @@ const PublishPage = ({ publishType }) => {
                             </div>
 
                             <div className="input title pa-h">
-                                
+
                                 <label className="flex">
-                                {
-                                    series === "new" ?
-                                    <h2>Series Title</h2>
-                                    :
-                                    <h2>Episode Title</h2>
-                                }
+                                    {
+                                        series === "new" ?
+                                            <h2>Series Title</h2>
+                                            :
+                                            <h2>Episode Title</h2>
+                                    }
                                 </label>
-                                    
+
                                 <wired-input
                                     type="text"
                                     value={title}
@@ -381,7 +545,7 @@ const PublishPage = ({ publishType }) => {
                                     <wired-textarea
                                         rows="10"
                                         type="text"
-                                        value=""
+                                        value={description}
                                         ref={descriptionInput}
                                         placeholder="Write a description..."
                                     />
@@ -401,7 +565,7 @@ const PublishPage = ({ publishType }) => {
                                     <wired-textarea
                                         rows="40"
                                         type="text"
-                                        value=""
+                                        value={description}
                                         placeholder="Write your story..."
                                         ref={descriptionInput}
                                     />
@@ -410,33 +574,33 @@ const PublishPage = ({ publishType }) => {
 
                             {
                                 series === "new" ?
-                                <div className="input tags pa-h">
-                                    <label className="flex row"><h2>Categories</h2> <div className="pa-h"><p>(3 categories max)</p></div></label>
-                                    <div className="flex wrap pa">
-                                        {store.categories.filter(cat => cat !== "All Categories").map(category => { 
-                                            if (categories.length >= 3) {
-                                                if (categories.includes(category)){
-                                                    return <wired-checkbox key={category} onClick={handleCatChange}>{category}</wired-checkbox>
+                                    <div className="input tags pa-h">
+                                        <label className="flex row"><h2>Categories</h2> <div className="pa-h"><p>(3 categories max)</p></div></label>
+                                        <div className="flex wrap pa">
+                                            {store.categories.filter(cat => cat !== "All Categories").map(category => {
+                                                if (categories.length >= 3) {
+                                                    if (categories.includes(category)) {
+                                                        return <wired-checkbox key={category} onClick={handleCatChange}>{category}</wired-checkbox>
+                                                    } else {
+                                                        return <wired-checkbox disabled key={category} onClick={handleCatChange}>{category}</wired-checkbox>
+                                                    }
                                                 } else {
-                                                    return <wired-checkbox disabled key={category} onClick={handleCatChange}>{category}</wired-checkbox>
+                                                    return <wired-checkbox key={category} onClick={handleCatChange}>{category}</wired-checkbox>
                                                 }
-                                            } else { 
-                                                return <wired-checkbox key={category} onClick={handleCatChange}>{category}</wired-checkbox>
-                                            }
-                                        })}
+                                            })}
+                                        </div>
                                     </div>
-                                </div>
-                                :
-                                <div className="input tags pa-h">
-                                    <label className="flex row"><h2>Tags</h2> <div className="pa-h"><p>(3 tags max)</p></div></label>
-                                    <wired-input
-                                        type="text"
-                                        value={tags}
-                                        placeholder="Enter tags separated by spaces"
-                                        ref={tagsInput}
-                                    />
-                                </div>
-                            }   
+                                    :
+                                    <div className="input tags pa-h">
+                                        <label className="flex row"><h2>Tags</h2> <div className="pa-h"><p>(3 tags max)</p></div></label>
+                                        <wired-input
+                                            type="text"
+                                            value={tags}
+                                            placeholder="Enter tags separated by spaces"
+                                            ref={tagsInput}
+                                        />
+                                    </div>
+                            }
                         </div>
 
                         <div className="divider" />
@@ -449,9 +613,20 @@ const PublishPage = ({ publishType }) => {
                                 <p>
                                     By submitting your comics or novels you agree to Inkito's Terms of Service and Content Policies. Please do not violate the copyright or privacy of others.
                                 </p>
+                            </div>
+                            <div className="flex row pa">
+                                {/*<p className="blue">Preview</p>*/}
+                                {publishState === "pending" ?
+                                    <wired-spinner class="custom" spinning duration="1000" />
+                                    :
+                                    location.state && location.state.seriesInfo ?
+                                        <button className="publish-btn" onClick={handleSubmit}> Update </button>
+                                        :
+                                        < button className="publish-btn" onClick={handleSubmit}> Publish</button>
+
+                                }
 
                             </div>
-                            <button className="publish-btn" onClick={handleSubmit}> Publish</button>
                         </div>
 
                     </form>

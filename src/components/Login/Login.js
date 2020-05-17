@@ -41,7 +41,7 @@ const Login = ({ loginIsActive }) => {
 
         <h2 className="title">Inkito</h2>
 
-        <div className="keychain-divider flex row divider pa-hh">
+        <div className="keychain-divider flex full row pa-hh">
           <hr className="first-divider divider" />
             <p>Hive Keychain</p>
           <hr className="divider" />
@@ -75,7 +75,7 @@ const Login = ({ loginIsActive }) => {
         </div>
         }
         
-        <div className="flex row divider pa-hh">
+        <div className="flex row full pa-hh">
           <hr className="divider" />
           <p>Other login method</p>
           <hr className="divider" />

@@ -62,6 +62,12 @@ const App = () => {
     })
   }
 
+  const Publish = () => {
+    return useObserver(() => {
+      return <PublishPage publishState={store.commentState}/>
+    })
+  }
+
   return (
     <Router>
       <div className="App">
@@ -88,12 +94,9 @@ const App = () => {
           <Route path="/series">
             <SeriesEdit/>
           </Route>
-          <Route path="/publish/comic">
-            <PublishPage publishType={"comic"}/>
-          </Route>
-          <Route path="/publish/novel">
-            <PublishPage publishType={"novel"}/>
-          </Route>
+          <Route path="/publish*">
+            <Publish />
+          </Route>  
           <Route component={Page404} />
         </Switch>
         <Footer />

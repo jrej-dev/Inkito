@@ -20,12 +20,30 @@ const SeriesList = () => {
                         <li key={series.seriesId}>
                             <div className="series-thumbnail">
                                 <div className={user === author ? "series-admin" : "hidden"}>
-                                    <button>
-                                        <img src={Edit} className="sm-icon icon" alt="Edit" />
-                                    </button>
-                                    <button className="add-ep-btn">
-                                        +
-                                    </button>
+                                    <Link to={{
+                                        pathname: `/publish?user=${user}`,
+                                        state: {
+                                            type: "comic",
+                                            seriesInfo: series,
+                                            series: series.title
+                                        }
+                                    }}>
+                                        <button>
+                                            <img src={Edit} className="sm-icon icon" alt="Edit" />
+                                        </button>
+                                    </Link>
+                                    <Link to={{
+                                        pathname: `/publish?user=${user}`,
+                                        state: {
+                                            type: "comic",
+                                            series: series.title
+                                        }
+                                    }}>
+                                        <button className="add-ep-btn">
+                                            +
+                                        </button>
+                                    </Link>
+
                                 </div>
                                 <Link to={`/comicReader/${seriesUrl}`}>
                                     <img className="thumbnail" src={series.image} alt="" />
@@ -50,7 +68,7 @@ const SeriesList = () => {
                         <ul className="series-list pa">
                             {seriesList}
                             <li className={user === author ? "add-series flex-start" : "hidden"}>
-                                <Link to={'/publish/comic'}>
+                                <Link to={`/publish?user=${user}`}>
                                     <button className="add-sr-btn">+</button>
                                 </Link>
                             </li>
@@ -74,12 +92,29 @@ const SeriesList = () => {
                         <li key={series.seriesId}>
                             <div className="series-thumbnail">
                                 <div className={user === author ? "series-admin" : "hidden"}>
-                                    <button>
-                                        <img src={Edit} className="sm-icon icon" alt="Edit" />
-                                    </button>
-                                    <button className="add-ep-btn">
-                                        +
-                                    </button>
+                                    <Link to={{
+                                        pathname: `/publish?user=${user}`,
+                                        state: {
+                                            type: "novel",
+                                            seriesInfo: series,
+                                            series: series.title
+                                        }
+                                    }}>
+                                        <button>
+                                            <img src={Edit} className="sm-icon icon" alt="Edit" />
+                                        </button>
+                                    </Link>
+                                    <Link to={{
+                                        pathname: `/publish?user=${user}`,
+                                        state: {
+                                            type: "novel",
+                                            series: series.title
+                                        }
+                                    }}>
+                                        <button className="add-ep-btn">
+                                            +
+                                        </button>
+                                    </Link>
                                 </div>
                                 <Link to={`/novelReader/${seriesUrl}`}>
                                     <img className="thumbnail" src={series.image} alt="" />
@@ -105,7 +140,12 @@ const SeriesList = () => {
                         <ul className="series-list pa">
                             {seriesList}
                             <li className={user === author ? "add-series flex-start" : "hidden"}>
-                                <Link to='/publish/novel'>
+                                <Link to={{
+                                    pathname: `/publish?user=${user}`,
+                                    state: {
+                                        type: "novel"
+                                    }
+                                }}>
                                     <button className="add-sr-btn">+</button>
                                 </Link>
                             </li>

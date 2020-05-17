@@ -490,9 +490,13 @@ export function StoreProvider({ children }) {
                             return {
                                 title: result[0].title,
                                 author: result[0].author,
+                                body: result[0].body,
+                                metadata: JSON.parse(result[0].json_metadata),
                                 image: JSON.parse(result[0].json_metadata).image[0],
                                 tags: JSON.parse(result[0].json_metadata).tags,
-                                first_permlink: result[0].permlink,
+                                permlink: result[0].permlink,
+                                parent_author: result[0].parent_author,
+                                parent_permlink: result[0].parent_permlink,
                                 last_payout: reward,
                                 last_update: lastUpdate,
                                 seriesId: seriesId
@@ -878,10 +882,11 @@ export function StoreProvider({ children }) {
             const avatar = await client.database
             .call('get_accounts', [[author]])
             .then(result => {
-                if (result.length > 0) {
-                    let json = JSON.parse(result[0].posting_json_metadata).profile;
-                    return json.profile_image;
-                }
+                if (result.length > 0 && result[0].posting_json_metadata) {
+                    ;
+                    let json = JSON.parse(result[0].posting_json_metadata);
+                    return json.profile.profile_image;
+                } else return ""
             })
             return avatar;
         },

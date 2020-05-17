@@ -27,9 +27,9 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
         let trendy = [];
         let category = "";
         if (type === "comics") {
-          category = store.activeComicCategory.replace(" ","").toLowerCase();
+          category = store.activeComicCategory.split(" ").join("").toLowerCase();
         } else if (type === "novels") {
-          category = store.activeNovelCategory.replace(" ","").toLowerCase();
+          category = store.activeNovelCategory.split(" ").join("").toLowerCase();
         }
         if (category !== "allcategories") {
           fresh = toJS(newData).filter(object => object.tags.includes(category));
