@@ -86,8 +86,12 @@ const SeriesList = () => {
         if (seriesArray.length > 0) {
             let seriesList = [];
             seriesArray.forEach(series => {
-                let lastTags = JSON.parse(series.last_update.json_metadata);
-                let seriesUrl = series.seriesId.replace("-", "/");
+                let lastTags = "";
+                let seriesUrl = "";
+                if (series.last_update && series.seriesId){
+                    lastTags = JSON.parse(series.last_update.json_metadata);
+                    seriesUrl = series.seriesId.replace("-", "/");
+                }
                 if (series.tags.includes("inkito-novels") || lastTags.tags.includes("inkito-novels")) {
                     seriesList.push(
                         <li key={series.seriesId}>
