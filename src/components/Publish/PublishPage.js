@@ -197,7 +197,6 @@ const PublishPage = ({ publishState }) => {
                     body: formdata,
                     redirect: 'follow'
                 };
-                console.log(requestOptions);
                 const fetch_response = await fetch('https://inkito-ipfs.herokuapp.com/upload', requestOptions);
                 const body = await fetch_response.text();
 
@@ -432,11 +431,9 @@ const PublishPage = ({ publishState }) => {
 
         if (title && description) {
             if (type === "novel" && series !== "new") {
-                console.log(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata)
-                //store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
+                store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
             } else if (images.length > 0) {
-                console.log(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata)
-                //store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
+                store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
             }
         } else {
             alert.show('Please fill in required fields', {
