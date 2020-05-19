@@ -467,6 +467,9 @@ const PublishPage = ({ publishState }) => {
                         :
                         <h2>Update Episode</h2>
                         :
+                        series === "new" ?
+                        <h2>New Series</h2>
+                        :
                         <h2>New Episode</h2>
                     }
                     <form>
@@ -615,7 +618,10 @@ const PublishPage = ({ publishState }) => {
 
                                 <label className="flex">
                                     {
-                                        series === "new" || location.state.dashboard ?
+                                        series === "new" ?
+                                            <h2>Series Title</h2> 
+                                            :
+                                            location.state && location.state.dashboard ?
                                             <h2>Series Title</h2>
                                             :
                                             <h2>Episode Title</h2>
