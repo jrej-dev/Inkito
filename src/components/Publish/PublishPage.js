@@ -29,7 +29,6 @@ const PublishPage = ({ publishState }) => {
     const [description, setDescription] = useState(location.state && location.state.seriesInfo ? type === "comic" ? location.state.seriesInfo.body.replace(/^!\[.*\)./gm, '') : location.state.seriesInfo.body : "");
     const [tags, setTags] = useState(location.state && location.state.seriesInfo ? JSON.parse(location.state.seriesInfo.json_metadata).tags.join(" ").replace(`inkito-${type}s`, "").replace(JSON.parse(location.state.seriesInfo.json_metadata).tags.filter(tag => tag.includes(`${location.state.seriesInfo.author}-`))[0], "") : "");
     const [categories, setCategories] = useState([]);
-    const [update, setUpdate] = useState(true);
 
     const seriesSelected = useRef(null);
     const typeSelected = useRef(null);
@@ -379,7 +378,7 @@ const PublishPage = ({ publishState }) => {
                 seriesId = seriesInfo[0].seriesId;
             }
         }
-
+        
         if (tags) {
             tagList = tags.split(" ");
             tagList = tagList.filter(tag => tag !== '');
@@ -400,7 +399,7 @@ const PublishPage = ({ publishState }) => {
 
         let parentAuthor = "";
         let parentPermlink = tagList[0];
-        const author = props.user;
+        const author = toJS(store.userDetail).user;
         let permlink = ""
         let jsonMetadata = {};
         let body = ""
@@ -426,24 +425,27 @@ const PublishPage = ({ publishState }) => {
             body = description;
         }
 
-        if (title && description) {
+        if (title && description && toJS(store.userDetail) && toJS(store.userDetail).user) {
+            console.log(author);
             if (type === "novel" && series !== "new") {
                 if (location.state && location.state.seriesInfo){
-                    store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, undefined, true);
+                   store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, undefined, true);
                 } else {
-                    store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
+                   store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
                 }
             } else if (images.length > 0) {
                 if (location.state && location.state.seriesInfo){
-                    store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, undefined, true);
+                   store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, undefined, true);
                 } else {
-                    store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
+                   store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
                 }
             }
+        } else if (toJS(store.userDetail) && toJS(store.userDetail).user === undefined) {
+            alert.show('Please login first');
         } else {
             alert.show('Please fill in required fields', {
                 timeout: 2000, // custom timeout just for this one alert
-            })
+            });
         }
     }
 
