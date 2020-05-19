@@ -81,7 +81,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
         return (
           <div>
             <div className="info-banner">
-              <div className={type === "comics" ? "author-info flex col" : "author-info flex row"}>
+              <div className="author-info flex col">
                 <Link to={`/@${content.author}`}>
                   <img className="panel-profile-pic" src={seriesInfo.author_image} alt=" " />
                   <div className="author-name">
