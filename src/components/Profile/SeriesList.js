@@ -25,7 +25,8 @@ const SeriesList = () => {
                                         state: {
                                             type: "comic",
                                             seriesInfo: series,
-                                            series: series.title
+                                            series: series.title,
+                                            dashboard: true,
                                         }
                                     }}>
                                         <button>
@@ -97,7 +98,8 @@ const SeriesList = () => {
                                         state: {
                                             type: "novel",
                                             seriesInfo: series,
-                                            series: series.title
+                                            series: series.title,
+                                            dashboard: true
                                         }
                                     }}>
                                         <button>

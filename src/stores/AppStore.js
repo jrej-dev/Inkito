@@ -491,7 +491,7 @@ export function StoreProvider({ children }) {
                                 title: result[0].title,
                                 author: result[0].author,
                                 body: result[0].body,
-                                metadata: JSON.parse(result[0].json_metadata),
+                                json_metadata: result[0].json_metadata,
                                 image: JSON.parse(result[0].json_metadata).image[0],
                                 tags: JSON.parse(result[0].json_metadata).tags,
                                 permlink: result[0].permlink,
@@ -739,6 +739,8 @@ export function StoreProvider({ children }) {
                 const content = await client.database
                     .call('get_content', [author, permlink])
                     .then(result => {
+                        result.image = JSON.parse(result.json_metadata).image;
+                        result.tags = JSON.parse(result.json_metadata).tags;
                         return result;
                     })
 

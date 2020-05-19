@@ -15,6 +15,7 @@ const NavMenu = ({ navMenuIsActive, user }) => {
         <img src={userData.profile.profile_image} alt=" " className="user-thumbnail pointer" onClick={() => store.toggleNavMenu()} />
         <div className={navMenuIsActive ? "user-menu flex col pa" : "user-menu flex col hidden"}>
           <p className="pointer" onClick={() => { history.push(`/@${user.name}`); window.location.reload() }}>Profile</p>
+          <p className="pointer" onClick={() => { history.push(`/publish?user=${user.name}`); window.location.reload() }}>Publish</p>
           <a href={`https://wallet.hive.blog/@${user.name}/transfers`} target="_blank" rel="noopener noreferrer">Wallet</a>
           <p className="pointer" onClick={store.logOut}>Logout</p>
         </div>

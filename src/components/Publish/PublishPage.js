@@ -1,10 +1,15 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
 import StoreContext from '../../stores/AppStore';
+import { Link } from "react-router-dom";
 import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
 import { useAlert } from 'react-alert';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
+import DownArrow from '../Icons/down-arrow.png';
+//import Bubble from '../Icons/bubble.png';
+import Heart from '../Icons/heart.png';
 
 import Nav from '../Main/Nav';
 import '../../sass/components/Publish.scss';
@@ -16,13 +21,13 @@ const PublishPage = ({ publishState }) => {
 
     const [series, setSeries] = useState(location.state && location.state.series ? location.state.series : "new");
     const [type, setType] = useState(location.state && location.state.type ? location.state.type : "comic");
-    const [images, setImages] = useState(location.state && location.state.seriesInfo ? [location.state.seriesInfo.image] : []);
+    const [images, setImages] = useState(location.state && location.state.seriesInfo ? typeof location.state.seriesInfo.image === "string" ? [location.state.seriesInfo.image] : [...JSON.parse(location.state.seriesInfo.json_metadata).image] : []);
     const [imageFile, setImageFile] = useState(null);
     const [imageLink, setImageLink] = useState("");
     const [imageLinkIsActive, setimageLinkIsActive] = useState(false);
     const [title, setTitle] = useState(location.state && location.state.seriesInfo ? location.state.seriesInfo.title : "");
     const [description, setDescription] = useState(location.state && location.state.seriesInfo ? type === "comic" ? location.state.seriesInfo.body.replace(/^!\[.*\)$/gm, '') : location.state.seriesInfo.body : "");
-    const [tags, setTags] = useState(location.state && location.state.seriesInfo ? location.state.seriesInfo.tags.join(" ").replace(`inkito-${type}s`, "").replace(location.state.seriesInfo.seriesId, "") : "");
+    const [tags, setTags] = useState(location.state && location.state.seriesInfo ? JSON.parse(location.state.seriesInfo.json_metadata).tags.join(" ").replace(`inkito-${type}s`, "").replace(JSON.parse(location.state.seriesInfo.json_metadata).tags.filter(tag => tag.includes(`${location.state.seriesInfo.author}-`))[0], "") : "");
     const [categories, setCategories] = useState([]);
 
     const seriesSelected = useRef(null);
@@ -35,7 +40,6 @@ const PublishPage = ({ publishState }) => {
     var props = {};
 
     useEffect(() => {
-
         getUrlParams();
         getLocationInfo();
         var currentSeries = seriesSelected.current;
@@ -67,8 +71,9 @@ const PublishPage = ({ publishState }) => {
 
         return () => {
             store.toggleNavMenu(false);
+            store.resetSeriesDetail();
             dispose();
-            window.history.pushState(null, '')
+
             if (currentSeries) {
                 currentSeries.removeEventListener('selected', handleSeriesChange);
             }
@@ -95,8 +100,19 @@ const PublishPage = ({ publishState }) => {
     }
 
     const getLocationInfo = async () => {
-        if (location.state && location.state.seriesInfo) {
-            store.fetchPermlinks(location.state.seriesInfo.author, location.state.seriesInfo.title.split(" ").join("").toLowerCase());
+        if (location.state && location.state.dashboard) {
+            await store.fetchPermlinks(location.state.seriesInfo.author, location.state.seriesInfo.title.split(" ").join("").toLowerCase());
+            if (toJS(store.seriesLinks))
+                fetchSeriesDetail();
+        }
+    }
+
+    const fetchSeriesDetail = (index) => {
+        toJS(store.seriesLinks).forEach((permlink, index) => {
+            store.fetchSeriesDetail(props.user, permlink, index)
+        })
+        if (index) {
+            store.fetchSeriesDetail(props.user, toJS(store.seriesLinks)[index], index)
         }
     }
 
@@ -207,6 +223,84 @@ const PublishPage = ({ publishState }) => {
         })
     }
 
+    const compareDate = (contentDate) => {
+        var g1 = new Date().toISOString().substring(0, 10);
+        var g2 = contentDate;
+        if (g1 >= g2) {
+            g1 = g1.split("-");
+            g2 = g2.split("-");
+            var g3 = [g1[0] - g2[0], g1[1] - g2[1], g1[2] - g2[2]]
+            if (g3[0] > 0) {
+                return g3[0] === 1 ? `${g3[0]} year ago` : `${g3[0]} years ago`;
+            } else if (g3[1] > 0) {
+                return g3[1] === 1 ? `${g3[1]} month ago` : `${g3[1]} months ago`;
+            } else if (g3[2] > 0) {
+                return g3[2] === 1 ? `${g3[2]} day ago` : `${g3[2]} days ago`;
+            }
+        }
+    }
+
+    let EpisodeList = () => {
+        return useObserver(() => {
+            if (toJS(store.seriesDetail) && !toJS(store.seriesDetail).includes(undefined)) {
+                let episodes = [];
+                toJS(store.seriesDetail).forEach((episode, index) => {
+                    if (episode === undefined) {
+                        fetchSeriesDetail(index);
+                    }
+                    if (index > 0) {
+                        let reward = episode.pending_payout_value ? episode.pending_payout_value === "0.000 HBD" ? episode.total_payout_value.replace("HBD", "") : episode.pending_payout_value.replace("HBD", "") : "?";
+                        episodes.push(
+                            <Link key={episode.permlink} to={`/${type}Reader/${JSON.parse(location.state.seriesInfo.json_metadata).tags.filter(tag => tag.includes(`${location.state.seriesInfo.author}-`))[0].replace("-", "/")}/${index}`}>
+                                <div className="episode flex-between row">
+                                    <div className="flex row pa-hh">
+                                        <p>#{index}</p>
+                                        <div className="title-block">
+                                            <h3>{episode.title}</h3>
+                                            <p>{compareDate(episode.created.slice(0, 10))}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex row pa-h">
+                                        <div className="reward-block flex">
+                                            <p>$ {reward}</p>
+                                            <img className="md-icon down-arrow" src={DownArrow} alt="down-arrow" />
+                                        </div>
+                                        <div className="vote-block flex">
+                                            <p>{episode.active_votes.length}</p>
+                                            <img className="md-icon down-arrow" src={Heart} alt="down-arrow" />
+                                        </div>
+                                        {/*<div className="comment-block flex">
+                                            <p>{episode.replies.length}</p>
+                                            <img className="md-icon down-arrow" src={Bubble} alt="down-arrow" />
+                                        </div>
+                                        <Link to={{
+                                            pathname: `/publish?user=${props.user}`,
+                                            state: {
+                                                type: type,
+                                                seriesInfo: episode,
+                                                series: episode.title,
+                                            }
+                                        }}
+                                        >
+                                            <p>Edit</p>
+                                        </Link>*/}
+                                    </div>
+                                </div>
+                            </Link>
+                        )
+                    }
+                })
+                if (episodes.length > 0) {
+                    return episodes;
+                } else {
+                    return <p>No episodes... yet</p>
+                }
+            } else {
+                return <wired-spinner class="custom" spinning duration="1000" />
+            }
+        })
+    }
+
     const handleImageDelete = (index) => {
         let arr = [...images];
         arr.splice(index, 1);
@@ -276,13 +370,13 @@ const PublishPage = ({ publishState }) => {
         let tagList = [];
         let seriesId = "";
         if (series === "new") {
-            seriesId = props.user.toLowerCase() + "-" + title.split(" ").join("").toLowerCase();
+            seriesId = props.user.toLowerCase() + "-" + title.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
             if (seriesId.length > 24) {
                 seriesId = seriesId.slice(0, 24);
             }
         } else {
             if (location.state && location.state.seriesInfo) {
-                seriesId = location.state.seriesInfo.seriesId;
+                seriesId = JSON.parse(location.state.seriesInfo.json_metadata).tags.filter(tag => tag.includes(`${location.state.seriesInfo.author}-`))[0];
             } else {
                 let seriesInfo = toJS(store.authorInfo).series.filter(serie => serie.title === series)
                 seriesId = seriesInfo[0].seriesId;
@@ -318,13 +412,13 @@ const PublishPage = ({ publishState }) => {
             permlink = location.state.seriesInfo.permlink;
             parentAuthor = location.state.seriesInfo.parent_author;
             parentPermlink = location.state.seriesInfo.parent_permlink;
-            jsonMetadata = location.state.seriesInfo.metadata;
+            jsonMetadata = JSON.parse(location.state.seriesInfo.json_metadata);
             jsonMetadata.tags = tagList;
-
+            jsonMetadata.image = images;
 
         } else {
             permlink = title.split(" ").join("-").toLowerCase() + Date.now();
-            jsonMetadata = { tagList, app: 'Inkito' }
+            jsonMetadata = { tagList, image: images, app: 'Inkito' }
         }
 
         if (images.length > 0) {
@@ -337,9 +431,11 @@ const PublishPage = ({ publishState }) => {
 
         if (title && description) {
             if (type === "novel" && series !== "new") {
-                store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
+                console.log(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata)
+                //store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
             } else if (images.length > 0) {
-                store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
+                console.log(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata)
+                //store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
             }
         } else {
             alert.show('Please fill in required fields', {
@@ -605,6 +701,19 @@ const PublishPage = ({ publishState }) => {
 
                         <div className="divider" />
 
+                        {
+                            location.state && location.state.dashboard ?
+                                <React.Fragment>
+                                    <div className="input ep-list pa-h w-90">
+                                        <label className="flex row"><h2>Episode List</h2></label>
+                                        <EpisodeList />
+                                    </div>
+                                    <div className="divider" />
+                                </React.Fragment>
+                                :
+                                ""
+                        }
+
                         <div className="end flex row">
                             <div className="rules reset pa-h">
                                 <h3>
@@ -628,7 +737,6 @@ const PublishPage = ({ publishState }) => {
 
                             </div>
                         </div>
-
                     </form>
                 </div>
             </div>

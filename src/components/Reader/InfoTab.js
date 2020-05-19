@@ -64,11 +64,11 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
               <p>$ {reward}</p>
               <img className="sm-icon down-arrow" src={DownArrow} alt="down-arrow" />
             </div>
-
             <div className="vote-block flex">
               <p>{content.active_votes.length}</p>
               <img className="sm-icon down-arrow" src={DownArrow} alt="down-arrow" />
             </div>
+            
           </div>
         )
       } else {
@@ -89,7 +89,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
                     <p>Creator</p>
                   </div>
                 </Link>
-                <BellElement className="bellElement" userDetail={userDetail} seriesInfo={seriesInfo} followState={followState} />
+                <BellElement className="bellElement" userDetail={userDetail} seriesInfo={seriesInfo} followState={followState} content={content}/>
               </div>
 
               <div className={type === "comics" ? "content-info" : "content-info none"}>

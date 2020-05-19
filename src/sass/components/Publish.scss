@@ -159,6 +159,30 @@
     }
 }
 
+.ep-list {
+    > * {
+        width: 100%;
+    }
+    .episode {
+        height: 5em;
+        margin: 0.5em 0;
+        padding: 0.5em 5%;
+        width: 88%;
+        border: 1px solid $darkest-color;
+        background-color: $third-color;
+        p, h3 {
+            margin: 0;
+            padding: 0;
+        }
+        .title-block {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+    }
+}
+
 @media screen and (max-width: 450px) {
     .publish {
         .container {

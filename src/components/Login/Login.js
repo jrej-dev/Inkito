@@ -3,7 +3,8 @@ import StoreContext from '../../stores/AppStore';
 import '../../sass/components/Login.scss';
 import LoginImage from '../Icons/login.png';
 import Hivesigner from '../Icons/hivesigner.svg';
-import Keychain from '../Icons/keychain.png';
+//import Keychain from '../Icons/keychain.png';
+import HSLogo from '../Icons/hivesigner.png';
 
 const Login = ({ loginIsActive }) => {
   const store = React.useContext(StoreContext);
@@ -43,18 +44,18 @@ const Login = ({ loginIsActive }) => {
 
         <div className="keychain-divider flex full row pa-hh">
           <hr className="first-divider divider" />
-            <p>Hive Keychain</p>
+            <p>Hivesigner extension</p>
           <hr className="divider" />
         </div>
 
         <div className="keychain-image">
-          <img src={Keychain} alt="keychain"/>
+          <img src={HSLogo} alt="Hivesigner Logo"/>
         </div>
         {
-        typeof window !== 'undefined' && window && window.hive_keychain ?
+        typeof window !== 'undefined' && window && window._hivesigner ?
       
         <form onSubmit={(e) => {e.preventDefault(); handleSubmit()}}>
-          <div className="input flex row">
+          <div className="login-input flex row">
             <h2 className="arobase">@</h2>
             <wired-input 
               placeholder="Account Name" 
@@ -70,8 +71,8 @@ const Login = ({ loginIsActive }) => {
         </form>
         :
         <div className="buttons">
-            <a href="https://chrome.google.com/webstore/detail/hive-keychain/jcacnejopjdphbnjgfaaobbfafkihpep">Install for Chrome</a>
-            <a href="https://addons.mozilla.org/en-US/firefox/addon/hive-keychain/">Install for Firefox</a>
+            <a href="https://chrome.google.com/webstore/detail/hivesigner/ophihnhnfgcmhpbcennhppicomdeabip">Install for Chrome</a>
+            {/*<a href="https://addons.mozilla.org/en-US/firefox/addon/hive-keychain/">Install for Firefox</a>*/}
         </div>
         }
         

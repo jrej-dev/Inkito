@@ -29,11 +29,11 @@
         width: 28.5em;
         height: 28.5em;
         .keychain-image {
-            border: 3px solid rgb(228, 59, 59);
-            border-radius: 50%;
+            //border: 3px solid rgb(228, 59, 59);
+            //border-radius: 50%;
             > img {
-                padding: 0.5em 0.7em;
-                width: 2em;
+                //padding: 0.5em 0.7em;
+                width: 3em;
             }
         }
         a {
@@ -75,7 +75,7 @@
             justify-content: space-evenly;
             align-items: center;
             width: 100%;
-            .input {
+            .login-input {
                 width: 70%;
                 margin-right: 5%;
                 > wired-input {

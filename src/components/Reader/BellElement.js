@@ -1,6 +1,7 @@
 import React from 'react';
 import StoreContext from '../../stores/AppStore';
 import { useAlert } from 'react-alert'
+import { Link } from "react-router-dom";
 
 import Bell from '../Icons/bell.png';
 import GreenBell from '../Icons/green-bell.png';
@@ -10,7 +11,7 @@ import GreyBell from '../Icons/grey-bell.png';
 //import 'wired-elements';
 import '../../sass/components/InfoTab.scss';
 
-const BellElement = ({ followState, userDetail, seriesInfo, text }) => {
+const BellElement = ({ followState, userDetail, seriesInfo, text, content }) => {
     const store = React.useContext(StoreContext);
     const alert = useAlert();
 
@@ -28,9 +29,25 @@ const BellElement = ({ followState, userDetail, seriesInfo, text }) => {
             let author = seriesInfo.author;
 
             if (author === username) {
-                return (
-                    ""
-                )
+                if (content) {
+                    return (
+                        <Link to={{
+                            pathname: `/publish?user=${content.author}`,
+                            state: {
+                                type: JSON.parse(content.json_metadata).tags.includes("inkito-comics") ? "comic" : "novel",
+                                seriesInfo: content,
+                                series: content.title,
+                            }
+                        }}
+                        >
+                            <p>Edit</p>
+                        </Link>
+                    )
+                } else {
+                    return (
+                        ""
+                    )
+                }
             }
 
             if (seriesInfo.followers) {
