@@ -179,7 +179,7 @@ const PublishPage = ({ publishState }) => {
 
     const onImageUpload = async () => {
         if (imageFile) {
-            if (series === "new" && images.length > 0) {
+            if (series === "new" && images.length >= 1) {
                 alert.show('There can only be one thumbnail.', {
                     timeout: 2000, // custom timeout just for this one alert
                 })
@@ -197,6 +197,7 @@ const PublishPage = ({ publishState }) => {
                     body: formdata,
                     redirect: 'follow'
                 };
+                console.log(requestOptions);
                 const fetch_response = await fetch('https://inkito-ipfs.herokuapp.com/upload', requestOptions);
                 const body = await fetch_response.text();
 
@@ -603,9 +604,9 @@ const PublishPage = ({ publishState }) => {
                             </div>
 
                             <div className={type === "novel" && series !== "new" ? "hidden" : "upload flex-start wrap row pa-h"}>
-                                <input className="custom-file-input" type="file" placeholder="Upload an image" onChange={(e) => setImageFile(e.target.files[0])} />
+                                {store.ipfsState ? <input className="custom-file-input" type="file" placeholder="Upload an image" onChange={(e) => {setImageFile(e.target.files[0])}} /> : "" }
                                 <div className="buttons flex-between">
-                                    <p className="blue" onClick={onImageUpload}>Upload file</p>
+                                    {store.ipfsState ? <p className="blue" onClick={onImageUpload}>Upload file</p> : "" }
                                     <p className="blue" onClick={toggleImageLink}>Upload from link</p>
                                 </div>
                             </div>

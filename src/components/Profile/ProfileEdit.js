@@ -134,7 +134,7 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
             var myHeaders = new Headers();
 
             var formdata = new FormData();
-            formdata.append("file", avatarFile, "file");
+            formdata.append("file", coverFile, "file");
             formdata.append("hold_time", "12");
 
             var requestOptions = {
@@ -143,6 +143,7 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
                 body: formdata,
                 redirect: 'follow'
             };
+            
             const fetch_response = await fetch('https://inkito-ipfs.herokuapp.com/upload', requestOptions);
             console.log(fetch_response);
             const body = await fetch_response.text();
@@ -195,10 +196,15 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
                             ref={avatarInput}
                         />
                     }
-                    <form className="upload flex-start row wrap reset">
-                        <input className="custom-file-input" type="file" placeholder="Upload an image" onChange={(e) => setAvatarFile(e.target.files[0])} />
-                        <p className="blue" onClick={onAvatarUpload}>Upload file</p>
-                    </form>
+                    {
+                        store.ipfsState ?
+                        <form className="upload flex-start row wrap reset">
+                            <input className="custom-file-input" type="file" placeholder="Upload an image" onChange={(e) => setAvatarFile(e.target.files[0])} />
+                            <p className="blue" onClick={onAvatarUpload}>Upload file</p>
+                        </form>
+                        :
+                        ""
+                    }
                 </div>
 
                 <div className="cover">
@@ -220,10 +226,15 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
                             ref={coverInput}
                         />
                     }
-                    <form className="upload flex-start row wrap reset">
-                        <input className="custom-file-input" type="file" placeholder="Upload an image" onChange={(e) => setCoverFile(e.target.files[0])} />
-                        <p className="blue" onClick={onCoverUpload}>Upload file</p>
-                    </form>
+                    {
+                        store.ipfsState ?
+                        <form className="upload flex-start row wrap reset">
+                            <input className="custom-file-input" type="file" placeholder="Upload an image" onChange={(e) => setCoverFile(e.target.files[0])} />
+                            <p className="blue" onClick={onCoverUpload}>Upload file</p>
+                        </form>
+                        :
+                        ""
+                    }
                 </div>
 
                 <div className="name">

@@ -109,6 +109,7 @@ export function StoreProvider({ children }) {
         followState: "",
         updateProfileState: "",
         uploadState: "",
+        ipfsState: false,
 
         //Actions 
 
@@ -222,7 +223,7 @@ export function StoreProvider({ children }) {
             }
         },
         //Temporal
-        temporalLogin: () => {
+        temporalLogin: async () => {
             var requestOptions = {
                 method: 'POST',
                 headers: {
@@ -231,7 +232,14 @@ export function StoreProvider({ children }) {
                 },
                 body: JSON.stringify({ username: 'jrej', app:"inkito" })
             };
-            fetch('https://inkito-ipfs.herokuapp.com/login', requestOptions).then(res => res.text());
+            const response = await fetch('https://inkito-ipfs.herokuapp.com/login', requestOptions).then(res => res.text());
+            runInAction(() => {
+                if (response === "success") {
+                    store.ipfsState = true;
+                } else {
+                    store.ipfsState = false;
+                }
+            })
         },
         logOut: () => {
             api.revokeToken(function (err, res) {
