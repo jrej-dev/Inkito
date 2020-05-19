@@ -294,11 +294,23 @@ const PublishPage = ({ publishState }) => {
                     }
                 })
                 if (episodes.length > 0) {
+                    episodes.push(<Link key="add-episode" to={{
+                        pathname: `/publish?user=${props.user}`,
+                        state: {
+                            type: type,
+                            series: series
+                        }
+                    }}>
+                        <button className="add-ep-btn w-90" onClick={()=> {window.location.reload()}}>
+                            Add Episode
+                        </button>
+                    </Link>);
                     return episodes;
                 } else {
                     return <p>No episodes... yet</p>
                 }
             } else {
+                fetchSeriesDetail();
                 return <wired-spinner class="custom" spinning duration="1000" />
             }
         })
