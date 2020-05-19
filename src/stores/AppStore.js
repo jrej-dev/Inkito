@@ -752,13 +752,13 @@ export function StoreProvider({ children }) {
                     if (this.seriesDetail.length > 0 && this.seriesDetail[page]) {
                         this.seriesDetail[page].replies = result;
                         this.seriesDetailState = "done";
-                        if (page === 0 && this.seriesInfo) {
+                        if (this.seriesInfo) {
                             const avatar = await store.fetchAvatar(author);
                             const followers = await store.getFollowers(author);
                             this.seriesInfo.followers = followers;
                             this.seriesInfo.author_image = avatar
                             this.all_followers = [];
-                        } else if (this.seriesDetail[0] === undefined) {
+                        } else if (this.seriesInfo === undefined) {
                             console.log("error - fetching followers failed");
                         }
                     }

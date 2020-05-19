@@ -461,6 +461,9 @@ const PublishPage = ({ publishState }) => {
             <div className="container reset" onClick={() => store.toggleNavMenu(false)}>
                 <div className="publish-page">
                     {location.state && location.state.seriesInfo ?
+                        location.state.dashboard ?
+                        <h2>Series Dashboard</h2>
+                        :
                         <h2>Update Episode</h2>
                         :
                         <h2>New Episode</h2>
@@ -611,7 +614,7 @@ const PublishPage = ({ publishState }) => {
 
                                 <label className="flex">
                                     {
-                                        series === "new" ?
+                                        series === "new" || location.state.dashboard ?
                                             <h2>Series Title</h2>
                                             :
                                             <h2>Episode Title</h2>
