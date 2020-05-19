@@ -371,7 +371,7 @@ export function StoreProvider({ children }) {
             }];
         },
         //The comment() method is rate limited to 5 minutes per root comment (post), and 20 seconds per non-root comment (reply).
-        comment: (parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, page) => {
+        comment: (parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, page, update) => {
             store.commentState = "pending";
             let tx = [];
             let params = {
@@ -385,7 +385,9 @@ export function StoreProvider({ children }) {
             };
 
             tx.push(['comment', params]);
-            tx.push(store.getBeneficiaries(author, permlink));
+            if (!update) {
+                tx.push(store.getBeneficiaries(author, permlink));
+            }
 
             api.broadcast(tx, function (err, res) {
                 if (res) {

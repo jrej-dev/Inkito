@@ -26,9 +26,10 @@ const PublishPage = ({ publishState }) => {
     const [imageLink, setImageLink] = useState("");
     const [imageLinkIsActive, setimageLinkIsActive] = useState(false);
     const [title, setTitle] = useState(location.state && location.state.seriesInfo ? location.state.seriesInfo.title : "");
-    const [description, setDescription] = useState(location.state && location.state.seriesInfo ? type === "comic" ? location.state.seriesInfo.body.replace(/^!\[.*\)$/gm, '') : location.state.seriesInfo.body : "");
+    const [description, setDescription] = useState(location.state && location.state.seriesInfo ? type === "comic" ? location.state.seriesInfo.body.replace(/^!\[.*\)./gm, '') : location.state.seriesInfo.body : "");
     const [tags, setTags] = useState(location.state && location.state.seriesInfo ? JSON.parse(location.state.seriesInfo.json_metadata).tags.join(" ").replace(`inkito-${type}s`, "").replace(JSON.parse(location.state.seriesInfo.json_metadata).tags.filter(tag => tag.includes(`${location.state.seriesInfo.author}-`))[0], "") : "");
     const [categories, setCategories] = useState([]);
+    const [update, setUpdate] = useState(true);
 
     const seriesSelected = useRef(null);
     const typeSelected = useRef(null);
@@ -39,7 +40,19 @@ const PublishPage = ({ publishState }) => {
 
     var props = {};
 
+    if (publishState === "done") {
+        alert.success('Episode published.', {
+            timeout: 2000, // custom timeout just for this one alert
+        })
+        setTimeout(function () { window.location.reload(); }, 2200);
+    } else if (publishState === "error") {
+        alert.error('Something went wrong.', {
+            timeout: 2000, // custom timeout just for this one alert
+        })
+    }
+
     useEffect(() => {
+
         getUrlParams();
         getLocationInfo();
         var currentSeries = seriesSelected.current;
@@ -93,7 +106,7 @@ const PublishPage = ({ publishState }) => {
                 currentTags.removeEventListener('input', handleTagsChange);
             }
         }
-    })
+    },[])
 
     const dispose = () => {
         SeriesCombo = () => { return [] };
@@ -102,8 +115,16 @@ const PublishPage = ({ publishState }) => {
     const getLocationInfo = async () => {
         if (location.state && location.state.dashboard) {
             await store.fetchPermlinks(location.state.seriesInfo.author, location.state.seriesInfo.title.split(" ").join("").toLowerCase());
-            if (toJS(store.seriesLinks))
+            if (toJS(store.seriesLinks)) {
                 fetchSeriesDetail();
+            }
+        }
+    }
+
+    const getUrlParams = () => {
+        props.user = new URLSearchParams(document.location.search).get('user');
+        if (props.user) {
+            fetchAuthoInfo(props.user);
         }
     }
 
@@ -113,13 +134,6 @@ const PublishPage = ({ publishState }) => {
         })
         if (index) {
             store.fetchSeriesDetail(props.user, toJS(store.seriesLinks)[index], index)
-        }
-    }
-
-    const getUrlParams = () => {
-        props.user = new URLSearchParams(document.location.search).get('user');
-        if (props.user) {
-            fetchAuthoInfo(props.user);
         }
     }
 
@@ -160,21 +174,6 @@ const PublishPage = ({ publishState }) => {
             arr = arr.filter(cat => cat !== e.target.innerText);
             setCategories(arr);
         }
-    }
-
-    const resetForm = (e) => {
-        e.preventDefault();
-        setTitle("");
-        titleInput.current.value = "";
-        setDescription("");
-        descriptionInput.current.value = "";
-
-        if (tags) {
-            setTags("");
-            tagsInput.current.value = "";
-        }
-
-        setImages([]);
     }
 
     const onImageUpload = async () => {
@@ -416,7 +415,7 @@ const PublishPage = ({ publishState }) => {
 
         } else {
             permlink = title.split(" ").join("-").toLowerCase() + Date.now();
-            jsonMetadata = { tagList, image: images, app: 'Inkito' }
+            jsonMetadata = { tags: tagList, image: images, app: 'Inkito' }
         }
 
         if (images.length > 0) {
@@ -429,23 +428,20 @@ const PublishPage = ({ publishState }) => {
 
         if (title && description) {
             if (type === "novel" && series !== "new") {
-                store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
+                if (location.state && location.state.seriesInfo){
+                    store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, undefined, true);
+                } else {
+                    store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
+                }
             } else if (images.length > 0) {
-                store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
+                if (location.state && location.state.seriesInfo){
+                    store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, undefined, true);
+                } else {
+                    store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
+                }
             }
         } else {
             alert.show('Please fill in required fields', {
-                timeout: 2000, // custom timeout just for this one alert
-            })
-        }
-
-        if (publishState === "done") {
-            alert.success('Episode published.', {
-                timeout: 2000, // custom timeout just for this one alert
-            })
-            resetForm();
-        } else if (publishState === "error") {
-            alert.error('Something went wrong.', {
                 timeout: 2000, // custom timeout just for this one alert
             })
         }

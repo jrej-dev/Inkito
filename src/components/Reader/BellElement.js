@@ -34,7 +34,7 @@ const BellElement = ({ followState, userDetail, seriesInfo, text, content }) => 
                         <Link to={{
                             pathname: `/publish?user=${content.author}`,
                             state: {
-                                type: JSON.parse(content.json_metadata).tags.includes("inkito-comics") ? "comic" : "novel",
+                                type: window.location.href.includes("comicReader") ? "comic" : "novel",
                                 seriesInfo: content,
                                 series: content.title,
                             }
