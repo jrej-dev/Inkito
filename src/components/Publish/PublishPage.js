@@ -184,6 +184,11 @@ const PublishPage = ({ publishState }) => {
                     timeout: 2000, // custom timeout just for this one alert
                 })
                 setTimeout(function () { imageLinkInput.current.value = ""; }, 2200);
+            } else if (!store.ipfsState) {
+                alert.error('Something went wrong.', {
+                    timeout: 2000, // custom timeout just for this one alert
+                })
+                setTimeout(function () { imageLinkInput.current.value = ""; }, 2200);
             } else {
                 var myHeaders = new Headers();
 
@@ -604,9 +609,9 @@ const PublishPage = ({ publishState }) => {
                             </div>
 
                             <div className={type === "novel" && series !== "new" ? "hidden" : "upload flex-start wrap row pa-h"}>
-                                {store.ipfsState ? <input className="custom-file-input" type="file" placeholder="Upload an image" onChange={(e) => {setImageFile(e.target.files[0])}} /> : "" }
+                                <input className="custom-file-input" type="file" placeholder="Upload an image" onChange={(e) => {setImageFile(e.target.files[0])}} />
                                 <div className="buttons flex-between">
-                                    {store.ipfsState ? <p className="blue" onClick={onImageUpload}>Upload file</p> : "" }
+                                    <p className="blue" onClick={onImageUpload}>Upload file</p>
                                     <p className="blue" onClick={toggleImageLink}>Upload from link</p>
                                 </div>
                             </div>
