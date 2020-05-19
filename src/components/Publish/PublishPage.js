@@ -315,22 +315,15 @@ const PublishPage = ({ publishState }) => {
     const addImageLink = (e) => {
         e.preventDefault();
         if (imageLink) {
-            if (imageLink.match(/\.(jpeg|jpg|gif|png)$/) != null) {
-                if (series === "new" && images.length > 0) {
-                    alert.show('There can only be one thumbnail.', {
-                        timeout: 2000, // custom timeout just for this one alert
-                    })
-                    setTimeout(function () { imageLinkInput.current.value = ""; }, 2200);
-                } else {
-                    setImages([...images, imageLink])
-                    imageLinkInput.current.value = "";
-                }
-            } else {
-                alert.error('Please enter a valid image url.', {
+            if (series === "new" && images.length > 0) {
+                alert.show('There can only be one thumbnail.', {
                     timeout: 2000, // custom timeout just for this one alert
                 })
                 setTimeout(function () { imageLinkInput.current.value = ""; }, 2200);
-            }
+            } else {
+                setImages([...images, imageLink])
+                imageLinkInput.current.value = "";
+            }    
         }
     }
 
