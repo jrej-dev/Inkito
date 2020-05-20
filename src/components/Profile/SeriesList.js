@@ -10,56 +10,58 @@ const SeriesList = () => {
     const store = React.useContext(StoreContext);
 
     const ComicList = ({ author, user, seriesArray }) => {
-        if (seriesArray.length > 0) {
+        if (seriesArray && seriesArray.length > 0 && !seriesArray.includes(undefined)) {
             let seriesList = [];
             seriesArray.forEach(series => {
-                let lastTags = JSON.parse(series.last_update.json_metadata);
-                let seriesUrl = series.seriesId.replace("-", "/");
-                if (series.tags.includes("inkito-comics") || lastTags.tags.includes("inkito-comics")) {
-                    seriesList.push(
-                        <li key={series.seriesId}>
-                            <div className="series-thumbnail">
-                                <div className={user === author ? "series-admin" : "hidden"}>
-                                    <Link to={{
-                                        pathname: `/publish?user=${user}`,
-                                        state: {
-                                            type: "comic",
-                                            seriesInfo: series,
-                                            series: series.title,
-                                            dashboard: true,
-                                        }
-                                    }}>
-                                        <button>
-                                            <img src={Edit} className="sm-icon icon" alt="Edit" />
+                if (series) {
+                    let lastTags = JSON.parse(series.last_update.json_metadata);
+                    let seriesUrl = series.seriesId.replace("-", "/");
+                    if (series.tags.includes("inkito-comics") || lastTags.tags.includes("inkito-comics")) {
+                        seriesList.push(
+                            <li key={series.seriesId}>
+                                <div className="series-thumbnail">
+                                    <div className={user === author ? "series-admin" : "hidden"}>
+                                        <Link to={{
+                                            pathname: `/publish?user=${user}`,
+                                            state: {
+                                                type: "comic",
+                                                seriesInfo: series,
+                                                series: series.title,
+                                                dashboard: true,
+                                            }
+                                        }}>
+                                            <button>
+                                                <img src={Edit} className="sm-icon icon" alt="Edit" />
+                                            </button>
+                                        </Link>
+                                        <Link to={{
+                                            pathname: `/publish?user=${user}`,
+                                            state: {
+                                                type: "comic",
+                                                series: series.title
+                                            }
+                                        }}>
+                                            <button className="add-ep-btn">
+                                                +
                                         </button>
-                                    </Link>
-                                    <Link to={{
-                                        pathname: `/publish?user=${user}`,
-                                        state: {
-                                            type: "comic",
-                                            series: series.title
-                                        }
-                                    }}>
-                                        <button className="add-ep-btn">
-                                            +
-                                        </button>
-                                    </Link>
+                                        </Link>
 
-                                </div>
-                                <Link to={`/comicReader/${seriesUrl}`}>
-                                    <img className="thumbnail" src={series.image} alt="" />
-                                </Link>
-                            </div>
-                            <div className="series-info flex reset">
-                                <h3 className="series-title">
+                                    </div>
                                     <Link to={`/comicReader/${seriesUrl}`}>
-                                        {series.title}
+                                        <img className="thumbnail" src={series.image} alt="" />
                                     </Link>
-                                </h3>
-                                <p>Updated: {series.last_update.created.slice(0, 10)}</p>
-                            </div>
-                        </li>
-                    )
+                                </div>
+                                <div className="series-info flex reset">
+                                    <h3 className="series-title">
+                                        <Link to={`/comicReader/${seriesUrl}`}>
+                                            {series.title}
+                                        </Link>
+                                    </h3>
+                                    <p>Updated: {series.last_update.created.slice(0, 10)}</p>
+                                </div>
+                            </li>
+                        )
+                    }
                 }
             })
             if (seriesList.length > 0) {
@@ -83,59 +85,57 @@ const SeriesList = () => {
     }
 
     const NovelList = ({ author, user, seriesArray }) => {
-        if (seriesArray.length > 0) {
+        if (seriesArray && seriesArray.length > 0 && !seriesArray.includes(undefined)) {
             let seriesList = [];
             seriesArray.forEach(series => {
-                let lastTags = "";
-                let seriesUrl = "";
-                if (series.last_update && series.seriesId){
-                    lastTags = JSON.parse(series.last_update.json_metadata);
-                    seriesUrl = series.seriesId.replace("-", "/");
-                }
-                if (series.tags.includes("inkito-novels") || lastTags.tags.includes("inkito-novels")) {
-                    seriesList.push(
-                        <li key={series.seriesId}>
-                            <div className="series-thumbnail">
-                                <div className={user === author ? "series-admin" : "hidden"}>
-                                    <Link to={{
-                                        pathname: `/publish?user=${user}`,
-                                        state: {
-                                            type: "novel",
-                                            seriesInfo: series,
-                                            series: series.title,
-                                            dashboard: true
-                                        }
-                                    }}>
-                                        <button>
-                                            <img src={Edit} className="sm-icon icon" alt="Edit" />
-                                        </button>
-                                    </Link>
-                                    <Link to={{
-                                        pathname: `/publish?user=${user}`,
-                                        state: {
-                                            type: "novel",
-                                            series: series.title
-                                        }
-                                    }}>
-                                        <button className="add-ep-btn">
-                                            +
-                                        </button>
+                if (series) {
+                    let lastTags = JSON.parse(series.last_update.json_metadata);
+                    let seriesUrl = series.seriesId.replace("-", "/");
+                    if (series.tags.includes("inkito-novels") || lastTags.tags.includes("inkito-novels")) {
+                        seriesList.push(
+                            <li key={series.seriesId}>
+                                <div className="series-thumbnail">
+                                    <div className={user === author ? "series-admin" : "hidden"}>
+                                        <Link to={{
+                                            pathname: `/publish?user=${user}`,
+                                            state: {
+                                                type: "novel",
+                                                seriesInfo: series,
+                                                series: series.title,
+                                                dashboard: true
+                                            }
+                                        }}>
+                                            <button>
+                                                <img src={Edit} className="sm-icon icon" alt="Edit" />
+                                            </button>
+                                        </Link>
+                                        <Link to={{
+                                            pathname: `/publish?user=${user}`,
+                                            state: {
+                                                type: "novel",
+                                                series: series.title
+                                            }
+                                        }}>
+                                            <button className="add-ep-btn">
+                                                +
+                                            </button>
+                                        </Link>
+                                    </div>
+                                    <Link to={`/novelReader/${seriesUrl}`}>
+                                        <img className="thumbnail" src={series.image} alt="" />
                                     </Link>
                                 </div>
-                                <Link to={`/novelReader/${seriesUrl}`}>
-                                    <img className="thumbnail" src={series.image} alt="" />
-                                </Link>
-                            </div>
-                            <div className="series-info flex reset">
-                                <h3 className="series-title">
-                                    <Link to={`/novelReader/${seriesUrl}`}>
-                                        {series.title}
-                                    </Link>
-                                </h3>
-                                <p>Updated: {series.last_update.created.slice(0, 10)}</p>
-                            </div>
-                        </li>
-                    )
+                                <div className="series-info flex reset">
+                                    <h3 className="series-title">
+                                        <Link to={`/novelReader/${seriesUrl}`}>
+                                            {series.title}
+                                        </Link>
+                                    </h3>
+                                    <p>Updated: {series.last_update.created.slice(0, 10)}</p>
+                                </div>
+                            </li>
+                        )
+                    }
                 }
             })
 
