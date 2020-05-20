@@ -42,28 +42,24 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
         var blocks = []; 
         for (let j = 0 ; j < panelBlockNumber; j++) {
           if (fresh[j] !== undefined && trendy[j] !== undefined){            
-              //if (j % 2 === 0) {
+              if (j % 2 === 0) {
                 blocks.push(
-                  //<div key={trendy[j].title} className="panel-block">
-                  <>
-                    <TrendyPanel 
-                      key={trendy[j].title}
+                  <div key={trendy[j].title} className="panel-block">                
+                    <TrendyPanel                    
                       content={trendy[j]}
                       onClick={contentClickHandle}
                     />
-                    <NewPanel 
-                      key={fresh[j].title}
+                    <NewPanel                
                       content={fresh[j]}
                       onClick={contentClickHandle}
                     />
-                  </>
-                  //</div>
+                  
+                  </div>
                 )
-              /*} else {
+              } else {
                 blocks.push(
                   <div key={fresh[j].title} className="panel-block">
-                    <NewPanel 
-                      key={trendy[j].title}
+                    <NewPanel      
                       content={fresh[j]}
                       onClick={contentClickHandle}
                     />
@@ -73,26 +69,24 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
                    />
                   </div>
                 )
-              }*/
+              }
           } else if (trendy[j] && fresh[j] === undefined) {
             blocks.push(
-              //<div key={trendy[j].title} className="panel-block">
-                <TrendyPanel 
-                  key={trendy[j].title}
+              <div key={trendy[j].title} className="panel-block">
+                <TrendyPanel              
                   content={trendy[j]}
                   onClick={contentClickHandle}
                 />
-              //</div>
+              </div>
             )
           } else if (fresh[j] && trendy[j] === undefined) {
             blocks.push(
-              //<div key={fresh[j].title} className="panel-block">
+              <div key={fresh[j].title} className="panel-block">
                 <NewPanel 
-                  key={fresh[j].title}
                   content={fresh[j]}
                   onClick={contentClickHandle}
                 />
-              //</div>
+              </div>
             )
           } else {
             return blocks;
