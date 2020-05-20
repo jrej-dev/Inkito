@@ -35,7 +35,7 @@ function TrendyPanel({ content, onClick }) {
             </span>
             <div className="reward-block">
               <p>Last Payout:</p>
-              <p className="reward">$ {reward}</p>
+              <p className="reward">$ {(parseInt(reward, 10)/2).toFixed(2)}</p>
             </div>
           </div>
         </div>
