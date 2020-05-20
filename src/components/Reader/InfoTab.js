@@ -61,11 +61,11 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
             </div>
 
             <div className="reward-block flex">
-              <p>$ {reward}</p>
+              <p>$ {(parseInt(reward, 10)/2).toFixed(2)}</p>
               <img className="sm-icon down-arrow" src={DownArrow} alt="down-arrow" />
             </div>
             <div className="vote-block flex">
-              <p>{content.active_votes.length}</p>
+              <p>{content.active_votes.length} likes</p>
               <img className="sm-icon down-arrow" src={DownArrow} alt="down-arrow" />
             </div>
             

@@ -44,7 +44,7 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
           if (fresh[j] !== undefined && trendy[j] !== undefined){            
               if (j % 2 === 0) {
                 blocks.push(
-                  <div key={trendy[j].title} className="panel-block">                
+                  <div key={trendy[j].title} className="panel-block">  
                     <TrendyPanel                    
                       content={trendy[j]}
                       onClick={contentClickHandle}
@@ -53,7 +53,6 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
                       content={fresh[j]}
                       onClick={contentClickHandle}
                     />
-                  
                   </div>
                 )
               } else {

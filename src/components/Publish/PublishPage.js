@@ -265,7 +265,7 @@ const PublishPage = ({ publishState }) => {
                                     </div>
                                     <div className="flex row pa-h">
                                         <div className="reward-block flex">
-                                            <p>$ {reward}</p>
+                                            <p>$ {(parseInt(reward, 10)/2).toFixed(2)}</p>
                                             <img className="md-icon down-arrow" src={DownArrow} alt="down-arrow" />
                                         </div>
                                         <div className="vote-block flex">
@@ -426,7 +426,7 @@ const PublishPage = ({ publishState }) => {
 
         } else {
             permlink = title.split(" ").join("-").toLowerCase() + Date.now();
-            jsonMetadata = { tags: tagList, image: images, app: 'Inkito' }
+            jsonMetadata = { tags: tagList, format: 'markdown', image: images, app: 'Inkito' }
         }
 
         if (images.length > 0) {
