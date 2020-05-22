@@ -36,11 +36,19 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
           trendy =  toJS(trendyData).filter(object => object.tags.includes(category));
         } else {
           fresh = toJS(newData);
+                    
           trendy =  toJS(trendyData);
         }
-
+        var singles = [];
         var blocks = []; 
-        for (let j = 0 ; j < panelBlockNumber; j++) {
+        var singleBlocks = [];
+        var blockNumber = panelBlockNumber;
+
+        if (trendy.length < 4){
+          blockNumber = parseInt(panelBlockNumber) + ( parseInt(panelBlockNumber) - parseInt(trendy.length));
+        }
+        
+        for (let j = 0 ; j < blockNumber; j++) {
           if (fresh[j] !== undefined && trendy[j] !== undefined){            
               if (j % 2 === 0) {
                 blocks.push(
@@ -70,28 +78,31 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
                 )
               }
           } else if (trendy[j] && fresh[j] === undefined) {
-            blocks.push(
-              <div key={trendy[j].title} className="panel-block">
-                <TrendyPanel              
+            singles.push(
+                <TrendyPanel   
+                  key={trendy[j].title}           
                   content={trendy[j]}
                   onClick={contentClickHandle}
                 />
-              </div>
             )
           } else if (fresh[j] && trendy[j] === undefined) {
-            blocks.push(
-              <div key={fresh[j].title} className="panel-block">
-                <NewPanel 
-                  content={fresh[j]}
-                  onClick={contentClickHandle}
-                />
-              </div>
+            singles.push(
+              <NewPanel 
+                key={fresh[j].title}
+                content={fresh[j]}
+                onClick={contentClickHandle}
+              />
             )
-          } else {
-            return blocks;
-          }
+          } 
         }
-        return blocks;
+        
+        singles.forEach((value, index) => {
+          if (index % 2 === 0)
+          singleBlocks.push(<div key={type + " single " + index} className="panel-block single">{singles.slice(index, index + 2)}</div>);
+        });
+
+        return [...blocks, ...singleBlocks];
+        
       } else {
         return <wired-spinner class="custom" spinning duration="1000"/>
       }
