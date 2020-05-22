@@ -15,6 +15,7 @@ import FullDisplay from '../../components/FullDisplay/FullDisplay';
 import Reader from '../../components/Reader/Reader';
 import ProfilePage from '../../components/Profile/ProfilePage';
 import Page404 from '../../components/Main/Page404';
+import Terms from '../../components/Main/Terms';
 
 import SeriesEdit from '../../components/Publish/SeriesEdit';
 import PublishPage from '../../components/Publish/PublishPage';
@@ -97,6 +98,9 @@ const App = () => {
           <Route path="/publish*">
             <Publish />
           </Route>  
+          <Route path="/terms">
+            <Terms />
+          </Route>
           <Route component={Page404} />
         </Switch>
         <Footer />
