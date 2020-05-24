@@ -151,7 +151,7 @@ const Faq = () => {
             <div className="faq align-left">
                 <div className="flex col">
                     <img className="faq-img" src={FAQImage} alt="Questions"/>
-                    <h2>FAQ</h2>
+                    <h1>FAQ</h1>
                 </div>
 
                 <h3>Fundamentals</h3>
