@@ -16,6 +16,9 @@ import Reader from '../../components/Reader/Reader';
 import ProfilePage from '../../components/Profile/ProfilePage';
 import Page404 from '../../components/Main/Page404';
 import Terms from '../../components/Main/Terms';
+import Privacy from '../../components/Main/Privacy';
+import Faq from '../../components/Main/Faq';
+
 
 import SeriesEdit from '../../components/Publish/SeriesEdit';
 import PublishPage from '../../components/Publish/PublishPage';
@@ -100,6 +103,12 @@ const App = () => {
           </Route>  
           <Route path="/terms">
             <Terms />
+          </Route>
+          <Route path="/privacy">
+            <Privacy />
+          </Route>
+          <Route path="/faq">
+            <Faq />
           </Route>
           <Route component={Page404} />
         </Switch>

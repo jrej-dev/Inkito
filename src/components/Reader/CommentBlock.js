@@ -70,7 +70,7 @@ const CommentBlock = ({ content, reply, page, replyIsActive, userDetail, comment
                         <img className="md-icon clock" src={Clock} alt="clock" />
                         <p>{compareDate(content.created.slice(0, 10))}</p>
                     </div>
-                    <img className="md-icon flag" src={Flag} alt="flag" />
+                    {/*<img className="md-icon flag" src={Flag} alt="flag" />*/}
                 </div>
 
                 <wired-card>

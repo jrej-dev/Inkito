@@ -15,10 +15,17 @@
     display: none;
   }
   .title {
+    position: relative;
     margin-right: auto;
     padding-left: 1em;
     > * {
       padding-left: 1em;
+      padding-right: 0.3em;
+    }
+    .beta {
+      padding: 0;
+      margin: 0;
+      color: $primary-color;
     }
   }
   h1 {
@@ -50,6 +57,9 @@
     p:hover {
       color: $dark-color;
     }
+    > * {
+      margin: 0;
+    }
   }
   .user-thumbnail {
     height: 3em;
@@ -65,5 +75,14 @@
   }
   .nav-blog {
     display: none;
+  }
+  .Nav {
+    .title {
+      .beta {
+        position: absolute;
+        top: 2.1em;
+        left: 5.8em;
+      }
+    }
   }
 }

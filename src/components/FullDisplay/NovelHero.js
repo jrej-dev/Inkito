@@ -1,10 +1,11 @@
 import React from 'react';
 import '../../sass/components/Hero.scss';
+import NovelImage from '../Images/reading-woman.png';
 
 function NovelHero() {
   return (
     <div className="fullHero">
-      <div className="circle"/>
+      <img src={NovelImage} alt="reading-woman"/>
       <h2>Novels</h2> 
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import StoreContext from '../../stores/AppStore';
 import '../../sass/components/Login.scss';
-import LoginImage from '../Icons/login.png';
+import LoginImage from '../Images/login.png';
 import Hivesigner from '../Icons/hivesigner.svg';
 //import Keychain from '../Icons/keychain.png';
 import HSLogo from '../Icons/hivesigner.png';
@@ -43,14 +43,12 @@ const Login = ({ loginIsActive }) => {
         <h2 className="title">Inkito</h2>
 
         <div className="keychain-divider flex full row pa-hh">
-          <hr className="first-divider divider" />
+          <hr />
             <p>Hivesigner extension</p>
-          <hr className="divider" />
+          <hr />
         </div>
 
-        <div className="keychain-image">
-          <img src={HSLogo} alt="Hivesigner Logo"/>
-        </div>
+        <img src={HSLogo} alt="Hivesigner Logo" className="hivesigner-image"/>
         {
         typeof window !== 'undefined' && window && window._hivesigner ?
       
@@ -77,9 +75,9 @@ const Login = ({ loginIsActive }) => {
         }
         
         <div className="flex row full pa-hh">
-          <hr className="divider" />
+          <hr />
           <p>Other login method</p>
-          <hr className="divider" />
+          <hr />
         </div>
 
         <div className="login-hivesigner">

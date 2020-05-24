@@ -1,6 +1,10 @@
 @import "../abstracts/variables";
 @import "../abstracts/mixins";
-   
+
+hr {
+    width: 100%;
+}
+
 .login-popup {
     transition: top 0.3s;
     position: absolute;
@@ -13,10 +17,10 @@
     .login-image {
         z-index: -1;
         position: absolute;
-        top: 0;
-        left: 0;
-        width: auto;
-        height: 100%;
+        top: -3.5em;
+        left: 1em;
+        width: 100%;
+        height: auto;
     }
     .login-content {
         position: absolute;
@@ -25,16 +29,11 @@
         justify-content: space-evenly;
         align-items: center;
         top: 11.5em;
-        left: 9.2em;
-        width: 28.5em;
-        height: 28.5em;
-        .keychain-image {
-            //border: 3px solid rgb(228, 59, 59);
-            //border-radius: 50%;
-            > img {
-                //padding: 0.5em 0.7em;
-                width: 3em;
-            }
+        left: 10em;
+        width: 26.5em;
+        height: 28em;
+        .hivesigner-image {
+            width: 3em;
         }
         a {
             box-shadow: inset 0px 1px 0px 0px #ffffff;
@@ -52,14 +51,14 @@
             text-decoration: none;
             text-shadow: 0px 1px 0px #ffffff;
             &:hover {
-              background: linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
-              background-color: #f6f6f6;
+                background: linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+                background-color: #f6f6f6;
             }
             &:active {
-              position: relative;
-              top: 1px;
+                position: relative;
+                top: 1px;
             }
-        }    
+        }
         p {
             white-space: nowrap;
         }
@@ -88,8 +87,8 @@
             }
             .buttons {
                 width: 50%;
-                >  *{
-                padding: 0.5em 2em;
+                > * {
+                    padding: 1em 2em;
                 }
             }
         }
@@ -98,6 +97,9 @@
             display: flex;
             justify-content: space-evenly;
             align-items: center;
+            a {
+                padding: 1em 2em;
+            }
         }
         .login-hivesigner {
             width: 100%;
@@ -105,7 +107,8 @@
             > * {
                 margin: 1em 0;
             }
-            a, .hivesigner {
+            a,
+            .hivesigner {
                 padding-top: 0.5em;
                 width: 50%;
             }
@@ -123,28 +126,19 @@
         left: unquote("calc(50% - 15em)");
         height: 25em;
         width: 25em;
-        
+
         .login-content {
             position: absolute;
-            top: 7em;
-            left: 5.8em;
-            width: 17.8em;
-            height: 18em;
+            top: 8em;
+            left: 6.7em;
+            width: 16em;
+            height: 16em;
             display: flex;
             flex-direction: column;
             justify-content: space-evenly;
             align-items: center;
-            .keychain-image {
-                border: 2px solid rgb(228, 59, 59);
-                border-radius: 50%;
-                > img {
-                    padding: 0.5em 0.7em;
-                    width: 1.5em;
-                }
-            }
-            .first-divider {
-                width: 2.2em;
-                margin-right: 3.5em;
+            .hivesigner-image {
+                width: 2em;
             }
             .title {
                 display: none;
@@ -160,14 +154,15 @@
             }
 
             .buttons > * {
-                padding: 0.5em 0;
+                font-size: 0.8em;
                 margin: 0.5em 0.5em;
             }
             .login-hivesigner {
                 > * {
                     margin: 0;
                 }
-                button, .hivesigner {
+                button,
+                .hivesigner {
                     padding-top: 0.5em;
                     width: 60%;
                 }

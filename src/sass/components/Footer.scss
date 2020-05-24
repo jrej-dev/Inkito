@@ -6,16 +6,14 @@
   flex-direction: column;
   min-height: 10em;
   width: 100%;
-  margin: 5em 0 0 0;
+  margin: 0;
   padding: 1em 0;
   color: $darkest-color;
   background-color: $primary-color;
   .circle {
-    margin: 0.5em 0;
+    margin: 0.5em 0 1em 0;
     height: 5em;
     width: 5em;
-    background-color: $secondary-color;
-    border-radius: 50%;
   }
   .footer-list {
     height: 100%;

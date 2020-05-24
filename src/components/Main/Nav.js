@@ -34,6 +34,7 @@ const Nav = () => {
         <h1>
           <Link to="/">Inkito</Link>
         </h1>
+        <p className="beta">Beta</p>
       </div>
       <ul>
         <li className="search">

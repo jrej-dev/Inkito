@@ -8,7 +8,7 @@ const md = new Remarkable({html: true}).use(imgify);
 const ContentBody = ({ content }) => {
   if (content) {
     return (
-     <div dangerouslySetInnerHTML={{ __html: md.render(content.body) }} />
+     <div className="content" dangerouslySetInnerHTML={{ __html: md.render(content.body) }} />
     )
   } else {
     return ""

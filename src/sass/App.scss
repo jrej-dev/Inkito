@@ -128,6 +128,9 @@
 
 .pointer {
   cursor: pointer;
+  &:hover {
+    color: $dark-color;
+  }
 }
 
 button {
