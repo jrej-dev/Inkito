@@ -35,7 +35,7 @@ const NavReader = ({ firstPage, currentPage, lastPage, page, seriesLength, onCli
             <h1>
               <Link to="/">Inkito</Link>
             </h1>
-            <p className="beta">Beta</p>
+            <p className="beta">Alpha</p>
           </li>
 
           <li className="flex arrows ">

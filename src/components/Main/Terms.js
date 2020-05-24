@@ -192,7 +192,7 @@ const Terms = () => {
           We understand that this content may not be appropriate or desirable for some of our readers depending on their current location, age, background or personal views.
         </p>
         <p>
-          The current beta version of the site has not implemented a feature that allows content to be flagged as NSFW, consequently you acknowledge that it is possible
+          The current alpha version of the site has not implemented a feature that allows content to be flagged as NSFW, consequently you acknowledge that it is possible
           that you may encounter adult-oriented topics.  You understand and agree that you access content on Inkito at your own risk.
         </p>
         <h3>Assumption of Risk, Limitations on Liability.</h3>
