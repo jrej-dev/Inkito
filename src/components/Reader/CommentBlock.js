@@ -11,7 +11,7 @@ import Clock from '../Icons/clock.png';
 import HeartElement from './HeartElement';
 import UpArrow from '../Icons/up-arrow.png';
 import DownArrow from '../Icons/down-arrow.png';
-import Flag from '../Icons/flag.png';
+//import Flag from '../Icons/flag.png';
 
 import { Link } from "react-router-dom";
 

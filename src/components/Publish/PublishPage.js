@@ -563,20 +563,6 @@ const PublishPage = ({ publishState }) => {
                                 <p>(Maximum file size of 2MB)</p>
                             </div>
 
-                            <div className={type === "novel" && series !== "new" ? "hidden" : "flex-start row pa-h"}>
-                                <p>
-                                    Please note that Inkito uses
-                                        <b> IPFS </b>
-                                        public nodes for image uploads. More info in our
-                                        <a
-                                        href="https://wallet.hive.blog/tos.html"
-                                        target="_blank"
-                                        rel="noopener noreferrer">
-                                        <b> terms of services</b>
-                                    </a>.
-                                    </p>
-                            </div>
-
                             <div className={imageLinkIsActive ? "imageLink" : "imageLink hidden-top"}>
                                 <div className="close pointer" onClick={toggleImageLink}> Close </div>
                                 <label className="reset"><h3>Add Image</h3></label>
@@ -735,7 +721,7 @@ const PublishPage = ({ publishState }) => {
                                     Please follow the rules
                                 </h3>
                                 <p>
-                                    By submitting your comics or novels you agree to Inkito's Terms of Service and Content Policies. Please do not violate the copyright or privacy of others.
+                                    By submitting your comics or novels you agree to Inkito's Terms of Service and Privacy Policy. Please do not violate the copyright or privacy of others.
                                 </p>
                             </div>
                             <div className="flex row pa">

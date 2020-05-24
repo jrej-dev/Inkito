@@ -1,7 +1,6 @@
 import React from 'react';
 import StoreContext from '../../stores/AppStore';
 import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 import '../../sass/components/Nav.scss';
 

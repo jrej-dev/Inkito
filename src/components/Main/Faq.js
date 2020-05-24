@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
 import DownArrow from '../Icons/down-arrow.png';
 import UpArrow from '../Icons/up-arrow.png';
 import FAQImage from '../Images/2359772.jpg';
