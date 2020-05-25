@@ -158,8 +158,8 @@ const Faq = () => {
                 {
                     basicQuestions.map((object, index) => {
                         return (
-                            <wired-card onClick={question === object.q ? () => { setQuestion("") } : () => { setQuestion(object.q) }}>
-                                <div className="flex-between reset">
+                            <wired-card key={object.q} onClick={question === object.q ? () => { setQuestion("") } : () => { setQuestion(object.q) }}>
+                                <div key={object.q} className="flex-between reset">
                                     <p>{object.q}</p>
 
                                     {
@@ -174,7 +174,7 @@ const Faq = () => {
                                         <ul>
                                             {object.a.map(answer => {
                                                 return (
-                                                    <li>
+                                                    <li key={answer}>
                                                         {answer}
                                                     </li>
                                                 )
@@ -193,8 +193,8 @@ const Faq = () => {
                 {
                     securityQuestions.map((object, index) => {
                         return (
-                            <wired-card onClick={question === object.q ? () => { setQuestion("") } : () => { setQuestion(object.q) }}>
-                                <div className="flex-between reset">
+                            <wired-card key={object.q} onClick={question === object.q ? () => { setQuestion("") } : () => { setQuestion(object.q) }}>
+                                <div key={object.q} className="flex-between reset">
                                     <p>{object.q}</p>
 
                                     {
@@ -209,7 +209,7 @@ const Faq = () => {
                                         <ul>
                                             {object.a.map(answer => {
                                                 return (
-                                                    <li>
+                                                    <li key={answer}>
                                                         {answer}
                                                     </li>
                                                 )
@@ -228,8 +228,8 @@ const Faq = () => {
                 {
                     economicsQuestions.map((object, index) => {
                         return (
-                            <wired-card onClick={question === object.q ? () => { setQuestion("") } : () => { setQuestion(object.q) }}>
-                                <div className="flex-between reset">
+                            <wired-card key={object.q} onClick={question === object.q ? () => { setQuestion("") } : () => { setQuestion(object.q) }}>
+                                <div key={object.q} className="flex-between reset">
                                     <p>{object.q}</p>
 
                                     {
@@ -244,7 +244,7 @@ const Faq = () => {
                                         <ul>
                                             {object.a.map(answer => {
                                                 return (
-                                                    <li>
+                                                    <li key={answer}>
                                                         {answer}
                                                     </li>
                                                 )
@@ -263,7 +263,7 @@ const Faq = () => {
                 {
                     futureQuestions.map((object, index) => {
                         return (
-                            <wired-card onClick={question === object.q ? () => { setQuestion("") } : () => { setQuestion(object.q) }}>
+                            <wired-card key={object.q} onClick={question === object.q ? () => { setQuestion("") } : () => { setQuestion(object.q) }}>
                                 <div className="flex-between reset">
                                     <p>{object.q}</p>
 
@@ -279,7 +279,7 @@ const Faq = () => {
                                         <ul>
                                             {object.a.map(answer => {
                                                 return (
-                                                    <li>
+                                                    <li key={answer}>
                                                         {answer}
                                                     </li>
                                                 )
