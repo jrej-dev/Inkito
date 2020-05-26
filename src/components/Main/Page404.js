@@ -11,7 +11,7 @@ const Page404 = () => {
       <Nav />
       <Hero />
         <div className="not-found flex col">
-          <img src={ImageError} alt=""/>
+          <img src={ImageError} alt="content not found"/>
           <h2 className="flex"> Oops... We couldn't find that.</h2>
           <h3 className="flex"> Please try another address.</h3>
         </div>

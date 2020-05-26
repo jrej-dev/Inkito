@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import { Helmet } from "react-helmet";
+
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
@@ -26,7 +28,7 @@ const Reader = ({ type }) => {
 
     document.documentElement.scrollTop = 0;
     window.addEventListener('scroll', handleScroll);
-    return () => {window.removeEventListener('scroll', handleScroll); store.toggleNavMenu(false); store.toggleShareMenu(false); store.resetSeriesDetail(); }
+    return () => { window.removeEventListener('scroll', handleScroll); store.toggleNavMenu(false); store.toggleShareMenu(false); store.resetSeriesDetail(); }
   })
 
   const getUrlVars = () => {
@@ -50,14 +52,14 @@ const Reader = ({ type }) => {
     if (st < lastScrollTop) {
       store.toggleNav(false);
       store.toggleNavMenu(false);
-      store.toggleShareMenu(false);  
+      store.toggleShareMenu(false);
       store.toggleShareMenuBottom(false);
     } else if (st > 200) {
       store.toggleNav(true);
       // upscroll code
     }
     lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
-    
+
     if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 5) {
       if (store.currentPage + 1 < store.seriesLinks.length && store.seriesDetail[store.currentPage + 1]) {
         store.closeInfoTab();
@@ -112,14 +114,14 @@ const Reader = ({ type }) => {
         for (let i = store.startPage; i <= store.currentPage; i++) {
           blogs.push(
             <li key={seriesData[i] + store.currentPage} className="blog">
-              <Blog 
-                type={type} 
-                page={i} 
-                author={props.author} 
-                permlink={seriesData[i]} 
-                nextPermlink={seriesData.length === store.currentPage + 1 ? undefined : seriesData[i + 1]} 
-                
-                />
+              <Blog
+                type={type}
+                page={i}
+                author={props.author}
+                permlink={seriesData[i]}
+                nextPermlink={seriesData.length === store.currentPage + 1 ? undefined : seriesData[i + 1]}
+
+              />
               <p className="none scroll">Scroll to read more</p>
             </li>
           )
@@ -146,12 +148,12 @@ const Reader = ({ type }) => {
             onClick={navClickHandle}
             firstPage={toJS(store.seriesDetail)[0]}
             currentPage={toJS(store.seriesDetail)[store.currentPage]}
-            lastPage={toJS(store.seriesDetail)[store.seriesLinks.length-1]}
+            lastPage={toJS(store.seriesDetail)[store.seriesLinks.length - 1]}
 
             isHidden={store.navIsHidden}
             navMenuIsActive={store.navMenuIsActive}
             shareIsActive={store.shareMenuIsActive}
-            
+
             userDetail={toJS(store.userDetail)}
             seriesInfo={toJS(store.seriesInfo)}
             followState={store.followState}
@@ -199,12 +201,12 @@ const Reader = ({ type }) => {
             </div>
           )
         } else {
-          return <AuthorBanner 
-            author={props.author} 
-            content={toJS(store.seriesDetail)[0]} 
-            shareIsActive={store.shareMenuBottomIsActive} 
-            userDetail={toJS(store.userDetail)} 
-            followState={store.followState}                 
+          return <AuthorBanner
+            author={props.author}
+            content={toJS(store.seriesDetail)[0]}
+            shareIsActive={store.shareMenuBottomIsActive}
+            userDetail={toJS(store.userDetail)}
+            followState={store.followState}
             seriesInfo={toJS(store.seriesInfo)}
           />
         }
@@ -213,14 +215,20 @@ const Reader = ({ type }) => {
   }
 
   return (
-    <div className="reader">
-      <Nav />
-      <ul className="list-blog" onClick={() => {store.toggleNavMenu(false); store.toggleShareMenu(false)}}>
-        <ListedBlogs />
-      </ul>
-      <BottomBanner />
-      <BottomNav />
-    </div>
+    <>
+      <Helmet htmlAttributes>
+        <html lang="en" />
+        <title>Inkito | Content Reader</title>
+      </Helmet>
+      <div className="reader">
+        <Nav />
+        <ul className="list-blog" onClick={() => { store.toggleNavMenu(false); store.toggleShareMenu(false) }}>
+          <ListedBlogs />
+        </ul>
+        <BottomBanner />
+        <BottomNav />
+      </div>
+    </>
   );
 }
 

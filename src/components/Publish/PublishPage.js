@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { Helmet } from "react-helmet";
 import { useLocation } from "react-router-dom";
 import StoreContext from '../../stores/AppStore';
 import { Link } from "react-router-dom";
@@ -105,7 +106,7 @@ const PublishPage = ({ publishState }) => {
                 currentTags.removeEventListener('input', handleTagsChange);
             }
         }
-    },[])
+    }, [])
 
     const dispose = () => {
         SeriesCombo = () => { return [] };
@@ -265,7 +266,7 @@ const PublishPage = ({ publishState }) => {
                                     </div>
                                     <div className="flex row pa-h">
                                         <div className="reward-block flex">
-                                            <p>$ {(parseInt(reward, 10)/2).toFixed(2)}</p>
+                                            <p>$ {(parseInt(reward, 10) / 2).toFixed(2)}</p>
                                             <img className="md-icon down-arrow" src={DownArrow} alt="down-arrow" />
                                         </div>
                                         <div className="vote-block flex">
@@ -301,7 +302,7 @@ const PublishPage = ({ publishState }) => {
                             series: series
                         }
                     }}>
-                        <button className="add-ep-btn w-90" onClick={()=> {window.location.reload()}}>
+                        <button className="add-ep-btn w-90" onClick={() => { window.location.reload() }}>
                             Add Episode
                         </button>
                     </Link>);
@@ -333,7 +334,7 @@ const PublishPage = ({ publishState }) => {
             } else {
                 setImages([...images, imageLink])
                 imageLinkInput.current.value = "";
-            }    
+            }
         }
     }
 
@@ -390,7 +391,7 @@ const PublishPage = ({ publishState }) => {
                 seriesId = seriesInfo[0].seriesId;
             }
         }
-        
+
         if (tags) {
             tagList = tags.split(" ");
             tagList = tagList.filter(tag => tag !== '');
@@ -440,16 +441,16 @@ const PublishPage = ({ publishState }) => {
         if (title && description && toJS(store.userDetail) && toJS(store.userDetail).user) {
             console.log(author);
             if (type === "novel" && series !== "new") {
-                if (location.state && location.state.seriesInfo){
-                   store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, undefined, true);
+                if (location.state && location.state.seriesInfo) {
+                    store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, undefined, true);
                 } else {
-                   store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
+                    store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
                 }
             } else if (images.length > 0) {
-                if (location.state && location.state.seriesInfo){
-                   store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, undefined, true);
+                if (location.state && location.state.seriesInfo) {
+                    store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, undefined, true);
                 } else {
-                   store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
+                    store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata);
                 }
             }
         } else if (toJS(store.userDetail) && toJS(store.userDetail).user === undefined) {
@@ -462,41 +463,34 @@ const PublishPage = ({ publishState }) => {
     }
 
     return (
-        <div className="publish">
-            <Nav />
-            <div className="container reset" onClick={() => store.toggleNavMenu(false)}>
-                <div className="publish-page">
-                    {location.state && location.state.seriesInfo ?
-                        location.state.dashboard ?
-                        <h2>Series Dashboard</h2>
-                        :
-                        <h2>Update Episode</h2>
-                        :
-                        series === "new" ?
-                        <h2>New Series</h2>
-                        :
-                        <h2>New Episode</h2>
-                    }
-                    <form>
-                        <div className="divider" />
+        <>
+            <Helmet htmlAttributes>
+                <html lang="en" />
+                <title>Inkito | Publish Page</title>
+            </Helmet>
+            <div className="publish">
+                <Nav />
+                <div className="container reset" onClick={() => store.toggleNavMenu(false)}>
+                    <div className="publish-page">
+                        {location.state && location.state.seriesInfo ?
+                            location.state.dashboard ?
+                                <h2>Series Dashboard</h2>
+                                :
+                                <h2>Update Episode</h2>
+                            :
+                            series === "new" ?
+                                <h2>New Series</h2>
+                                :
+                                <h2>New Episode</h2>
+                        }
+                        <form>
+                            <div className="divider" />
 
-                        <div className="series flex-between row wrap w-90 pa">
-                            <div className="series-select flex row wrap pa-h">
-                                <h2>Select Series</h2>
-                                {location.state && location.state.seriesInfo ?
-                                    <wired-combo disabled selected={series} ref={seriesSelected}>
-                                        <wired-item value="new">New Series</wired-item>
-                                        {
-                                            type === location.state.type ?
-                                                <wired-item value={location.state.series} type={location.state.type}>{location.state.series}</wired-item>
-                                                :
-                                                ""
-                                        }
-                                        <SeriesCombo />
-                                    </wired-combo>
-                                    :
-                                    location.state && location.state.series && location.state.type ?
-                                        <wired-combo selected={series} ref={seriesSelected}>
+                            <div className="series flex-between row wrap w-90 pa">
+                                <div className="series-select flex row wrap pa-h">
+                                    <h2>Select Series</h2>
+                                    {location.state && location.state.seriesInfo ?
+                                        <wired-combo disabled selected={series} ref={seriesSelected}>
                                             <wired-item value="new">New Series</wired-item>
                                             {
                                                 type === location.state.type ?
@@ -507,241 +501,256 @@ const PublishPage = ({ publishState }) => {
                                             <SeriesCombo />
                                         </wired-combo>
                                         :
-                                        <wired-combo selected={series} ref={seriesSelected}>
-                                            <wired-item value="new">New Series</wired-item>
-                                            <SeriesCombo />
-                                        </wired-combo>
+                                        location.state && location.state.series && location.state.type ?
+                                            <wired-combo selected={series} ref={seriesSelected}>
+                                                <wired-item value="new">New Series</wired-item>
+                                                {
+                                                    type === location.state.type ?
+                                                        <wired-item value={location.state.series} type={location.state.type}>{location.state.series}</wired-item>
+                                                        :
+                                                        ""
+                                                }
+                                                <SeriesCombo />
+                                            </wired-combo>
+                                            :
+                                            <wired-combo selected={series} ref={seriesSelected}>
+                                                <wired-item value="new">New Series</wired-item>
+                                                <SeriesCombo />
+                                            </wired-combo>
 
-                                }
-                            </div>
-                            <div className="type-select flex row pa-h">
-                                {
-                                    location.state && location.state.seriesInfo ?
-                                        <wired-radio-group selected={type} ref={typeSelected}>
-                                            <wired-radio
-                                                name="comic"
-                                                disabled
-                                            >
-                                                Comic
-                                        </wired-radio>
-                                            <wired-radio
-                                                name="novel"
-                                                disabled
-                                            >
-                                                Novel
-                                        </wired-radio>
-                                        </wired-radio-group>
-                                        :
-                                        <wired-radio-group selected={type} ref={typeSelected}>
-                                            <wired-radio
-                                                name="comic"
-                                                checked
-                                            >
-                                                Comic
-                                        </wired-radio>
-                                            <wired-radio
-                                                name="novel"
-                                            >
-                                                Novel
-                                        </wired-radio>
-                                        </wired-radio-group>
-                                }
-                            </div>
-                        </div>
-
-                        <div className="divider" />
-
-                        <div className="w-90 pa">
-                            <div className={type === "novel" && series !== "new" ? "hidden" : "flex-start row pa-h"}>
-                                {
-                                    series === "new" ?
-                                        <h2>Series Thumbnail</h2>
-                                        :
-                                        <h2>Images</h2>
-
-                                }
-                                <p>(Maximum file size of 2MB)</p>
-                            </div>
-
-                            <div className={imageLinkIsActive ? "imageLink" : "imageLink hidden-top"}>
-                                <div className="close pointer" onClick={toggleImageLink}> Close </div>
-                                <label className="reset"><h3>Add Image</h3></label>
-                                <wired-input
-                                    placeholder="Image link"
-                                    value={imageLink}
-                                    ref={imageLinkInput}
-                                />
-                                <button onClick={addImageLink}>Add</button>
-                            </div>
-
-                            <div className={type === "novel" && series !== "new" ? "hidden" : "flex col"}>
-                                <table border="1" rules="none">
-                                    {images.length > 0 ?
-                                        <DragDropContext onDragEnd={onDragEnd}>
-                                            <Droppable droppableId="imageTable">
-                                                {(provided) => (
-                                                    <tbody ref={provided.innerRef} {...provided.droppableProps}>
-                                                        {images.map((image, index) =>
-                                                            <Row key={index + "-" + image} index={index} image={image} />
-                                                        )}
-                                                        {provided.placeholder}
-                                                    </tbody>
-                                                )}
-                                            </Droppable>
-                                        </DragDropContext>
-                                        :
-                                        <tbody>
-                                            <tr key="default-image"><td>No Images... yet</td></tr>
-                                        </tbody>
                                     }
-                                </table>
-                            </div>
-
-                            <div className={type === "novel" && series !== "new" ? "hidden" : "upload flex-start wrap row pa-h"}>
-                                <input className="custom-file-input" type="file" placeholder="Upload an image" onChange={(e) => {setImageFile(e.target.files[0])}} />
-                                <div className="buttons flex-between">
-                                    <p className="blue" onClick={onImageUpload}>Upload file</p>
-                                    <p className="blue" onClick={toggleImageLink}>Upload from link</p>
+                                </div>
+                                <div className="type-select flex row pa-h">
+                                    {
+                                        location.state && location.state.seriesInfo ?
+                                            <wired-radio-group selected={type} ref={typeSelected}>
+                                                <wired-radio
+                                                    name="comic"
+                                                    disabled
+                                                >
+                                                    Comic
+                                        </wired-radio>
+                                                <wired-radio
+                                                    name="novel"
+                                                    disabled
+                                                >
+                                                    Novel
+                                        </wired-radio>
+                                            </wired-radio-group>
+                                            :
+                                            <wired-radio-group selected={type} ref={typeSelected}>
+                                                <wired-radio
+                                                    name="comic"
+                                                    checked
+                                                >
+                                                    Comic
+                                        </wired-radio>
+                                                <wired-radio
+                                                    name="novel"
+                                                >
+                                                    Novel
+                                        </wired-radio>
+                                            </wired-radio-group>
+                                    }
                                 </div>
                             </div>
 
-                            <div className="input title pa-h">
+                            <div className="divider" />
 
-                                <label className="flex">
+                            <div className="w-90 pa">
+                                <div className={type === "novel" && series !== "new" ? "hidden" : "flex-start row pa-h"}>
                                     {
                                         series === "new" ?
-                                            <h2>Series Title</h2> 
+                                            <h2>Series Thumbnail</h2>
                                             :
-                                            location.state && location.state.dashboard ?
-                                            <h2>Series Title</h2>
-                                            :
-                                            <h2>Episode Title</h2>
+                                            <h2>Images</h2>
+
                                     }
-                                </label>
-
-                                <wired-input
-                                    type="text"
-                                    value={title}
-                                    ref={titleInput}
-                                    placeholder="Enter your title"
-                                />
-                            </div>
-
-                            {type === "comic" ?
-                                <div className="input description pa-h">
-                                    <label className="flex row wrap pa-h">
-                                        <h2>Description</h2>
-                                        <a
-                                            href="https://guides.github.com/features/mastering-markdown"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            Markdown Styling guide
-                                        </a>
-                                    </label>
-                                    <wired-textarea
-                                        rows="10"
-                                        type="text"
-                                        value={description}
-                                        ref={descriptionInput}
-                                        placeholder="Write a description..."
-                                    />
+                                    <p>(Maximum file size of 2MB)</p>
                                 </div>
-                                :
-                                <div className="input description pa-h">
-                                    <label className="flex row wrap pa-h">
-                                        <h2>Episode Body</h2>
-                                        <a
-                                            href="https://guides.github.com/features/mastering-markdown"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            Markdown Styling guide
-                                        </a>
-                                    </label>
-                                    <wired-textarea
-                                        rows="40"
-                                        type="text"
-                                        value={description}
-                                        placeholder="Write your story..."
-                                        ref={descriptionInput}
-                                    />
-                                </div>
-                            }
 
-                            {
-                                series === "new" ?
-                                    <div className="input tags pa-h">
-                                        <label className="flex row"><h2>Categories</h2> <div className="pa-h"><p>(3 categories max)</p></div></label>
-                                        <div className="flex wrap pa">
-                                            {store.categories.filter(cat => cat !== "All Categories").map(category => {
-                                                if (categories.length >= 3) {
-                                                    if (categories.includes(category)) {
-                                                        return <wired-checkbox key={category} onClick={handleCatChange}>{category}</wired-checkbox>
-                                                    } else {
-                                                        return <wired-checkbox disabled key={category} onClick={handleCatChange}>{category}</wired-checkbox>
-                                                    }
-                                                } else {
-                                                    return <wired-checkbox key={category} onClick={handleCatChange}>{category}</wired-checkbox>
-                                                }
-                                            })}
-                                        </div>
+                                <div className={imageLinkIsActive ? "imageLink" : "imageLink hidden-top"}>
+                                    <div className="close pointer" onClick={toggleImageLink}> Close </div>
+                                    <label className="reset"><h3>Add Image</h3></label>
+                                    <wired-input
+                                        placeholder="Image link"
+                                        value={imageLink}
+                                        ref={imageLinkInput}
+                                    />
+                                    <button onClick={addImageLink}>Add</button>
+                                </div>
+
+                                <div className={type === "novel" && series !== "new" ? "hidden" : "flex col"}>
+                                    <table border="1" rules="none">
+                                        {images.length > 0 ?
+                                            <DragDropContext onDragEnd={onDragEnd}>
+                                                <Droppable droppableId="imageTable">
+                                                    {(provided) => (
+                                                        <tbody ref={provided.innerRef} {...provided.droppableProps}>
+                                                            {images.map((image, index) =>
+                                                                <Row key={index + "-" + image} index={index} image={image} />
+                                                            )}
+                                                            {provided.placeholder}
+                                                        </tbody>
+                                                    )}
+                                                </Droppable>
+                                            </DragDropContext>
+                                            :
+                                            <tbody>
+                                                <tr key="default-image"><td>No Images... yet</td></tr>
+                                            </tbody>
+                                        }
+                                    </table>
+                                </div>
+
+                                <div className={type === "novel" && series !== "new" ? "hidden" : "upload flex-start wrap row pa-h"}>
+                                    <input className="custom-file-input" type="file" placeholder="Upload an image" onChange={(e) => { setImageFile(e.target.files[0]) }} />
+                                    <div className="buttons flex-between">
+                                        <p className="blue" onClick={onImageUpload}>Upload file</p>
+                                        <p className="blue" onClick={toggleImageLink}>Upload from link</p>
                                     </div>
-                                    :
-                                    <div className="input tags pa-h">
-                                        <label className="flex row"><h2>Tags</h2> <div className="pa-h"><p>(3 tags max)</p></div></label>
-                                        <wired-input
+                                </div>
+
+                                <div className="input title pa-h">
+
+                                    <label className="flex">
+                                        {
+                                            series === "new" ?
+                                                <h2>Series Title</h2>
+                                                :
+                                                location.state && location.state.dashboard ?
+                                                    <h2>Series Title</h2>
+                                                    :
+                                                    <h2>Episode Title</h2>
+                                        }
+                                    </label>
+
+                                    <wired-input
+                                        type="text"
+                                        value={title}
+                                        ref={titleInput}
+                                        placeholder="Enter your title"
+                                    />
+                                </div>
+
+                                {type === "comic" ?
+                                    <div className="input description pa-h">
+                                        <label className="flex row wrap pa-h">
+                                            <h2>Description</h2>
+                                            <a
+                                                href="https://guides.github.com/features/mastering-markdown"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                title="Markdown styling guide"
+                                            >
+                                                Markdown Styling guide
+                                        </a>
+                                        </label>
+                                        <wired-textarea
+                                            rows="10"
                                             type="text"
-                                            value={tags}
-                                            placeholder="Enter tags separated by spaces"
-                                            ref={tagsInput}
+                                            value={description}
+                                            ref={descriptionInput}
+                                            placeholder="Write a description..."
                                         />
                                     </div>
-                            }
-                        </div>
-
-                        <div className="divider" />
-
-                        {
-                            location.state && location.state.dashboard ?
-                                <React.Fragment>
-                                    <div className="input ep-list pa-h w-90">
-                                        <label className="flex row"><h2>Episode List</h2></label>
-                                        <EpisodeList />
-                                    </div>
-                                    <div className="divider" />
-                                </React.Fragment>
-                                :
-                                ""
-                        }
-
-                        <div className="end flex row">
-                            <div className="rules reset pa-h">
-                                <h3>
-                                    Please follow the rules
-                                </h3>
-                                <p>
-                                    By submitting your comics or novels you agree to Inkito's Terms of Service and Privacy Policy. Please do not violate the copyright or privacy of others.
-                                </p>
-                            </div>
-                            <div className="flex row pa">
-                                {/*<p className="blue">Preview</p>*/}
-                                {publishState === "pending" ?
-                                    <wired-spinner class="custom" spinning duration="1000" />
                                     :
-                                    location.state && location.state.seriesInfo ?
-                                        <button className="publish-btn" onClick={handleSubmit}> Update </button>
-                                        :
-                                        < button className="publish-btn" onClick={handleSubmit}> Publish</button>
-
+                                    <div className="input description pa-h">
+                                        <label className="flex row wrap pa-h">
+                                            <h2>Episode Body</h2>
+                                            <a
+                                                href="https://guides.github.com/features/mastering-markdown"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                title="Markdown styling guide"
+                                            >
+                                                Markdown Styling guide
+                                        </a>
+                                        </label>
+                                        <wired-textarea
+                                            rows="40"
+                                            type="text"
+                                            value={description}
+                                            placeholder="Write your story..."
+                                            ref={descriptionInput}
+                                        />
+                                    </div>
                                 }
 
+                                {
+                                    series === "new" ?
+                                        <div className="input tags pa-h">
+                                            <label className="flex row"><h2>Categories</h2> <div className="pa-h"><p>(3 categories max)</p></div></label>
+                                            <div className="flex wrap pa">
+                                                {store.categories.filter(cat => cat !== "All Categories").map(category => {
+                                                    if (categories.length >= 3) {
+                                                        if (categories.includes(category)) {
+                                                            return <wired-checkbox key={category} onClick={handleCatChange}>{category}</wired-checkbox>
+                                                        } else {
+                                                            return <wired-checkbox disabled key={category} onClick={handleCatChange}>{category}</wired-checkbox>
+                                                        }
+                                                    } else {
+                                                        return <wired-checkbox key={category} onClick={handleCatChange}>{category}</wired-checkbox>
+                                                    }
+                                                })}
+                                            </div>
+                                        </div>
+                                        :
+                                        <div className="input tags pa-h">
+                                            <label className="flex row"><h2>Tags</h2> <div className="pa-h"><p>(3 tags max)</p></div></label>
+                                            <wired-input
+                                                type="text"
+                                                value={tags}
+                                                placeholder="Enter tags separated by spaces"
+                                                ref={tagsInput}
+                                            />
+                                        </div>
+                                }
                             </div>
-                        </div>
-                    </form>
+
+                            <div className="divider" />
+
+                            {
+                                location.state && location.state.dashboard ?
+                                    <React.Fragment>
+                                        <div className="input ep-list pa-h w-90">
+                                            <label className="flex row"><h2>Episode List</h2></label>
+                                            <EpisodeList />
+                                        </div>
+                                        <div className="divider" />
+                                    </React.Fragment>
+                                    :
+                                    ""
+                            }
+
+                            <div className="end flex row">
+                                <div className="rules reset pa-h">
+                                    <h3>
+                                        Please follow the rules
+                                </h3>
+                                    <p>
+                                        By submitting your comics or novels you agree to Inkito's Terms of Service and Privacy Policy. Please do not violate the copyright or privacy of others.
+                                </p>
+                                </div>
+                                <div className="flex row pa">
+                                    {/*<p className="blue">Preview</p>*/}
+                                    {publishState === "pending" ?
+                                        <wired-spinner class="custom" spinning duration="1000" />
+                                        :
+                                        location.state && location.state.seriesInfo ?
+                                            <button className="publish-btn" onClick={handleSubmit}> Update </button>
+                                            :
+                                            < button className="publish-btn" onClick={handleSubmit}> Publish</button>
+
+                                    }
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </div >
+            </div >
+        </>
     );
 }
 

@@ -69,7 +69,7 @@ const Login = ({ loginIsActive }) => {
         </form>
         :
         <div className="buttons">
-            <a href="https://chrome.google.com/webstore/detail/hivesigner/ophihnhnfgcmhpbcennhppicomdeabip">Install for Chrome</a>
+            <a href="https://chrome.google.com/webstore/detail/hivesigner/ophihnhnfgcmhpbcennhppicomdeabip" title="Install hivesigner for chrome">Install for Chrome</a>
             {/*<a href="https://addons.mozilla.org/en-US/firefox/addon/hive-keychain/">Install for Firefox</a>*/}
         </div>
         }
@@ -81,7 +81,7 @@ const Login = ({ loginIsActive }) => {
         </div>
 
         <div className="login-hivesigner">
-          <a href={store.loginLink}>
+          <a href={store.loginLink} title="Hivesigner login">
             <img src={Hivesigner} className="hivesigner" alt="hivesigner" />
           </a>
         </div>

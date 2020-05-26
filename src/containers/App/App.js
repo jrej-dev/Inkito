@@ -1,5 +1,6 @@
 import 'core-js';
 import React, { useEffect } from 'react';
+import { Helmet } from "react-helmet";
 import { useObserver } from 'mobx-react';
 import StoreContext from '../../stores/AppStore';
 import {
@@ -74,6 +75,11 @@ const App = () => {
 
   return (
     <Router>
+      <Helmet htmlAttributes>
+        <html lang="en" />
+        <title>Help authors and creators get crypto currency for their story | Inkito</title>
+        <meta name="description" content="Inkito is a comic and novel hosting powered by the Hive blockchain. Authors and creators can earn crypto currency for their creative content! Comics and novels benefit from the daily reward pool of tokens, distributed in proportion to the attention received. A fair system, resistant to censorship." />
+      </Helmet>
       <div className="App">
         <LoginPopUp />
         <Switch >

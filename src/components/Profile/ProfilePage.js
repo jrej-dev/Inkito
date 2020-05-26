@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { Helmet } from "react-helmet";
+
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
@@ -79,27 +81,27 @@ const ProfilePage = () => {
                         <div className="description">
                             <p>{author.about}</p>
                         </div>
-                        
+
                         <div className="links">
-                            {   
+                            {
                                 author.location ?
-                                <div className="location flex row">
-                                    <img className="icon location" src={Location} alt="location icon" />
-                                    <p>{author.location}</p>
-                                </div>
-                                :
-                                ""
+                                    <div className="location flex row">
+                                        <img className="icon location" src={Location} alt="location icon" />
+                                        <p>{author.location}</p>
+                                    </div>
+                                    :
+                                    ""
                             }
                             {
                                 author.website ?
-                                <div className="link flex row">
-                                    <a href={author.website} target="_blank" rel="noopener noreferrer" className="flex row"> 
-                                        <img className="icon pointer" src={Link} alt="link-icon" /> 
+                                    <div className="link flex row">
+                                        <a href={author.website} target="_blank" rel="noopener noreferrer" className="flex row" title="author website">
+                                            <img className="icon pointer" src={Link} alt="link-icon" />
                                         Website
                                     </a>
-                                </div>
-                                :
-                                ""
+                                    </div>
+                                    :
+                                    ""
                             }
                         </div>
                     </div>
@@ -127,7 +129,7 @@ const ProfilePage = () => {
 
     const EditPage = () => {
         return useObserver(() => {
-            if(store.updateProfileState === "done") {
+            if (store.updateProfileState === "done") {
                 window.location.reload();
             }
             if (toJS(store.authorInfo)) {
@@ -137,18 +139,24 @@ const ProfilePage = () => {
     }
 
     return (
-        <div className="profile">
-            <Nav />
-            <div className="container reset" onClick={() => store.toggleNavMenu(false)}>
-                <div className={isEdited ? "profile-edit" : "profile-page"}>
-                    <ProfileInfo />
-                    <div className="divider" />
-                    <CoverImage />
-                    <SeriesList />
-                    <EditPage />
+        <>
+            <Helmet htmlAttributes>
+                <html lang="en" />
+                <title>Inkito | Profile Page</title>
+            </Helmet>
+            <div className="profile">
+                <Nav />
+                <div className="container reset" onClick={() => store.toggleNavMenu(false)}>
+                    <div className={isEdited ? "profile-edit" : "profile-page"}>
+                        <ProfileInfo />
+                        <div className="divider" />
+                        <CoverImage />
+                        <SeriesList />
+                        <EditPage />
+                    </div>
                 </div>
             </div>
-        </div >
+        </>
     );
 }
 

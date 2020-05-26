@@ -48,7 +48,7 @@ const SeriesList = () => {
 
                                     </div>
                                     <Link to={`/comicReader/${seriesUrl}`}>
-                                        <img className="thumbnail" src={series.image} alt="" />
+                                        <img className="thumbnail" src={series.image} alt="comic-thumbnail" />
                                     </Link>
                                 </div>
                                 <div className="series-info flex reset">
@@ -122,7 +122,7 @@ const SeriesList = () => {
                                         </Link>
                                     </div>
                                     <Link to={`/novelReader/${seriesUrl}`}>
-                                        <img className="thumbnail" src={series.image} alt="" />
+                                        <img className="thumbnail" src={series.image} alt="novel-thumbnail" />
                                     </Link>
                                 </div>
                                 <div className="series-info flex reset">

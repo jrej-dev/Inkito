@@ -20,7 +20,7 @@ const Promo = () => {
                     promoList.push(
                         <li className={`promoBox promo${i + 1}`}
                             key={store.promoArray[i].title}>
-                            <a href={store.promoArray[i].link}>
+                            <a href={store.promoArray[i].link} title="promoted content thumbnail">
                                 <img
                                     src={store.promoArray[i].thumbnail}
                                     alt={`Thumbnail ${store.promoArray[i].title}`}

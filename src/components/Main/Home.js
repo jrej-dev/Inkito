@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import Nav from '../../components/Main/Nav';
 import Hero from '../../components/Main/Hero';
@@ -60,6 +61,12 @@ const Home = () => {
 
   
   return (
+    <>
+    <Helmet htmlAttributes>
+      <html lang="en" />
+      <title>Inkito | Home</title>
+    </Helmet>
+
     <div className="home">
       <Nav />
       <div onClick={() => store.toggleNavMenu(false)}>
@@ -75,6 +82,7 @@ const Home = () => {
         </Link>
       </div>
     </div>
+    </>
   );
 }
 

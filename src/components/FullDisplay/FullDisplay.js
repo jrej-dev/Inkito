@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import { Helmet } from "react-helmet";
+
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 
@@ -10,14 +12,14 @@ import ContentDisplay from '../Main/ContentDisplay';
 const FullDisplay = ({ type }) => {
   const store = React.useContext(StoreContext);
 
-  useEffect (() => {
-    if (type === "comics"){
-      if (store.newComics.length === 0){
+  useEffect(() => {
+    if (type === "comics") {
+      if (store.newComics.length === 0) {
         store.fetchComics();
       }
-    } else if (type === "novels"){
-      if (store.newNovels.length === 0){
-        store.fetchNovels();      
+    } else if (type === "novels") {
+      if (store.newNovels.length === 0) {
+        store.fetchNovels();
       }
     }
   })
@@ -53,17 +55,23 @@ const FullDisplay = ({ type }) => {
   }
 
   return (
-    <div className="fullDisplay">
-      <Nav />
-      {type === "novels" ?
-        <NovelHero /> :
-        <ComicHero />
-      }
-      {type === "novels" ?
-        <NovelContent /> :
-        <ComicContent />
-      }
-    </div>
+    <>
+      <Helmet htmlAttributes>
+        <html lang="en" />
+        <title>Inkito | {type === "novels" ? "Novels" : "Comics"}</title>
+      </Helmet>
+      <div className="fullDisplay">
+        <Nav />
+        {type === "novels" ?
+          <NovelHero /> :
+          <ComicHero />
+        }
+        {type === "novels" ?
+          <NovelContent /> :
+          <ComicContent />
+        }
+      </div>
+    </>
   );
 }
 

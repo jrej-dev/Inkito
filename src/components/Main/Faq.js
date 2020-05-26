@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Helmet } from "react-helmet";
+
 import DownArrow from '../Icons/down-arrow.png';
 import UpArrow from '../Icons/up-arrow.png';
 import FAQImage from '../Images/2359772.jpg';
@@ -145,164 +147,170 @@ const Faq = () => {
     ];
 
     return (
-        <div>
-            <Nav />
-            <Hero />
-            <div className="faq align-left">
-                <div className="flex col">
-                    <img className="faq-img" src={FAQImage} alt="Questions"/>
-                    <h1>FAQ</h1>
-                </div>
+        <>
+            <Helmet htmlAttributes>
+                <html lang="en" />
+                <title>Inkito | Frequently Asked Questions</title>
+            </Helmet>
+            <div>
+                <Nav />
+                <Hero />
+                <div className="faq align-left">
+                    <div className="flex col">
+                        <img className="faq-img" src={FAQImage} alt="Questions" />
+                        <h1>FAQ</h1>
+                    </div>
 
-                <h3>Fundamentals</h3>
-                {
-                    basicQuestions.map((object, index) => {
-                        return (
-                            <wired-card key={object.q} onClick={question === object.q ? () => { setQuestion("") } : () => { setQuestion(object.q) }}>
-                                <div key={object.q} className="flex-between reset">
-                                    <p>{object.q}</p>
+                    <h3>Fundamentals</h3>
+                    {
+                        basicQuestions.map((object, index) => {
+                            return (
+                                <wired-card key={object.q} onClick={question === object.q ? () => { setQuestion("") } : () => { setQuestion(object.q) }}>
+                                    <div key={object.q} className="flex-between reset">
+                                        <p>{object.q}</p>
 
+                                        {
+                                            question === object.q ?
+                                                <img className="icon toggle" src={UpArrow} alt="up-arrow" onClick={() => { setQuestion("") }} />
+                                                :
+                                                <img className="icon toggle" src={DownArrow} alt="down-arrow" onClick={() => { setQuestion(object.q) }} />
+                                        }
+                                    </div>
                                     {
                                         question === object.q ?
-                                            <img className="icon toggle" src={UpArrow} alt="up-arrow" onClick={() => { setQuestion("") }} />
+                                            <ul>
+                                                {object.a.map(answer => {
+                                                    return (
+                                                        <li key={answer}>
+                                                            {answer}
+                                                        </li>
+                                                    )
+                                                })}
+                                            </ul>
                                             :
-                                            <img className="icon toggle" src={DownArrow} alt="down-arrow" onClick={() => { setQuestion(object.q) }} />
+                                            ""
                                     }
-                                </div>
-                                {
-                                    question === object.q ?
-                                        <ul>
-                                            {object.a.map(answer => {
-                                                return (
-                                                    <li key={answer}>
-                                                        {answer}
-                                                    </li>
-                                                )
-                                            })}
-                                        </ul>
-                                        :
-                                        ""
-                                }
-                            </wired-card>
-                        )
-                    })
-                }
+                                </wired-card>
+                            )
+                        })
+                    }
 
-                <h3>Security</h3>
+                    <h3>Security</h3>
 
-                {
-                    securityQuestions.map((object, index) => {
-                        return (
-                            <wired-card key={object.q} onClick={question === object.q ? () => { setQuestion("") } : () => { setQuestion(object.q) }}>
-                                <div key={object.q} className="flex-between reset">
-                                    <p>{object.q}</p>
+                    {
+                        securityQuestions.map((object, index) => {
+                            return (
+                                <wired-card key={object.q} onClick={question === object.q ? () => { setQuestion("") } : () => { setQuestion(object.q) }}>
+                                    <div key={object.q} className="flex-between reset">
+                                        <p>{object.q}</p>
 
+                                        {
+                                            question === object.q ?
+                                                <img className="icon toggle" src={UpArrow} alt="up-arrow" onClick={() => { setQuestion("") }} />
+                                                :
+                                                <img className="icon toggle" src={DownArrow} alt="down-arrow" onClick={() => { setQuestion(object.q) }} />
+                                        }
+                                    </div>
                                     {
                                         question === object.q ?
-                                            <img className="icon toggle" src={UpArrow} alt="up-arrow" onClick={() => { setQuestion("") }} />
+                                            <ul>
+                                                {object.a.map(answer => {
+                                                    return (
+                                                        <li key={answer}>
+                                                            {answer}
+                                                        </li>
+                                                    )
+                                                })}
+                                            </ul>
                                             :
-                                            <img className="icon toggle" src={DownArrow} alt="down-arrow" onClick={() => { setQuestion(object.q) }} />
+                                            ""
                                     }
-                                </div>
-                                {
-                                    question === object.q ?
-                                        <ul>
-                                            {object.a.map(answer => {
-                                                return (
-                                                    <li key={answer}>
-                                                        {answer}
-                                                    </li>
-                                                )
-                                            })}
-                                        </ul>
-                                        :
-                                        ""
-                                }
-                            </wired-card>
-                        )
-                    })
-                }
+                                </wired-card>
+                            )
+                        })
+                    }
 
-                <h3>Economics</h3>
+                    <h3>Economics</h3>
 
-                {
-                    economicsQuestions.map((object, index) => {
-                        return (
-                            <wired-card key={object.q} onClick={question === object.q ? () => { setQuestion("") } : () => { setQuestion(object.q) }}>
-                                <div key={object.q} className="flex-between reset">
-                                    <p>{object.q}</p>
+                    {
+                        economicsQuestions.map((object, index) => {
+                            return (
+                                <wired-card key={object.q} onClick={question === object.q ? () => { setQuestion("") } : () => { setQuestion(object.q) }}>
+                                    <div key={object.q} className="flex-between reset">
+                                        <p>{object.q}</p>
 
+                                        {
+                                            question === object.q ?
+                                                <img className="icon toggle" src={UpArrow} alt="up-arrow" onClick={() => { setQuestion("") }} />
+                                                :
+                                                <img className="icon toggle" src={DownArrow} alt="down-arrow" onClick={() => { setQuestion(object.q) }} />
+                                        }
+                                    </div>
                                     {
                                         question === object.q ?
-                                            <img className="icon toggle" src={UpArrow} alt="up-arrow" onClick={() => { setQuestion("") }} />
+                                            <ul>
+                                                {object.a.map(answer => {
+                                                    return (
+                                                        <li key={answer}>
+                                                            {answer}
+                                                        </li>
+                                                    )
+                                                })}
+                                            </ul>
                                             :
-                                            <img className="icon toggle" src={DownArrow} alt="down-arrow" onClick={() => { setQuestion(object.q) }} />
+                                            ""
                                     }
-                                </div>
-                                {
-                                    question === object.q ?
-                                        <ul>
-                                            {object.a.map(answer => {
-                                                return (
-                                                    <li key={answer}>
-                                                        {answer}
-                                                    </li>
-                                                )
-                                            })}
-                                        </ul>
-                                        :
-                                        ""
-                                }
-                            </wired-card>
-                        )
-                    })
-                }
+                                </wired-card>
+                            )
+                        })
+                    }
 
-                <h3>Future of Inkito</h3>
+                    <h3>Future of Inkito</h3>
 
-                {
-                    futureQuestions.map((object, index) => {
-                        return (
-                            <wired-card key={object.q} onClick={question === object.q ? () => { setQuestion("") } : () => { setQuestion(object.q) }}>
-                                <div className="flex-between reset">
-                                    <p>{object.q}</p>
+                    {
+                        futureQuestions.map((object, index) => {
+                            return (
+                                <wired-card key={object.q} onClick={question === object.q ? () => { setQuestion("") } : () => { setQuestion(object.q) }}>
+                                    <div className="flex-between reset">
+                                        <p>{object.q}</p>
 
+                                        {
+                                            question === object.q ?
+                                                <img className="icon toggle" src={UpArrow} alt="up-arrow" onClick={() => { setQuestion("") }} />
+                                                :
+                                                <img className="icon toggle" src={DownArrow} alt="down-arrow" onClick={() => { setQuestion(object.q) }} />
+                                        }
+                                    </div>
                                     {
                                         question === object.q ?
-                                            <img className="icon toggle" src={UpArrow} alt="up-arrow" onClick={() => { setQuestion("") }} />
+                                            <ul>
+                                                {object.a.map(answer => {
+                                                    return (
+                                                        <li key={answer}>
+                                                            {answer}
+                                                        </li>
+                                                    )
+                                                })}
+                                            </ul>
                                             :
-                                            <img className="icon toggle" src={DownArrow} alt="down-arrow" onClick={() => { setQuestion(object.q) }} />
+                                            ""
                                     }
-                                </div>
-                                {
-                                    question === object.q ?
-                                        <ul>
-                                            {object.a.map(answer => {
-                                                return (
-                                                    <li key={answer}>
-                                                        {answer}
-                                                    </li>
-                                                )
-                                            })}
-                                        </ul>
-                                        :
-                                        ""
-                                }
-                            </wired-card>
-                        )
-                    })
-                }
+                                </wired-card>
+                            )
+                        })
+                    }
 
-                <p>For more information about Inkito development you can visit our <a
-                    href="https://hive.blog/@inkito"
-                    target="_blank"
-                    className="blue"
-                    rel="noopener noreferrer">
-                    blog
+                    <p>For more information about Inkito development you can visit our <a
+                        href="https://hive.blog/@inkito"
+                        target="_blank"
+                        className="blue"
+                        rel="noopener noreferrer">
+                        blog
                     </a>
-                </p>
+                    </p>
+                </div>
             </div>
-        </div>
+        </>
     );
 }
 

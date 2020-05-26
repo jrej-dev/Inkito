@@ -16,7 +16,7 @@ const NavMenu = ({ navMenuIsActive, user }) => {
         <div className={navMenuIsActive ? "user-menu flex col pa" : "user-menu flex col hidden"}>
           <p className="pointer" onClick={() => { history.push(`/@${user.name}`); window.location.reload() }}>Profile</p>
           <p className="pointer" onClick={() => { history.push(`/publish?user=${user.name}`); window.location.reload() }}>Publish</p>
-          <a href={`https://wallet.hive.blog/@${user.name}/transfers`} target="_blank" rel="noopener noreferrer">Wallet</a>
+          <a href={`https://wallet.hive.blog/@${user.name}/transfers`} target="_blank" rel="noopener noreferrer" title="Hive wallet page">Wallet</a>
           <p className="pointer" onClick={store.logOut}>Logout</p>
         </div>
       </li>
@@ -26,7 +26,7 @@ const NavMenu = ({ navMenuIsActive, user }) => {
       <li className="login flex row">
         <p className="pointer" onClick={() => { store.toggleLogin() }}>Login</p>
         <p>/</p>
-        <a href="https://hiveonboard.com/create-account?redirect_url=https://inkito.io">Register</a>
+        <a href="https://hiveonboard.com/create-account?redirect_url=https://inkito.io" title="Hive register page">Register</a>
       </li>
     )
   }

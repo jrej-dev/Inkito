@@ -14,7 +14,9 @@ function Footer() {
             <a
               href="https://hive.blog/@inkito"
               target="_blank"
-              rel="noopener noreferrer">
+              rel="noopener noreferrer"
+              title="Inkito blog"
+              >
               Blog
             </a>
           </li>

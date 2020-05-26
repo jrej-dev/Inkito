@@ -47,7 +47,7 @@ const Nav = () => {
           <Link to="/novels">Novels</Link>
         </li>
         <li className="nav-blog">
-          <a href="https://hive.blog/@inkito" target="_blank" rel="noopener noreferrer">Blog</a>
+          <a href="https://hive.blog/@inkito" target="_blank" rel="noopener noreferrer" title="Inkito blog">Blog</a>
         </li>
         <Menu />
       </ul>

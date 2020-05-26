@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import Nav from '../../components/Main/Nav';
 import Hero from '../../components/Main/Hero';
@@ -12,6 +13,11 @@ const Terms = () => {
   })
 
   return (
+    <>
+    <Helmet htmlAttributes>
+      <html lang="en" />
+      <title>Inkito | Terms Of Services</title>
+    </Helmet>
     <div>
       <Nav />
       <Hero />
@@ -116,7 +122,7 @@ const Terms = () => {
         <h3>LEGAL TERMS OF SERVICE</h3>
         <p>
           Inkito (“Inkito”, “service”, “services”, “we”, “us” or “our”) is a platform that interacts with the
-          <a href="https://hive.io/" className="blue pointer" target="_blank" rel="noopener noreferrer"> Hive blockchain</a>.
+          <a href="https://hive.io/" className="blue pointer" target="_blank" rel="noopener noreferrer" title="Hive blockchain documentation"> Hive blockchain</a>.
           Interactions are possible via the blockchain protocol. Please refer to the Hive documentation for more information about how it works.
           The following are the terms of service (“Terms”) for using Inkito. It is not a generic document to define the Terms of Service of the Hive blockchain.
           We may change these terms at any time. If we decide to make changes to this Agreement, we will provide notice of those changes by updating the “Last Updated” date above or posting notice on this site.
@@ -646,6 +652,7 @@ const Terms = () => {
         <p>You can send questions or comments for Inkito to <a href="mailto:hello@inkito.io" className="blue">hello@inkito.io</a>.</p>
       </div>
     </div>
+    </>
   );
 }
 
