@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 import Nav from '../../components/Main/Nav';
 import Hero from '../../components/Main/Hero';
@@ -13,7 +13,7 @@ const Privacy = () => {
 
     return (
         <>
-            <Helmet htmlAttributes>
+            <Helmet>
                 <html lang="en" />
                 <title>Inkito | Privacy Policy</title>
             </Helmet>

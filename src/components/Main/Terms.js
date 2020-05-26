@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 import Nav from '../../components/Main/Nav';
 import Hero from '../../components/Main/Hero';
@@ -14,7 +14,7 @@ const Terms = () => {
 
   return (
     <>
-    <Helmet htmlAttributes>
+    <Helmet>
       <html lang="en" />
       <title>Inkito | Terms Of Services</title>
     </Helmet>

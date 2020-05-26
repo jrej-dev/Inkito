@@ -1,6 +1,7 @@
 import React from 'react';
 import StoreContext from '../../stores/AppStore';
 import { useAlert } from 'react-alert'
+import DefaultAvatar from '../Icons/defaultavatar.png';
 import HeartElement from './HeartElement';
 /*import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
@@ -83,7 +84,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
             <div className="info-banner">
               <div className="author-info flex col">
                 <Link to={`/@${content.author}`}>
-                  <img className="panel-profile-pic" src={seriesInfo.author_image.includes("https") ? seriesInfo.author_image : ""} alt=" " />
+                  <img className="panel-profile-pic" src={seriesInfo.author_image.includes("https") ? seriesInfo.author_image : DefaultAvatar} alt=" " />
                   <div className="author-name">
                     <p className="capital">{content.author}</p>
                     <p>Creator</p>

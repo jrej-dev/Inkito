@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 import DownArrow from '../Icons/down-arrow.png';
 import UpArrow from '../Icons/up-arrow.png';
@@ -148,7 +148,7 @@ const Faq = () => {
 
     return (
         <>
-            <Helmet htmlAttributes>
+            <Helmet>
                 <html lang="en" />
                 <title>Inkito | Frequently Asked Questions</title>
             </Helmet>

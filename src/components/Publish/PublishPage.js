@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router-dom";
 import StoreContext from '../../stores/AppStore';
 import { Link } from "react-router-dom";
@@ -464,7 +464,7 @@ const PublishPage = ({ publishState }) => {
 
     return (
         <>
-            <Helmet htmlAttributes>
+            <Helmet>
                 <html lang="en" />
                 <title>Inkito | Publish Page</title>
             </Helmet>

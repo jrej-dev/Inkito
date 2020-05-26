@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
@@ -140,7 +140,7 @@ const ProfilePage = () => {
 
     return (
         <>
-            <Helmet htmlAttributes>
+            <Helmet>
                 <html lang="en" />
                 <title>Inkito | Profile Page</title>
             </Helmet>

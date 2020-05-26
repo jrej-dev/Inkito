@@ -1,5 +1,6 @@
 import React from 'react';
 import TrendyIcon from '../Icons/trendyicon.png';
+import DefaultAvatar from '../Icons/defaultavatar.png';
 import '../../sass/components/Panels.scss';
 //import 'wired-elements';
 import { Link } from "react-router-dom";
@@ -22,7 +23,7 @@ function TrendyPanel({ content, onClick }) {
           </div>
           <div className="panel-banner">
             <Link to={`/@${content.author}`}>
-              <img className="panel-profile-pic" src={content.profile_image.includes("https") ? content.profile_image : ""} alt=" " />
+              <img className="panel-profile-pic" src={content.profile_image.includes("https") ? content.profile_image : DefaultAvatar} alt=" " />
             </Link>
             <span className="panel-info">
               <span className="panel-title" onClick={() => onClick({ author, seriesTitle })}>{content.title.length > 60 ? `${content.title.slice(0, 60)}...` : content.title}</span>

@@ -2,6 +2,7 @@ import 'react-app-polyfill/ie11';
 
 import React from 'react';
 import { StoreProvider } from './stores/AppStore';
+import { HelmetProvider } from 'react-helmet-async';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
 import ReactDOM from 'react-dom';
@@ -21,9 +22,11 @@ const options = {
 
 ReactDOM.render(
   <React.StrictMode>
-    <StoreProvider> 
+    <StoreProvider>
       <AlertProvider template={AlertTemplate} {...options}>
-        <App />
+        <HelmetProvider>
+          <App />
+        </HelmetProvider>
       </AlertProvider>
     </StoreProvider>
   </React.StrictMode>,

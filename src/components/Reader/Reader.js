@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
@@ -216,7 +216,7 @@ const Reader = ({ type }) => {
 
   return (
     <>
-      <Helmet htmlAttributes>
+      <Helmet>
         <html lang="en" />
         <title>Inkito | Content Reader</title>
       </Helmet>

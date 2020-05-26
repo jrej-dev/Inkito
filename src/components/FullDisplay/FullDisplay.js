@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
@@ -56,7 +56,7 @@ const FullDisplay = ({ type }) => {
 
   return (
     <>
-      <Helmet htmlAttributes>
+      <Helmet>
         <html lang="en" />
         <title>Inkito | {type === "novels" ? "Novels" : "Comics"}</title>
       </Helmet>
