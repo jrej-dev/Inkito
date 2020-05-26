@@ -50,12 +50,12 @@ const AuthorBanner = ({ userDetail, followState, content, shareIsActive, seriesI
                                     {content ? content.title : ""}
                                 </p>
                             </div>
-                            <div className="flex row pointer share">
-                                <div className="flex row">
+                            <div className="flex row">
+                                <div className="flex row share pointer">
                                     <p>Share</p>
                                     {image ? <ShareMenu image={image[0]} shareIsActive={shareIsActive} bottom={true}/> : <ShareMenu shareIsActive={shareIsActive} bottom={true}/>}
                                 </div>
-                                <BellElement className="bellElement" text={true} userDetail={userDetail} seriesInfo={toJS(store.seriesInfo)} followState={followState}/>
+                                <BellElement className="bellElement pointer" text={true} userDetail={userDetail} seriesInfo={toJS(store.seriesInfo)} followState={followState}/>
                             </div>
                         </div>
                     </wired-card>

@@ -5,10 +5,10 @@ import { imgify } from './imgify';
 
 const md = new Remarkable({html: true}).use(imgify);
 
-const ContentBody = ({ content }) => {
+const ContentBody = ({ content, description }) => {
   if (content) {
     return (
-     <div className="content" dangerouslySetInnerHTML={{ __html: md.render(content.body) }} />
+     <div className={description ? "content align-left" : "content"} dangerouslySetInnerHTML={{ __html: md.render(content.body) }} />
     )
   } else {
     return ""

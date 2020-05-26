@@ -94,7 +94,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
 
               <div className={type === "comics" ? "content-info" : "content-info none"}>
                 <wired-card>
-                  <ContentBody content={content} />
+                  <ContentBody content={content} description={true}/>
                 </wired-card>
               </div>
             </div>

@@ -100,6 +100,51 @@ const BellElement = ({ followState, userDetail, seriesInfo, text, content }) => 
             }
         } else {
             // inactive
+            if (text) {
+                return (
+                    <div className="flex row pointer follow">
+                        <p onClick={() => {
+                            alert.show('Please login first.', {
+                                timeout: 2000, // custom timeout just for this one alert
+                            })
+                        }}>Follow</p>
+                        <img className="icon bell" src={Bell} alt="bell" onClick={() => {
+                            alert.show('Please login first.', {
+                                timeout: 2000, // custom timeout just for this one alert
+                            })
+                        }} />
+                    </div>
+                )
+            } else {
+                return (
+                    <img className="icon bell" src={Bell} alt="bell" onClick={() => {
+                        alert.show('Please login first.', {
+                            timeout: 2000, // custom timeout just for this one alert
+                        })
+                    }} />
+                )
+            }
+        }
+    } else {
+        // inactive
+        if (text) {
+            return (
+                <div className="flex row pointer follow">
+                    <p onClick={() => {
+                        alert.show('Please login first.', {
+                            timeout: 2000, // custom timeout just for this one alert
+                        })
+                    }}>
+                        Follow
+                    </p>
+                    <img className="icon bell" src={Bell} alt="bell" onClick={() => {
+                        alert.show('Please login first.', {
+                            timeout: 2000, // custom timeout just for this one alert
+                        })
+                    }} />
+                </div>
+            )
+        } else {
             return (
                 <img className="icon bell" src={Bell} alt="bell" onClick={() => {
                     alert.show('Please login first.', {
@@ -108,15 +153,6 @@ const BellElement = ({ followState, userDetail, seriesInfo, text, content }) => 
                 }} />
             )
         }
-    } else {
-        // inactive
-        return (
-            <img className="icon bell" src={Bell} alt="bell" onClick={() => {
-                alert.show('Please login first.', {
-                    timeout: 2000, // custom timeout just for this one alert
-                })
-            }} />
-        )
     }
 }
 

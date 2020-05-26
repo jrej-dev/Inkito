@@ -80,7 +80,7 @@ export function StoreProvider({ children }) {
         all_followers: [],
         all_following: [],
         loginLink: "",
-        zoom: 70,
+        zoom: 50,
         zoomIsActive: false,
         clickedSeriesAuthor: "",
         clickedSeriesTitle: "",
@@ -144,7 +144,7 @@ export function StoreProvider({ children }) {
             store.spinnerTimeout = value;
         },
         resetSeriesDetail: () => {
-            store.zoom = 70;
+            store.zoom = 50;
             store.seriesDetail = [];
             store.seriesLinks = [];
             store.activeInfoTab = [];
