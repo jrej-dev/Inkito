@@ -17,12 +17,12 @@ function TrendyPanel({ content, onClick }) {
         <div className="trendy-panel">
           <div className="panel-image" onClick={() => onClick({ author, seriesTitle })}>
             {/*Create a default image instead of random image*/}
-            <img className="panel-main-image" src={content.image ? content.image : "https://i.picsum.photos/id/356/300/300.jpg"} alt="panel-main-thumbnail" />
+            <img className="panel-main-image" src={content.image ? content.image : ""} alt="panel-main-thumbnail" />
             <img className="panel-icon" src={TrendyIcon} alt="fire-icon" />
           </div>
           <div className="panel-banner">
             <Link to={`/@${content.author}`}>
-              <img className="panel-profile-pic" src={content.profile_image} alt=" " />
+              <img className="panel-profile-pic" src={content.profile_image.includes("https") ? content.profile_image : ""} alt=" " />
             </Link>
             <span className="panel-info">
               <span className="panel-title" onClick={() => onClick({ author, seriesTitle })}>{content.title.length > 60 ? `${content.title.slice(0, 60)}...` : content.title}</span>
