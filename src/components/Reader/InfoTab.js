@@ -84,7 +84,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
             <div className="info-banner">
               <div className="author-info flex col">
                 <Link to={`/@${content.author}`}>
-                  <img className="panel-profile-pic" src={seriesInfo && seriesInfo.author_image ? seriesInfo.author_image.includes("https") ? seriesInfo.author_image : DefaultAvatar : DefaultAvatar} alt=" " />
+                  <img className="panel-profile-pic" src={`https://images.hive.blog/u/${content.author}/avatar` ?  `https://images.hive.blog/u/${content.author}/avatar` : seriesInfo.author_image ? seriesInfo.author_image.includes("https") ? seriesInfo.author_image : DefaultAvatar : DefaultAvatar} alt=" " />
                   <div className="author-name">
                     <p className="capital">{content.author}</p>
                     <p>Creator</p>
