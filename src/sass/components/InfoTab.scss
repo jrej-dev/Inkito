@@ -133,6 +133,8 @@
     }
     .comment-upper-banner {
         @include flex(space-between);
+        white-space: nowrap;
+        flex-wrap: wrap;
         width: 90%;
         margin: 0 5%;
         > * {
@@ -149,6 +151,7 @@
         }
     }
     .comment-bottom-banner {
+        white-space: nowrap;
         width: 90%;
         margin: 0.5em 5%;
         .send-btn {
@@ -192,7 +195,6 @@
 .heart {
     margin-left: auto;
     min-height: 1.5em;
-    width: 2em;
     >wired-spinner {
         transform: scale(0.5);
     }
@@ -221,6 +223,17 @@
         }
         .replies {
             margin-left: 0;
+        }
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .comment-banner {
+        .comment-upper-banner {
+            @include flex(center);
+            .response > p {
+                display: none;
+            }
         }
     }
 }

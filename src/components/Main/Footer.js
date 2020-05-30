@@ -9,7 +9,7 @@ function Footer() {
     <div className="footer flex-even">
       <img src={Logo} className="circle" alt="logo" />
       <div className="footer-links">
-        <ul className="footer-list flex-even">
+        <ul className="footer-list flex-even pa-h">
           <li className="blog">
             <a
               href="https://hive.blog/@inkito"
@@ -47,7 +47,7 @@ function Footer() {
           </li>
         </ul>
       </div>
-      <div className="flex row wrap pa-h">   
+      <div className="flex row wrap pa-h white-wrap">   
         <p> Credits:</p>
         <a href="https://www.freepik.com/free-photos-vectors/business">Illustrations created by pikisuperstar - www.freepik.com</a>
       </div>

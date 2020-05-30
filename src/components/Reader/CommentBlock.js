@@ -25,7 +25,7 @@ const CommentBlock = ({ content, reply, page, replyIsActive, userDetail, comment
 
     const Response = () => {
         return (
-            <div className="flex reset">
+            <div className="flex reset response">
                 <img className="sm-icon down-arrow" src={UpArrow} alt="down-arrow" />
                 <p>Response:</p>
             </div>
@@ -79,7 +79,7 @@ const CommentBlock = ({ content, reply, page, replyIsActive, userDetail, comment
                     </div>
                 </wired-card>
 
-                <div className="comment-bottom-banner flex-between reset">
+                <div className="comment-bottom-banner flex reset">
                     <div className="left-block">
                         <HeartElement content={content} className="heartElement" page={page} userDetail={userDetail} voteState={voteState} />
 

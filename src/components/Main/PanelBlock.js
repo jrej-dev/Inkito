@@ -9,7 +9,7 @@ import TrendyPanel from '../Panels/TrendyPanel';
 import NewPanel from '../Panels/NewPanel';
 import { useHistory } from "react-router-dom";
 
-const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
+const PanelBlocks = ({ type, newData, trendyData, activeTrend, panelBlockNumber }) => {
     const store = React.useContext(StoreContext);
     const history = useHistory();
 
@@ -31,14 +31,29 @@ const PanelBlocks = ({ type, newData, trendyData, panelBlockNumber }) => {
         } else if (type === "novels") {
           category = store.activeNovelCategory.split(" ").join("").toLowerCase();
         }
-        if (category !== "allcategories") {
-          fresh = toJS(newData).filter(object => object.tags.includes(category));
-          trendy =  toJS(trendyData).filter(object => object.tags.includes(category));
-        } else {
-          fresh = toJS(newData);
-                    
+
+        if (activeTrend === "trendy") {
+          fresh = [];
           trendy =  toJS(trendyData);
+          if (category !== "allcategories") {
+            trendy =  toJS(trendyData).filter(object => object.tags.includes(category));
+          } 
+        } else if (activeTrend === "new") {
+          trendy =  [];
+          fresh = toJS(newData);
+          if (category !== "allcategories") {
+            fresh = toJS(newData).filter(object => object.tags.includes(category));
+          } 
+        } else {
+          if (category !== "allcategories") {
+            trendy =  toJS(trendyData).filter(object => object.tags.includes(category));
+            fresh = toJS(newData).filter(object => object.tags.includes(category));
+          } else {
+            fresh = toJS(newData);
+            trendy =  toJS(trendyData);
+          }
         }
+
         var singles = [];
         var blocks = []; 
         var singleBlocks = [];

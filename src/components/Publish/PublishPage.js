@@ -52,7 +52,6 @@ const PublishPage = ({ publishState }) => {
     }
 
     useEffect(() => {
-
         getUrlParams();
         getLocationInfo();
         var currentSeries = seriesSelected.current;
@@ -81,7 +80,6 @@ const PublishPage = ({ publishState }) => {
             currentTags.addEventListener('input', handleTagsChange);
         }
 
-
         return () => {
             store.toggleNavMenu(false);
             store.resetSeriesDetail();
@@ -106,6 +104,7 @@ const PublishPage = ({ publishState }) => {
                 currentTags.removeEventListener('input', handleTagsChange);
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const dispose = () => {
@@ -558,7 +557,7 @@ const PublishPage = ({ publishState }) => {
                             <div className="divider" />
 
                             <div className="w-90 pa">
-                                <div className={type === "novel" && series !== "new" ? "hidden" : "flex-start row pa-h"}>
+                                <div className={type === "novel" && series !== "new" ? "hidden" : "flex-start row pa-h white-wrap"}>
                                     {
                                         series === "new" ?
                                             <h2>Series Thumbnail</h2>
@@ -724,7 +723,7 @@ const PublishPage = ({ publishState }) => {
                             }
 
                             <div className="end flex row">
-                                <div className="rules reset pa-h">
+                                <div className="rules reset pa-h white-wrap">
                                     <h3>
                                         Please follow the rules
                                 </h3>

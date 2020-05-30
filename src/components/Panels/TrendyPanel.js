@@ -27,12 +27,12 @@ function TrendyPanel({ content, onClick }) {
             </Link>
             <span className="panel-info">
               <span className="panel-title" onClick={() => onClick({ author, seriesTitle })}>{content.title.length > 60 ? `${content.title.slice(0, 60)}...` : content.title}</span>
-              <span>{" / "}</span>
-              <span className="panel-creator capital">
+              <span className="panel-dash">{" / "}</span>
                 <Link to={`/@${content.author}`}>
-                  {author}
+                  <span className="panel-creator capital">
+                    {author}
+                  </span>
                 </Link>
-              </span>
             </span>
             <div className="reward-block">
               <p>Last Payout:</p>

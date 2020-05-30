@@ -160,8 +160,9 @@ const Faq = () => {
                         <img className="faq-img" src={FAQImage} alt="Questions" />
                         <h1>FAQ</h1>
                     </div>
-
+                    
                     <h3>Fundamentals</h3>
+
                     {
                         basicQuestions.map((object, index) => {
                             return (

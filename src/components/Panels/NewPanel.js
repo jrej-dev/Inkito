@@ -27,7 +27,7 @@ function NewPanel({ content, onClick }) {
             </Link>
             <span className="panel-info">
               <span className="panel-title" onClick={() => onClick({ author, seriesTitle })}>{content.title.length > 60 ? `${content.title.slice(0, 60)}...` : content.title}</span>
-              <span>{" / "}</span>
+              <span className="panel-dash">{" / "}</span>
               <span className="panel-creator capital">
                 <Link to={`/@${content.author}`}>
                   {author}

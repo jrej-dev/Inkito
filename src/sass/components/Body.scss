@@ -60,22 +60,18 @@
 
 }
 
-.only-trendy {
-    .new-card {
-        display: none;
-        
-    }
-}
-
 .only-new {
-    .trendy-card {        
-            display: none;
-    }
     .new-panel {
         max-width: 20em;
-        height: 20em;
-        .panel-profile-pic {
-            display: block;
+        height: 20em !important;
+        .panel-image {
+            height: 70% !important;
+        }
+        .panel-banner {
+            height: 30% !important;
+            .panel-profile-pic {
+                display: block;
+            }
         }
     }
 }

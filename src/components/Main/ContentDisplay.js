@@ -55,7 +55,7 @@ function ContentDisplay({ type, newData, trendyData, activeCategory, activeTrend
   })
 
   return (
-    <div className={activeTrend === "all" ? "content-display" : activeTrend === "trendy" ? "content-display only-trendy" : "content-display only-new"}>
+    <div className={activeTrend === "new" ? "content-display only-new" : "content-display"}>
       <div className="title-line">
         <h2 className="capital">
           <Link to={`/${type}`}>
@@ -78,7 +78,7 @@ function ContentDisplay({ type, newData, trendyData, activeCategory, activeTrend
         {listedCategories}
       </ul>
       <div className="panels">
-        <PanelBlocks type={type} newData={newData} trendyData={trendyData} panelBlockNumber={panelBlockNumber}/>
+        <PanelBlocks type={type} newData={newData} trendyData={trendyData} activeTrend={activeTrend} panelBlockNumber={panelBlockNumber}/>
       </div>
     </div>
   );

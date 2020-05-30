@@ -6,7 +6,7 @@ function Hero() {
   return (
     <div className="hero">
       <img src={Logo} className="circle" alt="logo" />
-      <p>Your story is worth something.</p> 
+      <p><strong>Your story is worth something.</strong></p> 
     </div>
   );
 }

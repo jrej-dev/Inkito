@@ -1,4 +1,7 @@
 import 'react-app-polyfill/ie11';
+import 'sanitize.css';
+import 'sanitize.css/forms.css';
+import 'sanitize.css/typography.css';
 
 import React from 'react';
 import { StoreProvider } from './stores/AppStore';
