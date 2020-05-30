@@ -15,6 +15,7 @@
     }
    .content-body {
         @include flex(center);
+        white-space: normal;
         min-height: 65vh;
         img {
             min-width: 100%;
@@ -39,6 +40,9 @@
         display: none;
     }
     hr {
+        display: none;
+    }
+    img[alt="infoImage"] {
         display: none;
     }
 }

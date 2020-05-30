@@ -54,6 +54,12 @@
         }
         img {
             display: none;
+            width: 100%;
+        }
+        img[alt="infoImage"] {
+            display: block;
+            width: initial;
+            max-width: 100%;
         }
         iframe {
             overflow: hidden;

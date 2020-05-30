@@ -3,9 +3,15 @@ Object.defineProperty(exports, '__esModule', { value: true });
 function parseTokens(state) {
   var i, j, l, tokens, sources, alt, nodes, blockTokens = state.tokens;
   //linkifier = null, links, autolinker;
-
+  var afterRule = false;
+  
   for (j = 0, l = blockTokens.length; j < l; j++) {
-    if (blockTokens[j].type !== 'inline') { continue; }
+    if (blockTokens[j].type !== 'inline') { 
+      if (blockTokens[j].type === 'hr') {
+        afterRule = true;
+      }
+      continue;
+    }
     tokens = blockTokens[j].children;
     nodes = [];
 
@@ -14,7 +20,7 @@ function parseTokens(state) {
     for (i = tokens.length - 1; i >= 0; i--) {
 
       let regex = /(https?:\/\/.*\.(?:png|jpg))/;
-
+      
       if (tokens[i].type === 'text' && tokens[i].content.match(regex)) {
 
         sources = tokens[i].content.match(regex);
@@ -25,9 +31,13 @@ function parseTokens(state) {
           type: "image",
           src: sources[0],
           title: "",
-          alt: alt,
+          alt: afterRule ? "infoImage" : alt,
           level: tokens[i].level
         });
+      }
+
+      if (tokens[i].type === 'image' && afterRule) {
+        tokens[i].alt = "infoImage"
       }
 
       if (nodes.length > 0) {
