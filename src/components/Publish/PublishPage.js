@@ -19,16 +19,33 @@ const PublishPage = ({ publishState }) => {
     const store = React.useContext(StoreContext);
     const alert = useAlert();
     const location = useLocation();
+    let descriptionImages = [];
+    let bodyFilter = "";
+    if (location.state && location.state.seriesInfo) {
+        descriptionImages = location.state.seriesInfo.body.match(/^!\[.*\)|^--.*-$|^\*\*.*\*$|^__.*_$/gm)
+        let hrIndex = -1;
+        descriptionImages.forEach((image,index) => { 
+            if(image.includes("---") || image.includes("___") || image.includes("***")) { 
+                hrIndex = index;
+            }
+        });
+        if (hrIndex > 0) {
+            descriptionImages = descriptionImages.slice(0,hrIndex)
+        }
+
+        bodyFilter = location.state.seriesInfo.body;
+        descriptionImages.forEach(image => { bodyFilter = bodyFilter.replace(image, '')}) 
+    }
 
     const [series, setSeries] = useState(location.state && location.state.series ? location.state.series : "new");
     const [type, setType] = useState(location.state && location.state.type ? location.state.type : "comic");
-    const [images, setImages] = useState(location.state && location.state.seriesInfo ? typeof location.state.seriesInfo.image === "string" ? [location.state.seriesInfo.image] : [...JSON.parse(location.state.seriesInfo.json_metadata).image] : []);
+    const [images, setImages] = useState(location.state && location.state.seriesInfo ? typeof location.state.seriesInfo.image === "string" ? [location.state.seriesInfo.image] : [...descriptionImages.map(image => image.match(/http.*[a-zA-Z0-9_.-]/g)[0])] : []);
     const [imageFile, setImageFile] = useState(null);
     const [imageLink, setImageLink] = useState("");
     const [imageLinkIsActive, setimageLinkIsActive] = useState(false);
     const [title, setTitle] = useState(location.state && location.state.seriesInfo ? location.state.seriesInfo.title : "");
-    const [description, setDescription] = useState(location.state && location.state.seriesInfo ? type === "comic" ? location.state.seriesInfo.body.replace(/^!\[.*\)./gm, '') : location.state.seriesInfo.body : "");
-    const [tags, setTags] = useState(location.state && location.state.seriesInfo ? JSON.parse(location.state.seriesInfo.json_metadata).tags.join(" ").replace(`inkito-${type}s`, "").replace(JSON.parse(location.state.seriesInfo.json_metadata).tags.filter(tag => tag.includes(`${location.state.seriesInfo.author}-`))[0], "") : "");
+    const [description, setDescription] = useState(location.state && location.state.seriesInfo ? type === "comic" ? bodyFilter/*.replace(/(^--.*-$|^\*\*.*\*$|^__.*_$)/m, '')*/.trim() : location.state.seriesInfo.body : "");
+    const [tags, setTags] = useState(location.state && location.state.seriesInfo ? JSON.parse(location.state.seriesInfo.json_metadata).tags.join(" ").replace(`inkito-${type}s`, "").replace(JSON.parse(location.state.seriesInfo.json_metadata).tags.filter(tag => tag.includes(`${location.state.seriesInfo.author}-`))[0], "").trim() : "");
     const [categories, setCategories] = useState([]);
 
     const seriesSelected = useRef(null);
@@ -210,7 +227,7 @@ const PublishPage = ({ publishState }) => {
 
     let SeriesCombo = () => {
         return useObserver(() => {
-            if (toJS(store.authorInfo) && toJS(store.authorInfo).series) {
+            if (toJS(store.authorInfo) && toJS(store.authorInfo).series && toJS(store.authorInfo).series.length > 0) {
                 let combo = [];
                 toJS(store.authorInfo).series.forEach(series => {
                     combo.push(<wired-item value={series.title} key={series.seriesId} type={series.tags.includes("inkito-comics") ? "comic" : "novel"}>{series.title}</wired-item>)
@@ -432,13 +449,12 @@ const PublishPage = ({ publishState }) => {
         if (images.length > 0) {
             let imageMarkdown = [];
             images.forEach((image, index) => imageMarkdown.push(`![image ${index + 1}](${image})`))
-            body = imageMarkdown.join(" ") + " " + description
+            body = imageMarkdown.join(" ").concat(" ").concat(description)
         } else {
             body = description;
         }
 
         if (title && description && toJS(store.userDetail) && toJS(store.userDetail).user) {
-            console.log(author);
             if (type === "novel" && series !== "new") {
                 if (location.state && location.state.seriesInfo) {
                     store.comment(parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, undefined, true);
@@ -557,7 +573,7 @@ const PublishPage = ({ publishState }) => {
                             <div className="divider" />
 
                             <div className="w-90 pa">
-                                <div className={type === "novel" && series !== "new" ? "hidden" : "flex-start row pa-h white-wrap"}>
+                                <div className={type === "novel" && series !== "new" ? "hidden" : "flex-start row pa-h"}>
                                     {
                                         series === "new" ?
                                             <h2>Series Thumbnail</h2>
@@ -565,7 +581,9 @@ const PublishPage = ({ publishState }) => {
                                             <h2>Images</h2>
 
                                     }
-                                    <p>(Maximum file size of 2MB)</p>
+                                    <div className="white-wrap">
+                                        <p>(Maximum file size of 2MB)</p>
+                                    </div>
                                 </div>
 
                                 <div className={imageLinkIsActive ? "imageLink" : "imageLink hidden-top"}>

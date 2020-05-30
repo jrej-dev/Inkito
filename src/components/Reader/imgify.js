@@ -19,7 +19,6 @@ function parseTokens(state) {
     // We scan from the end, to keep position when new tags added.
     // Use reversed logic in links start/end match
     for (i = tokens.length - 1; i >= 0; i--) {
-
       let regex = /(https?:\/\/.*\.(?:png|jpg))/;
       
       if (tokens[i].type === 'text' && tokens[i].content.match(regex)) {
@@ -36,7 +35,8 @@ function parseTokens(state) {
           level: tokens[i].level
         });
       }
-      if (tokens[i].type === 'image') {
+
+      if (tokens[i].type === 'image' && firstImage) {
         firstImage = false;
       } else if (tokens[i].type === 'image' && afterRule && !firstImage){
         tokens[i].alt = "infoImage"
