@@ -7,7 +7,6 @@ function parseTokens(state) {
   var firstImage = true;
 
   for (j = 0, l = blockTokens.length; j < l; j++) {
-    console.log(blockTokens[j]);
     if (blockTokens[j].type !== 'inline') { 
       if (blockTokens[j].type === 'hr') {
         afterRule = true;
