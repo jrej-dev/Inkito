@@ -4,7 +4,8 @@ function parseTokens(state) {
   var i, j, l, tokens, sources, alt, nodes, blockTokens = state.tokens;
   //linkifier = null, links, autolinker;
   var afterRule = false;
-  
+  var firstImage = true;
+
   for (j = 0, l = blockTokens.length; j < l; j++) {
     if (blockTokens[j].type !== 'inline') { 
       if (blockTokens[j].type === 'hr') {
@@ -35,8 +36,9 @@ function parseTokens(state) {
           level: tokens[i].level
         });
       }
-
-      if (tokens[i].type === 'image' && afterRule) {
+      if (tokens[i].type === 'image') {
+        firstImage = false;
+      } else if (tokens[i].type === 'image' && afterRule && !firstImage){
         tokens[i].alt = "infoImage"
       }
 
