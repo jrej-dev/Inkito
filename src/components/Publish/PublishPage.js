@@ -44,7 +44,7 @@ const PublishPage = ({ publishState }) => {
     const [imageLink, setImageLink] = useState("");
     const [imageLinkIsActive, setimageLinkIsActive] = useState(false);
     const [title, setTitle] = useState(location.state && location.state.seriesInfo ? location.state.seriesInfo.title : "");
-    const [description, setDescription] = useState(location.state && location.state.seriesInfo ? type === "comic" ? bodyFilter/*.replace(/(^--.*-$|^\*\*.*\*$|^__.*_$)/m, '')*/.trim() : location.state.seriesInfo.body : "");
+    const [description, setDescription] = useState(location.state && location.state.seriesInfo ? type === "comic" ? bodyFilter.replace(/(^--.*-$|^\*\*.*\*$|^__.*_$|<hr\/>)/m,'').replace(/<center>\[!\[inkito-banner.png\].*\n*<\/center>$/gm, '').trim() : location.state.seriesInfo.body : "");
     const [tags, setTags] = useState(location.state && location.state.seriesInfo ? JSON.parse(location.state.seriesInfo.json_metadata).tags.join(" ").replace(`inkito-${type}s`, "").replace(JSON.parse(location.state.seriesInfo.json_metadata).tags.filter(tag => tag.includes(`${location.state.seriesInfo.author}-`))[0], "").trim() : "");
     const [categories, setCategories] = useState([]);
 
@@ -449,7 +449,7 @@ const PublishPage = ({ publishState }) => {
         if (images.length > 0) {
             let imageMarkdown = [];
             images.forEach((image, index) => imageMarkdown.push(`![image ${index + 1}](${image})`))
-            body = imageMarkdown.join(" ").concat(" ").concat(description)
+            body = imageMarkdown.join(" ").concat("  ").concat(`<hr/>`).concat(description).concat("  ").concat(`<center>[![inkito-banner.png](https://images.hive.blog/DQmXcA3xhDNEaesBeRzy3eq3Jw1zyGQEjzHY1DPc84P7peA/inkito-banner.png)](https://inkito.io/${type}Reader/${seriesId.replace("-","/")})</center>`)
         } else {
             body = description;
         }

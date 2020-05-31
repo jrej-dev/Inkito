@@ -5,7 +5,6 @@ function parseTokens(state) {
   //linkifier = null, links, autolinker;
   var afterRule = false;
   var firstImage = true;
-
   for (j = 0, l = blockTokens.length; j < l; j++) {
     if (blockTokens[j].type !== 'inline') { 
       if (blockTokens[j].type === 'hr') {
@@ -34,6 +33,10 @@ function parseTokens(state) {
           alt: afterRule ? "infoImage" : alt,
           level: tokens[i].level
         });
+      }
+
+      if (!afterRule && tokens[i].type === 'htmltag' && tokens[i].content === "<hr/>") {
+        afterRule = true;
       }
 
       if (tokens[i].type === 'image' && firstImage) {
