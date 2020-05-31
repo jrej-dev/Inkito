@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 function NewPanel({ content, onClick }) {
 
   let author = content.author;
-  const reward = content.last_payout.replace("HBD", " ")
+  //const reward = content.last_payout.replace("HBD", " ")
 
   let seriesTitle = content.seriesId ? content.seriesId.replace(`${author}-`, "") : "noseries";
 
@@ -34,10 +34,10 @@ function NewPanel({ content, onClick }) {
                 </Link>
               </span>
             </span>
-            <div className="reward-block">
+            {/*<div className="reward-block">
               <p>Last Payout:</p>
               <p className="reward">$ {(parseInt(reward, 10)/2).toFixed(2)}</p>
-            </div>
+  </div>*/}
           </div>
         </div>
       </wired-card>

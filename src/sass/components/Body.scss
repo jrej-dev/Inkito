@@ -69,7 +69,7 @@
         }
         .panel-banner {
             height: 30% !important;
-            .panel-profile-pic {
+            > a:first-child {
                 display: block;
             }
         }
