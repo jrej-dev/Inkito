@@ -22,10 +22,10 @@ const PublishPage = ({ publishState }) => {
     let descriptionImages = [];
     let bodyFilter = "";
     if (location.state && location.state.seriesInfo) {
-        descriptionImages = location.state.seriesInfo.body.match(/^!\[.*\)|^--.*-$|^\*\*.*\*$|^__.*_$/gm)
+        descriptionImages = location.state.seriesInfo.body.match(/^!\[.*\)|^--.*-$|^\*\*.*\*$|^__.*_$|<hr\/>/gm)
         let hrIndex = -1;
         descriptionImages.forEach((image,index) => { 
-            if(image.includes("---") || image.includes("___") || image.includes("***")) { 
+            if(image.includes("---") || image.includes("___") || image.includes("***") || image.includes("<hr/>")) { 
                 hrIndex = index;
             }
         });
