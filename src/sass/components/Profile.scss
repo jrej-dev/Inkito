@@ -146,8 +146,9 @@
         grid-area: info;
         min-height: 80vh;
         height: 80%;
-        width: 100%;
+        min-width: 33%;
         max-width: 100vw;
+        width: 100%;
         white-space: initial;
         display: flex;
         justify-content: space-between;
