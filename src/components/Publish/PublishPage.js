@@ -584,7 +584,7 @@ const PublishPage = ({ publishState }) => {
                             <div className="divider" />
 
                             <div className="w-90 pa">
-                                <div className={type === "novel" && series !== "new" ? "hidden" : "flex-start row pa-h"}>
+                                <div className={type === "novel" && series !== "new" ? "hidden" : "flex-start row pa-h wrap title"}>
                                     {
                                         series === "new" ?
                                             <h2>Series Thumbnail</h2>

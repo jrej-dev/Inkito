@@ -6,19 +6,16 @@ import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
 
 import '../../sass/components/Reader.scss';
-//import 'wired-elements';
 
 import Blog from './Blog';
 import NavReader from './NavReader';
 import NavReaderBottom from './NavReaderBottom';
 import AuthorBanner from './AuthorBanner';
-//import DownArrow from '../Icons/down-arrow.png';
 
 const Reader = ({ type }) => {
   const store = React.useContext(StoreContext);
 
   var props = {};
-  var lastScrollTop = 0;
 
   useEffect(() => {
     getUrlVars();
@@ -47,16 +44,19 @@ const Reader = ({ type }) => {
     return props;
   }
 
+  var lastScrollTop = 0;
+
   const handleScroll = () => {
     var st = document.documentElement.scrollTop;
     if (st < lastScrollTop) {
+      // backscroll code
       store.toggleNav(false);
       store.toggleNavMenu(false);
       store.toggleShareMenu(false);
       store.toggleShareMenuBottom(false);
     } else if (st > 200) {
-      store.toggleNav(true);
       // upscroll code
+      store.toggleNav(true);
     }
     lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
 
@@ -68,6 +68,50 @@ const Reader = ({ type }) => {
     }
   }
 
+  const ListedBlogs = () => {
+    return useObserver(() => {
+      var seriesData = toJS(store.seriesLinks);
+      var blogs = [];
+      if (type === "comics") {
+        // Adding zoom feature only for comics.
+        blogs = [
+          <div key="zoom-banner" className={store.zoomIsActive ? "zoom-banner flex-start isActive" : "zoom-banner flex-start"} onClick={zoomHandle}>
+            <div className="zoom-cover">Zoom</div>
+            <button className="zoom-in zoom-btn flex">+</button>
+            <button className="zoom-out zoom-btn flex">-</button>
+          </div>
+        ];
+      } else {
+        //No zoom for novels.
+        blogs = [];
+      }
+
+      if (store.seriesLinkState === "done" && seriesData.length > 0 && seriesData.length >= store.currentPage + 1) {
+        for (let i = store.startPage; i <= store.currentPage; i++) {
+          blogs.push(
+            <li key={seriesData[i] + store.currentPage} className="blog">
+              <Blog
+                type={type}
+                page={i}
+                author={props.author}
+                permlink={seriesData[i]}
+                nextPermlink={seriesData[i + 1]}
+              />
+            </li>
+          )
+        }
+      } else {
+        return (
+          <div className="flex no-content">
+            <wired-spinner className="flex" class="custom" spinning duration="1000" />
+          </div>
+        )
+      }
+      return blogs;
+    })
+  }
+
+  //Navigation buttons
   const navClickHandle = (e) => {
     if (e.target.className.includes("right-arrow")) {
       document.documentElement.scrollTop = 0;
@@ -94,48 +138,6 @@ const Reader = ({ type }) => {
     } else {
       store.toggleZoomBanner(false);
     }
-  }
-
-  const ListedBlogs = () => {
-    return useObserver(() => {
-      var seriesData = toJS(store.seriesLinks);
-      var blogs = [];
-      if (type === "comics") {
-        blogs = [<div key="zoom-banner" className={store.zoomIsActive ? "zoom-banner flex-start isActive" : "zoom-banner flex-start"} onClick={zoomHandle}>
-          <div className="zoom-cover">Zoom</div>
-          <button className="zoom-in zoom-btn flex">+</button>
-          <button className="zoom-out zoom-btn flex">-</button>
-        </div>];
-      } else {
-        blogs = [];
-      }
-
-      if (store.seriesLinkState === "done" && seriesData.length > 0 && seriesData.length >= store.currentPage + 1) {
-        for (let i = store.startPage; i <= store.currentPage; i++) {
-          blogs.push(
-            <li key={seriesData[i] + store.currentPage} className="blog">
-              <Blog
-                type={type}
-                page={i}
-                author={props.author}
-                permlink={seriesData[i]}
-                nextPermlink={seriesData.length === store.currentPage + 1 ? undefined : seriesData[i + 1]}
-
-              />
-              <p className="none scroll">Scroll to read more</p>
-            </li>
-          )
-        }
-      } else {
-        return (
-          /*store.currentPage >= seriesData.length ? <div className="flex no-content"><h3>No content Found</h3></div> :*/
-          <div className="flex no-content">
-            <wired-spinner className="flex" class="custom" spinning duration="1000" />
-          </div>
-        )
-      }
-      return blogs;
-    })
   }
 
   const Nav = () => {
@@ -197,7 +199,6 @@ const Reader = ({ type }) => {
             <div className="scroll-text">
               <p >Scroll to read more.</p>
               <wired-spinner className="flex" class="custom" spinning duration="3000" />
-              {/*<img className="icon down-arrow" src={DownArrow} alt="down-arrow"/>*/}
             </div>
           )
         } else {
