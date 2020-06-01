@@ -150,9 +150,14 @@
         max-width: 100vw;
         white-space: initial;
         display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
+        justify-content: space-between;
         align-items: center;
+        &:before,
+        &:after {
+            content: "";
+            display: block;
+        }
+        flex-direction: column;
         margin: 5% 0;
         .edit-banner {
             height: 1em;
@@ -355,8 +360,13 @@
         .author {
             position: absolute;
             display: flex;
-            justify-content: space-evenly;
+            justify-content: space-between;
             align-items: center;
+            &:before,
+            &:after {
+                content: "";
+                display: block;
+            }
             flex-direction: column;
             z-index: 1;
             width: 100%;
@@ -372,7 +382,12 @@
         .links {
             width: 80%;
             display: flex;
-            justify-content: space-evenly;
+            justify-content: space-between;
+            &:before,
+            &:after {
+                content: "";
+                display: block;
+            }
             flex-direction: row;
         }
     }
@@ -392,8 +407,14 @@
             }
             .series-list {
                 flex-direction: column;
-                justify-content: space-evenly;
+                display: flex;
+                justify-content: space-between;
                 align-items: flex-start;
+                &:before,
+                &:after {
+                    content: "";
+                    display: block;
+                }
                 width: 100%;
                 li {
                     width: 100%;

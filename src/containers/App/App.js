@@ -20,8 +20,6 @@ import Terms from '../../components/Main/Terms';
 import Privacy from '../../components/Main/Privacy';
 import Faq from '../../components/Main/Faq';
 
-
-import SeriesEdit from '../../components/Publish/SeriesEdit';
 import PublishPage from '../../components/Publish/PublishPage';
 
 import CookieBanner from '../../components/Main/CookieBanner';
@@ -77,8 +75,8 @@ const App = () => {
     <Router>
       <Helmet>
         <html lang="en" />
-        <title>Help authors and creators get crypto currency for their story | Inkito</title>
-        <meta name="description" content="Inkito is a comic and novel hosting powered by the Hive blockchain. Authors and creators can earn crypto currency for their creative content! Comics and novels benefit from the daily reward pool of tokens, distributed in proportion to the attention received. A fair system, resistant to censorship." />
+        <title>Help authors get crypto currency rewards for their story | Inkito</title>
+        <meta name="description" content="Inkito is a comic and novel hosting powered by the Hive blockchain. Creators can earn crypto currency for their content in proportion to the attention received." />
       </Helmet>
       <div className="App">
         <LoginPopUp />
@@ -100,9 +98,6 @@ const App = () => {
           </Route>
           <Route path="/@*">
             <ProfilePage />
-          </Route>
-          <Route path="/series">
-            <SeriesEdit/>
           </Route>
           <Route path="/publish*">
             <Publish />

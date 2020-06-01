@@ -23,8 +23,13 @@
 
 .info-banner {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: flex-start;
+    &:before,
+    &:after {
+      content: '';
+      display: block;
+    }
     white-space: normal;
     width: 100%;
     padding: 0 1em;
@@ -219,6 +224,7 @@
 
     .info-banner {
         flex-wrap: wrap;
+        justify-content: center;
         .author-info {
             width: 50%;
         }

@@ -25,9 +25,14 @@ hr {
     .login-content {
         position: absolute;
         display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
+        justify-content: space-between;
         align-items: center;
+        &:before,
+        &:after {
+            content: "";
+            display: block;
+        }
+        flex-direction: column;
         top: 11.5em;
         left: 10em;
         width: 26.5em;
@@ -70,9 +75,14 @@ hr {
         }
         form {
             display: flex;
-            flex-direction: column;
-            justify-content: space-evenly;
+            justify-content: space-between;
             align-items: center;
+            &:before,
+            &:after {
+                content: "";
+                display: block;
+            }
+            flex-direction: column;
             width: 100%;
             .login-input {
                 width: 70%;
@@ -95,8 +105,13 @@ hr {
         .buttons {
             width: 80%;
             display: flex;
-            justify-content: space-evenly;
+            justify-content: space-between;
             align-items: center;
+            &:before,
+            &:after {
+                content: "";
+                display: block;
+            }
             a {
                 padding: 1em 2em;
             }
@@ -134,9 +149,14 @@ hr {
             width: 16em;
             height: 14.5em;
             display: flex;
-            flex-direction: column;
-            justify-content: space-evenly;
+            justify-content: space-between;
             align-items: center;
+            &:before,
+            &:after {
+                content: "";
+                display: block;
+            }
+            flex-direction: column;
             .hivesigner-image {
                 width: 2em;
             }
@@ -154,7 +174,7 @@ hr {
             }
 
             .buttons > * {
-                font-size: 0.8em;
+                font-size: 12px;
                 margin: 0.5em 0.5em;
             }
             .login-hivesigner {

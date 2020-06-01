@@ -10,6 +10,7 @@
     "buffer": "^5.6.0",
     "core-js": "^3.6.5",
     "dsteem": "^0.11.3",
+    "fs": "0.0.1-security",
     "hivesigner": "^3.1.5",
     "i": "^0.3.6",
     "ipfs-http-client": "^44.0.3",
@@ -17,6 +18,7 @@
     "mobx-react": "^6.1.8",
     "mobx-react-lite": "^2.0.6",
     "node-sass": "^4.13.1",
+    "path": "^0.12.7",
     "react": "^16.13.1",
     "react-alert": "^7.0.0",
     "react-alert-template-basic": "^1.0.0",
@@ -37,7 +39,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "sitemap": "babel-node src/sitemap/generator.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -47,7 +50,8 @@
     "production": [
       ">0.2%",
       "not dead",
-      "not op_mini all"
+      "not op_mini all",
+      "ie 11"
     ],
     "development": [
       "last 1 chrome version",
@@ -55,5 +59,11 @@
       "last 1 safari version",
       "ie 11"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/node": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "react-router-sitemap": "^1.2.0"
   }
 }

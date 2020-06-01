@@ -1,4 +1,5 @@
 import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/stable';
 import 'sanitize.css';
 import 'sanitize.css/forms.css';
 import 'sanitize.css/typography.css';

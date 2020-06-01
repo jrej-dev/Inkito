@@ -67,7 +67,7 @@ const ProfilePage = () => {
                             <img
                                 className="panel-profile-pic"
                                 src={author.avatar}
-                                alt=""
+                                alt="avatar"
                             />
                             <h2 className="capital">{author.name}</h2>
                         </div>
