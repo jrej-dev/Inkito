@@ -19,9 +19,20 @@ const PublishPage = ({ publishState }) => {
     const store = React.useContext(StoreContext);
     const alert = useAlert();
     const location = useLocation();
+    const [series, setSeries] = useState(location.state && location.state.series ? location.state.series : "new");
+    const [type, setType] = useState(location.state && location.state.type ? location.state.type : "comic");
+    const [imageFile, setImageFile] = useState(null);
+    const [imageLink, setImageLink] = useState("");
+    const [imageLinkIsActive, setimageLinkIsActive] = useState(false);
+    const [categories, setCategories] = useState([]);
+
+    //Edit exisiting page
     let descriptionImages = [];
-    let bodyFilter = "";
+    let bodyFiltered = "";
+    let tagsFiltered = "";
+
     if (location.state && location.state.seriesInfo) {
+        //Filtering images
         descriptionImages = location.state.seriesInfo.body.match(/^!\[.*\)|^--.*-$|^\*\*.*\*$|^__.*_$|<hr\/>/gm)
         let hrIndex = -1;
         descriptionImages.forEach((image,index) => { 
@@ -33,21 +44,21 @@ const PublishPage = ({ publishState }) => {
             descriptionImages = descriptionImages.slice(0,hrIndex)
         }
 
-        bodyFilter = location.state.seriesInfo.body;
-        descriptionImages.forEach(image => { bodyFilter = bodyFilter.replace(image, '')}) 
+        //Filtering description/body
+        bodyFiltered = location.state.seriesInfo.body;
+        descriptionImages.forEach(image => { bodyFiltered = bodyFiltered.replace(image, '')}) 
+        bodyFiltered = bodyFiltered.replace(/(^--.*-$|^\*\*.*\*$|^__.*_$|<hr\/>)/m,'').replace(/<center>\[!\[inkito-banner.png\].*\n*<\/center>$/gm, '').trim()
+
+        //Filtering tags
+        tagsFiltered = JSON.parse(location.state.seriesInfo.json_metadata).tags.join(" ").replace(`inkito-${type}s`, "").replace(JSON.parse(location.state.seriesInfo.json_metadata).tags.filter(tag => tag.includes(`${location.state.seriesInfo.author}-`))[0], "").trim()
     }
 
-    const [series, setSeries] = useState(location.state && location.state.series ? location.state.series : "new");
-    const [type, setType] = useState(location.state && location.state.type ? location.state.type : "comic");
     const [images, setImages] = useState(location.state && location.state.seriesInfo ? typeof location.state.seriesInfo.image === "string" ? [location.state.seriesInfo.image] : [...descriptionImages.map(image => image.match(/http.*[a-zA-Z0-9_.-]/g)[0])] : []);
-    const [imageFile, setImageFile] = useState(null);
-    const [imageLink, setImageLink] = useState("");
-    const [imageLinkIsActive, setimageLinkIsActive] = useState(false);
     const [title, setTitle] = useState(location.state && location.state.seriesInfo ? location.state.seriesInfo.title : "");
-    const [description, setDescription] = useState(location.state && location.state.seriesInfo ? type === "comic" ? bodyFilter.replace(/(^--.*-$|^\*\*.*\*$|^__.*_$|<hr\/>)/m,'').replace(/<center>\[!\[inkito-banner.png\].*\n*<\/center>$/gm, '').trim() : location.state.seriesInfo.body : "");
-    const [tags, setTags] = useState(location.state && location.state.seriesInfo ? JSON.parse(location.state.seriesInfo.json_metadata).tags.join(" ").replace(`inkito-${type}s`, "").replace(JSON.parse(location.state.seriesInfo.json_metadata).tags.filter(tag => tag.includes(`${location.state.seriesInfo.author}-`))[0], "").trim() : "");
-    const [categories, setCategories] = useState([]);
+    const [description, setDescription] = useState(location.state && location.state.seriesInfo ? type === "comic" ? bodyFiltered : location.state.seriesInfo.body : "");
+    const [tags, setTags] = useState(location.state && location.state.seriesInfo ? tagsFiltered : "");
 
+    //useRef for wired-js elements
     const seriesSelected = useRef(null);
     const typeSelected = useRef(null);
     const imageLinkInput = useRef(null);
@@ -272,10 +283,10 @@ const PublishPage = ({ publishState }) => {
                         let reward = episode.pending_payout_value ? episode.pending_payout_value === "0.000 HBD" ? episode.total_payout_value.replace("HBD", "") : episode.pending_payout_value.replace("HBD", "") : "?";
                         episodes.push(
                             <Link key={episode.permlink} to={`/${type}Reader/${JSON.parse(location.state.seriesInfo.json_metadata).tags.filter(tag => tag.includes(`${location.state.seriesInfo.author}-`))[0].replace("-", "/")}/${index}`}>
-                                <div className="episode flex-between row">
+                                <div className="episode flex-between row wrap">
                                     <div className="flex row pa-hh">
                                         <p>#{index}</p>
-                                        <div className="title-block">
+                                        <div className="title-block white-wrap">
                                             <h3>{episode.title}</h3>
                                             <p>{compareDate(episode.created.slice(0, 10))}</p>
                                         </div>
