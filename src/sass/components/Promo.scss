@@ -20,13 +20,9 @@
 .promoBanner {
   z-index: 1;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  justify-content: space-evenly;
   align-items: flex-start;
-  &:before,
-  &:after {
-    content: "";
-    display: block;
-  }
   flex-wrap: wrap;
   list-style-type: none;
   height: 100%;
