@@ -34,12 +34,8 @@ input {
 }
 
 .flex-even {
-    @include flex(space-between);
-    &:before,
-    &:after {
-      content: '';
-      display: block;
-    }
+    @include flex(center);
+    @include flex(space-evenly);
 }
 
 .flex-start {
