@@ -89,7 +89,7 @@ const Reader = ({ type }) => {
       if (store.seriesLinkState === "done" && seriesData.length > 0 && seriesData.length >= store.currentPage + 1) {
         for (let i = store.startPage; i <= store.currentPage; i++) {
           blogs.push(
-            <li key={seriesData[i] + store.currentPage} className="blog">
+            <li key={seriesData[i]} className="blog">
               <Blog
                 type={type}
                 page={i}
