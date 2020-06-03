@@ -26,9 +26,11 @@ const Home = () => {
   const fetchContent = () => {
     if (store.newComics.length === 0) {
       store.fetchComics();
+      store.fetchComics("inkitocomics");
     } 
     if (store.newNovels.length === 0){
       store.fetchNovels();
+      store.fetchNovels("inkitonovels");
     }
   }
   

@@ -16,10 +16,13 @@ const FullDisplay = ({ type }) => {
     if (type === "comics") {
       if (store.newComics.length === 0) {
         store.fetchComics();
+        store.fetchComics("inkitocomics");
+  
       }
     } else if (type === "novels") {
       if (store.newNovels.length === 0) {
         store.fetchNovels();
+        store.fetchNovels("inkitonovels");
       }
     }
   })

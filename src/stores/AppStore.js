@@ -523,14 +523,15 @@ export function StoreProvider({ children }) {
             }
         },
         //Fetching Comics
-        async fetchComics(last_trendy_author, last_trendy_permlink, last_new_author, last_new_permlink) {
+        async fetchComics(searchTag, last_trendy_author, last_trendy_permlink, last_new_author, last_new_permlink) {
+            let tag = searchTag || "inkito-comics"; 
             this.trendyComicState = "pending"
             try {
                 let last_trendyComic = {};
                 const trendyComicIds = await client.database
                     .getDiscussions("trending",
                         {
-                            tag: "inkito-comics",
+                            tag: tag,
                             limit: 32,
                             start_author: last_trendy_author,
                             start_permlink: last_trendy_permlink
@@ -565,7 +566,7 @@ export function StoreProvider({ children }) {
                 const createdComicIds = await client.database
                     .getDiscussions("created",
                         {
-                            tag: "inkito-comics",
+                            tag: tag,
                             limit: 32,
                             start_author: last_new_author,
                             start_permlink: last_new_permlink
@@ -598,21 +599,21 @@ export function StoreProvider({ children }) {
 
                 // Incorporate lazy load
                 if (createdComicIds.length > 2 || trendyComicIds.length > 2) {
-                    store.fetchComics(last_trendyComic.author, last_trendyComic.permlink, last_newComic.author, last_newComic.permlink);
-                }
-
+                    store.fetchComics(undefined, last_trendyComic.author, last_trendyComic.permlink, last_newComic.author, last_newComic.permlink);
+                } 
             } catch (error) {
                 console.log(error);
             }
         },
-        async fetchNovels(last_trendy_author, last_trendy_permlink, last_new_author, last_new_permlink) {
+        async fetchNovels(searchTag, last_trendy_author, last_trendy_permlink, last_new_author, last_new_permlink) {
             this.trendyNovelState = "pending";
+            let tag = searchTag || "inkito-novels"; 
             let last_trendyNovel = {};
             try {
                 const trendyNovelIds = await client.database
                     .getDiscussions("trending",
                         {
-                            tag: "inkito-novels",
+                            tag: tag,
                             limit: 32,
                             start_author: last_trendy_author,
                             start_permlink: last_trendy_permlink
@@ -650,7 +651,7 @@ export function StoreProvider({ children }) {
                 const createdNovelIds = await client.database
                     .getDiscussions("created",
                         {
-                            tag: "inkito-novels",
+                            tag: tag,
                             limit: 32,
                             start_author: last_new_author,
                             start_permlink: last_new_permlink
@@ -685,7 +686,7 @@ export function StoreProvider({ children }) {
 
                 // Incorporate lazy load
                 if (createdNovelIds.length > 1 || trendyNovelIds.length > 1) {
-                    store.fetchNovels(last_trendyNovel.author, last_trendyNovel.permlink, last_newNovel.author, last_newNovel.permlink);
+                    store.fetchNovels(undefined, last_trendyNovel.author, last_trendyNovel.permlink, last_newNovel.author, last_newNovel.permlink);
                 }
 
             } catch (error) {
@@ -694,6 +695,9 @@ export function StoreProvider({ children }) {
         },
         async fetchPermlinks(author, seriesTitle, last_author, last_permlink, slice) {
             let seriesId = `${author}-${seriesTitle}`;
+            if (seriesTitle === "series") {
+                seriesId = author;
+            }
             this.seriesInfo = {};
             this.seriesInfo.author = author;
             this.seriesInfo.series_title = seriesTitle;
