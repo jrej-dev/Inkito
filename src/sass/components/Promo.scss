@@ -33,7 +33,7 @@
     margin: 0.5em 0.5em;
     height: 6em;
     min-width: 10em;
-    max-width: 15em;
+    max-width: 20em;
     border: 2px double $darkest-color;
     overflow: hidden;
     &:hover {
@@ -70,6 +70,23 @@
     }
     .empty {
       display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 830px) {
+  .promoBanner {
+    .promoBox {
+      min-width: 8em;
+      flex-basis: 40%;
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+    .promoLink {
+      order: -1;
+      flex-basis: 100%;
     }
   }
 }

@@ -54,7 +54,7 @@ export function StoreProvider({ children }) {
             {
                 title: "Shades Of Men",
                 author: "Jrej",
-                thumbnail: "https://picsum.photos/500/300",
+                thumbnail: "https://picsum.photos/400/300",
                 link: "https://www.inkito.io/comicReader/jrej/ghoulredone"
             },
             {

@@ -71,10 +71,12 @@ const PanelBlocks = ({ type, newData, trendyData, activeTrend, panelBlockNumber 
                     <TrendyPanel                    
                       content={trendy[j]}
                       onClick={contentClickHandle}
+                      user={toJS(store.userDetail)}
                     />
                     <NewPanel                
                       content={fresh[j]}
                       onClick={contentClickHandle}
+                      user={toJS(store.userDetail)}
                     />
                   </div>
                 )
@@ -84,10 +86,12 @@ const PanelBlocks = ({ type, newData, trendyData, activeTrend, panelBlockNumber 
                     <NewPanel      
                       content={fresh[j]}
                       onClick={contentClickHandle}
+                      user={toJS(store.userDetail)}
                     />
                     <TrendyPanel 
                       content={trendy[j]}
                       onClick={contentClickHandle}
+                      user={toJS(store.userDetail)}
                    />
                   </div>
                 )
@@ -98,6 +102,7 @@ const PanelBlocks = ({ type, newData, trendyData, activeTrend, panelBlockNumber 
                   key={trendy[j].title}           
                   content={trendy[j]}
                   onClick={contentClickHandle}
+                  user={toJS(store.userDetail)}
                 />
             )
           } else if (fresh[j] && trendy[j] === undefined) {
@@ -106,6 +111,7 @@ const PanelBlocks = ({ type, newData, trendyData, activeTrend, panelBlockNumber 
                 key={fresh[j].title}
                 content={fresh[j]}
                 onClick={contentClickHandle}
+                user={toJS(store.userDetail)}
               />
             )
           } 

@@ -424,16 +424,16 @@ const PublishPage = ({ publishState }) => {
             tagList = tagList.filter(tag => tag !== '');
         }
         if (type === "comic") {
-            tagList.unshift("inkito-comics", seriesId);
+            tagList.unshift("art","comics","drawing","inkito-comics", seriesId);
         } else if (type === "novel") {
-            tagList.unshift("inkito-novels", seriesId);
+            tagList.unshift("fiction","story","writing","inkito-novels", seriesId);
         }
         if (categories.length > 0) {
             let catList = categories.map(cat => cat.split(" ").join("").toLowerCase());
             tagList = [...tagList, ...catList];
         }
-        if (tagList.length > 5) {
-            let overFlow = tagList.length - 5;
+        if (tagList.length > 10) {
+            let overFlow = tagList.length - 10;
             tagList.splice(-1, overFlow);
         }
 
@@ -708,7 +708,7 @@ const PublishPage = ({ publishState }) => {
                                 {
                                     series === "new" ?
                                         <div className="input tags pa-h">
-                                            <label className="flex row"><h2>Categories</h2> <div className="pa-h"><p>(3 categories max)</p></div></label>
+                                            <label className="flex row"><h2>Categories</h2> <div className="pa-h"><p>(5 categories max)</p></div></label>
                                             <div className="flex wrap pa">
                                                 {store.categories.filter(cat => cat !== "All Categories").map(category => {
                                                     if (categories.length >= 3) {
@@ -725,7 +725,7 @@ const PublishPage = ({ publishState }) => {
                                         </div>
                                         :
                                         <div className="input tags pa-h">
-                                            <label className="flex row"><h2>Tags</h2> <div className="pa-h"><p>(3 tags max)</p></div></label>
+                                            <label className="flex row"><h2>Tags</h2> <div className="pa-h"><p>(5 tags max)</p></div></label>
                                             <wired-input
                                                 type="text"
                                                 value={tags}
