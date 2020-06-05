@@ -12,7 +12,8 @@
     }
     flex-direction: row;
     width: 100%;
-    height: 10em;
+    height: 7em;
+    padding-top: 0.5em;
     color: $darkest-color;
     background-position:center;
     background-repeat:no-repeat;
@@ -27,6 +28,7 @@
   
   .fullHero {
     @extend .hero;
+    height: 9em;
     img {
       max-width: 10em;
     }

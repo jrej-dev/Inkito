@@ -24,8 +24,8 @@ const Faq = () => {
             q: "What is Hive?",
             a: [
                 "Hive is a blockchain created in 2020. It was forked from the Steem blockchain.",
-                "It's benefit compared to other blockchains is that it allows 3 second transactions which are free.",
-                "Using the capabilities of this new technology, decentralized applications have been developped in order to post content and collect rewards."
+                "Its benefit compared to other blockchains is that it allows 3 second transactions which are free.",
+                "Using the capabilities of this new technology, decentralized applications have been developed in order to post content and collect rewards."
             ]
         },
         {
