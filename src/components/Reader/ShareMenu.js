@@ -47,7 +47,7 @@ const ShareMenu = ({ image, shareIsActive, bottom }) => {
                     <FacebookIcon size={32} round={true} />
                 </FacebookShareButton>
 
-                <TwitterShareButton url={window.location.href} title={"Check this out."} hashtags={["inkito"]} via={"Inkito"}>
+                <TwitterShareButton url={window.location.href} title={"Check this out."} hashtags={["inkito"]} via={"inkito_io"}>
                     <TwitterIcon size={32} round={true} />
                 </TwitterShareButton>
 
