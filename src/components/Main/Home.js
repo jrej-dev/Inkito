@@ -73,7 +73,7 @@ const Home = () => {
       <Nav />
       <div onClick={() => store.toggleNavMenu(false)}>
         <Hero />
-        <Promo />
+        {/*<Promo />*/}
         <ComicContent />
         <Link to="/comics">
           <h3 className="more">See more...</h3>
