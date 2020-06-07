@@ -116,4 +116,14 @@
             }
         }
     }
+    .only-new {
+        .new-panel {
+            .panel-banner {
+                > a:first-child {
+                    display: none;
+                }
+            }
+        }
+    }
+    
 }
