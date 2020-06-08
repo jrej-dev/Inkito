@@ -114,6 +114,9 @@
             h3 {
                 margin: 0.5em 0;
             }
+            > * {
+             flex-basis: 45%;
+            }
         }
     }
     .only-new {
