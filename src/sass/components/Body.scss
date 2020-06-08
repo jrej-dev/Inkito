@@ -111,8 +111,10 @@
     .content-display {
         .title-line {
             width: 100%;
+            h2 {
+             flex-basis: 100%;
+            }
             h3 {
-              flex-basis: 100%;
               margin: 0.5em 0;
             }
         }
