@@ -152,9 +152,4 @@ button.hide {
     background: Transparent no-repeat;
     cursor:pointer;
     overflow: hidden;
-    outline-color: $primary-color;
-}
-
-.focus:focus {
-    outline-color: $secondary-color;
 }

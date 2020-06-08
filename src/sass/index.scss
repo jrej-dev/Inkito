@@ -1,5 +1,6 @@
-@import './abstracts/variables';
-@import './abstracts/mixins';
+@import "./abstracts/variables";
+@import "./abstracts/mixins";
+@import "./abstracts/helpers";
 
 body {
   cursor: default;
@@ -7,14 +8,33 @@ body {
   padding: 0;
   overflow-x: hidden;
   color: $darkest-color;
-  font-family: -apple-system, BlinkMacSystemFont, 'Patrick Hand', 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Patrick Hand", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Patrick Hand', 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Patrick Hand", "Courier New", monospace;
+}
+
+body:not(.user-is-tabbing) {
+  button:focus,
+  input:focus,
+  select:focus,
+  textarea:focus,
+  a:focus {
+    outline: none;
+  }
+}
+
+body.user-is-tabbing {
+  button:focus,
+  input:focus,
+  select:focus,
+  textarea:focus,
+  a:focus {
+    padding: 0.1em 0.3em;
+    outline-color: $secondary-color;
+  }
 }

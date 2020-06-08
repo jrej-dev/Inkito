@@ -46,11 +46,13 @@ function ContentDisplay({ type, newData, trendyData, activeCategory, activeTrend
 
   const listedCategories = store.categories.map(name => {
     return (
-      <li
+      <button
         className={activeCategory === name ? name + " isActive" : name}
-        onClick={categoryClickHandle} key={name}>
-        {name}
-      </li>
+        onClick={categoryClickHandle} key={name}
+        style={{border: "none"}}
+        >
+          {name}
+      </button>
     )
   })
 
@@ -59,17 +61,17 @@ function ContentDisplay({ type, newData, trendyData, activeCategory, activeTrend
       <div className="title-line">
         <Link to={`/${type}`}>
           <h2 className="capital">
-            {type}  
+            {type}
           </h2>
         </Link>
-          <button className={activeTrend === "all" ? "trend isActiveUnderlined hide" : "trend hide"} onClick={trendClickHandle}>
-            <h3 className="all">All</h3>
+          <button className={activeTrend === "all" ? "trend all isActiveUnderlined hide" : "trend all hide "} onClick={trendClickHandle}>
+              <h3 className="all">All</h3>
           </button>
-          <button className={activeTrend === "trendy" ? "trend isActiveUnderlined hide" : "trend hide"} onClick={trendClickHandle}>
+          <button className={activeTrend === "trendy" ? "trend trendy isActiveUnderlined hide" : "trend trendy hide"} onClick={trendClickHandle}>
             <img className="icon trending-icon trendy" src={TrendyIcon} alt="fire logo" />
             <h3 className="trendy">Trending</h3>
           </button>
-        <button className={activeTrend === "new" ? "trend isActiveUnderlined hide" : "trend hide"} onClick={trendClickHandle}>
+        <button className={activeTrend === "new" ? "trend new isActiveUnderlined hide" : "trend new hide"} onClick={trendClickHandle}>
           <img className="icon new-icon new" src={NewIcon} alt="green arrow" />
           <h3 className="new">New</h3>
         </button>

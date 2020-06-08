@@ -16,17 +16,21 @@ function TrendyPanel({ content, onClick, user }) {
     <div className="trendy-card">
       <wired-card elevation="3" className="trendy-card">
         <div className="trendy-panel">
-          <div className="panel-image" onClick={() => onClick({ author, seriesTitle })}>
+          <button className="panel-image hide" onClick={() => onClick({ author, seriesTitle })}>
             {/*Create a default image instead of random image*/}
             <img className="panel-main-image" src={content.image ? content.image : ""} alt="panel-main-thumbnail" />
             <img className="panel-icon" src={TrendyIcon} alt="fire-icon" />
-          </div>
+          </button>
           <div className="panel-banner">
             <Link to={`/@${content.author}`}>
               <img className="panel-profile-pic" src={`https://images.hive.blog/u/${content.author}/avatar` ? `https://images.hive.blog/u/${content.author}/avatar` : content.profile_image.includes("https") ? content.profile_image : DefaultAvatar} alt=" " />
             </Link>
             <span className="panel-info">
-              <span className="panel-title" onClick={() => onClick({ author, seriesTitle })}>{content.title.length > 60 ? `${content.title.slice(0, 60)}...` : content.title}</span>
+              <span className="panel-title" onClick={() => onClick({ author, seriesTitle })}>
+                <button className="hide pointer">
+                  {content.title.length > 60 ? `${content.title.slice(0, 60)}...` : content.title}
+                </button>
+              </span>
               <span className="panel-dash">{" / "}</span>
                 <Link to={`/@${content.author}`}>
                   <span className="panel-creator capital">

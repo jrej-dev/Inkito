@@ -36,10 +36,20 @@ const App = () => {
     if (store.loginLink === "") {
       store.initHSLogin();
     }
-
+    window.addEventListener('keydown', handleFirstTab);
     window.addEventListener('scroll', handleScroll);
-    return () => {window.removeEventListener('scroll', handleScroll) }
+    return () => {
+      window.removeEventListener('scroll', handleScroll); 
+      window.removeEventListener('keydown', handleFirstTab);
+    }
   })
+
+  const handleFirstTab = (e) => {
+    if (e.keyCode === 9) { // the "I am a keyboard user" key
+        document.body.classList.add('user-is-tabbing');
+        window.removeEventListener('keydown', handleFirstTab);
+    }
+  }
 
   const handleScroll = () => {
     var st = document.documentElement.scrollTop;

@@ -38,20 +38,22 @@ const NavReader = ({ firstPage, currentPage, lastPage, page, seriesLength, onCli
             <p className="beta">Alpha</p>
           </li>
 
-          <li className="flex arrows ">
-            <img className="icon first-arrow" src={LeftArrow} alt="first-arrow" onClick={onClick} />
-            <div className={page === 0 ? "disabled flex previous" : "flex previous"} onClick={page === 0 ? null : onClick}>
+          <li className="flex arrows">
+            <button className="hide first-arrow" onClick={onClick}>
+              <img className="icon first-arrow" src={LeftArrow} alt="first-arrow"/>
+            </button>
+            <button className={page === 0 ? "disabled flex previous hide left-arrow" : "flex previous hide left-arrow"} onClick={page === 0 ? null : onClick}>
               <img className="icon left-arrow" src={LeftArrow} alt="left-arrow" />
               <p className="left-arrow">Previous</p>
-            </div>
+            </button>
             <div className="flex episode-number">
               <p className={page === 0 ? "episode hidden" : "episode"}>Episode</p>
               <p>{page === 0 ? "Cover" : page}</p>
             </div>
-            <div className={page === seriesLength - 1 ? "disabled flex next" : "flex next"} onClick={page === seriesLength - 1 ? null : onClick}>
+            <button className={page === seriesLength - 1 ? "disabled flex next hide right-arrow" : "flex next hide right-arrow"} onClick={page === seriesLength - 1 ? null : onClick}>
               <p className="right-arrow">Next</p>
               <img className="icon right-arrow" src={RightArrow} alt="right-arrow" />
-            </div>
+            </button>
             <img className="icon last-arrow" src={RightArrow} alt="last-arrow" onClick={onClick} />
           </li>
 
@@ -83,19 +85,23 @@ const NavReader = ({ firstPage, currentPage, lastPage, page, seriesLength, onCli
             </h1>
           </li>
           <li className="flex arrows pa-h">
-            <div className="disabled flex previous" >
+            <button className="disabled flex previous hide" >
               <img className="icon left-arrow" src={LeftArrow} alt="left-arrow" />
               <p className="left-arrow">Previous</p>
-            </div>
-            <div className="disabled flex next">
+            </button>
+            <button className="disabled flex next hide">
               <p className="right-arrow">Next</p>
               <img className="icon right-arrow" src={RightArrow} alt="right-arrow" />
-            </div>
+            </button>
           </li>
           <li className="flex icons">
-            <img className="icon heart" src={Heart} alt="heart" />
+            <button className="hide">
+              <img className="icon heart" src={Heart} alt="heart" />
+            </button>
             <ShareMenu />
-            <img className="icon follow" src={Bell} alt="follow bell" />
+            <button className="hide">
+              <img className="icon follow" src={Bell} alt="follow bell" />
+            </button>
           </li>
         </ul>
       </div>
