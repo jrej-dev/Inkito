@@ -63,7 +63,7 @@ const Login = ({ loginIsActive }) => {
           </div>
           
           <div className="buttons">
-            <button type="submit" className="send-btn">Send</button>
+            <button type="submit" className="send-btn white">Send</button>
             <p className="pointer" onClick={handleCancel}>Cancel</p>
           </div>
         </form>

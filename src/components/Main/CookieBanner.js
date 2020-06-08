@@ -20,8 +20,8 @@ function CookieBanner() {
       <div className={store.cookieConsent === null ? "cookie-banner flex-even row pa" : "hidden"}>
           <p>Inkito can use cookies to provide a better browsing experience. By giving your consent you agree to our Privacy Policy and to our use of cookies.</p>
           <div className="buttons flex-even">
-              <button className="cookie" onClick={cookieConsent}> Yes, I want cookies</button>
-              <button className="no-cookie" onClick={cookieConsent}> No, thank you</button>
+              <button className="cookie white" onClick={cookieConsent}> Yes, I want cookies</button>
+              <button className="no-cookie white" onClick={cookieConsent}> No, thank you</button>
           </div>
       </div>
     );

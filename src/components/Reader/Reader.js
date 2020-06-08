@@ -77,8 +77,8 @@ const Reader = ({ type }) => {
         blogs = [
           <div key="zoom-banner" className={store.zoomIsActive ? "zoom-banner flex-start isActive" : "zoom-banner flex-start"} onClick={zoomHandle}>
             <div className="zoom-cover">Zoom</div>
-            <button className="zoom-in zoom-btn flex">+</button>
-            <button className="zoom-out zoom-btn flex">-</button>
+            <button className="zoom-in zoom-btn flex white">+</button>
+            <button className="zoom-out zoom-btn flex white">-</button>
           </div>
         ];
       } else {

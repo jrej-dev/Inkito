@@ -57,28 +57,28 @@ function ContentDisplay({ type, newData, trendyData, activeCategory, activeTrend
   return (
     <div className={activeTrend === "new" ? "content-display only-new" : "content-display"}>
       <div className="title-line">
-        <h2 className="capital">
-          <Link to={`/${type}`}>
-            {type}
-          </Link>
-        </h2>
-        <div className={activeTrend === "all" ? "trend isActiveUnderlined" : "trend"} onClick={trendClickHandle}>
-          <h3 className="all">All</h3>
-        </div>
-        <div className={activeTrend === "trendy" ? "trend isActiveUnderlined" : "trend"} onClick={trendClickHandle}>
-          <img className="icon trending-icon trendy" src={TrendyIcon} alt="fire logo" />
-          <h3 className="trendy">Trending</h3>
-        </div>
-        <div className={activeTrend === "new" ? "trend isActiveUnderlined" : "trend"} onClick={trendClickHandle}>
+        <Link to={`/${type}`}>
+          <h2 className="capital">
+            {type}  
+          </h2>
+        </Link>
+          <button className={activeTrend === "all" ? "trend isActiveUnderlined hide" : "trend hide"} onClick={trendClickHandle}>
+            <h3 className="all">All</h3>
+          </button>
+          <button className={activeTrend === "trendy" ? "trend isActiveUnderlined hide" : "trend hide"} onClick={trendClickHandle}>
+            <img className="icon trending-icon trendy" src={TrendyIcon} alt="fire logo" />
+            <h3 className="trendy">Trending</h3>
+          </button>
+        <button className={activeTrend === "new" ? "trend isActiveUnderlined hide" : "trend hide"} onClick={trendClickHandle}>
           <img className="icon new-icon new" src={NewIcon} alt="green arrow" />
           <h3 className="new">New</h3>
-        </div>
+        </button>
       </div>
       <ul className="categories">
         {listedCategories}
       </ul>
       <div className="panels">
-        <PanelBlocks type={type} newData={newData} trendyData={trendyData} activeTrend={activeTrend} panelBlockNumber={panelBlockNumber}/>
+        <PanelBlocks type={type} newData={newData} trendyData={trendyData} activeTrend={activeTrend} panelBlockNumber={panelBlockNumber} />
       </div>
     </div>
   );

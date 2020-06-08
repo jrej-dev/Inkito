@@ -329,7 +329,7 @@ const PublishPage = ({ publishState }) => {
                             series: series
                         }
                     }}>
-                        <button className="add-ep-btn w-90" onClick={() => { window.location.reload() }}>
+                        <button className="add-ep-btn w-90 white" onClick={() => { window.location.reload() }}>
                             Add Episode
                         </button>
                     </Link>);
@@ -605,7 +605,7 @@ const PublishPage = ({ publishState }) => {
                                         value={imageLink}
                                         ref={imageLinkInput}
                                     />
-                                    <button onClick={addImageLink}>Add</button>
+                                    <button className="white" onClick={addImageLink}>Add</button>
                                 </div>
 
                                 <div className={type === "novel" && series !== "new" ? "hidden" : "flex col"}>
@@ -766,9 +766,9 @@ const PublishPage = ({ publishState }) => {
                                         <wired-spinner class="custom" spinning duration="1000" />
                                         :
                                         location.state && location.state.seriesInfo ?
-                                            <button className="publish-btn" onClick={handleSubmit}> Update </button>
+                                            <button className="publish-btn white" onClick={handleSubmit}> Update </button>
                                             :
-                                            < button className="publish-btn" onClick={handleSubmit}> Publish</button>
+                                            < button className="publish-btn white" onClick={handleSubmit}> Publish</button>
 
                                     }
 

@@ -160,7 +160,7 @@ const Faq = () => {
                         <img className="faq-img" src={FAQImage} alt="Questions" />
                         <h1>FAQ</h1>
                     </div>
-                    
+
                     <h3>Fundamentals</h3>
 
                     {
@@ -172,9 +172,13 @@ const Faq = () => {
 
                                         {
                                             question === object.q ?
-                                                <img className="icon toggle" src={UpArrow} alt="up-arrow" onClick={() => { setQuestion("") }} />
+                                                <button className="hide">
+                                                    <img className="icon toggle" src={UpArrow} alt="up-arrow" onClick={() => { setQuestion("") }} />
+                                                </button>
                                                 :
-                                                <img className="icon toggle" src={DownArrow} alt="down-arrow" onClick={() => { setQuestion(object.q) }} />
+                                                <button className="hide">
+                                                    <img className="icon toggle" src={DownArrow} alt="down-arrow" onClick={() => { setQuestion(object.q) }} />
+                                                </button>
                                         }
                                     </div>
                                     {
@@ -207,9 +211,13 @@ const Faq = () => {
 
                                         {
                                             question === object.q ?
-                                                <img className="icon toggle" src={UpArrow} alt="up-arrow" onClick={() => { setQuestion("") }} />
+                                                <button className="hide">
+                                                    <img className="icon toggle" src={UpArrow} alt="up-arrow" onClick={() => { setQuestion("") }} />
+                                                </button>
                                                 :
-                                                <img className="icon toggle" src={DownArrow} alt="down-arrow" onClick={() => { setQuestion(object.q) }} />
+                                                <button className="hide">
+                                                    <img className="icon toggle" src={DownArrow} alt="down-arrow" onClick={() => { setQuestion(object.q) }} />
+                                                </button>
                                         }
                                     </div>
                                     {
@@ -242,9 +250,13 @@ const Faq = () => {
 
                                         {
                                             question === object.q ?
-                                                <img className="icon toggle" src={UpArrow} alt="up-arrow" onClick={() => { setQuestion("") }} />
+                                                <button className="hide">
+                                                    <img className="icon toggle" src={UpArrow} alt="up-arrow" onClick={() => { setQuestion("") }} />
+                                                </button>
                                                 :
-                                                <img className="icon toggle" src={DownArrow} alt="down-arrow" onClick={() => { setQuestion(object.q) }} />
+                                                <button className="hide">
+                                                    <img className="icon toggle" src={DownArrow} alt="down-arrow" onClick={() => { setQuestion(object.q) }} />
+                                                </button>
                                         }
                                     </div>
                                     {
@@ -277,9 +289,13 @@ const Faq = () => {
 
                                         {
                                             question === object.q ?
-                                                <img className="icon toggle" src={UpArrow} alt="up-arrow" onClick={() => { setQuestion("") }} />
+                                                <button className="hide">
+                                                    <img className="icon toggle" src={UpArrow} alt="up-arrow" onClick={() => { setQuestion("") }} />
+                                                </button>
                                                 :
-                                                <img className="icon toggle" src={DownArrow} alt="down-arrow" onClick={() => { setQuestion(object.q) }} />
+                                                <button className="hide">
+                                                    <img className="icon toggle" src={DownArrow} alt="down-arrow" onClick={() => { setQuestion(object.q) }} />
+                                                </button>
                                         }
                                     </div>
                                     {

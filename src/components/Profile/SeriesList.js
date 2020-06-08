@@ -30,7 +30,7 @@ const SeriesList = () => {
                                                 dashboard: true,
                                             }
                                         }}>
-                                            <button>
+                                            <button className="white">
                                                 <img src={Edit} className="sm-icon icon" alt="Edit" />
                                             </button>
                                         </Link>
@@ -41,9 +41,9 @@ const SeriesList = () => {
                                                 series: series.title
                                             }
                                         }}>
-                                            <button className="add-ep-btn">
+                                            <button className="add-ep-btn white">
                                                 +
-                                        </button>
+                                            </button>
                                         </Link>
 
                                     </div>
@@ -72,7 +72,7 @@ const SeriesList = () => {
                             {seriesList}
                             <li className={user === author ? "add-series flex-start" : "hidden"}>
                                 <Link to={`/publish?user=${user}`}>
-                                    <button className="add-sr-btn">+</button>
+                                    <button className="add-sr-btn white">+</button>
                                 </Link>
                             </li>
                         </ul>
@@ -105,7 +105,7 @@ const SeriesList = () => {
                                                 dashboard: true
                                             }
                                         }}>
-                                            <button>
+                                            <button className="white">
                                                 <img src={Edit} className="sm-icon icon" alt="Edit" />
                                             </button>
                                         </Link>
@@ -116,7 +116,7 @@ const SeriesList = () => {
                                                 series: series.title
                                             }
                                         }}>
-                                            <button className="add-ep-btn">
+                                            <button className="add-ep-btn white">
                                                 +
                                             </button>
                                         </Link>
@@ -152,7 +152,7 @@ const SeriesList = () => {
                                         type: "novel"
                                     }
                                 }}>
-                                    <button className="add-sr-btn">+</button>
+                                    <button className="add-sr-btn white">+</button>
                                 </Link>
                             </li>
                         </ul>

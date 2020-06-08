@@ -24,7 +24,7 @@ const NavMenu = ({ navMenuIsActive, user }) => {
   } else {
     return (
       <li className="login flex row">
-        <p className="pointer" onClick={() => { store.toggleLogin() }}>Login</p>
+        <p className="pointer focus" onClick={() => { store.toggleLogin() }}><button className="hide">Login</button></p>
         <p>/</p>
         <a href="https://hiveonboard.com/create-account?redirect_url=https://inkito.io" title="Hive register page">Register</a>
       </li>
