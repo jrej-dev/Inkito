@@ -37,7 +37,7 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
   const infoClickHandle = (e) => {
     if (e.target.className.includes("toggle")) {
       store.toggleInfoTab(page);
-    } else if (e.target.className.includes("comments")) {
+    } else if (e.target.className.includes("comment")) {
       store.toggleComments(page);
     }
   }

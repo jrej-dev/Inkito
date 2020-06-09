@@ -131,12 +131,12 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
               <div className="comment-title flex reset" key="comment-title">
                 {content.replies.length > 0 ?
                   commentIsActive ?
-                    <button className="hide comments" onClick={onClick}>
-                      <img className="icon comments" src={UpArrow} alt="up-arrow" />
+                    <button className="hide comment" onClick={onClick}>
+                      <img className="icon comment" src={UpArrow} alt="up-arrow" />
                     </button>
                     :
-                    <button className="hide comments" onClick={onClick}>
-                      <img className="icon comments" src={DownArrow} alt="down-arrow" />
+                    <button className="hide comment" onClick={onClick}>
+                      <img className="icon comment" src={DownArrow} alt="down-arrow" />
                     </button>
                   :
                   ""
