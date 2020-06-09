@@ -34,7 +34,6 @@ body.user-is-tabbing {
   select:focus,
   textarea:focus,
   a:focus {
-    padding: 0.1em 0.3em;
     outline-color: $secondary-color;
   }
 }

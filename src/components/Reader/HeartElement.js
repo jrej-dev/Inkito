@@ -46,35 +46,45 @@ const HeartElement = ({ userDetail, content, page, voteState }) => {
                 )
             } else if (content.active_votes.some(vote => vote.voter === userName)) {
                 return (
-                    <img className="icon heart" src={RedHeart} alt="red-heart" /*add dislike function here.*/ />
+                    <button className="hide" /*add dislike function here.*/>
+                        <img className="icon heart" src={RedHeart} alt="red-heart"/>
+                    </button>
                 )
             } else if (!content.active_votes.some(vote => vote.voter === store.userDetail.name) && voteState !== content.permlink) {
                 if (isPostActive(content.created.slice(0, 10))) {
                     return (
-                        <img className="icon heart" src={GreyHeart} alt="grey-heart" onClick={() => { handleVote(userName) }} />
+                        <button className="hide" onClick={() => { handleVote(userName) }}>
+                            <img className="icon heart" src={GreyHeart} alt="grey-heart" />
+                        </button>
                     )
                 } else {
                     return (
-                        <img className="icon heart" src={Heart} alt="heart" onClick={() => { handleVote(userName) }} />
+                        <button className="hide" onClick={() => { handleVote(userName) }}>
+                            <img className="icon heart" src={Heart} alt="heart" />
+                        </button>
                     )
                 }
             }
         } else {
             return (
-                <img className="icon heart" src={Heart} alt="heart" onClick={() => {
+                <button className="hide" onClick={() => {
                     alert.show('Please login first.', {
                         timeout: 2000, // custom timeout just for this one alert
                     })
-                }} />
+                }}>
+                    <img className="icon heart" src={Heart} alt="heart" />
+                </button>
             )
         }
     } else {
         return (
-            <img className="icon heart" src={Heart} alt="heart" onClick={() => {
+            <button className="hide" onClick={() => {
                 alert.show('Please login first.', {
                     timeout: 2000, // custom timeout just for this one alert
                 })
-            }} />
+            }}>
+                <img className="icon heart" src={Heart} alt="heart" />
+            </button>
         )
     }
 }

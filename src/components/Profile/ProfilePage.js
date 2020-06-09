@@ -61,7 +61,7 @@ const ProfilePage = () => {
                 return (
                     <div className="profile-info">
                         <div className="edit-banner flex-end">
-                            {user === author.name ? <p className="edit pointer" onClick={handleEdit}>Edit</p> : ""}
+                            {user === author.name ? <button className="hide" onClick={handleEdit}><p className="edit pointer">Edit</p></button> : ""}
                         </div>
                         <div className="author reset">
                             <img

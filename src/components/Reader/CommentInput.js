@@ -87,7 +87,9 @@ const CommentInput = ({ content, userDetail, page, commentState }) => {
                         </div>
                         <div className="comment-bottom-banner flex-start pa-hh">
                             <button type="submit" className="send-btn white">Send</button>
-                            <p className="pointer" onClick={() => { store.toggleReplyIsActive(content.permlink) }}>Cancel</p>
+                            <button className="hide pa" onClick={() => { store.toggleReplyIsActive(content.permlink) }}>
+                                <p className="pointer">Cancel</p>
+                            </button>
                         </div>
                     </form>
                 </div>

@@ -114,18 +114,22 @@
         margin-right: 0.5em;
     }
     .zoom-cover {
-        width: 2em;
-        height: 100%;
-        border-radius: 7px 0 0 7px;
-        text-shadow: 1px 1px 1px $darkest-color;
-        color: $light-color;
-        background-color: $primary-color;
-        text-orientation: sideways;
-        writing-mode: vertical-lr;
-        //sideways not compatible on Chrome & Safari
-        writing-mode: sideways-lr;
-        cursor:pointer;
-    }     
+        margin-right: 0.5em;
+        > p {    
+            margin: 0;
+            width: 2em;
+            height: 100%;
+            border-radius: 7px 0 0 7px;
+            text-shadow: 1px 1px 1px $darkest-color;
+            color: $light-color;
+            background-color: $primary-color;
+            text-orientation: sideways;
+            writing-mode: vertical-lr;
+            //sideways not compatible on Chrome & Safari
+            writing-mode: sideways-lr;
+            cursor:pointer;
+        }     
+    }
 }
 .isActive {
     right: 0;

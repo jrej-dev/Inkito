@@ -54,7 +54,9 @@ const NavReader = ({ firstPage, currentPage, lastPage, page, seriesLength, onCli
               <p className="right-arrow">Next</p>
               <img className="icon right-arrow" src={RightArrow} alt="right-arrow" />
             </button>
-            <img className="icon last-arrow" src={RightArrow} alt="last-arrow" onClick={onClick} />
+            <button className="hide last-arrow" onClick={onClick}>
+              <img className="icon last-arrow" src={RightArrow} alt="last-arrow"/>
+            </button>
           </li>
 
           <li className="flex post-title">

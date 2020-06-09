@@ -54,7 +54,9 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
       if (infoIsActive) {
         return (
           <div className="flex pa-h">
-            <img className="icon toggle" src={UpArrow} alt="up-arrow" onClick={onClick} />
+            <button className="hide toggle" onClick={onClick}>
+              <img className="icon toggle" src={UpArrow} alt="up-arrow" />
+            </button>
 
             <div className="time-block flex">
               <img className="icon clock" src={Clock} alt="clock" />
@@ -62,18 +64,22 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
             </div>
 
             <div className="reward-block flex">
-              <p>$ {(parseInt(reward, 10)/2).toFixed(2)}</p>
+              <p>$ {(parseInt(reward, 10) / 2).toFixed(2)}</p>
               <img className="sm-icon down-arrow" src={DownArrow} alt="down-arrow" />
             </div>
             <div className="vote-block flex">
               <p>{content.active_votes.length} likes</p>
               <img className="sm-icon down-arrow" src={DownArrow} alt="down-arrow" />
             </div>
-            
+
           </div>
         )
       } else {
-        return <img className="icon toggle" src={DownArrow} alt="down-arrow" onClick={onClick} />
+        return (
+          <button className="hide toggle" onClick={onClick}>
+            <img className="icon toggle" src={DownArrow} alt="down-arrow" />
+          </button>
+        )
       }
     }
 
@@ -84,30 +90,38 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
             <div className="info-banner">
               <div className="author-info flex col">
                 <Link to={`/@${content.author}`}>
-                  <img className="panel-profile-pic" src={`https://images.hive.blog/u/${content.author}/avatar` ?  `https://images.hive.blog/u/${content.author}/avatar` : seriesInfo.author_image ? seriesInfo.author_image.includes("https") ? seriesInfo.author_image : DefaultAvatar : DefaultAvatar} alt=" " />
+                  <img className="panel-profile-pic" src={`https://images.hive.blog/u/${content.author}/avatar` ? `https://images.hive.blog/u/${content.author}/avatar` : seriesInfo.author_image ? seriesInfo.author_image.includes("https") ? seriesInfo.author_image : DefaultAvatar : DefaultAvatar} alt=" " />
                   <div className="author-name">
                     <p className="capital">{content.author}</p>
                     <p>Creator</p>
                   </div>
                 </Link>
-                <BellElement className="bellElement" userDetail={userDetail} seriesInfo={seriesInfo} followState={followState} content={content}/>
+                <BellElement className="bellElement" userDetail={userDetail} seriesInfo={seriesInfo} followState={followState} content={content} />
               </div>
 
               <div className={type === "comics" ? "content-info" : "content-info none"}>
                 <wired-card>
-                  <ContentBody content={content} description={true}/>
+                  <ContentBody content={content} description={true} />
                 </wired-card>
               </div>
             </div>
 
             {userDetail.name ?
-              <p className="reply flex-end pointer" onClick={() => { store.toggleReplyIsActive(content.permlink) }}>Reply</p>
+              <p className="reply flex-end pointer" onClick={() => { store.toggleReplyIsActive(content.permlink) }}>
+                <button className="hide" >
+                  Reply
+                </button>
+              </p>
               :
               <p className="reply flex-end pointer" onClick={() => {
                 alert.show('Please login first.', {
                   timeout: 2000, // custom timeout just for this one alert
                 })
-              }}>Reply</p>
+              }}>
+                <button className="hide" >
+                  Reply
+                </button>
+              </p>
             }
             <div className="comments">
               {replyIsActive === content.permlink ? <CommentInput content={content} userDetail={userDetail} commentState={commentState} page={page} /> : <div className="hidden"><CommentInput content={content} userDetail={userDetail} commentState={commentState} /></div>}
@@ -115,7 +129,18 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
 
             <ul className="comments">
               <div className="comment-title flex reset" key="comment-title">
-                {content.replies.length > 0 ? commentIsActive ? <img className="icon comments" src={UpArrow} alt="up-arrow" onClick={onClick} /> : <img className="icon comments" src={DownArrow} alt="down-arrow" onClick={onClick} /> : ""}
+                {content.replies.length > 0 ?
+                  commentIsActive ?
+                    <button className="hide comments" onClick={onClick}>
+                      <img className="icon comments" src={UpArrow} alt="up-arrow" />
+                    </button>
+                    :
+                    <button className="hide comments" onClick={onClick}>
+                      <img className="icon comments" src={DownArrow} alt="down-arrow" />
+                    </button>
+                  :
+                  ""
+                }
                 <h3>{content.replies.length > 0 ? `Comments (${content.replies.length})` : "No Comments"} </h3>
                 <div className="line" />
               </div>
@@ -132,7 +157,7 @@ const InfoTab = ({ commentIsActive, content, infoIsActive, onClick, type, zoom, 
       <div className={zoom ? zoom === 90 ? "info-tab zoom-tab" : "info-tab" : "info-tab"}>
         <wired-card>
           <div className="info-card">
-            <div className="default-banner flex">
+            <div className="default-banner flex-between">
               <ActiveInfoTab />
               <HeartElement content={content} className="heartElement" page={page} userDetail={userDetail} voteState={voteState} />
             </div>

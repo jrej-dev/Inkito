@@ -37,7 +37,9 @@ const ShareMenu = ({ image, shareIsActive, bottom }) => {
 
     return (
         <div className={bottom ? "sharing bottom" : "sharing"}>
-            <img className="icon share" src={Share} alt="share arrow" onClick={handleClick} />
+            <button className="hide" onClick={handleClick}>
+                <img className="icon share" src={Share} alt="share arrow"/>
+            </button>
             <div className={shareIsActive ? "share-menu flex wrap pa" : "share-menu flex wrap pa hidden"}>
                 <EmailShareButton url={window.location.href} subject={"Check this out."} body={"Here is a great story I found on Inkito.io"}>
                     <EmailIcon size={32} round={true} />

@@ -318,7 +318,7 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
                 <div className="pa">
                     <div className="flex row pa-hh">
                         <button className="send-btn white" onClick={handleSubmit}>Update</button>
-                        <p className="pointer" onClick={handleCancel}>Cancel</p>
+                        <p className="pointer" onClick={handleCancel}><button className="hide">Cancel</button></p>
                     </div>
                 </div>
             </div>

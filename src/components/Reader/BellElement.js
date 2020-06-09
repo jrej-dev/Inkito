@@ -63,13 +63,19 @@ const BellElement = ({ followState, userDetail, seriesInfo, text, content }) => 
                     if (text) {
                         return (
                             <div className="flex row pointer follow">
-                                <p onClick={() => { handleUnfollow(username, author) }}>Followed</p>
-                                <img className="icon bell" src={GreenBell} alt="green-bell" onClick={() => { handleUnfollow(username, author) }} />
+                                <button className="hide" onClick={() => { handleUnfollow(username, author) }}>
+                                    <p>Followed</p>
+                                </button>
+                                <button className="hide" onClick={() => { handleUnfollow(username, author) }}>
+                                    <img className="icon bell" src={GreenBell} alt="green-bell" />
+                                </button>
                             </div>
                         )
                     } else {
                         return (
-                            <img className="icon bell" src={GreenBell} alt="green-bell" onClick={() => { handleUnfollow(username, author) }} />
+                            <button className="hide" onClick={() => { handleUnfollow(username, author) }}>
+                                <img className="icon bell" src={GreenBell} alt="green-bell" />
+                            </button>
                         )
                     }
 
@@ -77,13 +83,19 @@ const BellElement = ({ followState, userDetail, seriesInfo, text, content }) => 
                     if (text) {
                         return (
                             <div className="flex row pointer follow">
-                                <p onClick={() => { handleFollow(username, author) }}>Follow</p>
-                                <img className="icon bell" src={GreyBell} alt="grey-bell" onClick={() => { handleFollow(username, author) }} />
+                                <button className="hide" onClick={() => { handleFollow(username, author) }}>
+                                    <p>Follow</p>
+                                </button>
+                                <button className="hide" onClick={() => { handleFollow(username, author) }}>
+                                    <img className="icon bell" src={GreyBell} alt="grey-bell" />
+                                </button>
                             </div>
                         )
                     } else {
                         return (
-                            <img className="icon bell" src={GreyBell} alt="grey-bell" onClick={() => { handleFollow(username, author) }} />
+                            <button className="hide" onClick={() => { handleFollow(username, author) }}>
+                                <img className="icon bell" src={GreyBell} alt="grey-bell" />
+                            </button>
                         )
                     }
                 }
@@ -103,25 +115,31 @@ const BellElement = ({ followState, userDetail, seriesInfo, text, content }) => 
             if (text) {
                 return (
                     <div className="flex row pointer follow">
-                        <p onClick={() => {
+                        <button className="hide" onClick={() => {
                             alert.show('Please login first.', {
                                 timeout: 2000, // custom timeout just for this one alert
                             })
-                        }}>Follow</p>
-                        <img className="icon bell" src={Bell} alt="bell" onClick={() => {
+                        }}>
+                            <p>Follow</p>
+                        </button>
+                        <button className="hide" onClick={() => {
                             alert.show('Please login first.', {
                                 timeout: 2000, // custom timeout just for this one alert
                             })
-                        }} />
+                        }}>
+                            <img className="icon bell" src={Bell} alt="bell" />
+                        </button>
                     </div>
                 )
             } else {
                 return (
-                    <img className="icon bell" src={Bell} alt="bell" onClick={() => {
+                    <button className="hide" onClick={() => {
                         alert.show('Please login first.', {
                             timeout: 2000, // custom timeout just for this one alert
                         })
-                    }} />
+                    }}>
+                        <img className="icon bell" src={Bell} alt="bell" />
+                    </button>
                 )
             }
         }
@@ -130,27 +148,33 @@ const BellElement = ({ followState, userDetail, seriesInfo, text, content }) => 
         if (text) {
             return (
                 <div className="flex row pointer follow">
-                    <p onClick={() => {
+                    <button className="hide" onClick={() => {
                         alert.show('Please login first.', {
                             timeout: 2000, // custom timeout just for this one alert
                         })
                     }}>
-                        Follow
-                    </p>
-                    <img className="icon bell" src={Bell} alt="bell" onClick={() => {
+                        <p>
+                            Follow
+                        </p>
+                    </button>
+                    <button className="hide" onClick={() => {
                         alert.show('Please login first.', {
                             timeout: 2000, // custom timeout just for this one alert
                         })
-                    }} />
+                    }}>
+                        <img className="icon bell" src={Bell} alt="bell"/>
+                    </button>
                 </div>
             )
         } else {
             return (
-                <img className="icon bell" src={Bell} alt="bell" onClick={() => {
+                <button className="hide" onClick={() => {
                     alert.show('Please login first.', {
                         timeout: 2000, // custom timeout just for this one alert
                     })
-                }} />
+                }}>
+                    <img className="icon bell" src={Bell} alt="bell"  />
+                </button>
             )
         }
     }

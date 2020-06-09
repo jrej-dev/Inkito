@@ -68,6 +68,10 @@ const Reader = ({ type }) => {
     }
   }
 
+  const scrollBottom = () => {
+    document.documentElement.scrollTop = document.documentElement.offsetHeight;
+  }
+
   const ListedBlogs = () => {
     return useObserver(() => {
       var seriesData = toJS(store.seriesLinks);
@@ -75,8 +79,8 @@ const Reader = ({ type }) => {
       if (type === "comics") {
         // Adding zoom feature only for comics.
         blogs = [
-          <div key="zoom-banner" className={store.zoomIsActive ? "zoom-banner flex-start isActive" : "zoom-banner flex-start"} onClick={zoomHandle}>
-            <div className="zoom-cover">Zoom</div>
+          <div key="zoom-banner" className={store.zoomIsActive ? "zoom-banner flex-start isActive" : "zoom-banner flex-start hide"} onClick={zoomHandle}>
+            <button className="hide zoom-cover"><p className="cover">Zoom</p></button>
             <button className="zoom-in zoom-btn flex white">+</button>
             <button className="zoom-out zoom-btn flex white">-</button>
           </div>
@@ -129,7 +133,7 @@ const Reader = ({ type }) => {
   }
 
   const zoomHandle = (e) => {
-    if (e.target.className.includes("zoom-cover")) {
+    if (e.target.className.includes("cover")) {
       store.toggleZoomBanner();
     } else if (e.target.className.includes("zoom-in")) {
       store.updateZoom(20);
@@ -196,8 +200,8 @@ const Reader = ({ type }) => {
       if (store.seriesDetail.length > 0 && toJS(store.seriesDetail)[0]) {
         if (store.currentPage < store.seriesDetail.length - 1) {
           return (
-            <div className="scroll-text">
-              <p >Scroll to read more.</p>
+            <div className="scroll-text flex col">
+              <button className="hide" onClick={scrollBottom}>Scroll to read more.</button>
               <wired-spinner className="flex" class="custom" spinning duration="3000" />
             </div>
           )

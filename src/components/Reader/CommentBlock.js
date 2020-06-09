@@ -96,14 +96,24 @@ const CommentBlock = ({ content, reply, page, replyIsActive, userDetail, comment
                     </div>
 
                     {userDetail.name ?
-                        <p className="reply flex-end pointer" onClick={() => { store.toggleReplyIsActive(content.permlink) }}>Reply</p>
+                        <p className="reply flex-end pointer" onClick={() => { store.toggleReplyIsActive(content.permlink) }}>
+                            <button className="hide" >
+                                Reply
+                            </button>
+                        </p>
                         :
                         <p className="reply flex-end pointer" onClick={() => {
                             alert.show('Please login first.', {
                                 timeout: 2000, // custom timeout just for this one alert
                             })
-                        }}>Reply</p>
+                        }}>
+                            <button className="hide" >
+                                Reply
+                            </button>
+                        </p>
                     }
+
+
                 </div>
             </div>
 
