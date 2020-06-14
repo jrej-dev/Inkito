@@ -18,9 +18,7 @@ function CookieBanner() {
     return (
       <div className={store.cookieConsent === null ? "cookie-banner flex-even row pa" : "hidden"}>
           <p>Inkito uses cookies to provide a better browsing experience. By continuing to use this website you agree to our <Link to="/privacy">Privacy Policy</Link> and to our use of cookies.</p>
-          <div className="buttons flex-even">
-              <button className="cookie white" onClick={cookieConsent}>Ok</button>
-          </div>
+          <button className="cookie white" onClick={cookieConsent}>Ok</button>
       </div>
     );
   })

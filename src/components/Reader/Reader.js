@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
+import { useHistory } from "react-router-dom";
 
 import '../../sass/components/Reader.scss';
 
@@ -14,6 +15,7 @@ import AuthorBanner from './AuthorBanner';
 
 const Reader = ({ type }) => {
   const store = React.useContext(StoreContext);
+  const history = useHistory();
 
   var props = {};
 
@@ -25,8 +27,36 @@ const Reader = ({ type }) => {
 
     document.documentElement.scrollTop = 0;
     window.addEventListener('scroll', handleScroll);
-    return () => { window.removeEventListener('scroll', handleScroll); store.toggleNavMenu(false); store.toggleShareMenu(false); store.resetSeriesDetail(); }
+    
+    return () => { window.removeEventListener('scroll', handleScroll); store.toggleNavMenu(false); store.toggleShareMenu(false); store.resetSeriesDetail()}
   })
+
+  const bookmarkInit = (author, title) => {
+    var storedBookmarks = JSON.parse(localStorage.getItem("bookmarks"));
+    if (storedBookmarks) {
+      var reader = window.location.href.slice(window.location.href.indexOf("Reader")-5,window.location.href.indexOf("Reader")+6);
+      for (let bookmark of storedBookmarks) {
+        if (bookmark.id === `${author}-${title}` && bookmark.currentPage !== store.currentPage) {
+          history.push(`/${reader}/${author}/${title}/${bookmark.currentPage}`);
+          window.location.reload();
+          break;
+        }
+      }
+    }
+  }
+
+  const setBookmark = (author, title) => {
+    var storedBookmarks = JSON.parse(localStorage.getItem("bookmarks"));
+    
+    var bookmark = [];
+    if (storedBookmarks) {
+      storedBookmarks = storedBookmarks.filter(object => object.id !== `${author}-${title}`);
+      bookmark = [...storedBookmarks, {id: `${author}-${title}`, currentPage: store.currentPage}];
+    } else {
+      bookmark = [{id: `${author}-${title}`, currentPage: store.currentPage}];
+    }
+    localStorage.setItem("bookmarks", JSON.stringify(bookmark));
+  }
 
   const getUrlVars = () => {
     var address = window.location.href;
@@ -40,6 +70,8 @@ const Reader = ({ type }) => {
 
     if (params[2]) {
       props.currentPage = parseInt(params[2]);
+    } else {
+      bookmarkInit(props.author, props.seriesTitle);
     }
     return props;
   }
@@ -64,6 +96,7 @@ const Reader = ({ type }) => {
       if (store.currentPage + 1 < store.seriesLinks.length && store.seriesDetail[store.currentPage + 1]) {
         store.closeInfoTab();
         store.scrollCurrentPage(store.currentPage + 1);
+        setBookmark(props.author, props.seriesTitle);
       }
     }
   }
@@ -72,7 +105,7 @@ const Reader = ({ type }) => {
     document.documentElement.scrollTop = document.documentElement.offsetHeight;
   }
 
-  const ListedBlogs = () => {
+  let ListedBlogs = () => {
     return useObserver(() => {
       var seriesData = toJS(store.seriesLinks);
       var blogs = [];
@@ -130,6 +163,7 @@ const Reader = ({ type }) => {
       document.documentElement.scrollTop = 0;
       store.updateCurrentPage(store.seriesLinks.length - 1);
     }
+    setBookmark(props.author, props.seriesTitle);
   }
 
   const zoomHandle = (e) => {

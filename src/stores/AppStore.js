@@ -672,13 +672,13 @@ export function StoreProvider({ children }) {
                 //const fresh = [];
 
                 for (let id of newNovelIds) {
-                    if (this.newNovels.length === 0) {
+                    if (store.newNovels.length === 0) {
                         const novel = await store.fetchSeriesInfo(id);
-                        this.newNovels.push(novel);
+                        store.newNovels.push(novel);
                     } else {
-                        if (!this.newNovels.some(object => object.seriesId === id)) {
+                        if (!store.newNovels.some(object => object.seriesId === id)) {
                             const novel = await store.fetchSeriesInfo(id);
-                            this.newNovels.push(novel);
+                            store.newNovels.push(novel);
                         }
                     }
                 }
@@ -832,9 +832,11 @@ export function StoreProvider({ children }) {
                     let series = await store.fetchSeriesInfo(id);
                     store.authorInfo.series.push(series);
                 } else {
-                    if (store.authorInfo && !store.authorInfo.series.some(object => object.seriesId === id)) {
-                        let series = await store.fetchSeriesInfo(id);
-                        store.authorInfo.series.push(series);
+                    if (store.authorInfo && store.authorInfo.series) {
+                        if (!store.authorInfo.series.some(object => object.seriesId === id)){
+                            let series = await store.fetchSeriesInfo(id);
+                            store.authorInfo.series.push(series);
+                        }
                     }
                 }
             }

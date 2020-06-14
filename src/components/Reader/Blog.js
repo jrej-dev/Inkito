@@ -8,7 +8,7 @@ import InfoTab from './InfoTab';
 
 const Blog = ({ type, page, permlink, nextPermlink, author }) => {
   const store = React.useContext(StoreContext);
-
+  
   useEffect(() => {
     if (store.seriesDetail.length > page) {
       //Fetching page only if undefined
@@ -47,7 +47,7 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
   }
 
 
-  const Content = () => {
+  var Content = () => {
     return useObserver(() => {
       if (toJS(store.seriesDetail).length > 0 && toJS(store.seriesDetail)[page] && store.activeComments && store.activeInfoTab) {
         if (store.seriesDetailState === "error") {
