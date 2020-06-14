@@ -12,7 +12,7 @@ import ContentDisplay from '../../components/Main/ContentDisplay';
 const Home = () => {
   const store = React.useContext(StoreContext);
 
-  useEffect (() => { 
+  useEffect(() => {
     fetchContent();
     document.documentElement.scrollTop = 0;
     store.updateActiveComicCategory("All Categories");
@@ -27,16 +27,16 @@ const Home = () => {
     if (store.newComics.length === 0) {
       store.fetchComics();
       store.fetchComics("inkitocomics");
-    } 
-    if (store.newNovels.length === 0){
+    }
+    if (store.newNovels.length === 0) {
       store.fetchNovels();
       store.fetchNovels("inkitonovels");
     }
   }
-  
-  const ComicContent = () => {    
+
+  const ComicContent = () => {
     return useObserver(() => {
-      return <ContentDisplay 
+      return <ContentDisplay
         type={"comics"}
         newData={store.newComics}
         trendyData={store.trendingComics}
@@ -49,7 +49,7 @@ const Home = () => {
 
   const NovelContent = () => {
     return useObserver(() => (
-      <ContentDisplay 
+      <ContentDisplay
         type={"novels"}
         newData={store.newNovels}
         trendyData={store.trendingNovels}
@@ -61,29 +61,29 @@ const Home = () => {
   }
 
 
-  
+
   return (
     <>
-    <Helmet>
-      <html lang="en" />
-      <title>Inkito | Home</title>
-    </Helmet>
+      <Helmet>
+        <html lang="en" />
+        <title>Inkito | Home</title>
+      </Helmet>
 
-    <div className="home">
-      <Nav />
-      <div onClick={() => store.toggleNavMenu(false)}>
-        <Hero />
-        {/*<Promo />*/}
-        <ComicContent />
-        <Link to="/comics">
-          <h3 className="more">See more...</h3>
-        </Link>
-        <NovelContent />
-        <Link to="/novels">
-          <h3 className="more">See more...</h3>
-        </Link>
+      <div className="home">
+        <Nav />
+        <div onClick={() => store.toggleNavMenu(false)}>
+          <Hero />
+          {/*<Promo />*/}
+          <ComicContent />
+          <Link to="/comics">
+            <h3 className="more">See more...</h3>
+          </Link>
+          <NovelContent />
+          <Link to="/novels">
+            <h3 className="more">See more...</h3>
+          </Link>
+        </div>
       </div>
-    </div>
     </>
   );
 }

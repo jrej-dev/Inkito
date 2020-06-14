@@ -7,6 +7,8 @@ import { toJS } from 'mobx';
 
 import ProfileEdit from './ProfileEdit';
 import SeriesList from './SeriesList';
+import Library from './Library';
+
 import Nav from '../Main/Nav';
 import Location from '../Icons/location.png';
 import Link from '../Icons/link.png';
@@ -23,9 +25,21 @@ const ProfilePage = () => {
     useEffect(() => {
         document.documentElement.scrollTop = 0;
         getUrlVars();
+        fetchContent();
 
         return () => store.toggleNavMenu(false);
     })
+
+    const fetchContent = () => {
+        if (store.newComics.length === 0) {
+          store.fetchComics();
+          store.fetchComics("inkitocomics");
+        }
+        if (store.newNovels.length === 0) {
+          store.fetchNovels();
+          store.fetchNovels("inkitonovels");
+        }
+      }    
 
     const fetchAuthoInfo = (author) => {
         if (toJS(store.authorInfo) && toJS(store.authorInfo).name !== author) {
@@ -151,7 +165,8 @@ const ProfilePage = () => {
                         <ProfileInfo />
                         <div className="divider" />
                         <CoverImage />
-                        <SeriesList />
+                        {/*<SeriesList />*/}
+                        <Library />
                         <EditPage />
                     </div>
                 </div>
