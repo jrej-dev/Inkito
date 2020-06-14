@@ -35,19 +35,19 @@ const PublishPage = ({ publishState }) => {
         //Filtering images
         descriptionImages = location.state.seriesInfo.body.match(/^!\[.*\)|^--.*-$|^\*\*.*\*$|^__.*_$|<hr\/>/gm)
         let hrIndex = -1;
-        descriptionImages.forEach((image,index) => { 
-            if(image.includes("---") || image.includes("___") || image.includes("***") || image.includes("<hr/>")) { 
+        descriptionImages.forEach((image, index) => {
+            if (image.includes("---") || image.includes("___") || image.includes("***") || image.includes("<hr/>")) {
                 hrIndex = index;
             }
         });
         if (hrIndex > 0) {
-            descriptionImages = descriptionImages.slice(0,hrIndex)
+            descriptionImages = descriptionImages.slice(0, hrIndex)
         }
 
         //Filtering description/body
         bodyFiltered = location.state.seriesInfo.body;
-        descriptionImages.forEach(image => { bodyFiltered = bodyFiltered.replace(image, '')}) 
-        bodyFiltered = bodyFiltered.replace(/(^--.*-$|^\*\*.*\*$|^__.*_$|<hr\/>)/m,'').replace(/<center>\[!\[inkito-banner.png\].*\n*<\/center>$/gm, '').trim()
+        descriptionImages.forEach(image => { bodyFiltered = bodyFiltered.replace(image, '') })
+        bodyFiltered = bodyFiltered.replace(/(^--.*-$|^\*\*.*\*$|^__.*_$|<hr\/>)/m, '').replace(/<center>\[!\[inkito-banner.png\].*\n*<\/center>$/gm, '').trim()
 
         //Filtering tags
         tagsFiltered = JSON.parse(location.state.seriesInfo.json_metadata).tags.join(" ").replace(`inkito-${type}s`, "").replace(JSON.parse(location.state.seriesInfo.json_metadata).tags.filter(tag => tag.includes(`${location.state.seriesInfo.author}-`))[0], "").trim()
@@ -72,7 +72,7 @@ const PublishPage = ({ publishState }) => {
         alert.success('Episode published.', {
             timeout: 2000, // custom timeout just for this one alert
         })
-        setTimeout(function () { window.location.reload(); }, 2200);
+        setTimeout(function () { console.log("reload");window.location.reload(); }, 2200);
     } else if (publishState === "error") {
         alert.error('Something went wrong.', {
             timeout: 2000, // custom timeout just for this one alert
@@ -424,9 +424,9 @@ const PublishPage = ({ publishState }) => {
             tagList = tagList.filter(tag => tag !== '');
         }
         if (type === "comic") {
-            tagList.unshift("art","comics","drawing","inkito-comics", seriesId);
+            tagList.unshift("art", "comics", "drawing", "inkito-comics", seriesId);
         } else if (type === "novel") {
-            tagList.unshift("fiction","story","writing","inkito-novels", seriesId);
+            tagList.unshift("fiction", "story", "writing", "inkito-novels", seriesId);
         }
         if (categories.length > 0) {
             let catList = categories.map(cat => cat.split(" ").join("").toLowerCase());
@@ -460,7 +460,7 @@ const PublishPage = ({ publishState }) => {
         if (images.length > 0) {
             let imageMarkdown = [];
             images.forEach((image, index) => imageMarkdown.push(`![image ${index + 1}](${image})`))
-            body = imageMarkdown.join(" ").concat("  ").concat(`<hr/>`).concat(description).concat("  ").concat(`<center>[![inkito-banner.png](https://images.hive.blog/DQmXcA3xhDNEaesBeRzy3eq3Jw1zyGQEjzHY1DPc84P7peA/inkito-banner.png)](https://inkito.io/${type}Reader/${seriesId.replace("-","/")})</center>`)
+            body = imageMarkdown.join(" ").concat("  ").concat(`<hr/>`).concat(description).concat("  ").concat(`<center>[![inkito-banner.png](https://images.hive.blog/DQmXcA3xhDNEaesBeRzy3eq3Jw1zyGQEjzHY1DPc84P7peA/inkito-banner.png)](https://inkito.io/${type}Reader/${seriesId.replace("-", "/")})</center>`)
         } else {
             body = description;
         }
@@ -769,9 +769,7 @@ const PublishPage = ({ publishState }) => {
                                             <button className="publish-btn white" onClick={handleSubmit}> Update </button>
                                             :
                                             < button className="publish-btn white" onClick={handleSubmit}> Publish</button>
-
                                     }
-
                                 </div>
                             </div>
                         </form>

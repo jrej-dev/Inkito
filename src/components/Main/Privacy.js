@@ -132,8 +132,7 @@ const Privacy = () => {
                             <p>
                                 We may collect information from cookies in order to improve your user experience.
                                 In the current version of the site information collected through cookies include user session and bookmarks.
-                                A cookie consent banner appears when you first connect. You can choose to opt out of this feature if you wish to.
-                                More information about cookies read our cookie policy section.
+                                A cookie consent banner appears when you first connect. More information about cookies read our cookie policy section.
                         </p>
                         </li>
                         <li>
@@ -276,8 +275,8 @@ const Privacy = () => {
                         <li>
                             <h4>Cookies</h4>
                             <p>
-                                When you first visit Inkito, a cookie consent banner appears which allows you to opt out on the use of cookies. You can also disable the use of third-party cookies through your web browser.
-                                Please note that if you choose to remove or reject cookies, this could affect the availability and functionality of our Services.
+                                When you first visit Inkito, a cookie banner appears which informs you of the use of cookies. You can also disable the use of third-party cookies through your web browser.
+                                Please note that if you disable cookies, this could affect the availability and functionality of our Services.
                         </p>
                         </li>
                         <li>

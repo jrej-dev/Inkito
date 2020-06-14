@@ -474,10 +474,10 @@ export function StoreProvider({ children }) {
                     if (res) {
                         runInAction(() => {
                             store.userDetail = res;
-                            if (store.cookieConsent && access_token) {
+                            if (access_token) {
                                 localStorage.setItem('access-token', JSON.stringify(access_token));
                             }
-                            if (store.cookieConsent && username) {
+                            if (username) {
                                 localStorage.setItem('users', JSON.stringify(username));
                             }
                         })
