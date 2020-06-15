@@ -118,7 +118,7 @@ const ProfilePage = () => {
                 const author = toJS(store.authorInfo);
                 return (
                     <div className="cover-image reset flex">
-                        {author.cover ? <img src={author.cover} alt=" " /> : ""}
+                        {author.cover ? <img src={author.cover} alt="cover" /> : ""}
                     </div>
                 )
             } else {

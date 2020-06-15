@@ -52,7 +52,7 @@ const CommentInput = ({ content, userDetail, page, commentState }) => {
         return (
             <div className="active comment-banner">
                 <Link to={`/@${userDetail.name}`}>
-                    <img className="panel-profile-pic" src={userData.profile.profile_image} alt=" " />
+                    <img className="panel-profile-pic" src={userData.profile.profile_image} alt="avatar" />
                 </Link>
                 <div className="comment-block">
 
