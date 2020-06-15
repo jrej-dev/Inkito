@@ -78,7 +78,7 @@ function ContentDisplay({ type, newData, trendyData, activeCategory, activeTrend
           <h3 className="new">New</h3>
         </button>
       </div>
-      <ul role="toolbar" className="categories">
+      <ul className="categories">
         {listedCategories}
       </ul>
       <div className="panels">
