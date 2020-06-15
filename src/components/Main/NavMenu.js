@@ -13,7 +13,7 @@ const NavMenu = ({ navMenuIsActive, user }) => {
     return (
       <li className="login user">
         <button className="hide" onClick={() => store.toggleNavMenu()}>
-          <img src={userData.profile.profile_image} alt="avatar" className="user-thumbnail pointer"/>
+          <img src={userData.profile.profile_image} alt={`${user.name}-avatar`} className="user-thumbnail pointer"/>
         </button>
         <div className={navMenuIsActive ? "user-menu flex col" : "user-menu flex col hidden"}>
           <button className="hide reset" onClick={() => { history.push(`/@${user.name}`); window.location.reload() }}>

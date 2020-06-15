@@ -39,7 +39,7 @@ const AuthorBanner = ({ userDetail, followState, content, shareIsActive, seriesI
                     <wired-card>
                         <div className="flex-even">
                             <Link to={`/@${content.author}`}>
-                                <img className="panel-profile-pic" src={`https://images.hive.blog/u/${content.author}/avatar` ? `https://images.hive.blog/u/${content.author}/avatar` : content.profile_image.includes("https") ? content.profile_image : DefaultAvatar} alt="avatar" />
+                                <img className="panel-profile-pic" src={`https://images.hive.blog/u/${content.author}/avatar` ? `https://images.hive.blog/u/${content.author}/avatar` : content.profile_image.includes("https") ? content.profile_image : DefaultAvatar} alt={`${content.author}-avatar`} />
                             </Link>
                             <Link to={`/@${content.author}`} className="author-name flex col pa-h">
                                 <p className="capital">{author}</p>
