@@ -46,13 +46,15 @@ function ContentDisplay({ type, newData, trendyData, activeCategory, activeTrend
 
   const listedCategories = store.categories.map(name => {
     return (
-      <button
-        className={activeCategory === name ? name + " isActive" : name}
-        onClick={categoryClickHandle} key={name}
-        style={{border: "none"}}
-        >
-          {name}
-      </button>
+      <li>
+        <button
+          className={activeCategory === name ? name + " isActive" : name}
+          onClick={categoryClickHandle} key={name}
+          style={{border: "none"}}
+          >
+            {name}
+        </button>
+      </li>
     )
   })
 
