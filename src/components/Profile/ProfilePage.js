@@ -27,11 +27,11 @@ const ProfilePage = () => {
         return () => store.toggleNavMenu(false);
     })
 
-    const fetchAuthoInfo = (author) => {
+    const fetchAuthorInfo = (author) => {
         if (toJS(store.authorInfo) && toJS(store.authorInfo).name !== author) {
-            store.fetchAuthoInfo(author);
+            store.fetchAuthorInfo(author);
         } else if (toJS(store.authorInfo).length === 0) {
-            store.fetchAuthoInfo(author);
+            store.fetchAuthorInfo(author);
         }
     }
 
@@ -44,7 +44,7 @@ const ProfilePage = () => {
         var params = address.split("/");
         props.author = params[0];
 
-        fetchAuthoInfo(props.author);
+        fetchAuthorInfo(props.author);
         return props;
     }
 

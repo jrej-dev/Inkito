@@ -151,7 +151,7 @@ const PublishPage = ({ publishState }) => {
     const getUrlParams = () => {
         props.user = new URLSearchParams(document.location.search).get('user');
         if (props.user) {
-            fetchAuthoInfo(props.user);
+            fetchAuthorInfo(props.user);
         }
     }
 
@@ -164,11 +164,11 @@ const PublishPage = ({ publishState }) => {
         }
     }
 
-    const fetchAuthoInfo = (user) => {
+    const fetchAuthorInfo = (user) => {
         if (toJS(store.authorInfo) && toJS(store.authorInfo).name !== user) {
-            store.fetchAuthoInfo(user);
+            store.fetchAuthorInfo(user);
         } else if (toJS(store.authorInfo).length === 0) {
-            store.fetchAuthoInfo(user);
+            store.fetchAuthorInfo(user);
         }
     }
 

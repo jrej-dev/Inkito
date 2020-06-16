@@ -823,7 +823,7 @@ export function StoreProvider({ children }) {
                 .then(result =>
                     result.map(object => (
                         JSON.parse(object.json_metadata).tags
-                            .filter(tag => tag.includes(`${author}-`))
+                            .filter(tag => tag.includes(author))
                     ))
                 ).then(result => [...new Set(result.flat())])
 
@@ -845,7 +845,7 @@ export function StoreProvider({ children }) {
                 store.fetchAuthorSeries(author, last_result.author, last_result.permlink);
             }
         },
-        async fetchAuthoInfo(author) {
+        async fetchAuthorInfo(author) {
             this.authorInfo = [];
             this.authorInfo.series = [];
             this.all_followers = [];

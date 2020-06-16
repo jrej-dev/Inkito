@@ -11,12 +11,12 @@
     }
     wired-card {
         width: 70%;
-        padding: 1em 0;
+        padding: 1em;
     }
    .content-body {
         @include flex(center);
         white-space: normal;
-        min-height: 65vh;
+        min-height: 40vh;
         img {
             min-width: 100%;
             max-width: 100%;
@@ -114,6 +114,7 @@
         margin-right: 0.5em;
     }
     .zoom-cover {
+        height: 6em;
         margin-right: 0.5em;
         > p {    
             margin: 0;

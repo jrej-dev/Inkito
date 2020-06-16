@@ -16,7 +16,7 @@ const SeriesList = () => {
                 if (series) {
                     let lastTags = JSON.parse(series.last_update.json_metadata);
                     let seriesUrl = series.seriesId.replace("-", "/");
-                    if (series.tags.includes("inkito-comics") || lastTags.tags.includes("inkito-comics")) {
+                    if (series.tags.includes("inkitocomics") || lastTags.tags.includes("inkitocomics") || series.tags.includes("inkito-comics") || lastTags.tags.includes("inkito-comics")) {
                         seriesList.push(
                             <li key={series.seriesId}>
                                 <div className="series-thumbnail">

@@ -21,9 +21,9 @@ const Blog = ({ type, page, permlink, nextPermlink, author }) => {
       } else if (page + 1 === store.seriesLinks.length) {
         //Fetching author info on last page
         if (toJS(store.authorInfo) && toJS(store.authorInfo).name !== author) {
-          store.fetchAuthoInfo(author);
+          store.fetchAuthorInfo(author);
         } else if (toJS(store.authorInfo).length === 0) {
-          store.fetchAuthoInfo(author);
+          store.fetchAuthorInfo(author);
         }
       }
       //For the heart in the NavReader Bar

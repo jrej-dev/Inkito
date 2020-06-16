@@ -1,20 +1,14 @@
 @import "../abstracts/variables";
 @import "../abstracts/mixins";
 
-.home {
-    margin: 0 0 2em 0;
-}
-
 .content {
     pointer-events: none;
 }
 
 .content-display {
-    padding: 0 1em;
-    margin-bottom: 1em;
     .title-line {
         width: 50%;
-        margin: 0 0.5em;
+        margin: 0 1.5em;
         @include flex(flex-start);
         flex-direction: row;
         flex-wrap: wrap;
@@ -30,6 +24,12 @@
                 padding: 0 0.5em;
             }
         }
+        .separator {
+            flex-basis: 1px;
+            height: 35px;
+            margin-right: 1em;
+            border-right: 1px solid $darkgrey-color;
+        }
         .isActiveUnderlined {
             color: $darkest-color;
             h3 {
@@ -41,17 +41,19 @@
     .categories {
         display: flex;
         justify-content: center;
-        justify-content: space-evenly;
+        justify-content: space-between;
         align-items: center;
         color: $dark-color;
-        padding: 0;
-        margin: 0.5em 0;
+        margin: 0;
+        padding: 1.5em 2em 1.5em 2em;
         flex-direction: row;
         flex-wrap: wrap;
         list-style-type: none;
         white-space: nowrap;
         max-width: 100%;
-        > * {
+        border-bottom: 1px solid $darkgrey-color;
+        border-top: 1px solid $darkgrey-color;
+        button {
             cursor: pointer;
         }
     }
@@ -77,15 +79,10 @@
     }
 }
 
-.panels {
-    margin: 1em 0.5em;
-    > * {
-        margin: 1em 1em;
-    }
-}
-
 .more {
-    margin-left: 75%;
+    background-color: $grey-color;
+    margin: 0;
+    padding: 0 0 2em 75%;
 }
 
 .not-found {
@@ -99,12 +96,13 @@
 
 @media screen and (max-width: 810px) {
     .categories {
+        
         > * {
             flex-basis: 15%;
         }
     }
     .more {
-        margin: 1em 0;
+        padding: 1em 0 2em 0;
         text-align: center;
     }
     .content-display {

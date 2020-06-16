@@ -46,7 +46,7 @@ function ContentDisplay({ type, newData, trendyData, activeCategory, activeTrend
 
   const listedCategories = store.categories.map(name => {
     return (
-      <li>
+      <li key={name}>
         <button
           className={activeCategory === name ? name + " isActive" : name}
           onClick={categoryClickHandle} key={name}
@@ -66,6 +66,7 @@ function ContentDisplay({ type, newData, trendyData, activeCategory, activeTrend
             {type}
           </h2>
         </Link>
+          <div className="separator"/>
           <button className={activeTrend === "all" ? "trend all isActiveUnderlined hide" : "trend all hide "} onClick={trendClickHandle}>
               <h3 className="all">All</h3>
           </button>
@@ -84,6 +85,16 @@ function ContentDisplay({ type, newData, trendyData, activeCategory, activeTrend
       <div className="panels">
         <PanelBlocks type={type} newData={newData} trendyData={trendyData} activeTrend={activeTrend} panelBlockNumber={panelBlockNumber} />
       </div>
+      {
+        type === "comics"?
+        <Link to="/comics">
+            <h3 className="more">See more...</h3>
+        </Link>
+        :
+        <Link to="/novels">
+          <h3 className="more">See more...</h3>
+        </Link>
+      }
     </div>
   );
 }

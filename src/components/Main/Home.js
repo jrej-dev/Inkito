@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import StoreContext from '../../stores/AppStore';
 import { useObserver } from 'mobx-react';
-import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 import Nav from '../../components/Main/Nav';
 import Hero from '../../components/Main/Hero';
-import Promo from '../../components/Main/Promo';
+//import Promo from '../../components/Main/Promo';
 import ContentDisplay from '../../components/Main/ContentDisplay';
 
 const Home = () => {
@@ -75,13 +74,7 @@ const Home = () => {
         <Hero />
         {/*<Promo />*/}
         <ComicContent />
-        <Link to="/comics">
-          <h3 className="more">See more...</h3>
-        </Link>
         <NovelContent />
-        <Link to="/novels">
-          <h3 className="more">See more...</h3>
-        </Link>
       </div>
     </div>
     </>

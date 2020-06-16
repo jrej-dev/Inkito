@@ -13,6 +13,7 @@ const FullDisplay = ({ type }) => {
   const store = React.useContext(StoreContext);
 
   useEffect(() => {
+    document.documentElement.scrollTop = 0;
     if (type === "comics") {
       if (store.newComics.length === 0) {
         store.fetchComics();
