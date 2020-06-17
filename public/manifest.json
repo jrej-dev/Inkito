@@ -1,14 +1,14 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Inkito",
+  "name": "Inkito | Stories powered by the Hive Blockchain",
   "icons": [
     {
-      "src": "fireicon.png",
+      "src": "logo.png",
       "type": "image/png",
       "sizes": "50x45"
     }
   ],
-  "start_url": ".",
+  "start_url": "https://inkito.io",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
