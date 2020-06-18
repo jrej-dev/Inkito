@@ -832,8 +832,8 @@ export function StoreProvider({ children }) {
                     let series = await store.fetchSeriesInfo(id);
                     store.authorInfo.series.push(series);
                 } else {
-                    if (store.authorInfo && store.authorInfo.series) {
-                        if (!store.authorInfo.series.some(object => object.seriesId === id)){
+                    if (store.authorInfo) {
+                        if (store.authorInfo.series && !store.authorInfo.series.some(object => object.seriesId === id)){
                             let series = await store.fetchSeriesInfo(id);
                             store.authorInfo.series.push(series);
                         }

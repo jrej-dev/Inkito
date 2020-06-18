@@ -114,6 +114,9 @@
         height: auto;
         padding: 0.5em;
         cursor: pointer;
+        > * {
+            margin: 0.1em;
+        }
     }
     > * {
         padding: 0 0.5em;
@@ -154,6 +157,9 @@
         .panel-block {
             .panel-banner {
                 overflow: hidden;
+                > a {
+                    display: none;
+                }
                 .panel-profile-pic,
                 .reward-block {
                     display: none;

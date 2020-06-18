@@ -4,6 +4,7 @@ import DefaultAvatar from '../Icons/defaultavatar.png';
 import '../../sass/components/Panels.scss';
 //import 'wired-elements';
 import { Link } from "react-router-dom";
+import Img from "react-cool-img";
 
 function TrendyPanel({ content, onClick, user }) {
 
@@ -18,12 +19,12 @@ function TrendyPanel({ content, onClick, user }) {
         <div className="trendy-panel">
           <button className="panel-image hide" onClick={() => onClick({ author, seriesTitle })}>
             {/*Create a default image instead of random image*/}
-            <img className="panel-main-image" src={content.image ? content.image : ""} alt="panel-main-thumbnail" />
-            <img className="panel-icon" src={TrendyIcon} alt="fire-icon" />
+            <Img className="panel-main-image" src={content.image ? content.image : ""} alt="panel-main-thumbnail" />
+            <Img className="panel-icon" src={TrendyIcon} alt="fire-icon" />
           </button>
           <div className="panel-banner">
             <Link to={`/@${content.author}`}>
-              <img className="panel-profile-pic" src={`https://images.hive.blog/u/${content.author}/avatar` ? `https://images.hive.blog/u/${content.author}/avatar` : content.profile_image.includes("https") ? content.profile_image : DefaultAvatar} alt={`${content.author}-avatar`} />
+              <Img className="panel-profile-pic" src={`https://images.hive.blog/u/${content.author}/avatar` ? `https://images.hive.blog/u/${content.author}/avatar` : content.profile_image.includes("https") ? content.profile_image : DefaultAvatar} alt={`${content.author}-avatar`} />
             </Link>
             <span className="panel-info">
               <span className="panel-title" onClick={() => onClick({ author, seriesTitle })}>

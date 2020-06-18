@@ -4,6 +4,8 @@ import DefaultAvatar from '../Icons/defaultavatar.png';
 import '../../sass/components/Panels.scss';
 //import 'wired-elements';
 import { Link } from "react-router-dom";
+import Img from "react-cool-img";
+import loadingImage from '../Images/loading_img.gif';
 
 function NewPanel({ content, onClick, user }) {
   let author = content.author;
@@ -17,12 +19,12 @@ function NewPanel({ content, onClick, user }) {
         <div className="new-panel">
           <button className="panel-image hide" onClick={() => onClick({ author, seriesTitle })}>
             {/*Create a default image instead of random image*/}
-            <img className="panel-main-image" src={content.image ? content.image : ""} alt="panel-main-thumbnail" />
-            <img className="panel-icon" src={NewIcon} alt="fire-icon" />
+            <Img placeholder={loadingImage} className="panel-main-image" src={content.image ? content.image : ""} alt="panel-main-thumbnail" />
+            <Img placeholder={loadingImage} className="panel-icon" src={NewIcon} alt="fire-icon" />
           </button>
           <div className="panel-banner">
-            <Link to={`/@${content.author}`}>
-              <img className="panel-profile-pic" src={`https://images.hive.blog/u/${content.author}/avatar` ? `https://images.hive.blog/u/${content.author}/avatar` : content.profile_image.includes("https") ? content.profile_image : DefaultAvatar} alt={`${content.author}-avatar`} />
+            <Link to={`/@${content.author}`} aria-label={`${content.author}-avatar`}>
+              <Img placeholder={loadingImage} className="panel-profile-pic" src={`https://images.hive.blog/u/${content.author}/avatar` ? `https://images.hive.blog/u/${content.author}/avatar` : content.profile_image.includes("https") ? content.profile_image : DefaultAvatar} alt={`${content.author}-avatar`} />
             </Link>
             <span className="panel-info">
               <span className="panel-title" onClick={() => onClick({ author, seriesTitle })}>
