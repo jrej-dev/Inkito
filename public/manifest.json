@@ -39,8 +39,8 @@
         },
         {
             "src": "/safari-pinned-tab.svg",
-            "sizes": "196x196",
-            "type": "image/png",
+            "sizes": "143x143",
+            "type": "image/svg",
             "purpose": "any maskable"
         }
     ],
