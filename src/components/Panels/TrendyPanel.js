@@ -19,7 +19,7 @@ function TrendyPanel({ content, onClick, user }) {
         <div className="trendy-panel">
           <button className="panel-image hide" onClick={() => onClick({ author, seriesTitle })}>
             {/*Create a default image instead of random image*/}
-            <Img className="panel-main-image" src={content.image ? content.image : ""} alt="panel-main-thumbnail" />
+            <Img className="panel-main-image" src={content.image ? content.image : ""} alt="panel-main-thumbnail" height="238" width="340"/>
             <Img className="panel-icon" src={TrendyIcon} alt="fire-icon" />
           </button>
           <div className="panel-banner">
