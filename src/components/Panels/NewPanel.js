@@ -19,7 +19,7 @@ function NewPanel({ content, onClick, user }) {
         <div className="new-panel">
           <button className="panel-image hide" onClick={() => onClick({ author, seriesTitle })}>
             {/*Create a default image instead of random image*/}
-            <Img placeholder={loadingImage} className="panel-main-image" src={content.image ? content.image : ""} alt="panel-main-thumbnail" height="204" width="340"/>
+            <Img placeholder={loadingImage} className="panel-main-image" src={content.image ? content.image : ""} alt="panel-main-thumbnail" height="204" width="340" />
             <Img placeholder={loadingImage} className="panel-icon" src={NewIcon} alt="fire-icon" />
           </button>
           <div className="panel-banner">
@@ -39,10 +39,10 @@ function NewPanel({ content, onClick, user }) {
                 </Link>
               </span>
             </span>
-            { user.user ? 
+            {user.user ?
               <div className="reward-block">
                 <p>Last Payout:</p>
-                <p className="reward">$ {(parseInt(reward, 10)/2).toFixed(2)}</p>
+                <p className="reward">$ {(parseInt(reward, 10) / 2).toFixed(2)}</p>
               </div>
               :
               ""
