@@ -20,6 +20,8 @@ $secondary-font: 'Patrick Hand', cursive;
     font-family: 'Patrick Hand';
     font-style: normal;
     font-weight: 400;
+    font-display: swap; /* Read next point */  
+    unicode-range: U+000-5FF; /* Download only latin glyphs */  
     src: url('../fonts/patrick-hand-v13-latin-regular.eot'); /* IE9 Compat Modes */
     src: local('Patrick Hand'), local('PatrickHand-Regular'),
          url('../fonts/patrick-hand-v13-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
@@ -34,6 +36,8 @@ $secondary-font: 'Patrick Hand', cursive;
     font-family: 'Anton';
     font-style: normal;
     font-weight: 400;
+    font-display: swap; /* Read next point */  
+    unicode-range: U+000-5FF; /* Download only latin glyphs */  
     src: url('../fonts/anton-v11-latin-regular.eot'); /* IE9 Compat Modes */
     src: local('Anton Regular'), local('Anton-Regular'),
          url('../fonts/anton-v11-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */

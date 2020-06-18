@@ -5,10 +5,10 @@
     {
       "src": "logo.png",
       "type": "image/png",
-      "sizes": "50x45"
+      "sizes": "224x224"
     }
   ],
-  "start_url": "https://inkito.io",
+  "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
