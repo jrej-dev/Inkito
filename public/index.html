@@ -36,6 +36,58 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
   <title>Help authors get crypto currency rewards for their story | Inkito</title>
+  <link rel="preload" href="%PUBLIC_URL%/fonts/anton-v11-latin-regular.woff2"
+    as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="%PUBLIC_URL%/fonts/patrick-hand-v13-latin-regular.woff2"
+    as="font" type="font/woff2" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'Patrick Hand';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      /* Read next point */
+      unicode-range: U+000-5FF;
+      /* Download only latin glyphs */
+      src: url('%PUBLIC_URL%/fonts/patrick-hand-v13-latin-regular.eot');
+      /* IE9 Compat Modes */
+      src: local('Patrick Hand'), local('PatrickHand-Regular'),
+        url('%PUBLIC_URL%/fonts/patrick-hand-v13-latin-regular.eot?#iefix') format('embedded-opentype'),
+        /* IE6-IE8 */
+        url('%PUBLIC_URL%/fonts/patrick-hand-v13-latin-regular.woff2') format('woff2'),
+        /* Super Modern Browsers */
+        url('%PUBLIC_URL%/fonts/patrick-hand-v13-latin-regular.woff') format('woff'),
+        /* Modern Browsers */
+        url('%PUBLIC_URL%/fonts/patrick-hand-v13-latin-regular.ttf') format('truetype'),
+        /* Safari, Android, iOS */
+        url('%PUBLIC_URL%/fonts/patrick-hand-v13-latin-regular.svg#PatrickHand') format('svg');
+      /* Legacy iOS */
+    }
+
+    /* anton-regular - latin */
+    @font-face {
+      font-family: 'Anton';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      /* Read next point */
+      unicode-range: U+000-5FF;
+      /* Download only latin glyphs */
+      src: url('%PUBLIC_URL%/fonts/anton-v11-latin-regular.eot');
+      /* IE9 Compat Modes */
+      src: local('Anton Regular'), local('Anton-Regular'),
+        url('%PUBLIC_URL%/fonts/anton-v11-latin-regular.eot?#iefix') format('embedded-opentype'),
+        /* IE6-IE8 */
+        url('%PUBLIC_URL%/fonts/anton-v11-latin-regular.woff2') format('woff2'),
+        /* Super Modern Browsers */
+        url('%PUBLIC_URL%/fonts/anton-v11-latin-regular.woff') format('woff'),
+        /* Modern Browsers */
+        url('%PUBLIC_URL%/fonts/anton-v11-latin-regular.ttf') format('truetype'),
+        /* Safari, Android, iOS */
+        url('%PUBLIC_URL%/fonts/anton-v11-latin-regular.svg#Anton') format('svg');
+      /* Legacy iOS */
+    }
+  </style>
 </head>
 
 <body>
@@ -54,7 +106,7 @@
   <div style="background-color: #8fdee3; width: 100%;">
     <a href="http://www.xiti.com/xiti.asp?s=611556" title="WebAnalytics" target="_top">
       <script type="text/javascript">
-        < !--
+        <!--
           Xt_param = 's=611556&p=home';
         try { Xt_r = top.document.referrer; }
         catch (e) { Xt_r = document.referrer; }

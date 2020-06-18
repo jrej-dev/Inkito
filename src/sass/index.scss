@@ -8,14 +8,14 @@ body {
   padding: 0;
   overflow-x: hidden;
   color: $darkest-color;
-  font-family: -apple-system, BlinkMacSystemFont, "Patrick Hand", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+  font-family: -apple-system, BlinkMacSystemFont, "Anton", "Patrick Hand", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
     "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Patrick Hand", "Courier New", monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Anton", "Patrick Hand", "Courier New", monospace;
 }
 
 body:not(.user-is-tabbing) {
