@@ -31,6 +31,12 @@
             "src": "/logo.png",
             "sizes": "224x224",
             "type": "image/png"
+        },
+        {
+            "src": "/safari-pinned-tab.svg",
+            "sizes": "196x196",
+            "type": "image/png",
+            "purpose": "any maskable"
         }
     ],
     "theme_color": "#8fdee3",
