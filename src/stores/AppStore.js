@@ -13,7 +13,7 @@ opts.addressPrefix = 'STM';
 opts.chainId =
     '0000000000000000000000000000000000000000000000000000000000000000';
 //connect to server which is connected to the network/production
-const client = new Client('https://api.hivekings.com');
+const client = new Client('https://api.pharesim.me');
 
 //Hivesigner
 var hivesigner = require('hivesigner');
