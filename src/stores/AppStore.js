@@ -55,13 +55,13 @@ export function StoreProvider({ children }) {
                 title: "Shades Of Men",
                 author: "Jrej",
                 thumbnail: "https://picsum.photos/400/300",
-                link: "https://www.inkito.io/comicReader/jrej/ghoulredone"
+                link: "https://inkito.io/comicReader/jrej/ghoulredone"
             },
             {
                 title: "IN/SYS",
                 author: "Jrej",
                 thumbnail: "https://picsum.photos/400/300",
-                link: "https://www.inkito.io/comicReader/jrej/shadesofmen"
+                link: "https://inkito.io/comicReader/jrej/shadesofmen"
             }
         ],
 
