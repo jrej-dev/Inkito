@@ -1,17 +1,23 @@
-const {override} = require('customize-cra');
+const { override } = require('customize-cra');
 const cspHtmlWebpackPlugin = require("csp-html-webpack-plugin");
 
 const cspConfigPolicy = {
-    'default-src': ["'self'","https://anyx.io/","https://picsum.photos/","https://inkito-ipfs.herokuapp.com/","https://hivesigner.com/"],
+    'default-src': ["'self'"],
+    'connect-src': ["'self'", "https://anyx.io/", "https://picsum.photos/", "https://inkito-ipfs.herokuapp.com/", "https://hivesigner.com/", "blacklist.usehive.com"],
     'base-uri': "'self'",
     'object-src': "'none'",
-    'script-src': ["'self'"],
-    'style-src': ["'self'"],
-    'img-src': "* data:"
+    'script-src': ["'self'","http://www.xiti.com/"],
+    'style-src': ["'self'", "fonts.googleapis.com"],
+    'img-src': ["*", "data:", "blob:"],
+    'media-src': "*",
+    'font-src': ["'self'", "data:", "fonts.gstatic.com"],
+    'ancestors': "'none'",
+    'worker-src': "'self'",
+    'frame-src': ["'self'", "platform.twitter.com", "syndication.twitter.com", "www.youtube.com", "player.vimeo.com", "open.spotify.com", "3speak.online", "emb.d.tube", "player.twitch.tv", "clips.twitch.tv", "www.dailymotion.com", "lbry.tv", "w.soundcloud.com", "www.vimm.tv", "simpleswap.io", "titanembeds.com"]
 };
 
 function addCspHtmlWebpackPlugin(config) {
-    if(process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === 'production') {
         config.plugins.push(new cspHtmlWebpackPlugin(cspConfigPolicy));
     }
 
@@ -21,3 +27,4 @@ function addCspHtmlWebpackPlugin(config) {
 module.exports = {
     webpack: override(addCspHtmlWebpackPlugin),
 };
+
