@@ -22,7 +22,7 @@ const Reader = ({ type }) => {
   useEffect(() => {
     getUrlVars();
     store.fetchPermlinks(props.author, props.seriesTitle);
-
+    
     props.currentPage ? store.updateCurrentPage(props.currentPage) : store.updateCurrentPage(0);
 
     document.documentElement.scrollTop = 0;

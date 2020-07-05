@@ -11,8 +11,7 @@ const cspConfigPolicy = {
     'img-src': ["*", "data:", "blob:"],
     'media-src': "*",
     'font-src': ["'self'", "data:", "fonts.gstatic.com"],
-    'ancestors': "'none'",
-    'worker-src': "'self'",
+    'worker-src': ["'self'","https://storage.googleapis.com"],
     'frame-src': ["'self'", "platform.twitter.com", "syndication.twitter.com", "www.youtube.com", "player.vimeo.com", "open.spotify.com", "3speak.online", "emb.d.tube", "player.twitch.tv", "clips.twitch.tv", "www.dailymotion.com", "lbry.tv", "w.soundcloud.com", "www.vimm.tv", "simpleswap.io", "titanembeds.com"]
 };
 

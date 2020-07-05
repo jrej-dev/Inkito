@@ -11,7 +11,7 @@ function NewPanel({ content, onClick, user }) {
   let author = content.author;
   const reward = content.last_payout.replace("HBD", " ")
 
-  let seriesTitle = content.seriesId ? content.seriesId.replace(`${author}-`, "") : "noseries";
+  let seriesTitle = content.seriesId ? content.seriesId !== author ? content.seriesId.replace(`${author}-`, "") : "series" : "noseries";
 
   return (
     <div className="new-card">
