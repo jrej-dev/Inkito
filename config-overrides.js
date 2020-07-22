@@ -8,7 +8,7 @@ const cspConfigPolicy = {
     'object-src': "'none'",
     'script-src': ["'self'","http://www.xiti.com/", "https://logv2.xiti.com/"],
     'style-src': ["'self'", "fonts.googleapis.com", "https://logv2.xiti.com/"],
-    'img-src': ["*", "data:", "blob:"],
+    'img-src': ["*", "data:", "blob:", "https://logv2.xiti.com/bcg.xiti?s=611556&p=home&hl=10x20x42&r=1536x864x24x24&ref="],
     'media-src': "*",
     'font-src': ["'self'", "data:", "fonts.gstatic.com"],
     'worker-src': ["'self'","https://storage.googleapis.com"],
