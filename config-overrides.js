@@ -15,9 +15,22 @@ const cspConfigPolicy = {
     'frame-src': ["'self'", "platform.twitter.com", "syndication.twitter.com", "www.youtube.com", "player.vimeo.com", "open.spotify.com", "3speak.online", "emb.d.tube", "player.twitch.tv", "clips.twitch.tv", "www.dailymotion.com", "lbry.tv", "w.soundcloud.com", "www.vimm.tv", "simpleswap.io", "titanembeds.com"]
 };
 
+const cspOptions = {
+    enabled: true,
+    hashingMethod: 'sha256',
+    hashEnabled: {
+      'script-src': true,
+      'style-src': false
+    },
+    nonceEnabled: {
+      'script-src': true,
+      'style-src': false
+    },
+}
+
 function addCspHtmlWebpackPlugin(config) {
     if (process.env.NODE_ENV === 'production') {
-        config.plugins.push(new cspHtmlWebpackPlugin(cspConfigPolicy));
+        config.plugins.push(new cspHtmlWebpackPlugin(cspConfigPolicy, cspOptions));
     }
 
     return config;
