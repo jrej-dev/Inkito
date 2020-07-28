@@ -26,7 +26,6 @@ const additionalOpts = {
         'script-src': true,
         'style-src': false
     },
-    processFn: defaultProcessFn
 };
 
 function addCspHtmlWebpackPlugin(config) {
