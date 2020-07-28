@@ -7,7 +7,7 @@ const cspConfigPolicy = {
     'base-uri': "'self'",
     'object-src': "'none'",
     'script-src': ["'self'", "http://www.xiti.com/", "https://logv2.xiti.com/"],
-    'style-src': ["'self'", "https:", "'unsafe-inline'", "fonts.googleapis.com"],
+    'style-src': ["'self'", "'unsafe-inline'", "fonts.googleapis.com"],
     'img-src': ["*", "data:", "blob:"],
     'media-src': "*",
     'font-src': ["'self'", "data:", "fonts.gstatic.com"],
