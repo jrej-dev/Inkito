@@ -6,8 +6,8 @@ const cspConfigPolicy = {
     'connect-src': ["'self'", "https://anyx.io/", "https://picsum.photos/", "https://inkito-ipfs.herokuapp.com/", "https://hivesigner.com/", "blacklist.usehive.com"],
     'base-uri': "'self'",
     'object-src': "'none'",
-    'script-src': ["'self'", "http://www.xiti.com/", "https://logv2.xiti.com/", "nounce-reactDevTool"],
-    'style-src': ["'self'", "'unsafe-inline'", "fonts.googleapis.com"],
+    'script-src': ["'self'", "http://www.xiti.com/", "https://logv2.xiti.com/"],
+    'style-src': ["'self'", "https:", "'unsafe-inline'", "fonts.googleapis.com"],
     'img-src': ["*", "data:", "blob:"],
     'media-src': "*",
     'font-src': ["'self'", "data:", "fonts.gstatic.com"],
@@ -15,22 +15,9 @@ const cspConfigPolicy = {
     'frame-src': ["'self'", "platform.twitter.com", "syndication.twitter.com", "www.youtube.com", "player.vimeo.com", "open.spotify.com", "3speak.online", "emb.d.tube", "player.twitch.tv", "clips.twitch.tv", "www.dailymotion.com", "lbry.tv", "w.soundcloud.com", "www.vimm.tv", "simpleswap.io", "titanembeds.com"]
 };
 
-const additionalOpts = {
-    enabled: false,
-    hashingMethod: 'sha256',
-    hashEnabled: {
-        'script-src': false,
-        'style-src': false
-    },
-    nonceEnabled: {
-        'script-src': false,
-        'style-src': false
-    }
-};
-
 function addCspHtmlWebpackPlugin(config) {
     if (process.env.NODE_ENV === 'production') {
-        config.plugins.push(new cspHtmlWebpackPlugin(cspConfigPolicy,additionalOpts));
+        config.plugins.push(new cspHtmlWebpackPlugin(cspConfigPolicy));
     }
 
     return config;
