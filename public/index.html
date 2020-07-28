@@ -1,7 +1,11 @@
 <!DOCTYPE html><html lang="en">
-  <head>
+<head>
+  <script nounce="reactDevTool">
+    if (typeof window.__REACT_DEVTOOLS_GLOBAL_HOOK__ === 'object') {
+      __REACT_DEVTOOLS_GLOBAL_HOOK__.inject = function () { };
+    }
+  </script>
   <meta http-equiv="Content-Security-Policy" content="">
-  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="utf-8">
   <link rel="icon" href="%PUBLIC_URL%/logo.png">
@@ -14,7 +18,8 @@
   <meta name="theme-color" content="#8fdee3">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#000000">
-  <meta name="description" content="Inkito is a comic and novel hosting powered by the Hive blockchain. Creators can earn crypto currency for their content in proportion to the attention received.">
+  <meta name="description"
+    content="Inkito is a comic and novel hosting powered by the Hive blockchain. Creators can earn crypto currency for their content in proportion to the attention received.">
   <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -25,8 +30,10 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
   <title>Help authors get crypto currency rewards for their story | Inkito</title>
-  <link rel="preload" href="%PUBLIC_URL%/fonts/anton-v11-latin-regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="%PUBLIC_URL%/fonts/patrick-hand-v13-latin-regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="%PUBLIC_URL%/fonts/anton-v11-latin-regular.woff2" as="font" type="font/woff2"
+    crossorigin="anonymous">
+  <link rel="preload" href="%PUBLIC_URL%/fonts/patrick-hand-v13-latin-regular.woff2" as="font" type="font/woff2"
+    crossorigin="anonymous">
   <style>
     @font-face {
       font-family: 'Patrick Hand';
@@ -76,6 +83,7 @@
     }
   </style>
 </head>
+
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
@@ -102,13 +110,14 @@
         Xt_i += '&hl=' + Xt_h.getHours() + 'x' + Xt_h.getMinutes() + 'x' + Xt_h.getSeconds();
         if (parseFloat(navigator.appVersion) >= 4) { Xt_s = screen; Xt_i += '&r=' + Xt_s.width + 'x' + Xt_s.height + 'x' + Xt_s.pixelDepth + 'x' + Xt_s.colorDepth; }
         document.write(Xt_i + '&ref=' + Xt_r.replace(/[<>"]/g, '').replace(/&/g, '$') + '" title="Internet Audience">');
-        //-->
+        -->
       </script>
       <noscript>
         Mesure d'audience ROI statistique webanalytics par <img width="80" height="15"
           src="https://logv2.xiti.com/bcg.xiti?s=611556&p=home" alt="WebAnalytics" />
-      </noscript></a>
+      </noscript>
+    </a>
   </div>
+</body>
 
-
-</body></html>
+</html>
