@@ -7,7 +7,7 @@ const cspConfigPolicy = {
     'base-uri': "'self'",
     'object-src': "'none'",
     'script-src': ["'self'","http://www.xiti.com/", "https://logv2.xiti.com/", "nounce-reactDevTool"],
-    'style-src': ["'self'", "unsafe-inline", "fonts.googleapis.com", "https://logv2.xiti.com/"],
+    'style-src': ["'self'", "'unsafe-inline'", "fonts.googleapis.com", "https://logv2.xiti.com/"],
     'img-src': ["*", "data:", "blob:", "https://logv2.xiti.com/"],
     'media-src': "*",
     'font-src': ["'self'", "data:", "fonts.gstatic.com"],
