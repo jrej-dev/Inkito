@@ -16,16 +16,16 @@ const cspConfigPolicy = {
 };
 
 const additionalOpts = {
-    enabled: true,
+    enabled: false,
     hashingMethod: 'sha256',
     hashEnabled: {
-        'script-src': true,
+        'script-src': false,
         'style-src': false
     },
     nonceEnabled: {
-        'script-src': true,
+        'script-src': false,
         'style-src': false
-    },
+    }
 };
 
 function addCspHtmlWebpackPlugin(config) {
