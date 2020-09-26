@@ -15,6 +15,11 @@ import Heart from '../Icons/heart.png';
 import Nav from '../Main/Nav';
 import '../../sass/components/Publish.scss';
 
+var ENDPOINT = "https://inkito-ipfs.herokuapp.com/";
+if (process.env.NODE_ENV === "development") {
+  ENDPOINT = "http://localhost:5000/";
+}
+
 const PublishPage = ({ publishState }) => {
     const store = React.useContext(StoreContext);
     const alert = useAlert();
@@ -228,9 +233,9 @@ const PublishPage = ({ publishState }) => {
                     body: formdata,
                     redirect: 'follow'
                 };
-                const fetch_response = await fetch('https://inkito-ipfs.herokuapp.com/upload', requestOptions);
+                const fetch_response = await fetch(`${ENDPOINT}upload`, requestOptions);
                 const body = await fetch_response.text();
-
+                
                 setImages([...images, `https://gateway.ipfs.io/ipfs/${JSON.parse(body).response}`]);
             }
         }

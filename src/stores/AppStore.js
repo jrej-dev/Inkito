@@ -25,6 +25,11 @@ var api = new hivesigner.Client({
     scope: ['vote', 'comment', 'follow', 'posting'],
 });
 
+var ENDPOINT = "https://inkito-ipfs.herokuapp.com/";
+if (process.env.NODE_ENV === "development") {
+    ENDPOINT = "http://localhost:5000/";
+}
+
 export function StoreProvider({ children }) {
     const store = useLocalStore(() => ({
 
@@ -93,7 +98,7 @@ export function StoreProvider({ children }) {
         shareMenuIsActive: false,
         shareMenuBottomIsActive: false,
         cookieConsent: null,
-        replyIsActive: "",    
+        replyIsActive: "",
 
         //Data states
         trendyComicState: "",
@@ -224,21 +229,26 @@ export function StoreProvider({ children }) {
         },
         //Temporal
         temporalLogin: async () => {
-            var requestOptions = {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            };
-            const response = await fetch('https://inkito-ipfs.herokuapp.com/login', requestOptions).then(res => res.text());
-            runInAction(() => {
-                if (response === "success") {
-                    store.ipfsState = true;
-                } else {
-                    store.ipfsState = false;
-                }
-            })
+            try {
+                var requestOptions = {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                };
+                const response = await fetch(`${ENDPOINT}login`, requestOptions).then(res => res.text())
+
+                runInAction (() => {
+                    if (response === "success") {
+                        store.ipfsState = true;
+                    } else {
+                        store.ipfsState = false;
+                    }
+                })
+            } catch (error) {
+                console.log(error)
+            }
         },
         logOut: () => {
             api.revokeToken(function (err, res) {
@@ -513,17 +523,17 @@ export function StoreProvider({ children }) {
                         }
                     })
 
-                    seriesInfo.profile_image = await store.fetchAvatar(seriesInfo.author);
-                    
+                seriesInfo.profile_image = await store.fetchAvatar(seriesInfo.author);
+
                 return seriesInfo;
-                
+
             } catch (error) {
                 console.log(error)
             }
         },
         //Fetching Comics
         async fetchComics(searchTag, last_trendy_author, last_trendy_permlink, last_new_author, last_new_permlink) {
-            let tag = searchTag || "inkito-comics"; 
+            let tag = searchTag || "inkito-comics";
             this.trendyComicState = "pending"
             try {
                 let last_trendyComic = {};
@@ -599,14 +609,14 @@ export function StoreProvider({ children }) {
                 // Incorporate lazy load
                 if (createdComicIds.length > 2 || trendyComicIds.length > 2) {
                     store.fetchComics(undefined, last_trendyComic.author, last_trendyComic.permlink, last_newComic.author, last_newComic.permlink);
-                } 
+                }
             } catch (error) {
                 console.log(error);
             }
         },
         async fetchNovels(searchTag, last_trendy_author, last_trendy_permlink, last_new_author, last_new_permlink) {
             this.trendyNovelState = "pending";
-            let tag = searchTag || "inkito-novels"; 
+            let tag = searchTag || "inkito-novels";
             let last_trendyNovel = {};
             try {
                 const trendyNovelIds = await client.database
@@ -832,7 +842,7 @@ export function StoreProvider({ children }) {
                     store.authorInfo.series.push(series);
                 } else {
                     if (store.authorInfo) {
-                        if (store.authorInfo.series && !store.authorInfo.series.some(object => object.seriesId === id)){
+                        if (store.authorInfo.series && !store.authorInfo.series.some(object => object.seriesId === id)) {
                             let series = await store.fetchSeriesInfo(id);
                             store.authorInfo.series.push(series);
                         }
@@ -897,14 +907,14 @@ export function StoreProvider({ children }) {
         },
         async fetchAvatar(author) {
             const avatar = await client.database
-            .call('get_accounts', [[author]])
-            .then(result => {
-                if (result.length > 0 && result[0].posting_json_metadata) {
-                    ;
-                    let json = JSON.parse(result[0].posting_json_metadata);
-                    return json.profile.profile_image;
-                } else return ""
-            })
+                .call('get_accounts', [[author]])
+                .then(result => {
+                    if (result.length > 0 && result[0].posting_json_metadata) {
+                        ;
+                        let json = JSON.parse(result[0].posting_json_metadata);
+                        return json.profile.profile_image;
+                    } else return ""
+                })
             return avatar;
         },
         async getFollowCount(author) {
@@ -918,7 +928,7 @@ export function StoreProvider({ children }) {
 
             const followers = await client.call('follow_api', 'get_followers', [author, start, "blog", 1000])
                 .then(result => {
-                    if (result) {
+                    if (result && result[result.length - 1]) {
                         last_follower = result[result.length - 1].follower;
                     }
                     return result.map(follow => follow.follower);
@@ -943,7 +953,7 @@ export function StoreProvider({ children }) {
 
             const following = await client.call('follow_api', 'get_following', [author, start, "blog", 1000])
                 .then(result => {
-                    if (result) {
+                    if (result && result[result.length - 1]) {
                         last_following = result[result.length - 1].following;
                     }
                     return result.map(follow => follow.following);

@@ -3,7 +3,7 @@ const cspHtmlWebpackPlugin = require("csp-html-webpack-plugin");
 
 const cspConfigPolicy = {
     'default-src': ["'self'"],
-    'connect-src': ["'self'", "https://anyx.io/", "https://picsum.photos/", "https://inkito-ipfs.herokuapp.com/", "https://hivesigner.com/", "blacklist.usehive.com"],
+    'connect-src': ["'self'", "http://localhost:5000/", "https://anyx.io/", "https://picsum.photos/", "https://inkito-ipfs.herokuapp.com/", "https://hivesigner.com/", "blacklist.usehive.com"],
     'base-uri': "'self'",
     'object-src': "'none'",
     'script-src': ["'self'", "http://www.xiti.com/", "https://logv2.xiti.com/"],
