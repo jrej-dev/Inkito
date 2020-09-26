@@ -229,8 +229,7 @@ export function StoreProvider({ children }) {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username: 'jrej', app:"inkito" })
+                }
             };
             const response = await fetch('https://inkito-ipfs.herokuapp.com/login', requestOptions).then(res => res.text());
             runInAction(() => {
