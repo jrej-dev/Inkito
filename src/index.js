@@ -5,13 +5,13 @@ import 'sanitize.css/forms.css';
 import 'sanitize.css/typography.css';
 
 import React from 'react';
-import { StoreProvider } from './stores/AppStore';
+import { StoreProvider } from './stores/appstore';
 import { HelmetProvider } from 'react-helmet-async';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
 import ReactDOM from 'react-dom';
-import './sass/index.scss';
-import App from './containers/App/App';
+import './styles/index.scss';
+import App from './containers/app/app';
 import * as serviceWorker from './serviceWorker';
 import "wired-elements";
 

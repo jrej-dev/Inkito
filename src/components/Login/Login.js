@@ -1,10 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react';
-import StoreContext from '../../stores/AppStore';
-import '../../sass/components/Login.scss';
-import LoginImage from '../Images/login.png';
-import Hivesigner from '../Icons/hivesigner.svg';
-//import Keychain from '../Icons/keychain.png';
-import HSLogo from '../Icons/hivesigner.png';
+import StoreContext from '../../stores/appstore';
+import './login.scss';
+import LoginImage from '../../assets/images/login.png';
+import Hivesigner from '../../assets/icons/hivesigner.svg';
+import HSLogo from '../../assets/icons/hivesigner.png';
 
 const Login = ({ loginIsActive }) => {
   const store = React.useContext(StoreContext);

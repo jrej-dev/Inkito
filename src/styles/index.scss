@@ -1,0 +1,262 @@
+@import "./abstracts/variables";
+@import "./abstracts/mixins";
+@import "./abstracts/helpers";
+
+body {
+  cursor: default;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  color: $darkest-color;
+  font-family: -apple-system, BlinkMacSystemFont, "Anton", "Patrick Hand", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+#xiti {
+  background-color: #8fdee3;
+  width: 100%;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Anton", "Patrick Hand", "Courier New", monospace;
+}
+
+body:not(.user-is-tabbing) {
+  button:focus,
+  input:focus,
+  select:focus,
+  textarea:focus,
+  a:focus {
+    outline: none;
+  }
+}
+
+body.user-is-tabbing {
+  button:focus,
+  input:focus,
+  select:focus,
+  textarea:focus,
+  a:focus {
+    outline-color: $secondary-color;
+  }
+}
+
+.content {
+  pointer-events: none;
+}
+
+.content-display {
+  .title-line {
+      width: 50%;
+      margin: 0 1.5em;
+      @include flex(flex-start);
+      flex-direction: row;
+      flex-wrap: wrap;
+      > * {
+          margin: 0.5em 0;
+          padding: 0 0.5em;
+      }
+      .trend {
+          @include flex(center);
+          color: $dark-color;
+          > * {
+              cursor: pointer;
+              padding: 0 0.5em;
+          }
+      }
+      .separator {
+          flex-basis: 1px;
+          height: 35px;
+          margin-right: 1em;
+          border-right: 1px solid $darkgrey-color;
+      }
+      .isActiveUnderlined {
+          color: $darkest-color;
+          h3 {
+              border-bottom: 2px solid $primary-color;
+          }
+      }
+  }
+
+  .categories {
+      display: flex;
+      justify-content: center;
+      justify-content: space-between;
+      align-items: center;
+      color: $dark-color;
+      margin: 0;
+      padding: 1em 2em 1em 2em;
+      flex-direction: row;
+      flex-wrap: wrap;
+      list-style-type: none;
+      white-space: nowrap;
+      max-width: 100%;
+      border-bottom: 1px solid $darkgrey-color;
+      border-top: 1px solid $darkgrey-color;
+      button {
+          cursor: pointer;
+      }
+  }
+  .isActive {
+      color: $darkest-color;
+      border: 2px solid $primary-color !important;
+  }
+}
+
+.only-new {
+  .new-panel {
+      max-width: 20em;
+      height: 20em !important;
+      .panel-image {
+          height: 70% !important;
+      }
+      .panel-banner {
+          height: 30% !important;
+          > a:first-child {
+              display: block;
+          }
+      }
+  }
+}
+
+.more {
+  background-color: $grey-color;
+  margin: 0;
+  padding: 0 0 2em 75%;
+}
+
+.not-found {
+  height: 100%;
+  min-height: 50vh;
+  img {
+      max-height: 20em;
+      max-width: 100%;
+  }
+}
+
+.group {
+  margin: 1em 0;
+  > * {
+      margin: 0;
+  }
+}
+
+.terms, .privacy, .faq {
+  width: 70%;
+  margin: 2.5em 15%;
+  white-space: normal;
+  > wired-card {
+      width: 100%;
+          > * {
+              margin: 1em;
+          }
+  }
+  .faq-img {
+      width: 50%;
+      min-width: 15em;
+      max-width: 25em;
+  }
+}
+
+a.blue {
+  color: $secondary-color;
+}
+
+@font-face {
+  font-family: 'Patrick Hand';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  /* Read next point */
+  unicode-range: U+000-5FF;
+  /* Download only latin glyphs */
+  src: url('../assets/fonts/patrickhand/patrick-hand-v13-latin-regular.eot');
+  /* IE9 Compat Modes */
+  src: local('Patrick Hand'), local('PatrickHand-Regular'),
+    url('../assets/fonts/patrickhand/patrick-hand-v13-latin-regular.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */
+    url('../assets/fonts/patrickhand/patrick-hand-v13-latin-regular.woff2') format('woff2'),
+    /* Super Modern Browsers */
+    url('../assets/fonts/patrickhand/patrick-hand-v13-latin-regular.woff') format('woff'),
+    /* Modern Browsers */
+    url('../assets/fonts/patrickhand/patrick-hand-v13-latin-regular.ttf') format('truetype'),
+    /* Safari, Android, iOS */
+    url('../assets/fonts/patrickhand/patrick-hand-v13-latin-regular.svg#PatrickHand') format('svg');
+  /* Legacy iOS */
+}
+
+/* anton-regular - latin */
+@font-face {
+  font-family: 'Anton';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  /* Read next point */
+  unicode-range: U+000-5FF;
+  /* Download only latin glyphs */
+  src: url('../assets/fonts/anton/anton-v11-latin-regular.eot');
+  /* IE9 Compat Modes */
+  src: local('Anton Regular'), local('Anton-Regular'),
+    url('../assets/fonts/anton/anton-v11-latin-regular.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */
+    url('../assets/fonts/anton/anton-v11-latin-regular.woff2') format('woff2'),
+    /* Super Modern Browsers */
+    url('../assets/fonts/anton/anton-v11-latin-regular.woff') format('woff'),
+    /* Modern Browsers */
+    url('../assets/fonts/anton/anton-v11-latin-regular.ttf') format('truetype'),
+    /* Safari, Android, iOS */
+    url('../assets/fonts/anton/anton-v11-latin-regular.svg#Anton') format('svg');
+  /* Legacy iOS */
+}
+
+
+@media screen and (max-width: 810px) {
+  .categories {
+      
+      > * {
+          flex-basis: 15%;
+      }
+  }
+  .more {
+      padding: 1em 0 2em 0;
+      text-align: center;
+  }
+  .content-display {
+      .title-line {
+          width: 100%;
+          h3 {
+            margin: 0.5em 0;
+          }
+      }
+  }
+  .only-new {
+      .new-panel {
+          .panel-banner {
+              > a:first-child {
+                  display: none;
+              }
+          }
+      }
+  }
+  
+}
+
+@media screen and (max-width: 450px) {
+  .content-display {
+      .title-line {
+          justify-content: center;
+          margin: 0;
+          > * {
+              flex-basis: 30%;
+              &:nth-last-child(2){
+                  flex-basis: 50%;
+              }
+          }
+      }
+  }
+}

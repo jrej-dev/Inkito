@@ -1,0 +1,210 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+.panels {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    min-height: 15em;
+    margin: 0;
+    padding-top:1em;
+    background-color: #f5f5f5;
+    > * {
+        margin: 1em 1em;
+    }
+
+    .panel-block {
+        min-height: 10em;
+        max-height: 45em;
+        > * {
+            margin: 1em 0;
+            > wired-card {
+                background-color: white;
+                width: 100%;
+            }
+        }
+    }
+    .single {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        &:before,
+        &:after {
+            content: "";
+            display: block;
+        }
+        flex-direction: column;
+        .new-card {
+            width: 100%;
+            margin: 0.5em 0;
+            .new-panel {
+                height: 15em;
+                .panel-image {
+                    height: calc(15em - 3em);
+                }
+                .panel-banner {
+                    height: 3em;
+                }
+            }
+        }
+    }
+}
+
+.trendy-panel {
+    max-width: 20em;
+    height: 20em;
+    max-height: 20em;
+    padding: 0;
+}
+
+.new-panel {
+    max-width: 20em;
+    height: 10em;
+    padding: 0;
+    .panel-banner > a:first-child {
+        display: none;
+    }
+}
+
+.panel-image {
+    position: relative;
+    width: 100%;
+    height: 70%;
+    cursor: pointer;
+    &:hover {
+        transition: all 0.1s;
+        -webkit-transition: all 0.1s;
+        -webkit-filter: brightness(90%);
+    }
+    .panel-main-image {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+    .panel-icon {
+        position: absolute;
+        top: 1em;
+        right: 1em;
+        height: 2em;
+    }
+}
+
+.panel-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &:before,
+    &:after {
+        content: "";
+        display: block;
+    }
+    width: 100%;
+    height: auto;
+    height: 30%;
+    .panel-info {
+        white-space: initial;
+        height: auto;
+        padding: 0.5em;
+        cursor: pointer;
+        > * {
+            margin: 0;
+        }
+    }
+    > * {
+        padding: 0 0.5em;
+    }
+    .panel-profile-pic {
+        object-fit: cover;
+        max-height: 4em;
+        margin: 0.5em;
+        width: auto;
+        border-radius: 50%;
+    }
+    .reward-block {
+        @include flex(center);
+        flex-wrap: wrap;
+        > * {
+            margin: 0;
+            padding: 0.1em;
+            white-space: nowrap;
+        }
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .panels {
+        .panel-block {
+            margin: 0 2.5%;
+            width: 45%;
+            flex-basis: 45%;
+        }
+    }
+    .trendy-panel {
+        height: 20em;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .panels {
+        .panel-block {
+            .panel-banner {
+                overflow: hidden;
+                > a {
+                    display: none;
+                }
+                .panel-profile-pic,
+                .reward-block {
+                    display: none;
+                }
+                > .keychainify-checked {
+                    display: none;
+                }
+            }
+            .panel-image {
+                .panel-icon {
+                    position: absolute;
+                    top: 0.75em;
+                    right: 0.75em;
+                    height: 1.5em;
+                }
+            }
+        }
+    }
+    .new-panel {
+        .panel-dash,
+        .panel-creator {
+            display: none;
+        }
+    }
+}
+
+@media screen and (max-width: 635px) {
+    .panels {
+        .panel-block:nth-child(2n) {
+            flex-direction: column-reverse;
+        }
+    }
+    .panel-image {
+        img {
+            height: auto;
+            max-width: 266;
+        }
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .panel-image {
+        img {
+            height: auto;
+            max-width: 183;
+        }
+    }
+}

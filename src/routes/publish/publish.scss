@@ -1,0 +1,240 @@
+@import "../../styles/abstracts/variables";
+@import "../../styles/abstracts/mixins";
+
+
+.publish {
+    position: relative;
+    width: 100%;
+    background-color: $primary-color;
+    .container {
+        position: relative;
+        height: 100%;
+        width: 100vw;
+        padding: 2%;
+    }
+    .publish-page {
+        display: grid;
+        width: 100%;
+        overflow: hidden;
+        background-color: $light-color;
+        border: 1px solid black;
+        > * {
+            width: 100%;
+            max-width: 100vw;
+        }
+        table {
+            color: $darkest-color;
+            text-align: left;
+            width: 100%;
+            max-width: 100%;
+        }
+          
+        tbody tr{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5em 0.5em;
+            min-height: 2em;
+            white-space: normal;
+            &:nth-child(odd){
+                background-color: $third-color;
+            }
+        }
+        .blue {
+            color: $primary-color;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .imageLink {
+            transition: top 0.3s;
+            position: absolute;
+            position: fixed;
+            z-index: 2;
+            top: 10%;
+            background-color: $light-color;
+            left: unquote("calc(50% - 8.5em)");
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            &:before,
+            &:after {
+                content: "";
+                display: block;
+            }
+            flex-direction: column;
+            height: 20em;
+            width: 16em;
+            border: 1px solid black;
+            .close {
+                position: absolute;
+                top: 1em;
+                right: 1em;
+            }
+            > wired-input {
+                width: 80%;
+            }
+        }
+        .hidden-top {
+            top: -50em;
+        }        
+    }
+}
+
+
+.upload {
+    width: 100%;
+    .buttons {
+        width: 50%;
+    }
+    .custom-file-input::-webkit-file-upload-button {
+        visibility: hidden;
+    }
+    .custom-file-input::before {
+        content: "Browse";
+        box-shadow: inset 0px 1px 0px 0px #ffffff;
+        background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+        background-color: #ffffff;
+        border-radius: 6px;
+        border: 1px solid #dcdcdc;
+        display: inline-block;
+        cursor: pointer;
+        color: #666666;
+        font-family: Arial;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 0.2em 1em;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #ffffff;
+        &:hover {
+            background: linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+            background-color: #f6f6f6;
+        }
+        &:active {
+            position: relative;
+            top: 1px;
+        }
+    }
+    .custom-file-input:active::before {
+        background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+    }
+}
+
+.input {
+    h2 {
+        margin: 0;
+    }
+    min-width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    > wired-input {
+        width: 50%;
+    }
+}
+.description {
+    width: 100%;
+    > wired-textarea {
+        width: 100%;
+        max-width: inherit;
+        text-align: left;
+        padding-top: 0.5em;
+        height: 98%;
+    }
+}
+
+.tags > wired-input {
+    width: 50%;
+}
+
+.end {
+    width: 90%;
+    margin: 2% 0 5% 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.divider {
+    border-top: 1px solid $darkest-color;
+    height: 1px;
+    width: 100%;
+    margin: 1em 0;
+}
+
+.rules {
+    width: 60%;
+    margin: 0 5%;
+    text-align: left;
+    h3 {
+        margin: 0.5em 0;
+    }
+}
+
+.ep-list {
+    > * {
+        width: 100%;
+    }
+    .episode {
+        min-height: 5em;
+        margin: 0.5em 5%;
+        padding: 0.5em 5%;
+        width: 90%;
+        border: 1px solid $darkest-color;
+        background-color: $third-color;
+        p, h3 {
+            margin: 0;
+            padding: 0;
+        }
+        .title-block {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .publish {
+        .container {
+            .publish-page {
+                .series {
+                    flex-direction: column;
+                    .series-select {
+                        width: 100%;
+                        flex-direction: column;
+                    }
+                }
+                .upload {
+                    .buttons {
+                        width: 90%;
+                    }
+                }
+                .end {
+                    width: 100%;
+                    .rules {
+                        width: 90%;
+                        margin-bottom: 2em;
+                    }
+                    flex-direction: column;
+                }
+                .input {
+                    align-items: center;
+                    > wired-input {
+                        width: 90%;
+                    }
+                }
+                .title {
+                    justify-content: center;
+                }
+            }
+        }
+    }
+    .ep-list {
+        .episode {
+            justify-content: center;
+        }
+    }
+}

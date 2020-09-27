@@ -2,27 +2,29 @@ import 'core-js';
 import React, { useEffect } from 'react';
 import { Helmet } from "react-helmet-async";
 import { useObserver } from 'mobx-react';
-import StoreContext from '../../stores/AppStore';
+import StoreContext from '../../stores/appstore';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
 } from "react-router-dom";
-import '../../sass/App.scss';
-import Login from '../../components/Login/Login';
-import Home from '../../components/Main/Home';
-import Footer from '../../components/Main/Footer';
-import FullDisplay from '../../components/FullDisplay/FullDisplay';
-import Reader from '../../components/Reader/Reader';
-import ProfilePage from '../../components/Profile/ProfilePage';
-import Page404 from '../../components/Main/Page404';
-import Terms from '../../components/Main/Terms';
-import Privacy from '../../components/Main/Privacy';
-import Faq from '../../components/Main/Faq';
+import './app.scss';
 
-import PublishPage from '../../components/Publish/PublishPage';
-
-import CookieBanner from '../../components/Main/CookieBanner';
+//Routes
+import Home from '../../routes/home/home';
+import FullDisplay from '../../routes/fulldisplay/fulldisplay';
+import Reader from '../../routes/reader/reader';
+import ProfilePage from '../../routes/profilepage/profilepage';
+import PublishPage from '../../routes/publish/publishpage';
+import Page404 from '../../routes/page404/page404';
+import Terms from '../../routes/terms/terms';
+import Privacy from '../../routes/privacy/privacy';
+import Faq from '../../routes/faq/faq';
+//Components
+import Login from '../../components/login/login';
+import Navbar from '../../components/nav/index';
+import Footer from '../../components/footer/footer';
+import CookieBanner from '../../components/footer/cookiebanner/cookiebanner';
 
 const App = () => {
   const store = React.useContext(StoreContext);
@@ -90,6 +92,7 @@ const App = () => {
       </Helmet>
       <div className="App">
         <LoginPopUp />
+        <Navbar />
         <Switch >
           <Route exact path="/">
             <Home />
