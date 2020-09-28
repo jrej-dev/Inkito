@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet-async";
 
 import ComicHero from '../../components/hero/comichero';
 import NovelHero from '../../components/hero/novelhero';
-import ContentDisplay from '../../components/contentdisplay/contentdisplay';
+import ContentDisplay from '../reader/contentdisplay/contentdisplay';
 
 const FullDisplay = ({ type }) => {
   const store = React.useContext(StoreContext);

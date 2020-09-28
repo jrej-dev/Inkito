@@ -1,7 +1,6 @@
 import 'core-js';
 import React, { useEffect } from 'react';
 import { Helmet } from "react-helmet-async";
-import { useObserver } from 'mobx-react';
 import StoreContext from '../../stores/appstore';
 import {
   BrowserRouter as Router,
@@ -20,6 +19,7 @@ import Page404 from '../../routes/page404/page404';
 import Terms from '../../routes/terms/terms';
 import Privacy from '../../routes/privacy/privacy';
 import Faq from '../../routes/faq/faq';
+
 //Components
 import Login from '../../components/login/login';
 import Navbar from '../../components/nav/index';
@@ -30,14 +30,16 @@ const App = () => {
   const store = React.useContext(StoreContext);
 
   useEffect(() => {
-    store.temporalLogin();
-
     getUserDetail();
+
+    store.temporalLogin();
     store.toggleNavMenu(false);
     store.checkCookieConsent();
+    
     if (store.loginLink === "") {
       store.initHSLogin();
     }
+    
     window.addEventListener('keydown', handleFirstTab);
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -71,18 +73,6 @@ const App = () => {
     }
   }
 
-  const LoginPopUp = () => {
-    return useObserver(() => {
-        return <Login loginIsActive={store.loginIsActive}/>
-    })
-  }
-
-  const Publish = () => {
-    return useObserver(() => {
-      return <PublishPage publishState={store.commentState}/>
-    })
-  }
-
   return (
     <Router>
       <Helmet>
@@ -91,7 +81,7 @@ const App = () => {
         <meta name="description" content="Inkito is a comic and novel hosting powered by the Hive blockchain. Creators can earn crypto currency for their content in proportion to the attention received." />
       </Helmet>
       <div className="App">
-        <LoginPopUp />
+        <Login />
         <Navbar />
         <Switch >
           <Route exact path="/">
@@ -113,7 +103,7 @@ const App = () => {
             <ProfilePage />
           </Route>
           <Route path="/publish*">
-            <Publish />
+            <PublishPage />
           </Route>  
           <Route path="/terms">
             <Terms />

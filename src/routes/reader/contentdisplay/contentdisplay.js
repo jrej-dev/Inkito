@@ -1,10 +1,10 @@
 import React from 'react';
-import StoreContext from '../../stores/appstore';
+import StoreContext from '../../../stores/appstore';
 import { Link } from "react-router-dom";
 
 import PanelBlocks from './panelblock/panelblock';
-import TrendyIcon from '../../assets/icons/trendyicon.png';
-import NewIcon from '../../assets/icons/newicon.png';
+import TrendyIcon from '../../../assets/icons/trendyicon.png';
+import NewIcon from '../../../assets/icons/newicon.png';
 import './panels/panels.scss';
 
 function ContentDisplay({ type, newData, trendyData, activeCategory, activeTrend, panelBlockNumber }) {

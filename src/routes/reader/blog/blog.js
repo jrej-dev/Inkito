@@ -3,7 +3,7 @@ import StoreContext from '../../../stores/appstore';
 import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
 import '../reader.scss';
-import ContentBody from '../../../components/contentbody/contentbody';
+import ContentBody from '../contentbody/contentbody';
 import InfoTab from '../infotab/infotab';
 
 const Blog = ({ type, page, permlink, nextPermlink, author }) => {

@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import StoreContext from '../../../stores/appstore';
 import { useAlert } from 'react-alert';
 
-const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
+const ProfileEdit = ({ isEdited, setEdited, authorInfo, state }) => {
     const store = React.useContext(StoreContext);
     const alert = useAlert();
 
@@ -107,7 +107,7 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
         if (about !== authorInfo.about || cover !== authorInfo.cover || location !== authorInfo.location || name !== authorInfo.displayName || avatar !== authorInfo.avatar || website !== authorInfo.website) {
             store.updateProfile(authorInfo.name, JSON.stringify(tx));
             if (state === "done") {
-                handleEdit();
+                setEdited(!isEdited);
                 alert.success('Profile Udpated', {
                     timeout: 2000, // custom timeout just for this one alert
                 })
@@ -126,7 +126,7 @@ const ProfileEdit = ({ isEdited, handleEdit, authorInfo, state }) => {
         setAbout(authorInfo.about);
         setLocation(authorInfo.location);
         setWebsite(authorInfo.website);
-        handleEdit();
+        setEdited(!isEdited);
     }
 
     const onCoverUpload = async () => {

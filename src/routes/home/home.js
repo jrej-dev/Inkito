@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet-async";
 
 import Hero from '../../components/hero/hero';
 //import Promo from './promo/promo';
-import ContentDisplay from '../../components/contentdisplay/contentdisplay';
+import ContentDisplay from '../reader/contentdisplay/contentdisplay';
 
 const Home = () => {
   const store = React.useContext(StoreContext);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Remarkable } from 'remarkable';
-import { imgify } from '../../utilities/imgify';
+import { imgify } from '../../../utilities/imgify';
 
 const md = new Remarkable({html: true}).use(imgify);
 

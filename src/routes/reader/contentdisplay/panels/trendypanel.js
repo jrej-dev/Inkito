@@ -1,6 +1,6 @@
 import React from 'react';
-import TrendyIcon from '../../../assets/icons/trendyicon.png';
-import DefaultAvatar from '../../../assets/icons/defaultavatar.png';
+import TrendyIcon from '../../../../assets/icons/trendyicon.png';
+import DefaultAvatar from '../../../../assets/icons/defaultavatar.png';
 import './panels.scss';
 import { Link } from "react-router-dom";
 import Img from "react-cool-img";

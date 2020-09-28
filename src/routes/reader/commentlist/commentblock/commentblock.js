@@ -1,5 +1,5 @@
 import React from 'react';
-import StoreContext from '../../../stores/appstore';
+import StoreContext from '../../../../stores/appstore';
 import { useAlert } from 'react-alert'
 import { Link } from "react-router-dom";
 
@@ -7,11 +7,11 @@ import ContentBody from '../../contentbody/contentbody';
 import CommentList from '../commentlist';
 import CommentInput from '../commentinput/commentinput';
 
-import Clock from '../../../assets/icons/clock.png';
-import UpArrow from '../../../assets/icons/up-arrow.png';
-import DownArrow from '../../../assets/icons/down-arrow.png';
+import Clock from '../../../../assets/icons/clock.png';
+import UpArrow from '../../../../assets/icons/up-arrow.png';
+import DownArrow from '../../../../assets/icons/down-arrow.png';
 
-import HeartElement from '../../heartelement/heartelement';
+import HeartElement from '../../../../components/heartelement/heartelement';
 
 
 const CommentBlock = ({ content, reply, page, replyIsActive, userDetail, commentState, voteState }) => {

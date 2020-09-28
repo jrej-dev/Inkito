@@ -2,81 +2,45 @@ import React, { useEffect } from 'react';
 import StoreContext from '../../stores/appstore';
 import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
-import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-
+import { getUrlVars } from '../../utilities/getUrlVars';
 //Components
 import Blog from './blog/blog';
-import AuthorBanner from './authorbanner/authorbanner';
+import BottomBanner from './bottombanner/bottombanner';
 import NavReader from '../../components/nav/navreader/navreader';
 import NavReaderBottom from '../../components/nav/navreader/navreaderbottom';
 
 //Style
 import './reader.scss';
+import { bookmark } from '../../utilities/bookmark';
 
 const Reader = ({ type }) => {
   const store = React.useContext(StoreContext);
-  const history = useHistory();
+  var props = getUrlVars("Reader/");
+  var lastScrollTop = 0;
 
-  var props = {};
-
+  //Props effects
   useEffect(() => {
-    getUrlVars();
     store.fetchPermlinks(props.author, props.seriesTitle);
-    
-    props.currentPage ? store.updateCurrentPage(props.currentPage) : store.updateCurrentPage(0);
+    if (props.currentPage) {
+      store.updateCurrentPage(props.currentPage)
+    } else {
+      store.updateCurrentPage(0)
 
-    document.documentElement.scrollTop = 0;
-    window.addEventListener('scroll', handleScroll);
-    
-    return () => { window.removeEventListener('scroll', handleScroll); store.toggleNavMenu(false); store.toggleShareMenu(false); store.resetSeriesDetail()}
-  })
-
-  const bookmarkInit = (author, title, page) => {
-    var storedBookmarks = JSON.parse(localStorage.getItem("bookmarks"));
-    if (storedBookmarks) {
-      var reader = window.location.href.slice(window.location.href.indexOf("Reader")-5,window.location.href.indexOf("Reader")+6);
-      for (let bookmark of storedBookmarks) {
-        if (bookmark.id === `${author}-${title}` && bookmark.currentPage !== page) {
-          history.push(`/${reader}/${author}/${title}/${bookmark.currentPage}`);
-          window.location.reload();
-          break;
-        }
+      //Redirect to bookmarked page if any.
+      let bookmarkPage = bookmark.getPage(props.author, props.seriesTitle);
+      if (bookmarkPage && bookmarkPage !== store.currentPage) {
+        store.updateCurrentPage(bookmarkPage)
       }
     }
-  }
+  })
 
-  const setBookmark = (author, title, page) => {
-    var storedBookmarks = JSON.parse(localStorage.getItem("bookmarks"));
-    var bookmark = [];
-    if (storedBookmarks) {
-      storedBookmarks = storedBookmarks.filter(object => object.id !== `${author}-${title}`);
-      bookmark = [...storedBookmarks, {id: `${author}-${title}`, currentPage: page}];
-    } else {
-      bookmark = [{id: `${author}-${title}`, currentPage: page}];
-    }
-    localStorage.setItem("bookmarks", JSON.stringify(bookmark));
-  }
-
-  const getUrlVars = () => {
-    var address = window.location.href;
-
-    var indexOfReader = address.indexOf("Reader");
-    address = address.slice(indexOfReader + 7, address.length);
-
-    var params = address.split("/");
-    props.author = params[0];
-    props.seriesTitle = params[1];
-
-    if (params[2]) {
-      props.currentPage = parseInt(params[2]);
-    } else {
-      bookmarkInit(props.author, props.seriesTitle, store.currentPage);
-    }
-    return props;
-  }
-
-  var lastScrollTop = 0;
+  //Scroll effects
+  useEffect(() => {
+    document.documentElement.scrollTop = 0;
+    window.addEventListener('scroll', handleScroll);
+    return () => { window.removeEventListener('scroll', handleScroll); store.toggleNavMenu(false); store.toggleShareMenu(false); store.resetSeriesDetail()}
+  })
 
   const handleScroll = () => {
     var st = document.documentElement.scrollTop;
@@ -93,24 +57,21 @@ const Reader = ({ type }) => {
     lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
 
     if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 5) {
+      //Load next page if not final one
       if (store.currentPage + 1 < store.seriesLinks.length && store.seriesDetail[store.currentPage + 1]) {
         store.closeInfoTab();
         store.scrollCurrentPage(store.currentPage + 1);
-        setBookmark(props.author, props.seriesTitle, store.currentPage);
+        bookmark.setPage(props.author, props.seriesTitle, store.currentPage);
       }
     }
-  }
-
-  const scrollBottom = () => {
-    document.documentElement.scrollTop = document.documentElement.offsetHeight;
   }
 
   let ListedBlogs = () => {
     return useObserver(() => {
       var seriesData = toJS(store.seriesLinks);
-      var blogs = [];
+      var blogs;
+      // Adding zoom feature only for comics.
       if (type === "comics") {
-        // Adding zoom feature only for comics.
         blogs = [
           <div key="zoom-banner" className={store.zoomIsActive ? "zoom-banner flex-start isActive" : "zoom-banner flex-start hide"} onClick={zoomHandle}>
             <button className="hide zoom-cover"><p className="cover">Zoom</p></button>
@@ -163,7 +124,7 @@ const Reader = ({ type }) => {
       document.documentElement.scrollTop = 0;
       store.updateCurrentPage(store.seriesLinks.length - 1);
     }
-    setBookmark(props.author, props.seriesTitle, store.currentPage);
+    bookmark.setPage(props.author, props.seriesTitle, store.currentPage);
   }
 
   const zoomHandle = (e) => {
@@ -178,81 +139,6 @@ const Reader = ({ type }) => {
     }
   }
 
-  const Nav = () => {
-    return useObserver(() => {
-      if (store.seriesLinkState === "done" && toJS(store.seriesLinks).length > 0 && toJS(store.seriesDetail).length > 0 && toJS(store.userDetail)) {
-        return (
-          <NavReader
-            page={store.currentPage}
-            seriesLength={toJS(store.seriesLinks).length}
-            onClick={navClickHandle}
-            firstPage={toJS(store.seriesDetail)[0]}
-            currentPage={toJS(store.seriesDetail)[store.currentPage]}
-            lastPage={toJS(store.seriesDetail)[store.seriesLinks.length - 1]}
-
-            isHidden={store.navIsHidden}
-            navMenuIsActive={store.navMenuIsActive}
-            shareIsActive={store.shareMenuIsActive}
-
-            userDetail={toJS(store.userDetail)}
-            seriesInfo={toJS(store.seriesInfo)}
-            followState={store.followState}
-
-            voteState={store.voteState}
-          />
-        )
-      } else {
-        return (
-          <NavReader onClick={navClickHandle} />
-        )
-      }
-    })
-  }
-
-  const BottomNav = () => {
-    return useObserver(() => {
-      if (toJS(store.seriesDetail).length > 0 && toJS(store.seriesDetail)[store.currentPage] && toJS(store.seriesDetail)[0] && store.seriesLinks.length > 0) {
-        return (
-          <NavReaderBottom
-            page={store.currentPage}
-            length={store.seriesLinks.length}
-            onClick={navClickHandle}
-            content={toJS(store.seriesDetail)}
-            isHidden={store.navIsHidden}
-          />
-        )
-      } else {
-        return (
-          <NavReaderBottom onClick={navClickHandle} />
-        )
-      }
-    })
-  }
-
-  const BottomBanner = () => {
-    return useObserver(() => {
-      if (store.seriesDetail.length > 0 && toJS(store.seriesDetail)[0]) {
-        if (store.currentPage < store.seriesDetail.length - 1) {
-          return (
-            <div className="scroll-text flex col">
-              <button className="hide" onClick={scrollBottom}>Scroll to read more.</button>
-              <wired-spinner className="flex" class="custom" spinning duration="3000" />
-            </div>
-          )
-        } else {
-          return <AuthorBanner
-            author={props.author}
-            content={toJS(store.seriesDetail)[0]}
-            shareIsActive={store.shareMenuBottomIsActive}
-            userDetail={toJS(store.userDetail)}
-            followState={store.followState}
-            seriesInfo={toJS(store.seriesInfo)}
-          />
-        }
-      } else return ""
-    })
-  }
-
   return (
     <>
       <Helmet>
@@ -260,12 +146,12 @@ const Reader = ({ type }) => {
         <title>Inkito | Content Reader</title>
       </Helmet>
       <div className="reader">
-        <Nav />
+        <NavReader onClick={navClickHandle} />
         <ul className="list-blog" onClick={() => { store.toggleNavMenu(false); store.toggleShareMenu(false) }}>
           <ListedBlogs />
         </ul>
-        <BottomBanner />
-        <BottomNav />
+        <BottomBanner author={props.author}/>
+        <NavReaderBottom onClick={navClickHandle} />
       </div>
     </>
   );

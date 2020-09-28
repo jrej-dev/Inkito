@@ -1,33 +1,10 @@
-import React,{ useEffect } from 'react';
-import StoreContext from '../../stores/appstore';
-import { useObserver } from 'mobx-react';
-import { toJS } from 'mobx';
-
-import NavMenu from './menu/navmenu';
+import React from 'react';
 import { Link } from "react-router-dom";
 import './nav.scss';
 
+import NavMenu from './menu/navmenu';
+
 const Nav = () => {
-  const store = React.useContext(StoreContext);
-
-  useEffect (() => { 
-    return () => dispose();
-  })
-
-  const dispose = () => {
-    Menu = () => { "" };
-  }
-
-  let Menu = () => {
-    return useObserver(() => {
-      if (toJS(store.userDetail) && toJS(store.userDetail).name) {
-        return <NavMenu navMenuIsActive={store.navMenuIsActive} user={toJS(store.userDetail)} />
-      } else {
-        return <NavMenu />
-      }
-    })
-  }
-
   return (
     <div className="Nav flex">
       <div className="title flex-start pa-h">
@@ -37,9 +14,9 @@ const Nav = () => {
         <p className="beta">Alpha</p>
       </div>
       <ul>
-        <li className="search">
+        {/*<li className="search">
           <wired-search-input placeholder="Search"></wired-search-input>
-        </li>
+        </li>*/}
         <li className="nav-comics">
           <Link to="/comics">Comics</Link>
         </li>
@@ -49,7 +26,7 @@ const Nav = () => {
         <li className="nav-blog">
           <a href="https://hive.blog/@inkito" target="_blank" rel="noopener noreferrer" title="Inkito blog">Blog</a>
         </li>
-        <Menu />
+        <NavMenu />
       </ul>
     </div>
   );

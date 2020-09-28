@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../routes/reader/infotab/infotab.scss';
+import '../../reader/infotab/infotab.scss';
 import CommentBlock from './commentblock/commentblock';
 
 const CommentList = ({ commentData, reply, page, replyIsActive, userDetail, commentState, voteState}) => {

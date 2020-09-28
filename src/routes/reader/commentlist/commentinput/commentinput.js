@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
-import StoreContext from '../../../stores/appstore';
+import StoreContext from '../../../../stores/appstore';
 
-import UpArrow from '../../../assets/icons/up-arrow.png';
+import UpArrow from '../../../../assets/icons/up-arrow.png';
 //import 'wired-elements';
 
 

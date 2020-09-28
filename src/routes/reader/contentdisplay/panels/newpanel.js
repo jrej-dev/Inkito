@@ -1,9 +1,9 @@
 import React from 'react';
-import NewIcon from '../../../assets/icons/newicon.png';
-import DefaultAvatar from '../../../assets/icons/defaultavatar.png';
+import NewIcon from '../../../../assets/icons/newicon.png';
+import DefaultAvatar from '../../../../assets/icons/defaultavatar.png';
 import { Link } from "react-router-dom";
 import Img from "react-cool-img";
-import loadingImage from '../../../assets/images/loading_img.gif';
+import loadingImage from '../../../../assets/images/loading_img.gif';
 import './panels.scss';
 
 function NewPanel({ content, onClick, user }) {

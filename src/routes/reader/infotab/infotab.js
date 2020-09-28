@@ -3,9 +3,9 @@ import StoreContext from '../../../stores/appstore';
 import { useAlert } from 'react-alert'
 import { Link } from "react-router-dom";
 
-import CommentList from '../../../components/commentlist/commentlist';
-import ContentBody from '../../../components/contentbody/contentbody';
-import CommentInput from '../../../components/commentlist/commentinput/commentinput';
+import CommentList from '../commentlist/commentlist';
+import ContentBody from '../contentbody/contentbody';
+import CommentInput from '../commentlist/commentinput/commentinput';
 import HeartElement from '../../../components/heartelement/heartelement';
 import BellElement from '../../../components/bellelement/bellelement';
 
