@@ -1,8 +1,7 @@
 import React from 'react';
 import { useLocalStore } from 'mobx-react';
 import { runInAction } from 'mobx';
-
-const StoreContext = React.createContext();
+import { binArrayToJson, safeJSON } from '../middlewares/json';
 
 //Steem API
 const { Client } = require('dsteem');
@@ -24,14 +23,15 @@ var api = new hivesigner.Client({
     scope: ['vote', 'comment', 'follow', 'posting'],
 });
 
-var ENDPOINT = "https://inkito-ipfs.herokuapp.com/";
+var ENDPOINT = "https://inkito-ipfs.herokuapp.com";
 if (process.env.NODE_ENV === "development") {
-    ENDPOINT = "http://localhost:5000/";
+    ENDPOINT = "http://localhost:5000";
 }
+
+const StoreContext = React.createContext();
 
 export function StoreProvider({ children }) {
     const store = useLocalStore(() => ({
-
         // State Variables
         //Categories array and active
         categories: [
@@ -54,7 +54,7 @@ export function StoreProvider({ children }) {
         activeNovelTrend: "all",
 
         //Array for promoted content
-        promoArray: [
+        /*promoArray: [
             {
                 title: "Shades Of Men",
                 author: "Jrej",
@@ -67,13 +67,19 @@ export function StoreProvider({ children }) {
                 thumbnail: "https://picsum.photos/400/300",
                 link: "https://inkito.io/comicReader/jrej/shadesofmen"
             }
-        ],
+        ],*/
 
         //Content Display Data
         trendingComics: [],
         newComics: [],
         trendingNovels: [],
         newNovels: [],
+        //Search bookmark
+        last_trendyComic: {},
+        last_newComic: {},
+        last_trendyNovel: {},
+        last_newNovel: {},
+
         seriesLinks: [],
         seriesDetail: [],
         seriesInfo: {},
@@ -100,10 +106,8 @@ export function StoreProvider({ children }) {
         replyIsActive: "",
 
         //Data states
-        trendyComicState: "",
-        newComicState: "",
-        trendyNovelState: "",
-        newNovelState: "",
+        fetchComicState: "",
+        fetchNovelState: "",
         postDetailState: "",
         seriesDetailState: "",
         seriesLinkState: "",
@@ -139,10 +143,10 @@ export function StoreProvider({ children }) {
             store.currentPage = page;
         },
         // Removing duplicates from new content data
-        removeDuplicateContent: (newIds, trendyIds) => {
-            return newIds.filter(id =>
-                !trendyIds.includes(id)
-            )
+        removeDuplicateContent: (newContent, trendyContent) => {
+            let trendyIds = trendyContent.map(content => content.seriesId);
+            let filteredContent = newContent.filter(content => !trendyIds.includes(content.seriesId));
+            return filteredContent;
         },
         setSpinnerTimeout: (value) => {
             store.spinnerTimeout = value;
@@ -217,7 +221,7 @@ export function StoreProvider({ children }) {
         },
         checkCookieConsent: () => {
             const cookie = localStorage.getItem('cookie-consent');
-            store.cookieConsent = JSON.parse(cookie);
+            store.cookieConsent = safeJSON.parse(cookie);
         },
         toggleReplyIsActive: (value) => {
             if (store.replyIsActive === value) {
@@ -226,6 +230,53 @@ export function StoreProvider({ children }) {
                 store.replyIsActive = value;
             }
         },
+        trendyComicCb: (res) => {
+            if (res && res.data) {
+                let comic = res.data;
+                if (store.trendingComics.length === 0 || !store.trendingComics.some(object => object.seriesId === comic.seriesId)) {
+                    store.trendingComics.push(comic);
+                    store.newComics = store.removeDuplicateContent(store.newComics, store.trendingComics);
+                }
+            } else if (res && res.bookmark) {
+                store.last_trendyComic = res.bookmark;
+            }
+        },
+        newComicCb: (res) => {
+            if (res && res.data) {
+                let comic = res.data;
+                if (store.newComics.length === 0 || !store.newComics.some(object => object.seriesId === comic.seriesId)) {
+                    if (store.trendingComics.length === 0 || !store.trendingComics.some(object => object.seriesId === comic.seriesId)) {
+                        store.newComics.push(comic);
+                    }
+                }
+            } else if (res && res.bookmark) {
+                store.last_newComic = res.bookmark;
+            }
+        },
+        trendyNovelCb: (res) => {
+            if (res && res.data) {
+                let novel = res.data;
+                if (store.trendingNovels.length === 0 || !store.trendingNovels.some(object => object.seriesId === novel.seriesId)) {
+                    store.trendingNovels.push(novel);
+                    store.newNovels = store.removeDuplicateContent(store.newNovels, store.trendingNovels);
+                }
+            } else if (res && res.bookmark) {
+                store.last_trendyNovel = res.bookmark;
+            }
+        },
+        newNovelCb: (res) => {
+            if (res && res.data) {
+                let novel = res.data;
+                if (store.newNovels.length === 0 || !store.newNovels.some(object => object.seriesId === novel.seriesId)) {
+                    if (store.trendingNovels.length === 0 || !store.trendingNovels.some(object => object.seriesId === novel.seriesId)) {
+                        store.newNovels.push(novel);
+                    }
+                }
+            } else if (res && res.bookmark) {
+                store.last_newNovel = res.bookmark;
+            }
+        },
+
         //Temporal
         temporalLogin: async () => {
             try {
@@ -236,9 +287,9 @@ export function StoreProvider({ children }) {
                         'Content-Type': 'application/json'
                     }
                 };
-                const response = await fetch(`${ENDPOINT}login`, requestOptions).then(res => res.text())
+                const response = await fetch(`${ENDPOINT}/temporalLogin`, requestOptions).then(res => res.text())
 
-                runInAction (() => {
+                runInAction(() => {
                     if (response === "success") {
                         store.ipfsState = true;
                     } else {
@@ -249,6 +300,182 @@ export function StoreProvider({ children }) {
                 console.log(error)
             }
         },
+        /*       
+        General fetch
+        type: "comics" || "novels"
+        limit: number
+        */
+        fetch: (type, limit) => {
+            try {
+                if (type === "comics") {
+                    let comicCount = 0;
+                    let comicCountCb = (number) => {
+                        comicCount = comicCount + number;
+                    }
+
+                    store.fetchComicState = "pending";
+
+                    store.fetchContent("inkito-comics", "trending", limit, store.trendyComicCb, comicCountCb, comicCount, store.last_trendyComic.author, store.last_trendyComic.permlink);
+                    let comicLimit = limit - store.trendingComics.length;
+                    store.fetchContent("inkito-comics", "created", comicLimit, store.newComicCb, comicCountCb, comicCount, store.last_newComic.author, store.last_newComic.permlink);
+
+                    store.fetchComicState = "done";
+
+                } else if (type === "novels") {
+                    let novelCount = 0
+                    let nouvelCountCb = (number) => {
+                        novelCount = novelCount + number;
+                    }
+
+                    store.fetchNovelState = "pending";
+
+                    store.fetchContent("inkito-novels", "trending", limit, store.trendyNovelCb, nouvelCountCb, novelCount, store.last_trendyComic.author, store.last_trendyComic.permlink);
+                    let novelLimit = limit - store.trendingComics.length;
+                    store.fetchContent("inkito-novels", "created", novelLimit, store.newNovelCb, nouvelCountCb, novelCount, store.last_newComic.author, store.last_newComic.permlink);
+
+                    store.fetchNovelState = "done";
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        fetchContent: async (tag, section, limit, contentCb, countCb, count, last_author, last_permlink) => {
+            try {
+                var last_content = {};
+                var local_count = count;
+
+                let options = {
+                    method: 'POST',
+                    headers: new Headers({ 'content-type': 'application/json' }),
+                    body: safeJSON.stringify({ section, tag, last_author, last_permlink })
+                };
+
+                const content = await fetch(`${ENDPOINT}/fetchContent`, options)
+                    .then(async res => {
+                        let data = [];
+                        const reader = res.body.getReader();
+                        return await reader.read().then(function processText({ done, value }) {
+                            if (done) {
+                                return data;
+                            }
+                            // value for fetch streams is a Uint8Array
+                            let json = binArrayToJson(value);
+                            let res = safeJSON.parse(json);
+
+                            if (res) {
+                                if (local_count < limit) {
+                                    if (res.data) {
+                                        data.push(res.data.seriesId);
+                                        contentCb(res);
+                                        local_count++;
+                                        countCb(1);
+                                    } else if (res.bookmark) {
+                                        contentCb(res);
+                                        last_content = res.bookmark;
+                                    }
+                                } else {
+                                    console.log("limit reached for: " + section + " " + tag.slice(7));
+                                }
+                            }
+                            return reader.read().then(processText);
+                        });
+                    })
+
+                //Looping conditions:
+                //More content to be found
+                if (content && content.length > 2 && local_count < limit) {
+
+                    let newCount = local_count + content.length;
+                    store.fetchContent(tag, section, limit, contentCb, countCb, newCount, last_content.author, last_content.permlink);
+
+                    //API call failed. Trying again.
+                } else if (content === undefined && local_count < limit) {
+
+                    store.fetchContent(tag, section, limit, contentCb, countCb, local_count, last_content.author, last_content.permlink);
+
+                    //No content left to be found.
+                } else {
+                    countCb(local_count);
+                    if (content && content.length <= 2) {
+                        console.log("no more content to be found for: " + section + " " + tag.slice(7));
+                    }
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        initHSLogin: async () => {
+            let link = await fetch(`${ENDPOINT}/getLoginURL`).then(res => res.text());
+
+            runInAction(() => {
+                store.loginLink = link;
+            })
+        },
+        login: (user) => {
+            let params = { username: user };
+
+            api.login(params, function (err, token) {
+                if (token) {
+                    console.log(token);
+                    store.toggleLogin(false);
+                    store.getUserDetail(token, user)
+                } else if (err) {
+                    console.log(err);
+                }
+            })
+        },
+        getUserDetail: async (localAccess, localUser) => {
+            store.userDetail = {};
+
+            if (localAccess && localUser) {
+                var access_token = localAccess;
+                var username = localUser;
+            } else {
+                access_token = new URLSearchParams(document.location.search).get('access_token');
+                username = new URLSearchParams(document.location.search).get('username');
+            }
+
+            if (access_token) {
+                store.toggleNavMenu(false);
+
+                let options = {
+                    method: 'POST',
+                    headers: new Headers({ 'content-type': 'application/json' }),
+                    body: safeJSON.stringify({ access_token: access_token })
+                }
+
+                //set access token in API and getting user after login
+                let userDetail = await fetch(`${ENDPOINT}/getUser`, options)
+                    .then(res => res.json())
+
+                runInAction(() => {
+                    store.userDetail = userDetail;
+
+                    if (access_token) {
+                        localStorage.setItem('access-token', safeJSON.stringify(access_token));
+                    }
+                    if (username) {
+                        localStorage.setItem('users', safeJSON.stringify(username));
+                    }
+                })
+            }
+        },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         logOut: () => {
             api.revokeToken(function (err, res) {
                 if (res && res.success) {
@@ -264,6 +491,21 @@ export function StoreProvider({ children }) {
             });
             return false;
         },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         fetchActiveVotes: (author, permlink) => {
             return client.database
                 .call('get_active_votes', [author, permlink])
@@ -278,12 +520,7 @@ export function StoreProvider({ children }) {
                     return result.pending_payout_value
                 })
         },
-        initHSLogin: () => {
-            let link = api.getLoginURL();
-            runInAction(() => {
-                store.loginLink = link;
-            })
-        },
+
         follow: (follower, following) => {
             runInAction(() => {
                 store.followState = "pending";
@@ -389,7 +626,7 @@ export function StoreProvider({ children }) {
                 permlink,
                 title,
                 body,
-                json_metadata: JSON.stringify(jsonMetadata),
+                json_metadata: safeJSON.stringify(jsonMetadata),
             };
 
             tx.push(['comment', params]);
@@ -449,258 +686,7 @@ export function StoreProvider({ children }) {
                 }
             })
         },
-        login: (user) => {
-            let params = { username: user };
 
-            api.login(params, function (err, token) {
-                if (token) {
-                    store.toggleLogin(false);
-                    store.getUserDetail(token, user)
-                } else if (err) {
-                    console.log(err);
-                }
-            })
-        },
-        getUserDetail: (localAccess, localUser) => {
-            store.userDetail = {};
-
-            if (localAccess && localUser) {
-                var access_token = localAccess;
-                var username = localUser;
-
-            } else {
-                access_token = new URLSearchParams(document.location.search).get('access_token');
-                username = new URLSearchParams(document.location.search).get('username');
-            }
-
-            if (access_token) {
-                // set access token after login
-                api.setAccessToken(access_token);
-                store.toggleNavMenu(false);
-
-                api.me((err, res) => {
-                    if (res) {
-                        runInAction(() => {
-                            store.userDetail = res;
-                            if (access_token) {
-                                localStorage.setItem('access-token', JSON.stringify(access_token));
-                            }
-                            if (username) {
-                                localStorage.setItem('users', JSON.stringify(username));
-                            }
-                        })
-                    }
-                    if (err) {
-                        console.log(err);
-                    }
-                })
-            }
-        },
-        async fetchSeriesInfo(seriesId) {
-            try {
-                const seriesInfo = await client.database
-                    .getDiscussions('created', { tag: seriesId, limit: 100 })
-                    .then(result => result.reverse())
-                    .then(result => {
-                        if (result[0]) {
-                            let reward = result[result.length - 1].pending_payout_value !== "0.000 HBD" ? result[result.length - 1].pending_payout_value : result[result.length - 1].total_payout_value;
-                            let lastUpdate = result[result.length - 1];
-                            return {
-                                title: result[0].title,
-                                author: result[0].author,
-                                body: result[0].body,
-                                json_metadata: result[0].json_metadata,
-                                image: JSON.parse(result[0].json_metadata).image[0],
-                                tags: JSON.parse(result[0].json_metadata).tags,
-                                permlink: result[0].permlink,
-                                parent_author: result[0].parent_author,
-                                parent_permlink: result[0].parent_permlink,
-                                last_payout: reward,
-                                last_update: lastUpdate,
-                                seriesId: seriesId
-                            };
-                        }
-                    })
-
-                seriesInfo.profile_image = await store.fetchAvatar(seriesInfo.author);
-
-                return seriesInfo;
-
-            } catch (error) {
-                console.log(error)
-            }
-        },
-        //Fetching Comics
-        async fetchComics(searchTag, last_trendy_author, last_trendy_permlink, last_new_author, last_new_permlink) {
-            let tag = searchTag || "inkito-comics";
-            this.trendyComicState = "pending"
-            try {
-                let last_trendyComic = {};
-                const trendyComicIds = await client.database
-                    .getDiscussions("trending",
-                        {
-                            tag: tag,
-                            limit: 32,
-                            start_author: last_trendy_author,
-                            start_permlink: last_trendy_permlink
-                        }
-                    )
-                    .then(result => {
-                        if (result.length > 0) {
-                            last_trendyComic = result[result.length - 1];
-                        }
-                        return result;
-                    })
-                    .then(result => result.map(object => (
-                        JSON.parse(object.json_metadata).tags
-                            .filter(tag => tag.includes(object.author))
-                    ))).then(result => [...new Set(result.flat())])
-                for (let id of trendyComicIds) {
-                    if (this.trendingComics.length === 0) {
-                        const comic = await store.fetchSeriesInfo(id);
-                        this.trendingComics.push(comic);
-                    } else {
-                        if (!this.trendingComics.some(object => object.seriesId === id)) {
-                            const comic = await store.fetchSeriesInfo(id);
-                            this.trendingComics.push(comic);
-                        }
-                    }
-                }
-                this.trendyComicState = "done";
-
-                this.newComicState = "pending";
-
-                let last_newComic = {};
-                const createdComicIds = await client.database
-                    .getDiscussions("created",
-                        {
-                            tag: tag,
-                            limit: 32,
-                            start_author: last_new_author,
-                            start_permlink: last_new_permlink
-                        }
-                    )
-                    .then(result => {
-                        if (result.length > 0) {
-                            last_newComic = result[result.length - 1];
-                        }
-                        return result;
-                    })
-                    .then(result => result.map(object => (
-                        JSON.parse(object.json_metadata).tags
-                            .filter(tag => tag.includes(object.author))
-                    ))).then(result => [...new Set(result.flat())])
-                const newComicIds = this.removeDuplicateContent(createdComicIds, trendyComicIds);
-
-                for (let id of newComicIds) {
-                    if (this.newComics.length === 0) {
-                        const comic = await store.fetchSeriesInfo(id);
-                        this.newComics.push(comic);
-                    } else {
-                        if (!this.newComics.some(object => object.seriesId === id)) {
-                            const comic = await store.fetchSeriesInfo(id);
-                            this.newComics.push(comic);
-                        }
-                    }
-                }
-                this.newComicState = "done";
-
-                // Incorporate lazy load
-                if (createdComicIds.length > 2 || trendyComicIds.length > 2) {
-                    store.fetchComics(undefined, last_trendyComic.author, last_trendyComic.permlink, last_newComic.author, last_newComic.permlink);
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        },
-        async fetchNovels(searchTag, last_trendy_author, last_trendy_permlink, last_new_author, last_new_permlink) {
-            this.trendyNovelState = "pending";
-            let tag = searchTag || "inkito-novels";
-            let last_trendyNovel = {};
-            try {
-                const trendyNovelIds = await client.database
-                    .getDiscussions("trending",
-                        {
-                            tag: tag,
-                            limit: 32,
-                            start_author: last_trendy_author,
-                            start_permlink: last_trendy_permlink
-                        }
-                    )
-                    .then(result => {
-                        if (result.length > 0) {
-                            last_trendyNovel = result[result.length - 1];
-                        }
-                        return result;
-                    })
-                    .then(result => result.map(object => (
-                        JSON.parse(object.json_metadata).tags
-                            .filter(tag => tag.includes(object.author))
-                    ))).then(result => [...new Set(result.flat())])
-                //const trendy = [];
-
-                for (let id of trendyNovelIds) {
-                    if (this.trendingNovels.length === 0) {
-                        const novel = await store.fetchSeriesInfo(id);
-                        this.trendingNovels.push(novel);
-                    } else {
-                        if (!this.trendingNovels.some(object => object.seriesId === id)) {
-                            const novel = await store.fetchSeriesInfo(id);
-                            this.trendingNovels.push(novel);
-                        }
-                    }
-                    //trendy.push(novel);
-                }
-                this.trendyNovelState = "done";
-                //this.trendingNovels = trendy;
-
-                this.newNovelState = "pending";
-                let last_newNovel = {};
-                const createdNovelIds = await client.database
-                    .getDiscussions("created",
-                        {
-                            tag: tag,
-                            limit: 32,
-                            start_author: last_new_author,
-                            start_permlink: last_new_permlink
-                        }
-                    )
-                    .then(result => {
-                        if (result.length > 0) {
-                            last_newNovel = result[result.length - 1];
-                        }
-                        return result;
-                    })
-                    .then(result => result.map(object => (
-                        JSON.parse(object.json_metadata).tags
-                            .filter(tag => tag.includes(object.author))
-                    ))).then(result => [...new Set(result.flat())])
-
-                const newNovelIds = this.removeDuplicateContent(createdNovelIds, trendyNovelIds);
-                //const fresh = [];
-
-                for (let id of newNovelIds) {
-                    if (store.newNovels.length === 0) {
-                        const novel = await store.fetchSeriesInfo(id);
-                        store.newNovels.push(novel);
-                    } else {
-                        if (!store.newNovels.some(object => object.seriesId === id)) {
-                            const novel = await store.fetchSeriesInfo(id);
-                            store.newNovels.push(novel);
-                        }
-                    }
-                }
-                this.newNovelState = "done"
-
-                // Incorporate lazy load
-                if (createdNovelIds.length > 1 || trendyNovelIds.length > 1) {
-                    store.fetchNovels(undefined, last_trendyNovel.author, last_trendyNovel.permlink, last_newNovel.author, last_newNovel.permlink);
-                }
-
-            } catch (error) {
-                console.log(error);
-            }
-        },
         async fetchPermlinks(author, seriesTitle, last_author, last_permlink, slice) {
             let seriesId = `${author}-${seriesTitle}`;
             if (seriesTitle === "series") {
@@ -761,8 +747,8 @@ export function StoreProvider({ children }) {
                 const content = await client.database
                     .call('get_content', [author, permlink])
                     .then(result => {
-                        result.image = JSON.parse(result.json_metadata).image;
-                        result.tags = JSON.parse(result.json_metadata).tags;
+                        result.image = safeJSON.parse(result.json_metadata).image;
+                        result.tags = safeJSON.parse(result.json_metadata).tags;
                         return result;
                     })
 
@@ -830,7 +816,7 @@ export function StoreProvider({ children }) {
                 })
                 .then(result =>
                     result.map(object => (
-                        JSON.parse(object.json_metadata).tags
+                        safeJSON.parse(object.json_metadata).tags
                             .filter(tag => tag.includes(author))
                     ))
                 ).then(result => [...new Set(result.flat())])
@@ -865,7 +851,7 @@ export function StoreProvider({ children }) {
                     .call('get_accounts', [[author]])
                     .then(result => {
                         if (result.length > 0) {
-                            let json = JSON.parse(result[0].posting_json_metadata).profile;
+                            let json = safeJSON.parse(result[0].posting_json_metadata).profile;
                             result[0].about = json.about;
                             result[0].displayName = json.name;
                             result[0].website = json.website;
@@ -903,18 +889,6 @@ export function StoreProvider({ children }) {
                 console.log(error)
             }
 
-        },
-        async fetchAvatar(author) {
-            const avatar = await client.database
-                .call('get_accounts', [[author]])
-                .then(result => {
-                    if (result.length > 0 && result[0].posting_json_metadata) {
-                        ;
-                        let json = JSON.parse(result[0].posting_json_metadata);
-                        return json.profile.profile_image;
-                    } else return ""
-                })
-            return avatar;
         },
         async getFollowCount(author) {
             const followCount = await client.call('follow_api', 'get_follow_count', [author])

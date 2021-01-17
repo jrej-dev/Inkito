@@ -138,19 +138,19 @@ button.white {
     text-decoration: none;
     text-shadow: 0px 1px 0px #ffffff;
     &:hover {
-      background: linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
-      background-color: #f6f6f6;
+        background: linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+        background-color: #f6f6f6;
     }
     &:active {
-      position: relative;
-      top: 1px;
+        position: relative;
+        top: 1px;
     }
 }
 
 button.hide {
     border: none;
     background: Transparent no-repeat;
-    cursor:pointer;
+    cursor: pointer;
     overflow: hidden;
     min-width: 2.5em;
     padding: 0;
