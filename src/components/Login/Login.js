@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import StoreContext from '../../stores/appstore';
+import StoreContext from '../../stores/appStore';
 import { useObserver } from 'mobx-react';
 import './login.scss';
 import LoginImage from '../../assets/images/login.png';

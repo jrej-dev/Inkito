@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router-dom";
-import StoreContext from '../../stores/appstore';
+import StoreContext from '../../stores/appStore';
 import { Link } from "react-router-dom";
 import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';

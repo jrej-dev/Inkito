@@ -1,7 +1,7 @@
 import 'core-js';
 import React, { useEffect } from 'react';
 import { Helmet } from "react-helmet-async";
-import StoreContext from '../../stores/appstore';
+import StoreContext from '../../stores/appStore';
 import {
   BrowserRouter as Router,
   Switch,

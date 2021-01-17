@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import StoreContext from '../../stores/appstore';
+import StoreContext from '../../stores/appStore';
 import { useObserver } from 'mobx-react';
 import { toJS } from 'mobx';
 import { Helmet } from 'react-helmet-async';

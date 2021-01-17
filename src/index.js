@@ -5,7 +5,7 @@ import 'sanitize.css/forms.css';
 import 'sanitize.css/typography.css';
 
 import React from 'react';
-import { StoreProvider } from './stores/appstore';
+import { StoreProvider } from './stores/appStore';
 import { HelmetProvider } from 'react-helmet-async';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'

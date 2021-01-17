@@ -1,5 +1,5 @@
 import React from 'react';
-import StoreContext from '../../../stores/appstore';
+import StoreContext from '../../../stores/appStore';
 import { useObserver } from 'mobx-react';
 import { Link } from "react-router-dom";
 import '../footer.scss';

@@ -460,37 +460,39 @@ export function StoreProvider({ children }) {
                 })
             }
         },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         logOut: () => {
-            api.revokeToken(function (err, res) {
-                if (res && res.success) {
+            fetch(`${ENDPOINT}/logout`)
+                .then(res => {
+                    if (res && res.status === 200) {
+                        store.userDetail = {};
+                        document.location.href = '/';
+                    }
+                    localStorage.setItem('access-token', "");
+                    localStorage.setItem('users', "");
                     store.userDetail = {};
-                    document.location.href = '/';
-                }
-                localStorage.setItem('access-token', "");
-                localStorage.setItem('users', "");
-                store.userDetail = {};
-                if (err) {
-                    console.log(err);
-                }
-            });
+                })
+                .catch(err => {
+                    if (err) {
+                        console.log(err);
+                    }
+                })
             return false;
         },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
 
 
 

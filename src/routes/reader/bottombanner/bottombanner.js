@@ -3,7 +3,7 @@ import { useObserver } from 'mobx-react';
 import { Link } from "react-router-dom";
 import { toJS } from 'mobx';
 import DefaultAvatar from '../../../assets/icons/defaultavatar.png';
-import StoreContext from '../../../stores/appstore';
+import StoreContext from '../../../stores/appStore';
 import BellElement from '../../../components/bellelement/bellelement';
 import ShareMenu from '../../../components/sharemenu/sharemenu';
 import '../reader.scss';
