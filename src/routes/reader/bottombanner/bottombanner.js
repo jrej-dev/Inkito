@@ -48,7 +48,7 @@ const BottomBanner = ({ author }) => {
                                     <p className="capital">{author}</p>
                                     <p>Creator</p>
                                     {
-                                        seriesInfo ?
+                                        seriesInfo && seriesInfo.followers ?
                                             <p className="followers">{seriesInfo.followers.length} followers</p>
                                             :
                                             <></>

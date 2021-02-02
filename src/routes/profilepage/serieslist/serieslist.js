@@ -13,10 +13,9 @@ const SeriesList = () => {
         if (seriesArray && seriesArray.length > 0 && !seriesArray.includes(undefined)) {
             let seriesList = [];
             seriesArray.forEach(series => {
-                if (series) {
-                    let lastTags = JSON.parse(series.last_update.json_metadata);
+                if (series && series.last_update && series.seriesId && series.last_update.tags) {
                     let seriesUrl = series.seriesId.replace("-", "/");
-                    if (series.tags.includes("inkitocomics") || lastTags.tags.includes("inkitocomics") || series.tags.includes("inkito-comics") || lastTags.tags.includes("inkito-comics")) {
+                    if (series.type === "comics") {
                         seriesList.push(
                             <li key={series.seriesId}>
                                 <div className="series-thumbnail">
@@ -88,10 +87,9 @@ const SeriesList = () => {
         if (seriesArray && seriesArray.length > 0 && !seriesArray.includes(undefined)) {
             let seriesList = [];
             seriesArray.forEach(series => {
-                if (series) {
-                    let lastTags = JSON.parse(series.last_update.json_metadata);
+                if (series && series.last_update && series.seriesId && series.last_update.tags) {
                     let seriesUrl = series.seriesId.replace("-", "/");
-                    if (series.tags.includes("inkito-novels") || lastTags.tags.includes("inkito-novels")) {
+                    if (series.type === "novels") {
                         seriesList.push(
                             <li key={series.seriesId}>
                                 <div className="series-thumbnail">

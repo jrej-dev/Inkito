@@ -14,9 +14,9 @@ import Heart from '../../assets/icons/heart.png';
 
 import './publish.scss';
 
-var ENDPOINT = "https://inkito-ipfs.herokuapp.com/";
+var ENDPOINT = "https://inkito-ipfs.herokuapp.com";
 if (process.env.NODE_ENV === "development") {
-    ENDPOINT = "http://localhost:5000/";
+    ENDPOINT = "http://localhost:5000";
 }
 
 const PublishPage = () => {
@@ -55,7 +55,7 @@ const PublishPage = () => {
         bodyFiltered = bodyFiltered.replace(/(^--.*-$|^\*\*.*\*$|^__.*_$|<hr\/>)/m, '').replace(/<center>\[!\[inkito-banner.png\].*\n*<\/center>$/gm, '').trim()
 
         //Filtering tags
-        tagsFiltered = JSON.parse(location.state.seriesInfo.json_metadata).tags.join(" ").replace(`inkito-${type}s`, "").replace(JSON.parse(location.state.seriesInfo.json_metadata).tags.filter(tag => tag.includes(`${location.state.seriesInfo.author}-`))[0], "").trim()
+        tagsFiltered = location.state.seriesInfo.last_update.tags.join(" ").replace(`inkito-${type}s`, "").replace(location.state.seriesInfo.last_update.tags.filter(tag => tag.includes(`${location.state.seriesInfo.author}-`))[0], "").trim()
     }
 
     const [images, setImages] = useState(location.state && location.state.seriesInfo ? typeof location.state.seriesInfo.image === "string" ? [location.state.seriesInfo.image] : [...descriptionImages.map(image => image.match(/http.*[a-zA-Z0-9_.-]/g)[0])] : []);
@@ -233,8 +233,9 @@ const PublishPage = () => {
                     body: formdata,
                     redirect: 'follow'
                 };
-                const fetch_response = await fetch(`${ENDPOINT}upload`, requestOptions);
+                const fetch_response = await fetch(`${ENDPOINT}/upload`, requestOptions);
                 const body = await fetch_response.text();
+                console.log(body);
 
                 setImages([...images, `https://gateway.ipfs.io/ipfs/${JSON.parse(body).response}`]);
             }
@@ -270,7 +271,7 @@ const PublishPage = () => {
                     if (index > 0) {
                         let reward = episode.pending_payout_value ? episode.pending_payout_value === "0.000 HBD" ? episode.total_payout_value.replace("HBD", "") : episode.pending_payout_value.replace("HBD", "") : "?";
                         episodes.push(
-                            <Link key={episode.permlink} to={`/${type}Reader/${JSON.parse(location.state.seriesInfo.json_metadata).tags.filter(tag => tag.includes(`${location.state.seriesInfo.author}-`))[0].replace("-", "/")}/${index}`}>
+                            <Link key={episode.permlink} to={`/${type}Reader/${location.state.seriesInfo.tags.filter(tag => tag.includes(`${location.state.seriesInfo.author}-`))[0].replace("-", "/")}/${index}`}>
                                 <div className="episode flex-between row wrap">
                                     <div className="flex row pa-hh">
                                         <p>#{index}</p>
@@ -385,7 +386,7 @@ const PublishPage = () => {
             }
         } else {
             if (location.state && location.state.seriesInfo) {
-                seriesId = JSON.parse(location.state.seriesInfo.json_metadata).tags.filter(tag => tag.includes(`${location.state.seriesInfo.author}-`))[0];
+                seriesId = location.state.seriesInfo.last_update.tags.filter(tag => tag.includes(`${location.state.seriesInfo.author}-`))[0];
             } else {
                 let seriesInfo = toJS(store.authorInfo).series.filter(serie => serie.title === series)
                 seriesId = seriesInfo[0].seriesId;
@@ -414,20 +415,15 @@ const PublishPage = () => {
         let parentPermlink = tagList[0];
         const author = toJS(store.userDetail).user;
         let permlink = ""
-        let jsonMetadata = {};
+        let jsonMetadata = { tags: tagList, format: 'markdown', image: images, app: 'Inkito' };
         let body = ""
 
         if (location.state && location.state.seriesInfo) {
             permlink = location.state.seriesInfo.permlink;
             parentAuthor = location.state.seriesInfo.parent_author;
             parentPermlink = location.state.seriesInfo.parent_permlink;
-            jsonMetadata = JSON.parse(location.state.seriesInfo.json_metadata);
-            jsonMetadata.tags = tagList;
-            jsonMetadata.image = images;
-
         } else {
             permlink = title.split(" ").join("-").toLowerCase() + Date.now();
-            jsonMetadata = { tags: tagList, format: 'markdown', image: images, app: 'Inkito' }
         }
 
         if (images.length > 0) {

@@ -23,10 +23,10 @@ const Home = () => {
 
   const fetchContent = () => {
     if (store.newComics.length === 0) {
-      store.fetch("comics", 12);
+      store.fetchContent("comics", 24);
     } 
     if (store.newNovels.length === 0){
-      store.fetch("novels", 12);
+      store.fetchContent("novels", 24);
     }
   }
   
@@ -38,7 +38,7 @@ const Home = () => {
         trendyData={store.trendingComics}
         activeTrend={store.activeComicTrend}
         activeCategory={store.activeComicCategory}
-        panelBlockNumber={"4"}
+        panelBlockNumber={8}
       />
     })
   }
@@ -51,7 +51,7 @@ const Home = () => {
         trendyData={store.trendingNovels}
         activeTrend={store.activeNovelTrend}
         activeCategory={store.activeNovelCategory}
-        panelBlockNumber={"4"}
+        panelBlockNumber={8}
       />
     ))
   }

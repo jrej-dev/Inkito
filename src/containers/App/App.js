@@ -32,7 +32,7 @@ const App = () => {
   useEffect(() => {
     getUserDetail();
 
-    store.temporalLogin();
+    //store.temporalLogin();
     store.toggleNavMenu(false);
     store.checkCookieConsent();
     

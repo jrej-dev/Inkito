@@ -25,7 +25,7 @@ const NavReader = ({ onClick }) => {
       let lastPage = toJS(store.seriesDetail)[store.seriesLinks.length - 1];
       let currentPage = toJS(store.seriesDetail)[store.currentPage];
       let seriesLength = toJS(store.seriesLinks).length;
-      let image = JSON.parse(currentPage.json_metadata).image;
+      let image = currentPage.json_metadata ? JSON.parse(currentPage.json_metadata).image : "";
 
       let isHidden = store.navIsHidden;
       let navMenuIsActive = store.navMenuIsActive;
@@ -70,7 +70,7 @@ const NavReader = ({ onClick }) => {
 
             <li className="flex post-title">
               <p>
-                {currentPage ? currentPage.title.includes(firstPage.title) ? "" : `${firstPage.title} /` : ""}
+                {currentPage && currentPage.title ? currentPage.title.includes(firstPage.title) ? "" : `${firstPage.title} /` : ""}
               </p>
               <p>
                 {currentPage ? currentPage.title : ""}

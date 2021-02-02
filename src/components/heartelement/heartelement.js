@@ -36,7 +36,7 @@ const HeartElement = ({ userDetail, content, page, voteState }) => {
     }
 
     if (userDetail && content) {
-        if (userDetail.name && content.active_votes.length >= 0) {
+        if (userDetail.name && content.active_votes && content.active_votes.length >= 0) {
             let userName = userDetail.name;
             if (voteState === content.permlink) {
                 return (
@@ -47,7 +47,7 @@ const HeartElement = ({ userDetail, content, page, voteState }) => {
             } else if (content.active_votes.some(vote => vote.voter === userName)) {
                 return (
                     <button className="hide" /*add dislike function here.*/>
-                        <img className="icon heart" src={RedHeart} alt="red-heart"/>
+                        <img className="icon heart" src={RedHeart} alt="red-heart" />
                     </button>
                 )
             } else if (!content.active_votes.some(vote => vote.voter === store.userDetail.name) && voteState !== content.permlink) {
@@ -59,9 +59,7 @@ const HeartElement = ({ userDetail, content, page, voteState }) => {
                     )
                 } else {
                     return (
-                        <button className="hide" onClick={() => { handleVote(userName) }}>
-                            <img className="icon heart" src={Heart} alt="heart" />
-                        </button>
+                        <img className="icon heart" src={Heart} alt="heart" />
                     )
                 }
             }
