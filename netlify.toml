@@ -12,3 +12,5 @@
     no-cache,
     no-store,
     must-revalidate'''
+[build]
+command = “CI= npm run build”
