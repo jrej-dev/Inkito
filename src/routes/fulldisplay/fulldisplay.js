@@ -13,9 +13,9 @@ const FullDisplay = ({ type }) => {
   useEffect(() => {
     document.documentElement.scrollTop = 0;
     if (type === "comics") {
-        store.fetchContent("comics", 12);  
+        store.fetchContent("comics", 16);  
     } else if (type === "novels") {
-        store.fetchContent("novels", 12);  
+        store.fetchContent("novels", 16);  
     }
   })
 
@@ -28,7 +28,7 @@ const FullDisplay = ({ type }) => {
           trendyData={store.trendingComics}
           activeTrend={store.activeComicTrend}
           activeCategory={store.activeComicCategory}
-          panelBlockNumber={12}
+          panelBlockNumber={24}
         />
       )
     })
@@ -43,7 +43,7 @@ const FullDisplay = ({ type }) => {
           trendyData={store.trendingNovels}
           activeTrend={store.activeNovelTrend}
           activeCategory={store.activeNovelCategory}
-          panelBlockNumber={12}
+          panelBlockNumber={24}
         />
       )
     })

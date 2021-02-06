@@ -56,6 +56,9 @@
             justify-content: center;
             align-items: flex-start;
             width: 100%;
+            wired-spinner {
+                transform: scale(0.75);
+            }
             .cover-label > * {
                 padding: 0 0.2em;
             }

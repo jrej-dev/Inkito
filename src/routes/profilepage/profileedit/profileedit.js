@@ -2,6 +2,11 @@ import React, { useRef, useEffect, useState } from 'react';
 import StoreContext from '../../../stores/appStore';
 import { useAlert } from 'react-alert';
 
+var ENDPOINT = "https://inkito-ipfs.herokuapp.com";
+if (process.env.NODE_ENV === "development") {
+    ENDPOINT = "http://localhost:5000";
+}
+
 const ProfileEdit = ({ isEdited, setEdited, authorInfo, state }) => {
     const store = React.useContext(StoreContext);
     const alert = useAlert();
@@ -13,8 +18,9 @@ const ProfileEdit = ({ isEdited, setEdited, authorInfo, state }) => {
     const [location, setLocation] = useState(authorInfo.location);
     const [website, setWebsite] = useState(authorInfo.website);
 
-    const [avatarFile, setAvatarFile] = useState(null);
-    const [coverFile, setCoverFile] = useState(null);
+    const [imageLoading, setImageLoading] = useState(false);
+    const [coverLoading, setCoverLoading] = useState(false);
+
 
     const avatarInput = useRef(null);
     const coverInput = useRef(null);
@@ -129,7 +135,7 @@ const ProfileEdit = ({ isEdited, setEdited, authorInfo, state }) => {
         setEdited(!isEdited);
     }
 
-    const onCoverUpload = async () => {
+    const onCoverUpload = async (coverFile) => {
         if (coverFile) {
             var myHeaders = new Headers();
 
@@ -143,18 +149,25 @@ const ProfileEdit = ({ isEdited, setEdited, authorInfo, state }) => {
                 body: formdata,
                 redirect: 'follow'
             };
-            
-            const fetch_response = await fetch('https://inkito-ipfs.herokuapp.com/upload', requestOptions);
-            console.log(fetch_response);
-            const body = await fetch_response.text();
 
-            setCover(`https://gateway.ipfs.io/ipfs/${JSON.parse(body).response}`);
-            coverInput.current.value = `https://gateway.ipfs.io/ipfs/${JSON.parse(body).response}`;
+            setCoverLoading(true);
+            const fetch_response = await fetch(`${ENDPOINT}/upload`, requestOptions)
+                .then(res => res.json());
+            setCoverLoading(false);
+            const IpfsHash = fetch_response.IpfsHash;
+            if (IpfsHash) {
+                setCover(`https://gateway.ipfs.io/ipfs/${IpfsHash}`);
+                coverInput.current.value = `https://gateway.ipfs.io/ipfs/${IpfsHash}`;
+            } else {
+                alert.error('Something went wrong.', {
+                    timeout: 2000, // custom timeout just for this one alert
+                })
+            }
         }
     }
 
 
-    const onAvatarUpload = async () => {
+    const onAvatarUpload = async (avatarFile) => {
         if (avatarFile) {
             var myHeaders = new Headers();
 
@@ -168,162 +181,172 @@ const ProfileEdit = ({ isEdited, setEdited, authorInfo, state }) => {
                 body: formdata,
                 redirect: 'follow'
             };
-            const fetch_response = await fetch('https://inkito-ipfs.herokuapp.com/upload', requestOptions);
-            const body = await fetch_response.text();
-
-            setAvatar(`https://gateway.ipfs.io/ipfs/${JSON.parse(body).response}`);
-            avatarInput.current.value = `https://gateway.ipfs.io/ipfs/${JSON.parse(body).response}`;
+            setImageLoading(true);
+            const fetch_response = await fetch(`${ENDPOINT}/upload`, requestOptions)
+                .then(res => res.json());
+            setImageLoading(false);
+            const IpfsHash = fetch_response.IpfsHash;
+            if (IpfsHash) {
+                setAvatar(`https://gateway.ipfs.io/ipfs/${IpfsHash}`);
+                avatarInput.current.value = `https://gateway.ipfs.io/ipfs/${IpfsHash}`;
+            } else {
+                alert.error('Something went wrong.', {
+                    timeout: 2000, // custom timeout just for this one alert
+                })
+            }
         }
     }
 
-    return (
-        <div className={isEdited ? "edit flex col pa" : "hidden"}>
-            <h3> Public Profile Settings </h3>
-            <div className="edit-form pa" >
-                <div className="avatar">
-                    <label>Profile picture url</label>
-                    {state === "pending" ?
-                        <wired-input
-                            disabled
-                            type="text"
-                            value={avatar}
-                            ref={avatarInput}
-                        />
-                        :
-                        <wired-input
-                            type="text"
-                            value={avatar}
-                            ref={avatarInput}
-                        />
-                    }
-                    {
-                        store.ipfsState ?
-                        <form className="upload flex-start row wrap reset">
-                            <input className="custom-file-input" type="file" placeholder="Upload an image" onChange={(e) => setAvatarFile(e.target.files[0])} />
-                            <p className="blue" onClick={onAvatarUpload}>Upload file</p>
-                        </form>
-                        :
-                        ""
-                    }
-                </div>
-
-                <div className="cover">
-                    <div className="cover-label flex-start row wrap">
-                        <label>Cover image url</label>
-                        <label>(Optimal: 2048x512 pixels)</label>
+    if (isEdited) {
+        return (
+            <div className="edit flex col pa">
+                < h3 > Public Profile Settings </h3 >
+                <div className="edit-form pa" >
+                    <div className="avatar">
+                        <label>Profile picture url</label>
+                        {
+                            state === "pending" ?
+                                <wired-input
+                                    disabled
+                                    type="text"
+                                    value={avatar || authorInfo.avatar}
+                                    ref={avatarInput}
+                                />
+                                :
+                                <wired-input
+                                    type="text"
+                                    value={avatar || authorInfo.avatar}
+                                    ref={avatarInput}
+                                />
+                        }
+                        {
+                            imageLoading ?
+                                <wired-spinner class="custom" spinning duration="1000" />
+                                :
+                                <form className="upload flex-start row wrap reset">
+                                    <input className="custom-file-input" type="file" placeholder="Upload an image" onChange={(e) => onAvatarUpload(e.target.files[0])} />
+                                </form>
+                        }
                     </div>
-                    {state === "pending" ?
-                        <wired-input
-                            disabled
-                            type="text"
-                            value={cover}
-                            ref={coverInput}
-                        />
-                        :
-                        <wired-input
-                            type="text"
-                            value={cover}
-                            ref={coverInput}
-                        />
-                    }
-                    {
-                        store.ipfsState ?
-                        <form className="upload flex-start row wrap reset">
-                            <input className="custom-file-input" type="file" placeholder="Upload an image" onChange={(e) => setCoverFile(e.target.files[0])} />
-                            <p className="blue" onClick={onCoverUpload}>Upload file</p>
-                        </form>
-                        :
-                        ""
-                    }
-                </div>
 
-                <div className="name">
-                    <label>Display name</label>
-                    {state === "pending" ?
-                        <wired-input
-                            disabled
-                            type="text"
-                            value={name}
-                            ref={nameInput}
-                        />
-                        :
-                        <wired-input
-                            type="text"
-                            value={name}
-                            ref={nameInput}
-                        />
-                    }
-                </div>
+                    <div className="cover">
+                        <div className="cover-label flex-start row wrap">
+                            <label>Cover image url</label>
+                            <label>(Optimal: 2048x512 pixels)</label>
+                        </div>
+                        {state === "pending" ?
+                            <wired-input
+                                disabled
+                                type="text"
+                                value={cover || authorInfo.cover}
+                                ref={coverInput}
+                            />
+                            :
+                            <wired-input
+                                type="text"
+                                value={cover || authorInfo.cover}
+                                ref={coverInput}
+                            />
+                        }
+                        {
+                            coverLoading ?
+                                <wired-spinner class="custom" spinning duration="1000" />
+                                : <form className="upload flex-start row wrap reset">
+                                    <input className="custom-file-input" type="file" placeholder="Upload an image" onChange={(e) => onCoverUpload(e.target.files[0])} />
+                                </form>
+                        }
+                    </div>
 
-                <div className="about">
-                    <label>About me</label>
-                    {state === "pending" ?
-                        <wired-textarea
-                            disabled
-                            rows="6"
-                            type="text"
-                            value={about}
-                            ref={aboutInput}
-                        />
-                        :
-                        <wired-textarea
-                            rows="6"
-                            type="text"
-                            value={about}
-                            ref={aboutInput}
-                        />
-                    }
-                </div>
+                    <div className="name">
+                        <label>Display name</label>
+                        {state === "pending" ?
+                            <wired-input
+                                disabled
+                                type="text"
+                                value={name || authorInfo.name}
+                                ref={nameInput}
+                            />
+                            :
+                            <wired-input
+                                type="text"
+                                value={name || authorInfo.name}
+                                ref={nameInput}
+                            />
+                        }
+                    </div>
 
-                <div className="location">
-                    <label>Location</label>
-                    {state === "pending" ?
-                        <wired-input
-                            disabled
-                            type="text"
-                            value={location}
-                            ref={locationInput}
-                        />
-                        :
-                        <wired-input
-                            type="text"
-                            value={location}
-                            ref={locationInput}
-                        />
-                    }
-                </div>
+                    <div className="about">
+                        <label>About me</label>
+                        {state === "pending" ?
+                            <wired-textarea
+                                disabled
+                                rows="6"
+                                type="text"
+                                value={about || authorInfo.about}
+                                ref={aboutInput}
+                            />
+                            :
+                            <wired-textarea
+                                rows="6"
+                                type="text"
+                                value={about || authorInfo.about}
+                                ref={aboutInput}
+                            />
+                        }
+                    </div>
 
-                <div className="website">
-                    <label>Website</label>
-                    {state === "pending" ?
-                        <wired-input
-                            disabled
-                            type="text"
-                            value={website}
-                            ref={websiteInput}
-                        />
-                        :
-                        <wired-input
-                            type="text"
-                            value={website}
-                            ref={websiteInput}
-                        />
-                    }
-                </div>
+                    <div className="location">
+                        <label>Location</label>
+                        {state === "pending" ?
+                            <wired-input
+                                disabled
+                                type="text"
+                                value={location || authorInfo.location}
+                                ref={locationInput}
+                            />
+                            :
+                            <wired-input
+                                type="text"
+                                value={location || authorInfo.location}
+                                ref={locationInput}
+                            />
+                        }
+                    </div>
 
-                {/*<div>
-                            <p>Not safe for work (NSFW) content</p>
-                            <input type="text"/>
-                        </div>*/}
-                <div className="pa">
-                    <div className="flex row pa-hh">
-                        <button className="send-btn white" onClick={handleSubmit}>Update</button>
-                        <p className="pointer" onClick={handleCancel}><button className="hide">Cancel</button></p>
+                    <div className="website">
+                        <label>Website</label>
+                        {state === "pending" ?
+                            <wired-input
+                                disabled
+                                type="text"
+                                value={website || authorInfo.website}
+                                ref={websiteInput}
+                            />
+                            :
+                            <wired-input
+                                type="text"
+                                value={website || authorInfo.website}
+                                ref={websiteInput}
+                            />
+                        }
+                    </div>
+
+                    {/*<div>
+                                <p>Not safe for work (NSFW) content</p>
+                                <input type="text"/>
+                            </div>*/}
+                    <div className="pa">
+                        <div className="flex row pa-hh">
+                            <button className="send-btn white" onClick={handleSubmit}>Update</button>
+                            <p className="pointer" onClick={handleCancel}><button className="hide">Cancel</button></p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    )
+        )
+    } else {
+        return <></>
+    }
 }
 
 export default ProfileEdit;

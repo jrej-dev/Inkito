@@ -57,7 +57,7 @@ const PanelBlocks = ({ type, newData, trendyData, activeTrend, panelBlockNumber 
         var singleBlocks = [];
         var blockNumber = panelBlockNumber;
 
-        if (trendy.length < 4){
+        if (trendy.length < 8){
           blockNumber = parseInt(panelBlockNumber) + ( parseInt(panelBlockNumber) - parseInt(trendy.length));
         }
 
@@ -112,7 +112,8 @@ const PanelBlocks = ({ type, newData, trendyData, activeTrend, panelBlockNumber 
           }
         });
         
-        return [...blocks, ...singleBlocks];        
+        let panels = [...blocks, ...singleBlocks];        
+        return panels.slice(0, panelBlockNumber);
       } else {
         return <wired-spinner class="custom" spinning duration="1000"/>
       }

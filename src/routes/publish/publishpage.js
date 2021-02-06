@@ -25,8 +25,8 @@ const PublishPage = () => {
     const location = useLocation();
     const [series, setSeries] = useState(location.state && location.state.series ? location.state.series : "new");
     const [type, setType] = useState(location.state && location.state.type ? location.state.type : "comic");
-    const [imageFile, setImageFile] = useState(null);
     const [imageLink, setImageLink] = useState("");
+    const [imageLoading, setImageLoading] = useState(false);
     const [imageLinkIsActive, setimageLinkIsActive] = useState(false);
     const [categories, setCategories] = useState([]);
     let publishState = store.commentState;
@@ -208,15 +208,10 @@ const PublishPage = () => {
         }
     }
 
-    const onImageUpload = async () => {
+    const onImageUpload = async (imageFile) => {
         if (imageFile) {
             if (series === "new" && images.length >= 1) {
                 alert.show('There can only be one thumbnail.', {
-                    timeout: 2000, // custom timeout just for this one alert
-                })
-                setTimeout(function () { imageLinkInput.current.value = ""; }, 2200);
-            } else if (!store.ipfsState) {
-                alert.error('Something went wrong.', {
                     timeout: 2000, // custom timeout just for this one alert
                 })
                 setTimeout(function () { imageLinkInput.current.value = ""; }, 2200);
@@ -233,11 +228,17 @@ const PublishPage = () => {
                     body: formdata,
                     redirect: 'follow'
                 };
-                const fetch_response = await fetch(`${ENDPOINT}/upload`, requestOptions);
-                const body = await fetch_response.text();
-                console.log(body);
-
-                setImages([...images, `https://gateway.ipfs.io/ipfs/${JSON.parse(body).response}`]);
+                setImageLoading(true);
+                const fetch_response = await fetch(`${ENDPOINT}/upload`, requestOptions).then(res => res.json());
+                setImageLoading(false);
+                const IpfsHash = fetch_response.IpfsHash;
+                if (IpfsHash) {
+                    setImages([...images, `https://gateway.ipfs.io/ipfs/${IpfsHash}`]);
+                } else {
+                    alert.error('Something went wrong.', {
+                        timeout: 2000, // custom timeout just for this one alert
+                    })
+                }
             }
         }
     }
@@ -601,9 +602,12 @@ const PublishPage = () => {
                                     </div>
 
                                     <div className={type === "novel" && series !== "new" ? "hidden" : "upload flex-start wrap row pa-h"}>
-                                        <input className="custom-file-input" type="file" placeholder="Upload an image" onChange={(e) => { setImageFile(e.target.files[0]) }} />
+                                        {
+                                            imageLoading ?
+                                                <wired-spinner class="custom" spinning duration="1000" />
+                                                : <input className="custom-file-input" type="file" placeholder="Upload an image" onChange={(e) => { onImageUpload(e.target.files[0]) }} />
+                                        }
                                         <div className="buttons flex-between">
-                                            <p className="blue" onClick={onImageUpload}>Upload file</p>
                                             <p className="blue" onClick={toggleImageLink}>Upload from link</p>
                                         </div>
                                     </div>

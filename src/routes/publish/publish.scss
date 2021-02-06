@@ -118,6 +118,9 @@
     .custom-file-input:active::before {
         background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
     }
+    > wired-spinner {
+        transform: scale(0.75);
+    }
 }
 
 .input {

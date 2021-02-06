@@ -107,7 +107,6 @@ export function StoreProvider({ children }) {
         followState: "",
         updateProfileState: "",
         uploadState: "",
-        ipfsState: false,
 
         //Actions 
 
