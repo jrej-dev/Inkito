@@ -29,7 +29,7 @@ const BottomBanner = ({ author }) => {
             let userDetail = toJS(store.userDetail)
             let followState = store.followState
             let seriesInfo = toJS(store.seriesInfo)
-            let image = safeJSON.parse(content.json_metadata).image;
+            let image = safeJSON.parse(content.json_metadata) && safeJSON.parse(content.json_metadata).image ? safeJSON.parse(content.json_metadata).image : "";
             if (store.currentPage < store.seriesDetail.length - 1) {
                 return (
                     <div className="scroll-text flex col">

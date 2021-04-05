@@ -4,19 +4,18 @@ export const safeJSON = {
         try {
             parsed = safeJSON.parse(json)
         } catch (e) {
-            console.log('Error: ' + e)
-            console.log(json);
+            //console.log('Error: ' + e)
         }
     
         return parsed
     },
-    stringify: (data, replacer, space) => {
+    stringify: (data) => {
         let string
     
         try {
-            string = JSON.stringify(data, replacer, space)
+            string = JSON.stringify(data)
         } catch (e) {
-            console.log('Error: ' + e)
+            //console.log('Error: ' + e)
         }
     
         return string

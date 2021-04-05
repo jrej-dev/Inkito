@@ -26,7 +26,7 @@ const NavReader = ({ onClick }) => {
       let lastPage = toJS(store.seriesDetail)[store.seriesLinks.length - 1];
       let currentPage = toJS(store.seriesDetail)[store.currentPage];
       let seriesLength = toJS(store.seriesLinks).length;
-      let image = currentPage.json_metadata ? safeJSON.parse(currentPage.json_metadata).image : "";
+      let image = safeJSON.parse(currentPage.json_metadata) && safeJSON.parse(currentPage.json_metadata).image ? safeJSON.parse(currentPage.json_metadata).image : "";
 
       let isHidden = store.navIsHidden;
       let navMenuIsActive = store.navMenuIsActive;

@@ -210,7 +210,7 @@ export function StoreProvider({ children }) {
         },
         checkCookieConsent: () => {
             const cookie = localStorage.getItem('cookie-consent');
-            store.cookieConsent = safeJSON.parse(cookie);
+            store.cookieConsent = cookie;
         },
         toggleReplyIsActive: (value) => {
             if (store.replyIsActive === value) {
@@ -314,7 +314,6 @@ export function StoreProvider({ children }) {
 
             api.login(params, function (err, token) {
                 if (token) {
-                    console.log(token);
                     store.toggleLogin(false);
                     store.getUserDetail(token, user)
                 } else if (err) {
