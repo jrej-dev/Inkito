@@ -1,11 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import StoreContext from '../../../../stores/appStore';
-
+import { safeJSON } from '../../../../middlewares/json';
 import UpArrow from '../../../../assets/icons/up-arrow.png';
-//import 'wired-elements';
-
-
 
 const CommentInput = ({ content, userDetail, page, commentState }) => {
     const store = React.useContext(StoreContext);
@@ -40,7 +37,7 @@ const CommentInput = ({ content, userDetail, page, commentState }) => {
     const handleReplySubmit = (author, page) => {
         const parentAuthor = content.author;
         const parentPermlink = content.permlink;
-        const tags = JSON.parse(content.json_metadata).tags;
+        const tags = safeJSON.parse(content.json_metadata).tags;
         const jsonMetadata = { tags, app: 'Inkito' };
         const permlink = "re-" + content.permlink + "-" + Date.now();
         const title = "";
@@ -48,7 +45,7 @@ const CommentInput = ({ content, userDetail, page, commentState }) => {
     }
 
     if (content && userDetail && userDetail.name) {
-        let userData = JSON.parse(userDetail.account.posting_json_metadata);
+        let userData = safeJSON.parse(userDetail.account.posting_json_metadata);
         return (
             <div className="active comment-banner">
                 <Link to={`/@${userDetail.name}`}>

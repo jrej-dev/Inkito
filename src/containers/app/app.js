@@ -1,6 +1,7 @@
 import 'core-js';
 import React, { useEffect } from 'react';
 import { Helmet } from "react-helmet-async";
+import { safeJSON } from '../../middlewares/json';
 import StoreContext from '../../stores/appStore';
 import {
   BrowserRouter as Router,
@@ -67,7 +68,7 @@ const App = () => {
     const accessToken = localStorage.getItem('access-token');
     const user = localStorage.getItem('users');
     if (accessToken && user) {
-      store.getUserDetail(JSON.parse(accessToken), JSON.parse(user));
+      store.getUserDetail(safeJSON.parse(accessToken), safeJSON.parse(user));
     } else {
       store.getUserDetail();
     }

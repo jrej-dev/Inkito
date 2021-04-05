@@ -1,9 +1,9 @@
 import React from 'react';
 import StoreContext from '../../../stores/appStore';
+import { safeJSON } from '../../../middlewares/json';
+import { toJS } from 'mobx';
 import { useHistory } from "react-router-dom";
 import { useObserver } from 'mobx-react';
-import { toJS } from 'mobx';
-
 import '../nav.scss';
 
 const NavMenu = () => {
@@ -13,8 +13,8 @@ const NavMenu = () => {
   return useObserver(() => {
     if (toJS(store.userDetail) && toJS(store.userDetail).name) {
       let user = toJS(store.userDetail);
-      let userData = JSON.parse(user.account.posting_json_metadata);
-      let navMenuIsActive= store.navMenuIsActive;
+      let userData = safeJSON.parse(user.account.posting_json_metadata);
+      let navMenuIsActive = store.navMenuIsActive;
 
       return (
         <li className="login user">

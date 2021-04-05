@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link } from "react-router-dom";
 import StoreContext from '../../../stores/appStore';
-import { useObserver } from 'mobx-react';
+import { Link } from "react-router-dom";
+import { safeJSON } from '../../../middlewares/json';
 import { toJS } from 'mobx';
+import { useObserver } from 'mobx-react';
 
 import BellElement from '../../bellelement/bellelement';
 import HeartElement from '../../heartelement/heartelement';
@@ -25,7 +26,7 @@ const NavReader = ({ onClick }) => {
       let lastPage = toJS(store.seriesDetail)[store.seriesLinks.length - 1];
       let currentPage = toJS(store.seriesDetail)[store.currentPage];
       let seriesLength = toJS(store.seriesLinks).length;
-      let image = currentPage.json_metadata ? JSON.parse(currentPage.json_metadata).image : "";
+      let image = currentPage.json_metadata ? safeJSON.parse(currentPage.json_metadata).image : "";
 
       let isHidden = store.navIsHidden;
       let navMenuIsActive = store.navMenuIsActive;

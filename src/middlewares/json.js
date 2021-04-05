@@ -2,7 +2,7 @@ export const safeJSON = {
     parse: (json) => {
         let parsed
         try {
-            parsed = JSON.parse(json)
+            parsed = safeJSON.parse(json)
         } catch (e) {
             console.log('Error: ' + e)
             console.log(json);

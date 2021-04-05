@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useObserver } from 'mobx-react';
 import { Link } from "react-router-dom";
 import { toJS } from 'mobx';
+import { safeJSON } from '../../../middlewares/json';
 import DefaultAvatar from '../../../assets/icons/defaultavatar.png';
 import StoreContext from '../../../stores/appStore';
 import BellElement from '../../../components/bellelement/bellelement';
@@ -28,7 +29,7 @@ const BottomBanner = ({ author }) => {
             let userDetail = toJS(store.userDetail)
             let followState = store.followState
             let seriesInfo = toJS(store.seriesInfo)
-            let image = JSON.parse(content.json_metadata).image;
+            let image = safeJSON.parse(content.json_metadata).image;
             if (store.currentPage < store.seriesDetail.length - 1) {
                 return (
                     <div className="scroll-text flex col">

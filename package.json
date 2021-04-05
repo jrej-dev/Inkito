@@ -14,7 +14,6 @@
     "fs": "0.0.1-security",
     "hivesigner": "^3.1.5",
     "i": "^0.3.6",
-    "ipfs-http-client": "^44.0.3",
     "mobx": "^5.15.4",
     "mobx-react": "^6.1.8",
     "node-sass": "^4.14.1",
@@ -34,7 +33,6 @@
     "react-share": "^4.1.0",
     "remarkable": "^2.0.0",
     "sanitize.css": "^11.0.1",
-    "temporal": "github:bonedaddy/temporal-js",
     "wired-elements": "^2.0.5"
   },
   "scripts": {

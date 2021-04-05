@@ -1,6 +1,8 @@
+import { safeJSON } from '../middlewares/json';
+
 export const bookmark = {
     getPage: (author, title) => {
-        let storedBookmarks = JSON.parse(localStorage.getItem("bookmarks"));
+        let storedBookmarks = safeJSON.parse(localStorage.getItem("bookmarks"));
         if (storedBookmarks) {
             for (let bookmark of storedBookmarks) {
                 if (bookmark.id === `${author}-${title}`) {
@@ -13,7 +15,7 @@ export const bookmark = {
         }
     },
     setPage: (author, title, page) => {
-        let storedBookmarks = JSON.parse(localStorage.getItem("bookmarks"));
+        let storedBookmarks = safeJSON.parse(localStorage.getItem("bookmarks"));
         let bookmark = [];
         if (storedBookmarks) {
           storedBookmarks = storedBookmarks.filter(object => object.id !== `${author}-${title}`);
